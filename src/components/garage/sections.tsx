@@ -3,7 +3,7 @@ import { ArrowRight, Wrench, CarFront, CircleDot, ClipboardCheck, ShieldCheck, F
 import { Button } from '@/components/ui/button';
 import { services } from '@/lib/garage';
 import hero from '@/assets/suzuki-lake.jpg';
-import suzuki from '@/assets/suzuki.asset.json';
+import suzuki from '@/assets/suzuki-logo.asset.json';
 import garagePhoto from '@/assets/garage.asset.json';
 import sales from '@/assets/sales.asset.json';
 import workshop from '@/assets/workshop.asset.json';
