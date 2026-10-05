@@ -10,33 +10,154 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as ConfidentialiteRouteImport } from './routes/confidentialite'
+import { Route as ContactRouteImport } from './routes/contact'
+import { Route as EntrepriseRouteImport } from './routes/entreprise'
+import { Route as RepriseRouteImport } from './routes/reprise'
+import { Route as ServicesRouteImport } from './routes/services'
+import { Route as StationServiceRouteImport } from './routes/station-service'
+import { Route as SuzukiRouteImport } from './routes/suzuki'
+import { Route as VehiculesRouteImport } from './routes/vehicules'
+import { Route as WirRouteImport } from './routes/wir'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ConfidentialiteRoute = ConfidentialiteRouteImport.update({
+  id: '/confidentialite',
+  path: '/confidentialite',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ContactRoute = ContactRouteImport.update({
+  id: '/contact',
+  path: '/contact',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const EntrepriseRoute = EntrepriseRouteImport.update({
+  id: '/entreprise',
+  path: '/entreprise',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const RepriseRoute = RepriseRouteImport.update({
+  id: '/reprise',
+  path: '/reprise',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ServicesRoute = ServicesRouteImport.update({
+  id: '/services',
+  path: '/services',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const StationServiceRoute = StationServiceRouteImport.update({
+  id: '/station-service',
+  path: '/station-service',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SuzukiRoute = SuzukiRouteImport.update({
+  id: '/suzuki',
+  path: '/suzuki',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const VehiculesRoute = VehiculesRouteImport.update({
+  id: '/vehicules',
+  path: '/vehicules',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const WirRoute = WirRouteImport.update({
+  id: '/wir',
+  path: '/wir',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/confidentialite': typeof ConfidentialiteRoute
+  '/contact': typeof ContactRoute
+  '/entreprise': typeof EntrepriseRoute
+  '/reprise': typeof RepriseRoute
+  '/services': typeof ServicesRoute
+  '/station-service': typeof StationServiceRoute
+  '/suzuki': typeof SuzukiRoute
+  '/vehicules': typeof VehiculesRoute
+  '/wir': typeof WirRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/confidentialite': typeof ConfidentialiteRoute
+  '/contact': typeof ContactRoute
+  '/entreprise': typeof EntrepriseRoute
+  '/reprise': typeof RepriseRoute
+  '/services': typeof ServicesRoute
+  '/station-service': typeof StationServiceRoute
+  '/suzuki': typeof SuzukiRoute
+  '/vehicules': typeof VehiculesRoute
+  '/wir': typeof WirRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/confidentialite': typeof ConfidentialiteRoute
+  '/contact': typeof ContactRoute
+  '/entreprise': typeof EntrepriseRoute
+  '/reprise': typeof RepriseRoute
+  '/services': typeof ServicesRoute
+  '/station-service': typeof StationServiceRoute
+  '/suzuki': typeof SuzukiRoute
+  '/vehicules': typeof VehiculesRoute
+  '/wir': typeof WirRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths:
+    | '/'
+    | '/confidentialite'
+    | '/contact'
+    | '/entreprise'
+    | '/reprise'
+    | '/services'
+    | '/station-service'
+    | '/suzuki'
+    | '/vehicules'
+    | '/wir'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to:
+    | '/'
+    | '/confidentialite'
+    | '/contact'
+    | '/entreprise'
+    | '/reprise'
+    | '/services'
+    | '/station-service'
+    | '/suzuki'
+    | '/vehicules'
+    | '/wir'
+  id:
+    | '__root__'
+    | '/'
+    | '/confidentialite'
+    | '/contact'
+    | '/entreprise'
+    | '/reprise'
+    | '/services'
+    | '/station-service'
+    | '/suzuki'
+    | '/vehicules'
+    | '/wir'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  ConfidentialiteRoute: typeof ConfidentialiteRoute
+  ContactRoute: typeof ContactRoute
+  EntrepriseRoute: typeof EntrepriseRoute
+  RepriseRoute: typeof RepriseRoute
+  ServicesRoute: typeof ServicesRoute
+  StationServiceRoute: typeof StationServiceRoute
+  SuzukiRoute: typeof SuzukiRoute
+  VehiculesRoute: typeof VehiculesRoute
+  WirRoute: typeof WirRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -48,11 +169,83 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/confidentialite': {
+      id: '/confidentialite'
+      path: '/confidentialite'
+      fullPath: '/confidentialite'
+      preLoaderRoute: typeof ConfidentialiteRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/contact': {
+      id: '/contact'
+      path: '/contact'
+      fullPath: '/contact'
+      preLoaderRoute: typeof ContactRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/entreprise': {
+      id: '/entreprise'
+      path: '/entreprise'
+      fullPath: '/entreprise'
+      preLoaderRoute: typeof EntrepriseRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/reprise': {
+      id: '/reprise'
+      path: '/reprise'
+      fullPath: '/reprise'
+      preLoaderRoute: typeof RepriseRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/services': {
+      id: '/services'
+      path: '/services'
+      fullPath: '/services'
+      preLoaderRoute: typeof ServicesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/station-service': {
+      id: '/station-service'
+      path: '/station-service'
+      fullPath: '/station-service'
+      preLoaderRoute: typeof StationServiceRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/suzuki': {
+      id: '/suzuki'
+      path: '/suzuki'
+      fullPath: '/suzuki'
+      preLoaderRoute: typeof SuzukiRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/vehicules': {
+      id: '/vehicules'
+      path: '/vehicules'
+      fullPath: '/vehicules'
+      preLoaderRoute: typeof VehiculesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/wir': {
+      id: '/wir'
+      path: '/wir'
+      fullPath: '/wir'
+      preLoaderRoute: typeof WirRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  ConfidentialiteRoute: ConfidentialiteRoute,
+  ContactRoute: ContactRoute,
+  EntrepriseRoute: EntrepriseRoute,
+  RepriseRoute: RepriseRoute,
+  ServicesRoute: ServicesRoute,
+  StationServiceRoute: StationServiceRoute,
+  SuzukiRoute: SuzukiRoute,
+  VehiculesRoute: VehiculesRoute,
+  WirRoute: WirRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
