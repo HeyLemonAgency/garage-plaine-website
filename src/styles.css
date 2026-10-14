@@ -441,9 +441,11 @@ button {
     transform 0.2s,
     box-shadow 0.2s;
 }
-.vehicle-card:hover {
-  transform: translateY(-4px);
-  box-shadow: var(--shadow-nav);
+@media (hover: hover) {
+  .vehicle-card:hover {
+    transform: perspective(900px) rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg)) translateY(-4px);
+    box-shadow: 0 18px 40px oklch(0.23 0.035 235 / 0.14);
+  }
 }
 .vehicle-image {
   height: 165px;
@@ -1064,8 +1066,8 @@ main:focus {
 .vehicle-image {
   position: relative;
 }
-.vehicle-image picture {
-  display: contents;
+.vehicle-image {
+  cursor: pointer;
 }
 .vehicle-badge {
   position: absolute;
@@ -3394,6 +3396,334 @@ main:focus {
   to {
     stroke-dashoffset: 0;
   }
+}
+
+/* ---- Stock cards: gallery, selection, quick actions ---- */
+.vehicle-card {
+  position: relative;
+  transition:
+    transform 0.25s ease,
+    box-shadow 0.25s ease;
+  will-change: transform;
+}
+.vehicle-photos {
+  position: absolute;
+  inset: 0;
+}
+.vehicle-photos picture {
+  position: absolute;
+  inset: 0;
+  display: block;
+  opacity: 0;
+  transition: opacity 0.18s ease;
+}
+.vehicle-photos picture.is-active {
+  opacity: 1;
+}
+.vehicle-photos img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.photo-segments {
+  position: absolute;
+  left: 10px;
+  right: 54px;
+  bottom: 9px;
+  display: flex;
+  gap: 4px;
+  pointer-events: none;
+}
+.photo-segments span {
+  flex: 1;
+  height: 3px;
+  border-radius: 3px;
+  background: oklch(1 0 0 / 0.45);
+  box-shadow: 0 1px 3px oklch(0 0 0 / 0.25);
+  transition: background 0.15s;
+}
+.photo-segments span.is-active {
+  background: oklch(1 0 0 / 0.98);
+}
+@media (hover: hover) {
+  .photo-segments {
+    opacity: 0;
+    transition: opacity 0.2s;
+  }
+  .vehicle-card:hover .photo-segments {
+    opacity: 1;
+  }
+}
+.fav-button {
+  position: absolute;
+  z-index: 3;
+  top: 10px;
+  right: 10px;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: 0;
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+  color: var(--primary);
+  background: color-mix(in oklch, var(--card) 88%, transparent);
+  backdrop-filter: blur(6px);
+  box-shadow: 0 4px 12px oklch(0.15 0.03 240 / 0.2);
+  transition:
+    transform 0.2s,
+    color 0.2s;
+}
+.fav-button svg {
+  width: 17px;
+  height: 17px;
+  transition: fill 0.2s;
+}
+.fav-button:hover {
+  transform: scale(1.08);
+}
+.fav-button.is-saved {
+  color: var(--accent);
+}
+.fav-button.is-saved svg {
+  fill: var(--accent);
+}
+.fav-button.is-pop {
+  animation: fav-pop 0.5s cubic-bezier(0.3, 1.6, 0.5, 1);
+}
+.fav-button.is-pop:after {
+  content: "";
+  position: absolute;
+  inset: -2px;
+  border-radius: 50%;
+  border: 2px solid var(--accent);
+  animation: fav-ring 0.55s ease-out forwards;
+}
+@keyframes fav-pop {
+  40% {
+    transform: scale(1.3);
+  }
+}
+@keyframes fav-ring {
+  from {
+    opacity: 0.9;
+    transform: scale(0.8);
+  }
+  to {
+    opacity: 0;
+    transform: scale(1.7);
+  }
+}
+.vehicle-info {
+  position: relative;
+}
+.vehicle-link {
+  color: inherit;
+}
+/* The model name's link covers the card's text area. */
+.vehicle-link:after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+}
+.vehicle-specs {
+  list-style: none;
+  margin: 0 0 12px;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+}
+.vehicle-specs li {
+  font-size: 10px;
+  line-height: 1.4;
+  padding: 3px 8px;
+  border-radius: 999px;
+  background: var(--muted);
+  color: var(--foreground);
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.vehicle-bottom {
+  position: relative;
+  flex-wrap: wrap;
+  row-gap: 8px;
+}
+.vehicle-actions {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  gap: 6px;
+}
+.vehicle-action {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  height: 30px;
+  padding: 0 11px;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  background: var(--card);
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--primary);
+  white-space: nowrap;
+  transition:
+    border-color 0.2s,
+    background 0.2s,
+    color 0.2s,
+    transform 0.2s;
+}
+.vehicle-bottom .vehicle-action svg,
+.vehicle-card:hover .vehicle-bottom .vehicle-action svg {
+  width: 13px;
+  height: 13px;
+  color: inherit;
+  transform: none;
+}
+.vehicle-action-icon {
+  width: 30px;
+  padding: 0;
+}
+.vehicle-action:hover {
+  border-color: var(--primary);
+  transform: translateY(-1px);
+}
+.vehicle-action-icon:hover {
+  background: var(--primary);
+  color: var(--primary-foreground);
+}
+.vehicle-action-primary {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: var(--accent-foreground);
+}
+.vehicle-action-primary:hover {
+  border-color: var(--accent);
+  background: color-mix(in oklch, var(--accent) 88%, black);
+}
+/* Touch: the actions replace "Voir" (the whole card already opens the listing). */
+@media (hover: none) {
+  .vehicle-open {
+    display: none;
+  }
+}
+/* Mouse: "Voir" slides away and the actions slide in beside the price. */
+@media (hover: hover) {
+  .vehicle-open {
+    transition:
+      opacity 0.15s,
+      transform 0.2s;
+  }
+  .vehicle-actions {
+    position: absolute;
+    right: 0;
+    top: 50%;
+    opacity: 0;
+    transform: translate(12px, -50%);
+    pointer-events: none;
+    transition:
+      opacity 0.2s,
+      transform 0.3s cubic-bezier(0.3, 0.8, 0.2, 1);
+  }
+  .vehicle-card:hover .vehicle-actions,
+  .vehicle-card:focus-within .vehicle-actions {
+    opacity: 1;
+    transform: translate(0, -50%);
+    pointer-events: auto;
+  }
+  .vehicle-card:hover .vehicle-open,
+  .vehicle-card:focus-within .vehicle-open {
+    opacity: 0;
+    transform: translateX(-8px);
+  }
+}
+.carousel-tools {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-shrink: 0;
+}
+.sort-select {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  height: 34px;
+  padding: 0 12px;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  background: var(--card);
+  color: var(--primary);
+  font-size: 11px;
+  font-weight: 600;
+  cursor: pointer;
+}
+.sort-select svg {
+  width: 14px;
+  height: 14px;
+}
+.sort-select select {
+  appearance: none;
+  border: 0;
+  background: transparent;
+  font: inherit;
+  color: inherit;
+  cursor: pointer;
+  outline: none;
+  padding-right: 2px;
+}
+.sort-select:focus-within {
+  border-color: var(--primary);
+}
+.filter-chip-saved svg {
+  width: 13px;
+  height: 13px;
+  fill: var(--accent);
+  color: var(--accent);
+}
+.filter-chip-saved.is-active svg {
+  fill: var(--accent-foreground);
+  color: var(--accent-foreground);
+}
+.selection-bar {
+  margin-top: 16px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px 20px;
+  padding: 12px 16px;
+  border-radius: 8px;
+  border: 1px solid color-mix(in srgb, var(--accent) 30%, var(--border));
+  background: color-mix(in srgb, var(--accent) 5%, var(--card));
+  font-size: 12px;
+  animation: reveal 0.35s ease both;
+}
+.selection-bar > span {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 600;
+}
+.selection-bar svg {
+  width: 15px;
+  height: 15px;
+}
+.selection-bar > span svg {
+  fill: var(--accent);
+  color: var(--accent);
+}
+.selection-bar a {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-weight: 700;
+  color: var(--accent);
 }
 
 /* ---- Restrained scroll reveals (browsers with scroll-driven animations) ---- */

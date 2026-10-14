@@ -22,6 +22,9 @@ export type StockCar = {
   mileage: string | null;
   fuel: string | null;
   gearbox: string | null;
+  /** Power as listed, e.g. "163 ch". */
+  power: string | null;
+  color: string | null;
   image: string | null;
 };
 
@@ -114,6 +117,12 @@ function parseRow(row: string): StockCar | null {
   const gearbox = data.find((d) => /manuelle|automatique/i.test(d)) ?? null;
   const fuel =
     data.find((d) => /essence|diesel|électri|electri|hybride|gaz|hydrog/i.test(d)) ?? null;
+  const powerRaw = data.find((d) => /^\d+\s*(ch|ps|kw)$/i.test(d)) ?? null;
+  const power = powerRaw ? powerRaw.replace(/\s*(ch|ps)$/i, " ch").replace(/\s*kw$/i, " kW") : null;
+  // Autolina lists the colour last, after the fields above.
+  const known = new Set([year, mileage, gearbox, fuel, powerRaw]);
+  const color =
+    data.filter((d) => !known.has(d) && !/voiture nouvelle|neuf/i.test(d)).pop() ?? null;
 
   const imgTag = row.match(/<img\b[^>]*class="[^"]*first-img[^"]*"[^>]*>/)?.[0];
   let image = imgTag ? attr(imgTag, "src") : null;
@@ -134,6 +143,8 @@ function parseRow(row: string): StockCar | null {
     mileage: mileage?.replace(/'/g, "’").replace(/\s*km$/i, " km") ?? null,
     fuel,
     gearbox,
+    power,
+    color,
     image,
   };
 }
@@ -148,4 +159,12 @@ export function parseStock(html: string, limit = 4): StockSnapshot {
     if (cars.length >= limit) break;
   }
   return { total, cars };
+}
+
+/**
+ * Photo n of a listing. Autolina numbers a listing's photos _1, _2, … (the scheme its own
+ * listing pages use); `image` is the first one as read from the stock page.
+ */
+export function listingPhoto(image: string, n: number): string {
+  return image.replace(/_1\.(jpg|avif)\?/, `_${n}.$1?`);
 }

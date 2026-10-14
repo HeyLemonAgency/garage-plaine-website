@@ -1,8 +1,18 @@
-import { useEffect, useRef, useState, type ReactNode } from "react";
-import { Link } from "@tanstack/react-router";
-import { ArrowLeft, ArrowRight, CarFront } from "lucide-react";
+import { useCallback, useEffect, useRef, useState, type ReactNode } from "react";
+import { Link, useNavigate } from "@tanstack/react-router";
+import {
+  ArrowDownUp,
+  ArrowLeft,
+  ArrowRight,
+  CalendarDays,
+  CarFront,
+  Heart,
+  Phone,
+} from "lucide-react";
 import { Button } from "@/components/ui/button";
-import type { StockCar, StockSnapshot } from "@/lib/autolina";
+import { listingPhoto, type StockCar, type StockSnapshot } from "@/lib/autolina";
+import { team } from "@/lib/garage";
+import { useSelection } from "@/hooks/use-selection";
 import { SectionHeading } from "./sections";
 import { SalesContact } from "./people";
 
@@ -19,66 +29,229 @@ const FILTERS: { id: string; label: string; test: (car: StockCar) => boolean }[]
   },
 ];
 
-function CarPhoto({ car }: { car: StockCar }) {
-  const [failed, setFailed] = useState(!car.image);
-  const ref = useRef<HTMLImageElement>(null);
-  // A photo that failed before hydration never fires onError, so check it once mounted.
-  useEffect(() => {
-    const img = ref.current;
-    if (img && img.complete && img.naturalWidth === 0) setFailed(true);
-  }, []);
-  if (failed || !car.image)
-    return (
-      <div className="vehicle-photo-missing">
-        <CarFront />
-        <span>Photo à venir</span>
-      </div>
-    );
+const SORTS: { id: string; label: string; compare?: (a: StockCar, b: StockCar) => number }[] = [
+  { id: "recent", label: "Plus récentes" },
+  {
+    id: "price-asc",
+    label: "Prix croissant",
+    compare: (a, b) => (a.priceValue ?? Infinity) - (b.priceValue ?? Infinity),
+  },
+  {
+    id: "price-desc",
+    label: "Prix décroissant",
+    compare: (a, b) => (b.priceValue ?? -Infinity) - (a.priceValue ?? -Infinity),
+  },
+  { id: "km", label: "Kilométrage", compare: (a, b) => km(a) - km(b) },
+];
+const km = (car: StockCar) => (car.mileage ? Number(car.mileage.replace(/\D/g, "")) : Infinity);
+const MAX_PHOTOS = 6;
+
+/**
+ * A listing's photos: the first comes with the stock page; the next ones are fetched the
+ * first time the visitor shows interest, and kept only if they load.
+ */
+function useGallery(image: string | null) {
+  const [photos, setPhotos] = useState<string[]>(image ? [image] : []);
+  const probed = useRef(false);
+  const probe = useCallback(() => {
+    if (probed.current || !image) return;
+    probed.current = true;
+    let n = 2;
+    const next = () => {
+      if (n > MAX_PHOTOS) return;
+      const url = listingPhoto(image, n++);
+      const img = new Image();
+      img.referrerPolicy = "no-referrer";
+      img.onload = () => {
+        setPhotos((prev) => [...prev, url]);
+        next();
+      };
+      img.src = url;
+    };
+    next();
+  }, [image]);
+  return { photos, probe };
+}
+
+function Photo({
+  src,
+  alt,
+  active,
+  avif,
+}: {
+  src: string;
+  alt: string;
+  active: boolean;
+  avif: boolean;
+}) {
   return (
-    <picture>
-      <source type="image/avif" srcSet={car.image.replace(/\.jpg\?/, ".avif?")} />
+    <picture className={active ? "is-active" : ""}>
+      {/* Gallery photos reuse the JPEG the probe already downloaded. */}
+      {avif && <source type="image/avif" srcSet={src.replace(/\.jpg\?/, ".avif?")} />}
       <img
-        ref={ref}
-        src={car.image}
-        alt={`${car.make} ${car.model}`}
+        src={src}
+        alt={active ? alt : ""}
         width={534}
         height={401}
         loading="lazy"
         draggable={false}
         referrerPolicy="no-referrer"
-        onError={() => setFailed(true)}
       />
     </picture>
   );
 }
 
-export function VehicleCard({ car }: { car: StockCar }) {
-  const meta = [car.isNew ? "Neuf" : car.year, car.mileage, car.fuel].filter(Boolean).join(" · ");
+export function VehicleCard({
+  car,
+  saved,
+  onToggleSaved,
+}: {
+  car: StockCar;
+  saved: boolean;
+  onToggleSaved: (path: string) => void;
+}) {
+  const navigate = useNavigate();
+  const { photos, probe } = useGallery(car.image);
+  const [index, setIndex] = useState(0);
+  const [failed, setFailed] = useState(!car.image);
+  const [pop, setPop] = useState(false);
+  const first = useRef<HTMLDivElement>(null);
+  const name = `${car.make} ${car.model}`;
+  const meta = [car.isNew ? "Neuf" : car.year, car.mileage].filter(Boolean).join(" · ");
+  const specs = [car.power, car.gearbox, car.fuel, car.color].filter(Boolean) as string[];
+
+  // A first photo that failed before hydration never fires onError, so check it on mount.
+  useEffect(() => {
+    const img = first.current?.querySelector("img");
+    if (img && img.complete && img.naturalWidth === 0) setFailed(true);
+  }, []);
+
+  const open = () => navigate({ to: "/vehicules", search: { annonce: car.path } });
+  const touch = () => typeof window !== "undefined" && window.matchMedia("(hover: none)").matches;
+
   return (
-    <Link
-      to="/vehicules"
-      search={{ annonce: car.path }}
+    <article
       className="vehicle-card spotlight"
-      draggable={false}
-      aria-label={`${car.make} ${car.model}${car.price ? `, ${car.price}` : ""}`}
+      onPointerMove={(e) => {
+        if (e.pointerType !== "mouse") return;
+        const r = e.currentTarget.getBoundingClientRect();
+        e.currentTarget.style.setProperty(
+          "--rx",
+          `${((e.clientY - r.top) / r.height - 0.5) * -5}deg`,
+        );
+        e.currentTarget.style.setProperty(
+          "--ry",
+          `${((e.clientX - r.left) / r.width - 0.5) * 6}deg`,
+        );
+      }}
+      onPointerLeave={(e) => {
+        e.currentTarget.style.setProperty("--rx", "0deg");
+        e.currentTarget.style.setProperty("--ry", "0deg");
+      }}
     >
-      <div className="vehicle-image">
-        <CarPhoto car={car} />
+      <div
+        ref={first}
+        className="vehicle-image"
+        onPointerEnter={(e) => e.pointerType === "mouse" && probe()}
+        onPointerMove={(e) => {
+          if (e.pointerType !== "mouse" || photos.length < 2) return;
+          const r = e.currentTarget.getBoundingClientRect();
+          const i = Math.floor(((e.clientX - r.left) / r.width) * photos.length);
+          setIndex(Math.min(photos.length - 1, Math.max(0, i)));
+        }}
+        onPointerLeave={() => setIndex(0)}
+        onClick={() => {
+          // Touch: the photo flips through the gallery; the text below opens the listing.
+          if (touch()) {
+            probe();
+            setIndex((i) => (photos.length > 1 ? (i + 1) % photos.length : 0));
+          } else open();
+        }}
+      >
+        {failed ? (
+          <div className="vehicle-photo-missing">
+            <CarFront />
+            <span>Photo à venir</span>
+          </div>
+        ) : (
+          <div className="vehicle-photos" onError={() => index === 0 && setFailed(true)}>
+            {photos.map((src, i) => (
+              <Photo key={src} src={src} alt={name} active={i === index} avif={i === 0} />
+            ))}
+          </div>
+        )}
+        {photos.length > 1 && (
+          <div className="photo-segments" aria-hidden="true">
+            {photos.map((src, i) => (
+              <span key={src} className={i === index ? "is-active" : ""} />
+            ))}
+          </div>
+        )}
         {car.isNew && <span className="vehicle-badge">Neuf</span>}
-        {car.gearbox && <span className="vehicle-chip">{car.gearbox}</span>}
+        <button
+          type="button"
+          className={`fav-button ${saved ? "is-saved" : ""} ${pop ? "is-pop" : ""}`}
+          aria-pressed={saved}
+          aria-label={saved ? `Retirer ${name} de ma sélection` : `Ajouter ${name} à ma sélection`}
+          onClick={(e) => {
+            e.stopPropagation();
+            onToggleSaved(car.path);
+            if (!saved) {
+              setPop(true);
+              window.setTimeout(() => setPop(false), 600);
+            }
+          }}
+        >
+          <Heart />
+        </button>
       </div>
       <div className="vehicle-info">
         <span className="vehicle-make">{car.make}</span>
-        <h3>{car.model}</h3>
+        <h3>
+          <Link
+            to="/vehicules"
+            search={{ annonce: car.path }}
+            className="vehicle-link"
+            draggable={false}
+          >
+            {car.model}
+          </Link>
+        </h3>
         <div className="vehicle-meta">{meta}</div>
+        {specs.length > 0 && (
+          <ul className="vehicle-specs" aria-label="Caractéristiques">
+            {specs.map((spec) => (
+              <li key={spec}>{spec}</li>
+            ))}
+          </ul>
+        )}
         <div className="vehicle-bottom">
           <span className="vehicle-price">{car.price ?? "Prix sur demande"}</span>
-          <span className="vehicle-open">
+          <span className="vehicle-open" aria-hidden="true">
             Voir <ArrowRight />
           </span>
+          {/* With a mouse these take the place of "Voir" on hover; on touch they stay visible. */}
+          <div className="vehicle-actions">
+            <Link
+              to="/rendez-vous"
+              search={{ besoin: "vente", annonce: car.path }}
+              className="vehicle-action vehicle-action-primary"
+              aria-label={`Essai : ${name}`}
+            >
+              <CalendarDays /> Essai
+            </Link>
+            <a
+              href={team.vente.mobileHref}
+              className="vehicle-action vehicle-action-icon"
+              aria-label={`Appeler ${team.vente.name} au ${team.vente.mobile}`}
+              title={`${team.vente.name} · ${team.vente.mobile}`}
+            >
+              <Phone />
+            </a>
+          </div>
         </div>
       </div>
-    </Link>
+    </article>
   );
 }
 
@@ -95,16 +268,30 @@ export function StockCarousel({
   label?: string;
 }) {
   const [filter, setFilter] = useState("all");
+  const [sort, setSort] = useState("recent");
   const [edges, setEdges] = useState({ start: true, end: false });
   const [progress, setProgress] = useState(0);
   const track = useRef<HTMLDivElement>(null);
   const drag = useRef<{ x: number; left: number; moved: boolean } | null>(null);
   const suppressClick = useRef(false);
+  const { paths: saved, toggle } = useSelection();
 
-  const filters = FILTERS.map((f) => ({ ...f, count: cars.filter(f.test).length })).filter(
-    (f) => f.id === "all" || (f.count > 0 && f.count < cars.length),
-  );
-  const shown = cars.filter(FILTERS.find((f) => f.id === filter)?.test ?? (() => true));
+  const savedHere = cars.filter((c) => saved.includes(c.path));
+  const filters = [
+    ...FILTERS.map((f) => ({ ...f, count: cars.filter(f.test).length })).filter(
+      (f) => f.id === "all" || (f.count > 0 && f.count < cars.length),
+    ),
+    ...(savedHere.length > 0
+      ? [{ id: "saved", label: "Ma sélection", test: () => true, count: savedHere.length }]
+      : []),
+  ];
+  const active = filter === "saved" && savedHere.length === 0 ? "all" : filter;
+  const filtered =
+    active === "saved"
+      ? savedHere
+      : cars.filter(FILTERS.find((f) => f.id === active)?.test ?? (() => true));
+  const compare = SORTS.find((s) => s.id === sort)?.compare;
+  const shown = compare ? [...filtered].sort(compare) : filtered;
 
   function measure() {
     const el = track.current;
@@ -116,7 +303,7 @@ export function StockCarousel({
   useEffect(() => {
     track.current?.scrollTo({ left: 0 });
     measure();
-  }, [filter]);
+  }, [active, sort]);
   useEffect(() => {
     window.addEventListener("resize", measure);
     return () => window.removeEventListener("resize", measure);
@@ -140,10 +327,11 @@ export function StockCarousel({
               <button
                 key={f.id}
                 type="button"
-                className={`filter-chip ${filter === f.id ? "is-active" : ""}`}
-                aria-pressed={filter === f.id}
+                className={`filter-chip ${active === f.id ? "is-active" : ""} ${f.id === "saved" ? "filter-chip-saved" : ""}`}
+                aria-pressed={active === f.id}
                 onClick={() => setFilter(f.id)}
               >
+                {f.id === "saved" && <Heart />}
                 {f.label}
                 <span className="filter-count">{f.count}</span>
               </button>
@@ -152,23 +340,38 @@ export function StockCarousel({
         ) : (
           <span />
         )}
-        <div className="carousel-arrows">
-          <button
-            type="button"
-            aria-label="Annonces précédentes"
-            disabled={edges.start}
-            onClick={() => step(-1)}
-          >
-            <ArrowLeft />
-          </button>
-          <button
-            type="button"
-            aria-label="Annonces suivantes"
-            disabled={edges.end}
-            onClick={() => step(1)}
-          >
-            <ArrowRight />
-          </button>
+        <div className="carousel-tools">
+          {cars.length > 2 && (
+            <label className="sort-select">
+              <span className="sr-only">Trier les annonces</span>
+              <ArrowDownUp aria-hidden="true" />
+              <select value={sort} onChange={(e) => setSort(e.target.value)}>
+                {SORTS.map((s) => (
+                  <option key={s.id} value={s.id}>
+                    {s.label}
+                  </option>
+                ))}
+              </select>
+            </label>
+          )}
+          <div className="carousel-arrows">
+            <button
+              type="button"
+              aria-label="Annonces précédentes"
+              disabled={edges.start}
+              onClick={() => step(-1)}
+            >
+              <ArrowLeft />
+            </button>
+            <button
+              type="button"
+              aria-label="Annonces suivantes"
+              disabled={edges.end}
+              onClick={() => step(1)}
+            >
+              <ArrowRight />
+            </button>
+          </div>
         </div>
       </div>
       <div
@@ -212,13 +415,13 @@ export function StockCarousel({
         {shown.map((car, i) => (
           <div
             className="stock-slide"
-            key={`${filter}-${car.id}`}
+            key={`${active}-${sort}-${car.id}`}
             style={{ animationDelay: `${Math.min(i, 6) * 45}ms` }}
           >
-            <VehicleCard car={car} />
+            <VehicleCard car={car} saved={saved.includes(car.path)} onToggleSaved={toggle} />
           </div>
         ))}
-        <div className="stock-slide" key={`${filter}-more`}>
+        <div className="stock-slide" key={`${active}-more`}>
           <Link to="/vehicules" className="vehicle-more spotlight">
             <span className="vehicle-more-count">{total ?? "Tout"}</span>
             <span>{total ? "véhicules en stock" : "le stock"}</span>
@@ -231,6 +434,23 @@ export function StockCarousel({
       <div className="carousel-progress" aria-hidden="true">
         <span style={{ width: `${Math.max(12, progress * 100)}%` }} />
       </div>
+      {savedHere.length > 0 && (
+        <div className="selection-bar" role="status">
+          <span>
+            <Heart />
+            {savedHere.length === 1
+              ? "1 véhicule dans votre sélection"
+              : `${savedHere.length} véhicules dans votre sélection`}
+          </span>
+          <Link
+            to="/rendez-vous"
+            search={{ besoin: "vente", selection: savedHere.map((c) => c.path).join(",") }}
+          >
+            {savedHere.length === 1 ? "Demander un essai" : "Demander un essai pour ces véhicules"}{" "}
+            <ArrowRight />
+          </Link>
+        </div>
+      )}
     </div>
   );
 }

@@ -6,15 +6,21 @@ import { pageHead } from "@/lib/garage";
 import { isTopicId, type TopicId } from "@/lib/appointment";
 import { isListingPath } from "@/lib/autolina";
 
-type RendezVousSearch = { besoin?: TopicId; annonce?: string };
+type RendezVousSearch = { besoin?: TopicId; annonce?: string; selection?: string };
 
 export const Route = createFileRoute("/rendez-vous")({
   validateSearch: (search: Record<string, unknown>): RendezVousSearch => {
     const besoin = search["besoin"];
     const annonce = search["annonce"];
+    // "Ma sélection": several listings, comma-separated; anything else is dropped.
+    const selection =
+      typeof search["selection"] === "string"
+        ? search["selection"].split(",").filter(isListingPath).slice(0, 6).join(",")
+        : "";
     return {
       ...(isTopicId(besoin) ? { besoin } : {}),
       ...(typeof annonce === "string" && isListingPath(annonce) ? { annonce } : {}),
+      ...(selection ? { selection } : {}),
     };
   },
   head: () =>
@@ -37,7 +43,8 @@ function listingLabel(path: string): string {
 }
 
 function RendezVous() {
-  const { besoin, annonce } = Route.useSearch();
+  const { besoin, annonce, selection } = Route.useSearch();
+  const listings = selection ? selection.split(",") : annonce ? [annonce] : [];
   return (
     <>
       <PageIntro
@@ -52,10 +59,13 @@ function RendezVous() {
           <AppointmentPlanner
             {...(besoin
               ? { initialTopic: besoin }
-              : annonce
+              : listings.length
                 ? { initialTopic: "vente" as const }
                 : {})}
-            {...(annonce ? { initialVehicle: listingLabel(annonce) } : {})}
+            {...(listings.length ? { initialVehicle: listings.map(listingLabel).join(" ; ") } : {})}
+            {...(listings.length && (besoin ?? "vente") === "vente"
+              ? { initialNeed: "Essai sur route" }
+              : {})}
           />
         </div>
       </section>

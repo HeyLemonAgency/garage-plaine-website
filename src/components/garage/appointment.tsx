@@ -56,14 +56,16 @@ function Choice({
 
 export function AppointmentPlanner({
   initialTopic,
+  initialNeed = "",
   initialVehicle = "",
 }: {
   initialTopic?: TopicId;
+  initialNeed?: string;
   initialVehicle?: string;
 }) {
   const [step, setStep] = useState(0);
   const [topic, setTopic] = useState<TopicId | null>(initialTopic ?? null);
-  const [need, setNeed] = useState("");
+  const [need, setNeed] = useState(initialNeed);
   const [make, setMake] = useState("");
   const [model, setModel] = useState("");
   const [year, setYear] = useState("");

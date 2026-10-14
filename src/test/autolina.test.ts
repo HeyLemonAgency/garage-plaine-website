@@ -2,7 +2,14 @@ import { readFileSync } from "node:fs";
 import path from "node:path";
 import { describe, expect, it } from "vitest";
 
-import { formatMake, isListingPath, listingFrameUrl, parseStock, shortModel } from "@/lib/autolina";
+import {
+  formatMake,
+  isListingPath,
+  listingFrameUrl,
+  listingPhoto,
+  parseStock,
+  shortModel,
+} from "@/lib/autolina";
 
 const html = readFileSync(path.join(__dirname, "fixtures/autolina-list.html"), "utf8");
 
@@ -26,6 +33,8 @@ describe("Autolina stock parser", () => {
       mileage: "270’990 km",
       fuel: "Diesel",
       gearbox: "Manuelle",
+      power: "163 ch",
+      color: "Blanc",
     });
     expect(bmw?.image).toMatch(/^https:\/\/www\.autolina\.ch\/auto-bild\/.+w=534&h=401/);
   });
@@ -37,6 +46,12 @@ describe("Autolina stock parser", () => {
   it("flags new cars, which have no year", () => {
     const vitara = parseStock(html).cars[2];
     expect(vitara).toMatchObject({ make: "Suzuki", isNew: true, year: null, mileage: "50 km" });
+  });
+
+  it("builds gallery photo URLs from the first photo", () => {
+    expect(listingPhoto("https://www.autolina.ch/auto-bild/a/1/2/5152798_1.jpg?t=1&w=534", 3)).toBe(
+      "https://www.autolina.ch/auto-bild/a/1/2/5152798_3.jpg?t=1&w=534",
+    );
   });
 
   it("returns no cars instead of throwing when the markup is unknown", () => {
