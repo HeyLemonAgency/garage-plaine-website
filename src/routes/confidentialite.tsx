@@ -1,5 +1,57 @@
-import { createFileRoute } from '@tanstack/react-router';
-import { PageIntro } from '@/components/garage/sections';
-import { pageHead, garage } from '@/lib/garage';
-export const Route=createFileRoute('/confidentialite')({head:()=>pageHead('Confidentialité des demandes','Informations sur les demandes de contact et les contenus externes du site du Garage de la Plaine.'),component:Confidentialite});
-function Confidentialite(){return <><PageIntro label="Confidentialité" title="Vos demandes de contact." description="Les informations utiles concernant les formulaires et les contenus externes de ce site."/><section className="section"><div className="container detail-layout"><div><h2>Formulaires de contact</h2><p>Les formulaires préparent un e-mail dans votre application de messagerie. Aucune demande n’est enregistrée par ce site. L’envoi intervient uniquement lorsque vous envoyez l’e-mail depuis votre messagerie.</p><p>Vos coordonnées et votre message sont destinés au service du garage que vous contactez, pour lui permettre de répondre à votre demande.</p><h2>Contenus externes</h2><p>La page des véhicules intègre le stock Autolina. En consultant ce contenu, votre navigateur communique avec Autolina. Les liens vers Suzuki et Google Maps ouvrent leurs sites respectifs, avec leurs propres règles de confidentialité.</p></div><div><h2>Nous contacter</h2><p>Garage de la Plaine<br/>{garage.address}<br/>{garage.locality}</p><a className="section-link" href={'mailto:'+garage.email}>{garage.email}</a></div></div></section></>}
+import { createFileRoute } from "@tanstack/react-router";
+import { PageIntro } from "@/components/garage/sections";
+import { pageHead, garage } from "@/lib/garage";
+export const Route = createFileRoute("/confidentialite")({
+  head: () =>
+    pageHead(
+      "Confidentialité des demandes",
+      "Informations sur les demandes de contact et les contenus externes du site du Garage de la Plaine.",
+    ),
+  component: Confidentialite,
+});
+function Confidentialite() {
+  return (
+    <>
+      <PageIntro
+        label="Confidentialité"
+        title="Vos demandes de contact."
+        description="Les informations utiles concernant les formulaires et les contenus externes de ce site."
+      />
+      <section className="section">
+        <div className="container detail-layout">
+          <div>
+            <h2>Formulaires de contact</h2>
+            <p>
+              Les formulaires préparent un e-mail dans votre application de messagerie. Aucune
+              demande n’est enregistrée par ce site. L’envoi intervient uniquement lorsque vous
+              envoyez l’e-mail depuis votre messagerie.
+            </p>
+            <p>
+              Vos coordonnées et votre message sont destinés au service du garage que vous
+              contactez, pour lui permettre de répondre à votre demande.
+            </p>
+            <h2>Contenus externes</h2>
+            <p>
+              La page des véhicules intègre le stock Autolina. En consultant ce contenu, votre
+              navigateur communique avec Autolina. Les liens vers Suzuki et Google Maps ouvrent
+              leurs sites respectifs, avec leurs propres règles de confidentialité.
+            </p>
+          </div>
+          <div>
+            <h2>Nous contacter</h2>
+            <p>
+              Garage de la Plaine
+              <br />
+              {garage.address}
+              <br />
+              {garage.locality}
+            </p>
+            <a className="section-link" href={"mailto:" + garage.email}>
+              {garage.email}
+            </a>
+          </div>
+        </div>
+      </section>
+    </>
+  );
+}

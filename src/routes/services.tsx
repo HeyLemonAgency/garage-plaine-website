@@ -1,8 +1,104 @@
-import { createFileRoute, Link } from '@tanstack/react-router';
-import { ArrowRight, Fuel } from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import { PageIntro, ServicesPreview, photos, CheckList } from '@/components/garage/sections';
-import { ContactSection } from '@/components/garage/contact';
-import { pageHead, services } from '@/lib/garage';
-export const Route=createFileRoute('/services')({head:()=>pageHead('Atelier, carrosserie et services','Entretien toutes marques, carrosserie, pneus, géométrie, diagnostic et électricité à Denges. Découvrez les services du Garage de la Plaine.'),component:Services});
-function Services(){return <><PageIntro label="Services" title="Tout pour votre voiture." description="De l’entretien courant aux travaux de carrosserie, nos métiers se complètent pour vous accompagner au quotidien."/><ServicesPreview/>{services.map((s,i)=><section id={s.id} className="service-detail" key={s.id}><div className="container detail-layout"><div><div className="eyebrow">0{i+1} / {s.title}</div><h2>{s.intro}</h2><p>{s.description}</p><CheckList items={s.items}/>{s.id==='carrosserie'&&<><p>Les réparations sont réalisées avec des pièces d’origine, dans le respect des garanties constructeur. Les travaux sont garantis à vie, selon conditions : contactez la carrosserie pour connaître les modalités applicables.</p><p>Pour tout remplacement de pare-brise, une vignette autoroutière ou un bon d’essence est offert.</p></>}<Button variant="premium" asChild><a href={'mailto:'+s.email}>Contacter {s.person.split(' ')[0]} <ArrowRight/></a></Button></div><img src={photos[s.image]} alt={s.title+' au Garage de la Plaine'} width={700} height={450} loading="lazy"/></div></section>)}<section className="section"><div className="container detail-layout"><div><div className="eyebrow">Service vente</div><h2>Neuf, occasion ou reprise.</h2><p>Découvrez nos véhicules neufs Suzuki et nos occasions toutes marques. Notre service vente vous accompagne pour le financement, le leasing et la reprise de votre véhicule.</p><div className="flex flex-wrap gap-3"><Button asChild variant="premium"><Link to="/vehicules">Voir les véhicules <ArrowRight/></Link></Button><Button asChild variant="appointment"><Link to="/reprise">Proposer mon véhicule <ArrowRight/></Link></Button></div></div><div><div className="eyebrow"><Fuel className="size-4"/>Sur place</div><h2>Votre plein, à toute heure.</h2><p>Notre station-service Jubin est accessible 24h/24 et 7j/7. Vous pouvez également commander une Jubin Card.</p><Link to="/station-service" className="section-link">Découvrir la station-service <ArrowRight/></Link></div></div></section><ContactSection/></>}
+import { createFileRoute, Link } from "@tanstack/react-router";
+import { ArrowRight, Fuel } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { PageIntro, ServicesPreview, photos, CheckList } from "@/components/garage/sections";
+import { ContactSection } from "@/components/garage/contact";
+import { pageHead, services } from "@/lib/garage";
+export const Route = createFileRoute("/services")({
+  head: () =>
+    pageHead(
+      "Atelier, carrosserie et services",
+      "Entretien toutes marques, carrosserie, pneus, géométrie, diagnostic et électricité à Denges. Découvrez les services du Garage de la Plaine.",
+    ),
+  component: Services,
+});
+function Services() {
+  return (
+    <>
+      <PageIntro
+        label="Services"
+        title="Tout pour votre voiture."
+        description="De l’entretien courant aux travaux de carrosserie, nos métiers se complètent pour vous accompagner au quotidien."
+      />
+      <ServicesPreview />
+      {services.map((s, i) => (
+        <section id={s.id} className="service-detail" key={s.id}>
+          <div className="container detail-layout">
+            <div>
+              <div className="eyebrow">
+                0{i + 1} / {s.title}
+              </div>
+              <h2>{s.intro}</h2>
+              <p>{s.description}</p>
+              <CheckList items={s.items} />
+              {s.id === "carrosserie" && (
+                <>
+                  <p>
+                    Les réparations sont réalisées avec des pièces d’origine, dans le respect des
+                    garanties constructeur. Les travaux sont garantis à vie, selon conditions :
+                    contactez la carrosserie pour connaître les modalités applicables.
+                  </p>
+                  <p>
+                    Pour tout remplacement de pare-brise, une vignette autoroutière ou un bon
+                    d’essence est offert.
+                  </p>
+                </>
+              )}
+              <Button variant="premium" asChild>
+                <a href={"mailto:" + s.email}>
+                  Contacter {s.person.split(" ")[0]} <ArrowRight />
+                </a>
+              </Button>
+            </div>
+            <img
+              src={photos[s.image]}
+              alt={s.title + " au Garage de la Plaine"}
+              width={700}
+              height={450}
+              loading="lazy"
+            />
+          </div>
+        </section>
+      ))}
+      <section className="section">
+        <div className="container detail-layout">
+          <div>
+            <div className="eyebrow">Service vente</div>
+            <h2>Neuf, occasion ou reprise.</h2>
+            <p>
+              Découvrez nos véhicules neufs Suzuki et nos occasions toutes marques. Notre service
+              vente vous accompagne pour le financement, le leasing et la reprise de votre véhicule.
+            </p>
+            <div className="flex flex-wrap gap-3">
+              <Button asChild variant="premium">
+                <Link to="/vehicules">
+                  Voir les véhicules <ArrowRight />
+                </Link>
+              </Button>
+              <Button asChild variant="appointment">
+                <Link to="/reprise">
+                  Proposer mon véhicule <ArrowRight />
+                </Link>
+              </Button>
+            </div>
+          </div>
+          <div>
+            <div className="eyebrow">
+              <Fuel className="size-4" />
+              Sur place
+            </div>
+            <h2>Votre plein, à toute heure.</h2>
+            <p>
+              Notre station-service Jubin est accessible 24h/24 et 7j/7. Vous pouvez également
+              commander une Jubin Card.
+            </p>
+            <Link to="/station-service" className="section-link">
+              Découvrir la station-service <ArrowRight />
+            </Link>
+          </div>
+        </div>
+      </section>
+      <ContactSection />
+    </>
+  );
+}
