@@ -13,6 +13,7 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as ConfidentialiteRouteImport } from './routes/confidentialite'
 import { Route as ContactRouteImport } from './routes/contact'
 import { Route as EntrepriseRouteImport } from './routes/entreprise'
+import { Route as RendezVousRouteImport } from './routes/rendez-vous'
 import { Route as RepriseRouteImport } from './routes/reprise'
 import { Route as ServicesRouteImport } from './routes/services'
 import { Route as StationServiceRouteImport } from './routes/station-service'
@@ -38,6 +39,11 @@ const ContactRoute = ContactRouteImport.update({
 const EntrepriseRoute = EntrepriseRouteImport.update({
   id: '/entreprise',
   path: '/entreprise',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const RendezVousRoute = RendezVousRouteImport.update({
+  id: '/rendez-vous',
+  path: '/rendez-vous',
   getParentRoute: () => rootRouteImport,
 } as any)
 const RepriseRoute = RepriseRouteImport.update({
@@ -76,6 +82,7 @@ export interface FileRoutesByFullPath {
   '/confidentialite': typeof ConfidentialiteRoute
   '/contact': typeof ContactRoute
   '/entreprise': typeof EntrepriseRoute
+  '/rendez-vous': typeof RendezVousRoute
   '/reprise': typeof RepriseRoute
   '/services': typeof ServicesRoute
   '/station-service': typeof StationServiceRoute
@@ -88,6 +95,7 @@ export interface FileRoutesByTo {
   '/confidentialite': typeof ConfidentialiteRoute
   '/contact': typeof ContactRoute
   '/entreprise': typeof EntrepriseRoute
+  '/rendez-vous': typeof RendezVousRoute
   '/reprise': typeof RepriseRoute
   '/services': typeof ServicesRoute
   '/station-service': typeof StationServiceRoute
@@ -101,6 +109,7 @@ export interface FileRoutesById {
   '/confidentialite': typeof ConfidentialiteRoute
   '/contact': typeof ContactRoute
   '/entreprise': typeof EntrepriseRoute
+  '/rendez-vous': typeof RendezVousRoute
   '/reprise': typeof RepriseRoute
   '/services': typeof ServicesRoute
   '/station-service': typeof StationServiceRoute
@@ -115,6 +124,7 @@ export interface FileRouteTypes {
     | '/confidentialite'
     | '/contact'
     | '/entreprise'
+    | '/rendez-vous'
     | '/reprise'
     | '/services'
     | '/station-service'
@@ -127,6 +137,7 @@ export interface FileRouteTypes {
     | '/confidentialite'
     | '/contact'
     | '/entreprise'
+    | '/rendez-vous'
     | '/reprise'
     | '/services'
     | '/station-service'
@@ -139,6 +150,7 @@ export interface FileRouteTypes {
     | '/confidentialite'
     | '/contact'
     | '/entreprise'
+    | '/rendez-vous'
     | '/reprise'
     | '/services'
     | '/station-service'
@@ -152,6 +164,7 @@ export interface RootRouteChildren {
   ConfidentialiteRoute: typeof ConfidentialiteRoute
   ContactRoute: typeof ContactRoute
   EntrepriseRoute: typeof EntrepriseRoute
+  RendezVousRoute: typeof RendezVousRoute
   RepriseRoute: typeof RepriseRoute
   ServicesRoute: typeof ServicesRoute
   StationServiceRoute: typeof StationServiceRoute
@@ -188,6 +201,13 @@ declare module '@tanstack/react-router' {
       path: '/entreprise'
       fullPath: '/entreprise'
       preLoaderRoute: typeof EntrepriseRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/rendez-vous': {
+      id: '/rendez-vous'
+      path: '/rendez-vous'
+      fullPath: '/rendez-vous'
+      preLoaderRoute: typeof RendezVousRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/reprise': {
@@ -240,6 +260,7 @@ const rootRouteChildren: RootRouteChildren = {
   ConfidentialiteRoute: ConfidentialiteRoute,
   ContactRoute: ContactRoute,
   EntrepriseRoute: EntrepriseRoute,
+  RendezVousRoute: RendezVousRoute,
   RepriseRoute: RepriseRoute,
   ServicesRoute: ServicesRoute,
   StationServiceRoute: StationServiceRoute,

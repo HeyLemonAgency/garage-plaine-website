@@ -1,7 +1,13 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { ArrowRight, Fuel, Mail } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { PageIntro, photos, CheckList, MechanicalList } from "@/components/garage/sections";
+import {
+  PageIntro,
+  photos,
+  CheckList,
+  MechanicalList,
+  SectionTabs,
+} from "@/components/garage/sections";
 import { ContactSection } from "@/components/garage/contact";
 import { SalesContact } from "@/components/garage/people";
 import { bodyworkServices, pageHead, salesServices, team } from "@/lib/garage";
@@ -28,15 +34,8 @@ function Services() {
         label="Services"
         title="Vente, carrosserie et atelier."
         description="Trois métiers sur un même site à Denges, avec un interlocuteur dédié pour chacun."
-      >
-        <nav className="anchor-nav" aria-label="Sur cette page">
-          {sections.map(([id, label]) => (
-            <Link key={id} to="/services" hash={id}>
-              {label}
-            </Link>
-          ))}
-        </nav>
-      </PageIntro>
+      />
+      <SectionTabs items={sections} />
 
       <section id="vente" className="service-detail">
         <div className="container detail-layout">
@@ -57,10 +56,13 @@ function Services() {
                 </Link>
               </Button>
               <Button asChild variant="appointment">
-                <Link to="/reprise">
-                  Proposer mon véhicule <ArrowRight />
+                <Link to="/rendez-vous" search={{ besoin: "vente" }}>
+                  Demander un essai <ArrowRight />
                 </Link>
               </Button>
+              <Link to="/reprise" className="section-link">
+                Proposer mon véhicule <ArrowRight />
+              </Link>
             </div>
           </div>
           <img
@@ -96,7 +98,7 @@ function Services() {
             </p>
             <div className="detail-actions">
               <Button asChild variant="premium">
-                <Link to="/contact" search={{ demande: "carrosserie" }} hash="contact">
+                <Link to="/rendez-vous" search={{ besoin: "carrosserie" }}>
                   Demander un devis <ArrowRight />
                 </Link>
               </Button>
@@ -129,7 +131,7 @@ function Services() {
             <MechanicalList />
             <div className="detail-actions">
               <Button asChild variant="premium">
-                <Link to="/contact" search={{ demande: "atelier" }} hash="contact">
+                <Link to="/rendez-vous" search={{ besoin: "atelier" }}>
                   Prendre rendez-vous <ArrowRight />
                 </Link>
               </Button>

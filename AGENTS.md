@@ -15,3 +15,4 @@
 - Keep the supplied logo and actual garage photographs as image files in `src/assets/` (imported directly, no Lovable asset pointers), and distinguish generated editorial imagery from real inventory imagery; avoid misrepresenting the business.
 - The site is hosted on Netlify: `vite.config.ts` pins nitro's `netlify` preset and `netlify.toml` holds the build settings; don't reintroduce Lovable- or Cloudflare-hosted dependencies.
 - Contact forms compose a departmental email in the visitor's email application unless a mail-delivery service is configured; never claim a message was sent without delivery.
+- The rendez-vous planner (`/rendez-vous`) is a request, not a booking: days come from the published hours (`src/lib/appointment.ts`), and the garage confirms. Keep calls to action that ask for an appointment pointing to it, with `?besoin=` set to the trade.

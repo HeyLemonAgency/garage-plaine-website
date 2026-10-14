@@ -8,7 +8,7 @@ const html = readFileSync(path.join(__dirname, "fixtures/autolina-list.html"), "
 
 describe("Autolina stock parser", () => {
   it("reads the total and the newest listings in Autolina's order", () => {
-    const { total, cars } = parseStock(html);
+    const { total, cars } = parseStock(html, 4);
     expect(total).toBe(104);
     expect(cars.map((c) => c.id)).toEqual(["5152799", "5152798", "5149088", "5149077"]);
   });
@@ -20,6 +20,7 @@ describe("Autolina stock parser", () => {
       make: "BMW",
       model: "320d",
       price: "CHF 3’990",
+      priceValue: 3990,
       isNew: false,
       year: "2010",
       mileage: "270’990 km",
@@ -27,6 +28,10 @@ describe("Autolina stock parser", () => {
       gearbox: "Manuelle",
     });
     expect(bmw?.image).toMatch(/^https:\/\/www\.autolina\.ch\/auto-bild\/.+w=534&h=401/);
+  });
+
+  it("reads every listing on the page when asked", () => {
+    expect(parseStock(html, 15).cars).toHaveLength(5);
   });
 
   it("flags new cars, which have no year", () => {

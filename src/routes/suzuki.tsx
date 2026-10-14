@@ -4,6 +4,8 @@ import { Button } from "@/components/ui/button";
 import { PageIntro, photos, CheckList } from "@/components/garage/sections";
 import { ContactSection } from "@/components/garage/contact";
 import { SalesContact } from "@/components/garage/people";
+import { StockCarousel } from "@/components/garage/stock";
+import { getLatestCars } from "@/lib/stock.functions";
 import { pageHead } from "@/lib/garage";
 import suzuki from "@/assets/suzuki-logo.png";
 export const Route = createFileRoute("/suzuki")({
@@ -12,9 +14,13 @@ export const Route = createFileRoute("/suzuki")({
       "Votre partenaire officiel Suzuki",
       "Concessionnaire Suzuki depuis plus de 20 ans à Denges. Découvrez le showroom, la gamme Suzuki, les possibilités de financement et l’atelier.",
     ),
+  loader: () => getLatestCars(),
+  staleTime: 5 * 60_000,
   component: Suzuki,
 });
 function Suzuki() {
+  const stock = Route.useLoaderData();
+  const suzukis = stock.cars.filter((car) => car.make === "Suzuki");
   return (
     <>
       <PageIntro
@@ -58,6 +64,31 @@ function Suzuki() {
           </div>
         </div>
       </section>
+      {suzukis.length > 0 && (
+        <section className="section stock-section-tight">
+          <div className="container">
+            <div className="section-heading">
+              <div>
+                <div className="eyebrow">
+                  <span className="live-dot" aria-hidden="true" />
+                  En stock en ce moment
+                </div>
+                <h2>Les Suzuki disponibles chez nous.</h2>
+              </div>
+            </div>
+            <StockCarousel
+              cars={suzukis}
+              total={stock.total}
+              showFilters={false}
+              label="Suzuki en stock"
+            />
+            <p className="stock-note">
+              Parmi nos dernières annonces Autolina. Toute la gamme Suzuki est aussi disponible sur
+              commande : demandez une offre.
+            </p>
+          </div>
+        </section>
+      )}
       <section className="partnership">
         <div className="container detail-layout">
           <div>

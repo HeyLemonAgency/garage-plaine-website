@@ -16,7 +16,8 @@ export const getLatestCars = createServerFn({ method: "GET" }).handler(
         signal: AbortSignal.timeout(3500),
       });
       if (!res.ok) throw new Error(`Autolina answered ${res.status}`);
-      const data = parseStock(await res.text());
+      // The newest page of listings (15): enough for the carousel filters and the Suzuki page.
+      const data = parseStock(await res.text(), 15);
       if (data.cars.length > 0) cache = { at: Date.now(), data };
       return data;
     } catch (error) {

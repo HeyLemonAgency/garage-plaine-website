@@ -1,9 +1,19 @@
 import { Link, useRouterState } from "@tanstack/react-router";
-import { useEffect, useState } from "react";
-import { Phone, MapPin, Menu, X, ArrowUpRight, Mail } from "lucide-react";
+import { useEffect, useRef, useState } from "react";
+import {
+  Phone,
+  MapPin,
+  Menu,
+  X,
+  ArrowUpRight,
+  Mail,
+  CalendarDays,
+  MessageCircle,
+} from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { garage, team } from "@/lib/garage";
 import { OpenStatus } from "./people";
+import { useSpotlight } from "@/hooks/use-interactions";
 import logo from "@/assets/garage-logo.png";
 
 const nav = [
@@ -24,6 +34,7 @@ export function SiteHeader() {
   const [scrolled, setScrolled] = useState(false);
   const pathname = useRouterState({ select: (s) => s.location.pathname });
 
+  useSpotlight();
   useEffect(() => setOpen(false), [pathname]);
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 40);
@@ -75,6 +86,10 @@ export function SiteHeader() {
               </Link>
             ))}
           </nav>
+          <Link to="/rendez-vous" className="header-cta">
+            <CalendarDays />
+            Rendez-vous
+          </Link>
           <Button
             className="mobile-toggle"
             variant="ghost"
@@ -94,6 +109,10 @@ export function SiteHeader() {
                 {label}
               </Link>
             ))}
+            <Link to="/rendez-vous" className="mobile-nav-cta">
+              <CalendarDays />
+              Demander un rendez-vous
+            </Link>
             <div className="mobile-nav-contacts">
               <OpenStatus />
               <a href={garage.phoneHref}>
@@ -136,6 +155,7 @@ export function SiteFooter() {
                     {label}
                   </Link>
                 ))}
+                <Link to="/rendez-vous">Rendez-vous</Link>
                 <Link to="/reprise">Reprise de véhicule</Link>
                 <Link to="/station-service">Station-service</Link>
                 <Link to="/wir">Paiement WIR</Link>
@@ -171,6 +191,7 @@ export function SiteFooter() {
           </div>
         </div>
       </footer>
+      <QuickContact />
       <div className="mobile-call">
         <Button variant="premium" asChild>
           {salesPage ? (
@@ -187,16 +208,89 @@ export function SiteFooter() {
         </Button>
         <Button variant="appointment" asChild>
           {salesPage ? (
-            <Link to="/contact" search={{ demande: "vente" }} hash="contact">
-              Demander une offre <ArrowUpRight />
+            <Link to="/rendez-vous" search={{ besoin: "vente" }}>
+              Demander un essai <ArrowUpRight />
             </Link>
           ) : (
-            <Link to="/contact">
+            <Link to="/rendez-vous">
               Prendre rendez-vous <ArrowUpRight />
             </Link>
           )}
         </Button>
       </div>
     </>
+  );
+}
+
+/** Desktop floating contact: who to call, whether we're open, and the planner. */
+function QuickContact() {
+  const [open, setOpen] = useState(false);
+  const root = useRef<HTMLDivElement>(null);
+  const pathname = useRouterState({ select: (s) => s.location.pathname });
+  useEffect(() => setOpen(false), [pathname]);
+  useEffect(() => {
+    if (!open) return;
+    const onKey = (e: KeyboardEvent) => e.key === "Escape" && setOpen(false);
+    const onClick = (e: MouseEvent) => {
+      if (!root.current?.contains(e.target as Node)) setOpen(false);
+    };
+    window.addEventListener("keydown", onKey);
+    document.addEventListener("mousedown", onClick);
+    root.current?.querySelector<HTMLElement>(".quick-panel a")?.focus();
+    return () => {
+      window.removeEventListener("keydown", onKey);
+      document.removeEventListener("mousedown", onClick);
+    };
+  }, [open]);
+  if (pathname === "/rendez-vous") return null;
+  return (
+    <div className="quick-contact" ref={root} data-open={open || undefined}>
+      {open && (
+        <div className="quick-panel" role="dialog" aria-label="Contact rapide">
+          <div className="quick-head">
+            <strong>On vous répond.</strong>
+            <OpenStatus />
+          </div>
+          <a href={garage.phoneHref} className="quick-row">
+            <Phone />
+            <span>
+              <strong>Réception</strong>
+              <span>{garage.phone}</span>
+            </span>
+          </a>
+          <a href={team.vente.mobileHref} className="quick-row">
+            <Phone />
+            <span>
+              <strong>Vente · {team.vente.name}</strong>
+              <span>{team.vente.mobile}</span>
+            </span>
+          </a>
+          <Link to="/rendez-vous" className="quick-row quick-row-primary">
+            <CalendarDays />
+            <span>
+              <strong>Demander un rendez-vous</strong>
+              <span>En quatre étapes, sans engagement</span>
+            </span>
+          </Link>
+          <a href={garage.directions} target="_blank" rel="noreferrer" className="quick-row">
+            <MapPin />
+            <span>
+              <strong>Itinéraire</strong>
+              <span>{garage.address}, Denges</span>
+            </span>
+          </a>
+        </div>
+      )}
+      <button
+        type="button"
+        className="quick-toggle"
+        aria-expanded={open}
+        aria-label={open ? "Fermer le contact rapide" : "Contact rapide"}
+        onClick={() => setOpen(!open)}
+      >
+        {open ? <X /> : <MessageCircle />}
+        <span className="quick-toggle-label">{open ? "Fermer" : "Contact"}</span>
+      </button>
+    </div>
   );
 }

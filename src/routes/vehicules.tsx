@@ -58,19 +58,24 @@ function Vehicules() {
             <SalesContact />
             <div className="inventory-toolbar">
               {annonce ? (
-                <Button variant="premium" asChild>
-                  <Link to="/vehicules">
-                    <ArrowLeft /> Tout le stock
-                  </Link>
-                </Button>
+                <>
+                  <Button variant="appointment" asChild>
+                    <Link to="/vehicules">
+                      <ArrowLeft /> Tout le stock
+                    </Link>
+                  </Button>
+                  <Button variant="premium" asChild>
+                    <Link to="/rendez-vous" search={{ besoin: "vente", annonce }}>
+                      Demander un essai <ArrowRight />
+                    </Link>
+                  </Button>
+                </>
               ) : (
                 <p>Le stock en direct, depuis Autolina.</p>
               )}
-              <Button variant="appointment" asChild>
-                <a href={src} target="_blank" rel="noreferrer">
-                  Ouvrir sur Autolina <ArrowUpRight />
-                </a>
-              </Button>
+              <a className="section-link" href={src} target="_blank" rel="noreferrer">
+                Ouvrir sur Autolina <ArrowUpRight />
+              </a>
             </div>
           </div>
           <iframe
@@ -97,7 +102,7 @@ function Vehicules() {
           </div>
           <div className="detail-actions">
             <Button variant="premium" asChild>
-              <Link to="/contact" search={{ demande: "vente" }} hash="contact">
+              <Link to="/rendez-vous" search={{ besoin: "vente" }}>
                 Demander une offre <ArrowRight />
               </Link>
             </Button>

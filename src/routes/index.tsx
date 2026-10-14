@@ -26,8 +26,8 @@ function Index() {
   const stock = Route.useLoaderData();
   return (
     <>
-      <Hero />
-      <TrustBar />
+      <Hero stockTotal={stock.total} />
+      <TrustBar stockTotal={stock.total} />
       <ServicesPreview />
       <StockPreview stock={stock} />
       <Partnership />

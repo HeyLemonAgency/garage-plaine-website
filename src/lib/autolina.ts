@@ -15,6 +15,8 @@ export type StockCar = {
   model: string;
   title: string;
   price: string | null;
+  /** Price in CHF, for filtering; null when the listing shows no price. */
+  priceValue: number | null;
   isNew: boolean;
   year: string | null;
   mileage: string | null;
@@ -96,6 +98,7 @@ function parseRow(row: string): StockCar | null {
   const priceHtml = row.match(/class="price[\s"][^>]*>([\s\S]*?)<\/div>/)?.[1];
   const priceText = priceHtml ? textOf(priceHtml) : "";
   const price = /\d/.test(priceText) ? priceText.replace(/'/g, "’") : null;
+  const priceValue = price ? Number(price.replace(/\D/g, "")) || null : null;
 
   const dataHtml =
     row.match(
@@ -125,6 +128,7 @@ function parseRow(row: string): StockCar | null {
     model: shortModel(rawTitle),
     title: rawTitle,
     price,
+    priceValue,
     isNew,
     year,
     mileage: mileage?.replace(/'/g, "’").replace(/\s*km$/i, " km") ?? null,

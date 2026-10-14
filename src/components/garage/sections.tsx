@@ -1,20 +1,29 @@
-import type { ReactNode } from "react";
+import {
+  useEffect,
+  useRef,
+  useState,
+  type CSSProperties,
+  type KeyboardEvent,
+  type ReactNode,
+} from "react";
 import { Link } from "@tanstack/react-router";
 import {
   ArrowRight,
   Check,
   ChevronDown,
   ChevronRight,
-  ClipboardCheck,
   Fuel,
   KeyRound,
+  Phone,
   ShieldCheck,
   SprayCan,
   Wrench,
   CarFront,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { mechanicalServices, services } from "@/lib/garage";
+import { garage, mechanicalServices, services, team, type Contact } from "@/lib/garage";
+import { CountUp } from "./interactive";
+import { usePointerParallax } from "@/hooks/use-interactions";
 import hero from "@/assets/suzuki-lake.webp";
 import suzuki from "@/assets/suzuki-logo.png";
 import garagePhoto from "@/assets/garage.webp";
@@ -25,77 +34,261 @@ import bodywork from "@/assets/bodywork.webp";
 export const photos = { workshop, bodywork, garage: garagePhoto, sales };
 const icons = { key: KeyRound, spray: SprayCan, wrench: Wrench };
 
-export function Hero() {
+type Intent = {
+  id: "acheter" | "atelier" | "carrosserie";
+  tab: string;
+  icon: typeof KeyRound;
+  title: string;
+  text: string;
+  contact: Contact;
+  phone: string;
+  phoneHref: string;
+};
+
+const intents: Intent[] = [
+  {
+    id: "acheter",
+    tab: "Acheter",
+    icon: KeyRound,
+    title: "Trouver votre prochaine voiture",
+    text: "Suzuki neuves et occasions toutes marques, avec financement, leasing et reprise de votre véhicule.",
+    contact: team.vente,
+    phone: team.vente.mobile,
+    phoneHref: team.vente.mobileHref,
+  },
+  {
+    id: "atelier",
+    tab: "Entretenir",
+    icon: Wrench,
+    title: "Entretien et réparations",
+    text: "Service, pneus, géométrie, climatisation et diagnostic, pour toutes les marques.",
+    contact: team.atelier,
+    phone: garage.phone,
+    phoneHref: garage.phoneHref,
+  },
+  {
+    id: "carrosserie",
+    tab: "Carrosserie",
+    icon: SprayCan,
+    title: "Réparer, repeindre, restaurer",
+    text: "Nous gérons les formalités avec votre assurance, et 8 véhicules de remplacement sont à disposition.",
+    contact: team.carrosserie,
+    phone: garage.phone,
+    phoneHref: garage.phoneHref,
+  },
+];
+
+function IntentActions({ id, stockTotal }: { id: Intent["id"]; stockTotal: number | null }) {
+  if (id === "acheter")
+    return (
+      <>
+        <Button variant="premium" asChild>
+          <Link to="/vehicules">
+            {stockTotal ? `Voir les ${stockTotal} véhicules` : "Voir les véhicules"} <ArrowRight />
+          </Link>
+        </Button>
+        <Button variant="appointment" asChild>
+          <Link to="/rendez-vous" search={{ besoin: "vente" }}>
+            Demander un essai
+          </Link>
+        </Button>
+      </>
+    );
+  if (id === "atelier")
+    return (
+      <>
+        <Button variant="premium" asChild>
+          <Link to="/rendez-vous" search={{ besoin: "atelier" }}>
+            Prendre rendez-vous <ArrowRight />
+          </Link>
+        </Button>
+        <Button variant="appointment" asChild>
+          <Link to="/services" hash="mecanique">
+            Nos prestations
+          </Link>
+        </Button>
+      </>
+    );
   return (
-    <section className="hero">
-      <img
-        className="hero-image"
-        src={hero}
-        alt="Suzuki Vitara dans un paysage au bord du Léman"
-        width={1920}
-        height={1024}
-        fetchPriority="high"
-      />
-      <div className="container hero-content reveal">
-        <div className="eyebrow">
-          <span className="eyebrow-dot" />
-          Garage de la Plaine · Denges
+    <>
+      <Button variant="premium" asChild>
+        <Link to="/rendez-vous" search={{ besoin: "carrosserie" }}>
+          Demander un devis <ArrowRight />
+        </Link>
+      </Button>
+      <Button variant="appointment" asChild>
+        <Link to="/services" hash="carrosserie">
+          La carrosserie
+        </Link>
+      </Button>
+    </>
+  );
+}
+
+/** "What brings you here?" — one tab per trade, each with its next step and its person. */
+function HeroConcierge({ stockTotal }: { stockTotal: number | null }) {
+  const [active, setActive] = useState(0);
+  const tabs = useRef<(HTMLButtonElement | null)[]>([]);
+  const intent = intents[active] ?? intents[0]!;
+  const initials = intent.contact.name
+    .split(" ")
+    .map((p) => p[0])
+    .join("");
+
+  function onKey(e: KeyboardEvent<HTMLDivElement>) {
+    if (e.key !== "ArrowRight" && e.key !== "ArrowLeft") return;
+    e.preventDefault();
+    const next = (active + (e.key === "ArrowRight" ? 1 : intents.length - 1)) % intents.length;
+    setActive(next);
+    tabs.current[next]?.focus();
+  }
+
+  return (
+    <div className="concierge">
+      <div className="concierge-head">Que pouvons-nous faire pour vous ?</div>
+      <div
+        className="concierge-tabs"
+        role="tablist"
+        aria-label="Votre besoin"
+        onKeyDown={onKey}
+        style={{ "--tab": active } as CSSProperties}
+      >
+        <span className="concierge-indicator" aria-hidden="true" />
+        {intents.map((item, i) => (
+          <button
+            key={item.id}
+            ref={(el) => {
+              tabs.current[i] = el;
+            }}
+            type="button"
+            role="tab"
+            id={`intent-tab-${item.id}`}
+            aria-selected={i === active}
+            aria-controls="intent-panel"
+            tabIndex={i === active ? 0 : -1}
+            onClick={() => setActive(i)}
+          >
+            <item.icon />
+            {item.tab}
+          </button>
+        ))}
+      </div>
+      <div
+        className="concierge-panel"
+        role="tabpanel"
+        id="intent-panel"
+        aria-labelledby={`intent-tab-${intent.id}`}
+        key={intent.id}
+      >
+        <h2>{intent.title}</h2>
+        <p>{intent.text}</p>
+        <div className="concierge-actions">
+          <IntentActions id={intent.id} stockTotal={stockTotal} />
         </div>
-        <h1>
-          Votre garage
-          <br />
-          de confiance
-          <br />à Denges.
-        </h1>
-        <div className="red-rule" />
-        <p>
-          Vente, carrosserie et entretien.
-          <br />
-          Un service de proximité
-          <br />
-          depuis plus de 40 ans.
-        </p>
-        <div className="hero-actions">
-          <Button variant="premium" asChild>
-            <Link to="/vehicules">
-              Voir les véhicules <ArrowRight />
-            </Link>
-          </Button>
-          <Button variant="appointment" asChild>
-            <Link to="/contact">
-              Prendre rendez-vous <ClipboardCheck />
-            </Link>
-          </Button>
+        <a className="concierge-person" href={intent.phoneHref}>
+          <span className="sales-avatar" aria-hidden="true">
+            {initials}
+          </span>
+          <span>
+            <strong>{intent.contact.name}</strong>
+            <span>{intent.contact.role}</span>
+          </span>
+          <span className="concierge-phone">
+            <Phone />
+            {intent.phone}
+          </span>
+        </a>
+      </div>
+    </div>
+  );
+}
+
+export function Hero({ stockTotal = null }: { stockTotal?: number | null }) {
+  const section = useRef<HTMLElement>(null);
+  usePointerParallax(section);
+  return (
+    <section className="hero" ref={section}>
+      <div className="hero-media">
+        <img
+          className="hero-image"
+          src={hero}
+          alt="Suzuki Vitara dans un paysage au bord du Léman"
+          width={1920}
+          height={1024}
+          fetchPriority="high"
+        />
+      </div>
+      <div className="container hero-content">
+        <div className="hero-copy reveal">
+          <div className="eyebrow">
+            <span className="eyebrow-dot" />
+            Garage de la Plaine · Denges
+          </div>
+          <h1>
+            Votre garage
+            <br />
+            de confiance
+            <br />à Denges.
+          </h1>
+          <div className="red-rule" />
+          <p>Vente, carrosserie et entretien : un service de proximité depuis plus de 40 ans.</p>
         </div>
-        <div className="suzuki-signature">
-          <img src={suzuki} alt="Suzuki" width={120} height={28} />
-          <span>Partenaire officiel Suzuki</span>
-        </div>
+        <HeroConcierge stockTotal={stockTotal} />
       </div>
       <span className="hero-caption">Visuel d’illustration</span>
     </section>
   );
 }
 
-export function TrustBar() {
+export function TrustBar({ stockTotal = null }: { stockTotal?: number | null }) {
   const items = [
-    { icon: ShieldCheck, title: "40+ ans", text: "d’expérience" },
-    { icon: KeyRound, title: "Suzuki", text: "concessionnaire depuis 20+ ans" },
-    { icon: CarFront, title: "Carrosserie", text: "toutes marques" },
-    { icon: Fuel, title: "Station-service", text: "24h/24 · 7j/7" },
+    { icon: ShieldCheck, value: 40, suffix: "+", unit: "ans", text: "d’expérience" },
+    { logo: suzuki, value: 20, suffix: "+", unit: "ans", text: "concessionnaire Suzuki" },
+    stockTotal
+      ? {
+          icon: CarFront,
+          value: stockTotal,
+          suffix: "",
+          unit: "véhicules",
+          text: "en stock, en direct",
+          live: true,
+        }
+      : { icon: CarFront, value: 8, suffix: "", unit: "véhicules", text: "de remplacement" },
+    { icon: Fuel, value: 24, suffix: "h/24", unit: "", text: "7j/7 · station-service" },
   ];
   return (
-    <section className="trust-band" aria-label="Les engagements du garage">
+    <section className="trust-band" aria-label="Le garage en chiffres">
       <div className="container trust-grid">
-        {items.map(({ icon: Icon, title, text }) => (
-          <div className="trust-item" key={title}>
-            <Icon />
-            <div>
-              <strong>{title}</strong>
-              <span>{text}</span>
+        {items.map(({ value, suffix, unit, text, ...rest }) => {
+          const Icon = "icon" in rest ? rest.icon : null;
+          const body = (
+            <>
+              {Icon ? (
+                <Icon />
+              ) : (
+                <img className="trust-logo" src={suzuki} alt="Suzuki" width={46} height={36} />
+              )}
+              <div>
+                <strong>
+                  <CountUp value={value} suffix={suffix} /> {unit}
+                </strong>
+                <span>
+                  {"live" in rest && <span className="live-dot" aria-hidden="true" />}
+                  {text}
+                </span>
+              </div>
+            </>
+          );
+          return "live" in rest ? (
+            <Link to="/vehicules" className="trust-item trust-item-link" key={text}>
+              {body}
+            </Link>
+          ) : (
+            <div className="trust-item" key={text}>
+              {body}
             </div>
-          </div>
-        ))}
+          );
+        })}
       </div>
     </section>
   );
@@ -169,7 +362,7 @@ function ServiceLink({
       </Link>
     );
   return (
-    <Link to="/contact" search={{ demande: "atelier" }} hash="contact" className="card-link">
+    <Link to="/rendez-vous" search={{ besoin: "atelier" }} className="card-link">
       {children}
     </Link>
   );
@@ -189,7 +382,7 @@ export function ServicesPreview() {
           {services.map((service) => {
             const Icon = icons[service.icon];
             return (
-              <article className="service-card reveal-on-scroll" key={service.id}>
+              <article className="service-card spotlight reveal-on-scroll" key={service.id}>
                 <Icon className="service-icon" />
                 <h3>{service.title}</h3>
                 <p>{service.short}</p>
@@ -333,5 +526,36 @@ export function CheckList({ items }: { items: readonly string[] }) {
         </li>
       ))}
     </ul>
+  );
+}
+
+/** Sticky in-page navigation that highlights the section currently on screen. */
+export function SectionTabs({ items }: { items: readonly (readonly [string, string])[] }) {
+  const [active, setActive] = useState(items[0]?.[0] ?? "");
+  useEffect(() => {
+    if (!("IntersectionObserver" in window)) return;
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const visible = entries.filter((e) => e.isIntersecting);
+        if (visible[0]) setActive(visible[0].target.id);
+      },
+      { rootMargin: "-35% 0px -60% 0px" },
+    );
+    for (const [id] of items) {
+      const el = document.getElementById(id);
+      if (el) observer.observe(el);
+    }
+    return () => observer.disconnect();
+  }, [items]);
+  return (
+    <nav className="section-tabs" aria-label="Sur cette page">
+      <div className="container section-tabs-inner">
+        {items.map(([id, label]) => (
+          <a key={id} href={`#${id}`} className={active === id ? "is-active" : ""}>
+            {label}
+          </a>
+        ))}
+      </div>
+    </nav>
   );
 }

@@ -1,9 +1,10 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { ArrowRight, GraduationCap } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { PageIntro, TrustBar, photos, CheckList } from "@/components/garage/sections";
 import { ContactSection } from "@/components/garage/contact";
 import { TeamGrid } from "@/components/garage/people";
+import { TrainingStory } from "@/components/garage/training";
 import { pageHead } from "@/lib/garage";
 export const Route = createFileRoute("/entreprise")({
   head: () =>
@@ -74,35 +75,7 @@ function Entreprise() {
           <TeamGrid />
         </div>
       </section>
-      <section className="partnership">
-        <div className="container editorial-grid">
-          <img
-            className="editorial-image"
-            src={photos.workshop}
-            alt="L’atelier mécanique du Garage de la Plaine"
-            loading="lazy"
-            width={700}
-            height={500}
-          />
-          <div className="editorial-copy">
-            <div className="eyebrow">
-              <GraduationCap className="size-4" />
-              Entreprise formatrice
-            </div>
-            <h2>
-              Transmettre
-              <br />
-              le savoir-faire.
-            </h2>
-            <p>
-              La formation fait partie de notre engagement. Cristiano Almeida a été distingué comme
-              troisième meilleur apprenti peintre en carrosserie en 2013, et Marco Da Silva comme
-              meilleur apprenti peintre en carrosserie en 2014.
-            </p>
-            <p>Un savoir-faire qui se transmet, au service d’un travail soigné.</p>
-          </div>
-        </div>
-      </section>
+      <TrainingStory />
       <ContactSection />
     </>
   );

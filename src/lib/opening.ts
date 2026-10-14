@@ -54,39 +54,45 @@ function easterSunday(year: number): Date {
   return new Date(Date.UTC(year, month - 1, day));
 }
 
-const key = (d: Date) => `${d.getUTCFullYear()}-${d.getUTCMonth() + 1}-${d.getUTCDate()}`;
-const shift = (d: Date, days: number) => new Date(d.getTime() + days * 86_400_000);
+export const dayKey = (d: Date) => `${d.getUTCFullYear()}-${d.getUTCMonth() + 1}-${d.getUTCDate()}`;
+export const addDays = (d: Date, days: number) => new Date(d.getTime() + days * 86_400_000);
 
 export function vaudHolidays(year: number): Set<string> {
   const easter = easterSunday(year);
   const septFirst = new Date(Date.UTC(year, 8, 1));
   // Lundi du Jeûne fédéral: the day after the third Sunday of September.
-  const firstSunday = shift(septFirst, (7 - septFirst.getUTCDay()) % 7);
+  const firstSunday = addDays(septFirst, (7 - septFirst.getUTCDay()) % 7);
   return new Set(
     [
       new Date(Date.UTC(year, 0, 1)),
       new Date(Date.UTC(year, 0, 2)),
-      shift(easter, -2),
-      shift(easter, 1),
-      shift(easter, 39),
-      shift(easter, 50),
+      addDays(easter, -2),
+      addDays(easter, 1),
+      addDays(easter, 39),
+      addDays(easter, 50),
       new Date(Date.UTC(year, 7, 1)),
-      shift(firstSunday, 15),
+      addDays(firstSunday, 15),
       new Date(Date.UTC(year, 11, 25)),
-    ].map(key),
+    ].map(dayKey),
   );
 }
 
 const hhmm = (minutes: number) =>
   `${String(Math.floor(minutes / 60)).padStart(2, "0")}h${String(minutes % 60).padStart(2, "0")}`;
 
-function isHoliday(d: Date) {
-  return vaudHolidays(d.getUTCFullYear()).has(key(d));
+export function isHoliday(d: Date) {
+  return vaudHolidays(d.getUTCFullYear()).has(dayKey(d));
+}
+
+/** Today's date in Switzerland, as a UTC midnight Date (weekday via getUTCDay). */
+export function swissToday(now: Date = new Date()): Date {
+  const t = swissParts(now);
+  return new Date(Date.UTC(t.year, t.month - 1, t.day));
 }
 
 export function openingStatus(now: Date = new Date()): OpeningStatus {
   const t = swissParts(now);
-  const today = new Date(Date.UTC(t.year, t.month - 1, t.day));
+  const today = swissToday(now);
   const holiday = isHoliday(today);
   const periods = holiday ? [] : (schedule[t.weekday] ?? []);
 
@@ -101,7 +107,7 @@ export function openingStatus(now: Date = new Date()): OpeningStatus {
     return { state: "appointment", label: "Samedi", detail: "sur rendez-vous" };
 
   for (let offset = 1; offset <= 10; offset++) {
-    const day = shift(today, offset);
+    const day = addDays(today, offset);
     const next = isHoliday(day) ? undefined : schedule[day.getUTCDay()]?.[0];
     if (next) {
       const when = offset === 1 ? "demain" : DAY_NAMES[day.getUTCDay()];

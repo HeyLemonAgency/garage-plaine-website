@@ -88,6 +88,22 @@ export const departments = [
 ] as const;
 export type DepartmentId = (typeof departments)[number]["id"];
 
+// Source: garageplaine.ch, "La carrosserie": results of the garage's own apprentices.
+export const apprenticeAwards = [
+  {
+    year: "2013",
+    rank: "3e",
+    title: "3e meilleur apprenti peintre en carrosserie",
+    name: "Cristiano Almeida",
+  },
+  {
+    year: "2014",
+    rank: "1er",
+    title: "Meilleur apprenti peintre en carrosserie",
+    name: "Marco Da Silva",
+  },
+] as const;
+
 export const mechanicalServices = [
   "Entretien et réparations toutes marques, spécialité Suzuki",
   "Diagnostic avec des appareils de pointe",
