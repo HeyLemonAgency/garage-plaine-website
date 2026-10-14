@@ -1,0 +1,9 @@
+# Netlify build settings. vite.config.ts pins nitro's "netlify" preset, which
+# writes the client to dist/ and the SSR handler to
+# .netlify/functions-internal/server; Netlify picks that function up on its own.
+[build]
+  command = "npm run build"
+  publish = "dist"
+
+[build.environment]
+  NODE_VERSION = "22"

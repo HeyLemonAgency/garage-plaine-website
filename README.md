@@ -152,3 +152,7 @@ cd <repository-name>
 npm i
 npm run dev
 ```
+
+## Hosting
+
+The site is deployed on Netlify. `netlify.toml` runs `npm run build` and publishes `dist/`; the pages are server-rendered by the Netlify Function that the build writes to `.netlify/functions-internal/server`. All images live in `src/assets/`, so nothing is loaded from Lovable.
