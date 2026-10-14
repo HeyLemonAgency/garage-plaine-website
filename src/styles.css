@@ -3085,8 +3085,10 @@ main:focus {
 }
 
 @media (min-width: 1500px) {
+  /* Grow with the content (the concierge panel) rather than a fixed height. */
   .hero {
-    height: 600px;
+    height: auto;
+    min-height: 720px;
   }
   .hero-image {
     object-position: center 61%;
