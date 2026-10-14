@@ -95,9 +95,9 @@ function Vehicules() {
         </div>
       </section>
       <section className="contact-band">
-        <div className="container section-heading">
+        <div className="container cta-band">
           <div>
-            <div className="eyebrow">Un projet automobile ?</div>
+            <div className="eyebrow">Un projet automobile&nbsp;?</div>
             <h2>Demandez une offre ou un essai sur route.</h2>
           </div>
           <div className="detail-actions">

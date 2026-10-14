@@ -44,8 +44,8 @@ function Services() {
             <h2>Neuf, occasion ou reprise.</h2>
             <p>
               Concessionnaire Suzuki depuis plus de 20 ans, nous vous proposons les véhicules neufs
-              de la gamme Suzuki et un parc d’occasions toutes marques. Un modèle vous intéresse ?
-              Demandez une offre ou un essai sur route.
+              de la gamme Suzuki et un parc d’occasions toutes marques. Un modèle vous
+              intéresse&nbsp;? Demandez une offre ou un essai sur route.
             </p>
             <CheckList items={salesServices} />
             <SalesContact />

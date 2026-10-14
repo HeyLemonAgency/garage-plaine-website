@@ -180,7 +180,7 @@ export function AppointmentPlanner({
                 l’e-mail : nous vous confirmons le rendez-vous par {contactBy}.
               </p>
               <p className="small-note">
-                Votre messagerie ne s’est pas ouverte ? Copiez le récapitulatif et envoyez-le à{" "}
+                Votre messagerie ne s’est pas ouverte&nbsp;? Copiez le récapitulatif et envoyez-le à{" "}
                 {contact?.email}, ou appelez-nous au {garage.phone}.
               </p>
               <div className="detail-actions">
@@ -194,7 +194,7 @@ export function AppointmentPlanner({
             </div>
           ) : step === 0 ? (
             <fieldset>
-              <legend>De quoi avez-vous besoin ?</legend>
+              <legend>De quoi avez-vous besoin&nbsp;?</legend>
               <div className="topic-grid" role="radiogroup" aria-label="Service">
                 {appointmentTopics.map((t) => {
                   const Icon = topicIcons[t.icon];
@@ -248,8 +248,8 @@ export function AppointmentPlanner({
                     maxLength={200}
                   />
                   <p className="form-hint">
-                    Pas encore d’idée précise ? Laissez vide, {contact?.name.split(" ")[0]} vous
-                    conseille.
+                    Pas encore d’idée précise&nbsp;? Laissez vide, {contact?.name.split(" ")[0]}{" "}
+                    vous conseille.
                   </p>
                 </div>
               ) : (
@@ -323,7 +323,7 @@ export function AppointmentPlanner({
             </fieldset>
           ) : step === 2 ? (
             <fieldset>
-              <legend>Quand vous arrangerait-il ?</legend>
+              <legend>Quand vous arrangerait-il&nbsp;?</legend>
               <p className="planner-label">
                 <CalendarDays className="size-4" /> Choisissez un jour
               </p>
@@ -373,7 +373,7 @@ export function AppointmentPlanner({
             </fieldset>
           ) : (
             <fieldset>
-              <legend>Comment vous joindre ?</legend>
+              <legend>Comment vous joindre&nbsp;?</legend>
               <div className="form-row">
                 <div className="form-field">
                   <label htmlFor="pl-name">Nom et prénom *</label>
@@ -426,7 +426,7 @@ export function AppointmentPlanner({
                 </div>
               </div>
               <div className="form-field">
-                <label htmlFor="pl-message">Un détail à ajouter ?</label>
+                <label htmlFor="pl-message">Un détail à ajouter&nbsp;?</label>
                 <textarea
                   id="pl-message"
                   value={message}

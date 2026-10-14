@@ -40,7 +40,7 @@ function Wir() {
             </div>
           </div>
           <div>
-            <h2>Une question sur votre règlement ?</h2>
+            <h2>Une question sur votre règlement&nbsp;?</h2>
             <p>
               Notre équipe est à votre disposition pour préciser les conditions applicables à votre
               intervention.

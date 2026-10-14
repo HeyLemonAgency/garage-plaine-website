@@ -399,15 +399,11 @@ button {
     border-color 0.2s,
     transform 0.2s;
 }
-.service-card:hover {
-  border-color: var(--accent);
-  transform: translateY(-3px);
-}
-.service-icon {
-  width: 31px;
-  height: 31px;
-  color: var(--primary);
-  margin-bottom: 22px;
+@media (hover: hover) {
+  .service-card:hover {
+    border-color: var(--accent);
+    transform: translateY(-3px);
+  }
 }
 .service-card h3 {
   font-size: 14px;
@@ -1950,6 +1946,34 @@ main:focus {
     display: inline;
   }
 }
+@media (max-width: 380px) {
+  .mobile-call {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: 8px;
+    padding-left: 12px;
+    padding-right: 12px;
+  }
+  .mobile-call .garage-button {
+    min-width: 0;
+    padding: 0 8px;
+    gap: 6px;
+    font-size: 10.5px;
+    white-space: nowrap;
+  }
+  .mobile-call > :last-child svg {
+    display: none;
+  }
+  .cta-band h2 {
+    font-size: 23px;
+  }
+  .form-footer {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .form-footer p {
+    max-width: none;
+  }
+}
 @media (prefers-reduced-motion: reduce) {
   .hl-ring {
     display: none;
@@ -3075,6 +3099,303 @@ main:focus {
   height: 13px;
 }
 
+/* ---- Call-to-action band: heading and buttons side by side, stacked on small screens ---- */
+.cta-band {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 24px 40px;
+  flex-wrap: wrap;
+}
+.cta-band h2 {
+  font-size: 29px;
+  margin-top: 10px;
+}
+
+/* ---- Animated service icons ---- */
+.service-icon {
+  display: block;
+  width: 64px;
+  height: 48px;
+  margin-bottom: 16px;
+  color: var(--primary);
+}
+.ico {
+  display: block;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.6;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.ico * {
+  transform-box: view-box;
+}
+
+/* Key: turns in the ignition, the rev ring spins up and settles at idle, the engine catches. */
+.k-key {
+  transform-origin: 16px 24px;
+  transition: transform 0.45s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+.k-ring-track,
+.k-ring {
+  transform-origin: 16px 24px;
+  transform: rotate(135deg);
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+.k-ring-track {
+  stroke: var(--border);
+  stroke-dasharray: 75 100;
+}
+.k-ring {
+  stroke: var(--accent);
+  stroke-width: 2.4;
+  stroke-dasharray: 0 100;
+}
+.k-sparks path {
+  stroke: var(--accent);
+  stroke-width: 2;
+  opacity: 0;
+}
+:is(.service-card:hover, .service-card:focus-within, .service-card[data-play]) .k-key {
+  transform: translateX(2px) rotate(38deg);
+}
+:is(.service-card:hover, .service-card:focus-within, .service-card[data-play])
+  :is(.k-ring, .k-ring-track) {
+  opacity: 1;
+}
+:is(.service-card:hover, .service-card:focus-within, .service-card[data-play]) .k-ring {
+  animation: k-rev 1.5s 0.3s cubic-bezier(0.3, 0.7, 0.3, 1) forwards;
+}
+:is(.service-card:hover, .service-card:focus-within, .service-card[data-play]) .k-sparks path {
+  animation: k-spark 0.55s 0.5s ease-out both;
+}
+:is(.service-card:hover, .service-card:focus-within, .service-card[data-play])
+  .k-sparks
+  path:nth-child(2) {
+  animation-delay: 0.56s;
+}
+:is(.service-card:hover, .service-card:focus-within, .service-card[data-play])
+  .k-sparks
+  path:nth-child(3) {
+  animation-delay: 0.62s;
+}
+:is(.service-card:hover, .service-card:focus-within, .service-card[data-play]) .ico-key {
+  animation: rumble 0.5s 0.55s linear;
+}
+@keyframes k-rev {
+  0% {
+    stroke-dasharray: 0 100;
+  }
+  45% {
+    stroke-dasharray: 70 100;
+  }
+  70% {
+    stroke-dasharray: 22 100;
+  }
+  100% {
+    stroke-dasharray: 28 100;
+  }
+}
+@keyframes k-spark {
+  0% {
+    opacity: 0;
+    transform: translate(-2px, 2px);
+  }
+  30% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    transform: translate(2px, -2px);
+  }
+}
+@keyframes rumble {
+  0%,
+  100% {
+    transform: translate(0, 0);
+  }
+  20% {
+    transform: translate(-0.7px, 0.4px);
+  }
+  40% {
+    transform: translate(0.7px, -0.4px);
+  }
+  60% {
+    transform: translate(-0.5px, -0.3px);
+  }
+  80% {
+    transform: translate(0.5px, 0.3px);
+  }
+}
+
+/* Spray can: tilts towards the card, presses the nozzle, mists and paints a red stroke. */
+.s-can {
+  transform-origin: 18px 43px;
+  transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+.s-cap {
+  transition: transform 0.15s;
+}
+.s-mist circle {
+  fill: var(--accent);
+  stroke: none;
+  opacity: 0;
+}
+.s-mist circle:nth-child(1) {
+  --dx: 9px;
+  --dy: -4px;
+}
+.s-mist circle:nth-child(2) {
+  --dx: 12px;
+  --dy: 1px;
+}
+.s-mist circle:nth-child(3) {
+  --dx: 8px;
+  --dy: 4px;
+}
+.s-mist circle:nth-child(4) {
+  --dx: 14px;
+  --dy: -2px;
+}
+.s-mist circle:nth-child(5) {
+  --dx: 11px;
+  --dy: 6px;
+}
+.s-mist circle:nth-child(6) {
+  --dx: 15px;
+  --dy: 3px;
+}
+.s-paint {
+  stroke: var(--accent);
+  stroke-width: 3.4;
+  stroke-dasharray: 100;
+  stroke-dashoffset: 100;
+  /* Hidden at rest: a round line cap would otherwise leave a dot at the path's end. */
+  opacity: 0;
+  transition:
+    stroke-dashoffset 0.35s ease,
+    opacity 0.2s 0.3s;
+}
+.s-paint-soft {
+  stroke-width: 8;
+}
+:is(.service-card:hover, .service-card:focus-within, .service-card[data-play]) .s-can {
+  transform: rotate(10deg);
+}
+:is(.service-card:hover, .service-card:focus-within, .service-card[data-play]) .s-cap {
+  transform: translateY(1.3px);
+  transition-delay: 0.2s;
+}
+:is(.service-card:hover, .service-card:focus-within, .service-card[data-play]) .s-mist circle {
+  animation: s-mist 0.7s 0.25s ease-out 3;
+}
+:is(.service-card:hover, .service-card:focus-within, .service-card[data-play])
+  .s-mist
+  circle:nth-child(even) {
+  animation-delay: 0.38s;
+}
+:is(.service-card:hover, .service-card:focus-within, .service-card[data-play])
+  .s-mist
+  circle:nth-child(3n) {
+  animation-delay: 0.5s;
+}
+:is(.service-card:hover, .service-card:focus-within, .service-card[data-play]) .s-paint {
+  stroke-dashoffset: 0;
+  opacity: 1;
+  transition:
+    stroke-dashoffset 1.2s 0.3s cubic-bezier(0.45, 0.05, 0.25, 1),
+    opacity 0.1s 0.3s;
+}
+:is(.service-card:hover, .service-card:focus-within, .service-card[data-play]) .s-paint-soft {
+  opacity: 0.22;
+}
+@keyframes s-mist {
+  0% {
+    opacity: 0;
+    transform: translate(0, 0) scale(0.6);
+  }
+  20% {
+    opacity: 0.9;
+  }
+  100% {
+    opacity: 0;
+    transform: translate(var(--dx), var(--dy)) scale(1.9);
+  }
+}
+
+/* Wrench: two ratchet strokes turn the nut, the torque ticks flash, a check confirms. */
+.w-nut,
+.w-wrench {
+  transform-origin: 18px 30px;
+}
+.w-torque path {
+  stroke: var(--accent);
+  stroke-width: 2;
+  opacity: 0;
+}
+.w-check {
+  stroke: oklch(0.58 0.15 150);
+  stroke-width: 2.4;
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+}
+:is(.service-card:hover, .service-card:focus-within, .service-card[data-play]) .w-wrench {
+  animation: w-turn 1.4s 0.1s cubic-bezier(0.5, 0, 0.3, 1) both;
+}
+:is(.service-card:hover, .service-card:focus-within, .service-card[data-play]) .w-nut {
+  animation: w-nut 1.4s 0.1s cubic-bezier(0.5, 0, 0.3, 1) both;
+}
+:is(.service-card:hover, .service-card:focus-within, .service-card[data-play]) .w-torque path {
+  animation: k-spark 0.5s 1.05s ease-out both;
+}
+:is(.service-card:hover, .service-card:focus-within, .service-card[data-play]) .w-check {
+  animation: w-check 0.35s 1.2s ease-out forwards;
+}
+:is(.service-card:hover, .service-card:focus-within, .service-card[data-play]) .ico-wrench {
+  animation: rumble 0.25s 1.05s linear;
+}
+@keyframes w-turn {
+  0% {
+    transform: rotate(0);
+  }
+  25% {
+    transform: rotate(32deg);
+  }
+  38% {
+    transform: rotate(0);
+  }
+  65% {
+    transform: rotate(32deg);
+  }
+  78%,
+  100% {
+    transform: rotate(0);
+  }
+}
+@keyframes w-nut {
+  0% {
+    transform: rotate(0);
+  }
+  25%,
+  38% {
+    transform: rotate(30deg);
+  }
+  65%,
+  100% {
+    transform: rotate(60deg);
+  }
+}
+@keyframes w-check {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
 /* ---- Restrained scroll reveals (browsers with scroll-driven animations) ---- */
 @supports (animation-timeline: view()) {
   .reveal-on-scroll {
@@ -3353,9 +3674,6 @@ main:focus {
   }
   .service-card p {
     font-size: 10px;
-  }
-  .service-icon {
-    margin-bottom: 18px;
   }
   .stock-section {
     padding-top: 0;

@@ -25,6 +25,7 @@ import { Button } from "@/components/ui/button";
 import { garage, mechanicalServices, services, team, type Contact } from "@/lib/garage";
 import { CountUp } from "./interactive";
 import { HeroLights } from "./hero-lights";
+import { serviceIcons } from "./service-icons";
 import { OpenStatus } from "./people";
 import hero from "@/assets/suzuki-lake.webp";
 import suzuki from "@/assets/suzuki-logo.png";
@@ -35,7 +36,6 @@ import workshop from "@/assets/workshop.webp";
 import bodywork from "@/assets/bodywork.webp";
 
 export const photos = { workshop, bodywork, garage: garagePhoto, sales };
-const icons = { key: KeyRound, spray: SprayCan, wrench: Wrench };
 
 type Intent = {
   id: "acheter" | "atelier" | "carrosserie";
@@ -148,7 +148,7 @@ function HeroConcierge({ stockTotal }: { stockTotal: number | null }) {
 
   return (
     <div className="concierge">
-      <div className="concierge-head">Que pouvons-nous faire pour vous ?</div>
+      <div className="concierge-head">Que pouvons-nous faire pour vous&nbsp;?</div>
       <div
         className="concierge-tabs"
         role="tablist"
@@ -372,7 +372,33 @@ function ServiceLink({
   );
 }
 
+/** Plays a card's icon animation (data-play) for `ms`, then resets so it can play again. */
+function play(card: HTMLElement, ms = 2200) {
+  card.setAttribute("data-play", "");
+  window.setTimeout(() => card.removeAttribute("data-play"), ms);
+}
+
 export function ServicesPreview() {
+  const grid = useRef<HTMLDivElement>(null);
+  // Touch screens have no hover: act each icon out once as its card scrolls into view.
+  useEffect(() => {
+    const el = grid.current;
+    if (!el || !window.matchMedia("(hover: none)").matches || !("IntersectionObserver" in window))
+      return;
+    const observer = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
+          if (!entry.isIntersecting) continue;
+          observer.unobserve(entry.target);
+          play(entry.target as HTMLElement);
+        }
+      },
+      { threshold: 0.6 },
+    );
+    el.querySelectorAll(".service-card").forEach((card) => observer.observe(card));
+    return () => observer.disconnect();
+  }, []);
+
   return (
     <section className="section">
       <div className="container">
@@ -382,12 +408,17 @@ export function ServicesPreview() {
           to="/services"
           label="Découvrir nos services"
         />
-        <div className="service-grid">
+        <div className="service-grid" ref={grid}>
           {services.map((service) => {
-            const Icon = icons[service.icon];
+            const Icon = serviceIcons[service.icon];
             return (
               <article className="service-card spotlight reveal-on-scroll" key={service.id}>
-                <Icon className="service-icon" />
+                <span
+                  className="service-icon"
+                  onClick={(e) => play(e.currentTarget.closest(".service-card") as HTMLElement)}
+                >
+                  <Icon />
+                </span>
                 <h3>{service.title}</h3>
                 <p>{service.short}</p>
                 {service.id === "mecanique" && <MechanicalList compact />}
@@ -437,8 +468,8 @@ export function Partnership() {
           </p>
           <p>
             Découvrez les véhicules neufs dans notre showroom, nos occasions toutes marques et les
-            possibilités de financement ou de leasing. Une offre ou un essai sur route ? Il suffit
-            de demander.
+            possibilités de financement ou de leasing. Une offre ou un essai sur route&nbsp;? Il
+            suffit de demander.
           </p>
           <Button variant="premium" asChild>
             <Link to="/suzuki">

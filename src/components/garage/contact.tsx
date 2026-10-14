@@ -101,7 +101,7 @@ export function ContactForm({ defaultTopic = "vente" }: { defaultTopic?: Departm
         <textarea
           id="contact-message"
           name="message"
-          placeholder="Comment pouvons-nous vous aider ?"
+          placeholder="Comment pouvons-nous vous aider&nbsp;?"
           required
           maxLength={5000}
         />
@@ -146,7 +146,8 @@ export function ContactSection({ defaultTopic }: { defaultTopic?: DepartmentId }
             prochain projet.
           </h2>
           <p className="contact-intro">
-            Une nouvelle voiture, une réparation ou un entretien ?<br />
+            Une nouvelle voiture, une réparation ou un entretien&nbsp;?
+            <br />
             Notre équipe est à votre disposition.
           </p>
           <div className="contact-lines">
