@@ -34,7 +34,11 @@ function Confidentialite() {
             <p>
               La page des véhicules intègre le stock Autolina. En consultant ce contenu, votre
               navigateur communique avec Autolina. Les liens vers Suzuki et Google Maps ouvrent
-              leurs sites respectifs, avec leurs propres règles de confidentialité.
+              leurs sites respectifs, avec leurs propres règles de confidentialité. La carte Google
+              Maps de la page Contact ne se charge que lorsque vous cliquez sur « Afficher la carte
+              ». La page d’accueil affiche nos dernières annonces Autolina : elles sont lues par
+              notre serveur, et seules les photos des véhicules sont chargées depuis Autolina par
+              votre navigateur.
             </p>
           </div>
           <div>

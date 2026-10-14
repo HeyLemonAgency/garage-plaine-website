@@ -3,6 +3,7 @@ import { ArrowRight, ArrowUpRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { PageIntro, photos, CheckList } from "@/components/garage/sections";
 import { ContactSection } from "@/components/garage/contact";
+import { SalesContact } from "@/components/garage/people";
 import { pageHead } from "@/lib/garage";
 import suzuki from "@/assets/suzuki-logo.png";
 export const Route = createFileRoute("/suzuki")({
@@ -63,9 +64,10 @@ function Suzuki() {
             <div className="eyebrow">Véhicules disponibles</div>
             <h2>Votre Suzuki vous attend peut-être déjà.</h2>
             <p>
-              Consultez notre stock de véhicules ou contactez Tiago Bessa au 079 108 92 99 pour
-              discuter de vos attentes.
+              Consultez notre stock de véhicules, ou parlez directement de vos attentes avec notre
+              conseiller vente.
             </p>
+            <SalesContact />
             <Button variant="premium" asChild>
               <Link to="/vehicules">
                 Voir notre stock <ArrowRight />
@@ -86,7 +88,7 @@ function Suzuki() {
           </div>
         </div>
       </section>
-      <ContactSection />
+      <ContactSection defaultTopic="vente" />
     </>
   );
 }

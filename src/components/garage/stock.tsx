@@ -1,76 +1,114 @@
+import { useEffect, useRef, useState } from "react";
 import { Link } from "@tanstack/react-router";
+import { ArrowRight, CarFront } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import type { StockCar, StockSnapshot } from "@/lib/autolina";
 import { SectionHeading } from "./sections";
-import car0 from "@/assets/bmw-stock.jpg";
-import car1 from "@/assets/stock-1.jpg";
-import car2 from "@/assets/stock-2.jpg";
-import car3 from "@/assets/stock-3.jpg";
-// Editorial snapshot checked against the dealer's Autolina iframe on 2026-10-05.
-// The complete stock page always embeds the live source; these are not a stock database.
-const previews = [
-  {
-    name: "BMW 320Ci",
-    version: "Coupé · Automatique",
-    meta: "2001 · 135’990 km · Essence",
-    price: "CHF 10’990.–",
-    image: car0,
-  },
-  {
-    name: "Audi A4 Avant",
-    version: "40 TDI Sport quattro",
-    meta: "2019 · 108’990 km · Diesel",
-    price: "CHF 25’990.–",
-    image: car1,
-  },
-  {
-    name: "Honda CR-V",
-    version: "2.0i MMD Hybrid Executive 4WD",
-    meta: "2023 · 80’990 km · Hybride",
-    price: "CHF 25’990.–",
-    image: car2,
-  },
-  {
-    name: "Mercedes-Benz C 43 AMG",
-    version: "4Matic · Pack AMG",
-    meta: "2017 · 102’990 km · Essence",
-    price: "CHF 26’990.–",
-    image: car3,
-  },
-];
-export function StockPreview() {
+import { SalesContact } from "./people";
+
+function CarPhoto({ car }: { car: StockCar }) {
+  const [failed, setFailed] = useState(!car.image);
+  const ref = useRef<HTMLImageElement>(null);
+  // A photo that failed before hydration never fires onError, so check it once mounted.
+  useEffect(() => {
+    const img = ref.current;
+    if (img && img.complete && img.naturalWidth === 0) setFailed(true);
+  }, []);
+  if (failed || !car.image)
+    return (
+      <div className="vehicle-photo-missing">
+        <CarFront />
+        <span>Photo à venir</span>
+      </div>
+    );
+  return (
+    <picture>
+      <source type="image/avif" srcSet={car.image.replace(/\.jpg\?/, ".avif?")} />
+      <img
+        ref={ref}
+        src={car.image}
+        alt={`${car.make} ${car.model}`}
+        width={534}
+        height={401}
+        loading="lazy"
+        referrerPolicy="no-referrer"
+        onError={() => setFailed(true)}
+      />
+    </picture>
+  );
+}
+
+function VehicleCard({ car }: { car: StockCar }) {
+  const meta = [car.isNew ? "Neuf" : car.year, car.mileage, car.fuel].filter(Boolean).join(" · ");
+  return (
+    <Link
+      to="/vehicules"
+      search={{ annonce: car.path }}
+      className="vehicle-card reveal-on-scroll"
+      aria-label={`${car.make} ${car.model}${car.price ? `, ${car.price}` : ""}`}
+    >
+      <div className="vehicle-image">
+        <CarPhoto car={car} />
+        {car.isNew && <span className="vehicle-badge">Neuf</span>}
+      </div>
+      <div className="vehicle-info">
+        <span className="vehicle-make">{car.make}</span>
+        <h3>{car.model}</h3>
+        <div className="vehicle-meta">{meta}</div>
+        <div className="vehicle-bottom">
+          <span className="vehicle-price">{car.price ?? "Prix sur demande"}</span>
+          <ArrowRight />
+        </div>
+      </div>
+    </Link>
+  );
+}
+
+export function StockPreview({ stock }: { stock: StockSnapshot }) {
+  const { cars, total } = stock;
   return (
     <section className="section stock-section">
       <div className="container">
         <SectionHeading
-          eyebrow="Véhicules en stock"
+          eyebrow={
+            <>
+              <span className="live-dot" aria-hidden="true" />
+              Nos dernières annonces
+            </>
+          }
           title="Votre prochaine voiture est ici."
           to="/vehicules"
-          label="Voir tous les véhicules"
+          label={total ? `Voir les ${total} véhicules` : "Voir tous les véhicules"}
         />
-        <div className="vehicle-grid">
-          {previews.map((car) => (
-            <Link to="/vehicules" className="vehicle-card" key={car.name}>
-              <div className="vehicle-image">
-                <img
-                  src={car.image}
-                  alt={car.name + " — véhicule proposé par le Garage de la Plaine"}
-                  width={800}
-                  height={600}
-                  loading="lazy"
-                />
-              </div>
-              <div className="vehicle-info">
-                <h3>{car.name}</h3>
-                <p>{car.version}</p>
-                <div className="vehicle-meta">{car.meta}</div>
-                <div className="vehicle-price">{car.price}</div>
-              </div>
-            </Link>
-          ))}
+        {cars.length > 0 ? (
+          <div className="vehicle-grid">
+            {cars.map((car) => (
+              <VehicleCard car={car} key={car.id} />
+            ))}
+          </div>
+        ) : (
+          <div className="stock-placeholder">
+            <div>
+              <h3>Notre stock complet est en ligne.</h3>
+              <p>
+                Véhicules neufs Suzuki et occasions toutes marques, mis à jour par notre équipe.
+              </p>
+            </div>
+            <Button variant="premium" asChild>
+              <Link to="/vehicules">
+                Voir le stock <ArrowRight />
+              </Link>
+            </Button>
+          </div>
+        )}
+        <div className="stock-footer">
+          <p className="stock-note">
+            {cars.length > 0
+              ? "Annonces en direct depuis notre stock Autolina. Prix et disponibilités sous réserve."
+              : "Le stock est publié sur Autolina, la plateforme de notre service vente."}
+          </p>
+          <SalesContact compact />
         </div>
-        <p className="stock-note">
-          Sélection Autolina vérifiée le 05.10.2026. Prix et disponibilités à confirmer dans notre
-          stock en ligne.
-        </p>
       </div>
     </section>
   );

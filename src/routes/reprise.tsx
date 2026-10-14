@@ -3,7 +3,8 @@ import { useState, type FormEvent } from "react";
 import { ArrowRight } from "lucide-react";
 import { PageIntro } from "@/components/garage/sections";
 import { Button } from "@/components/ui/button";
-import { pageHead, garage } from "@/lib/garage";
+import { pageHead, team } from "@/lib/garage";
+import { SalesContact } from "@/components/garage/people";
 export const Route = createFileRoute("/reprise")({
   head: () =>
     pageHead(
@@ -20,7 +21,7 @@ function Reprise() {
     const body = Array.from(d.entries())
       .map(([key, value]) => `${key} : ${value}`)
       .join("\n");
-    window.location.href = `mailto:${garage.email}?subject=${encodeURIComponent("Proposition de véhicule — " + d.get("Marque et modèle"))}&body=${encodeURIComponent(body)}`;
+    window.location.href = `mailto:${team.vente.email}?subject=${encodeURIComponent("Proposition de véhicule — " + d.get("Marque et modèle"))}&body=${encodeURIComponent(body)}`;
     setReady(true);
   }
   return (
@@ -35,15 +36,11 @@ function Reprise() {
           <div>
             <h2>Parlons de votre voiture.</h2>
             <p>
-              Indiquez ses principales caractéristiques et vos coordonnées. Tiago Bessa est
-              également à votre disposition au 079 108 92 99.
+              Indiquez ses principales caractéristiques et vos coordonnées : notre service vente
+              revient vers vous. Vous pourrez joindre des photos de votre véhicule à votre e-mail
+              avant de l’envoyer.
             </p>
-            <p>
-              Vous pourrez joindre des photos de votre véhicule à votre e-mail avant de l’envoyer.
-            </p>
-            <a className="section-link" href="tel:+41791089299">
-              Appeler le service vente <ArrowRight />
-            </a>
+            <SalesContact />
           </div>
           <form onSubmit={submit} className="contact-form">
             {[

@@ -1,25 +1,30 @@
+import type { ReactNode } from "react";
 import { Link } from "@tanstack/react-router";
 import {
   ArrowRight,
+  Check,
+  ChevronDown,
+  ChevronRight,
+  ClipboardCheck,
+  Fuel,
+  KeyRound,
+  ShieldCheck,
+  SprayCan,
   Wrench,
   CarFront,
-  CircleDot,
-  ClipboardCheck,
-  ShieldCheck,
-  Fuel,
-  ChevronRight,
-  Check,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { services } from "@/lib/garage";
-import hero from "@/assets/suzuki-lake.jpg";
+import { mechanicalServices, services } from "@/lib/garage";
+import hero from "@/assets/suzuki-lake.webp";
 import suzuki from "@/assets/suzuki-logo.png";
-import garagePhoto from "@/assets/garage.jpg";
-import sales from "@/assets/sales.jpg";
-import workshop from "@/assets/workshop.jpg";
-import bodywork from "@/assets/bodywork.jpg";
+import garagePhoto from "@/assets/garage.webp";
+import sales from "@/assets/sales.webp";
+import workshop from "@/assets/workshop.webp";
+import bodywork from "@/assets/bodywork.webp";
+
 export const photos = { workshop, bodywork, garage: garagePhoto, sales };
-const icons = { wrench: Wrench, car: CarFront, wheel: CircleDot, clipboard: ClipboardCheck };
+const icons = { key: KeyRound, spray: SprayCan, wrench: Wrench };
+
 export function Hero() {
   return (
     <section className="hero">
@@ -44,7 +49,7 @@ export function Hero() {
         </h1>
         <div className="red-rule" />
         <p>
-          Vente, entretien et carrosserie.
+          Vente, carrosserie et entretien.
           <br />
           Un service de proximité
           <br />
@@ -71,10 +76,11 @@ export function Hero() {
     </section>
   );
 }
+
 export function TrustBar() {
   const items = [
     { icon: ShieldCheck, title: "40+ ans", text: "d’expérience" },
-    { icon: Wrench, title: "Atelier", text: "multimarque" },
+    { icon: KeyRound, title: "Suzuki", text: "concessionnaire depuis 20+ ans" },
     { icon: CarFront, title: "Carrosserie", text: "toutes marques" },
     { icon: Fuel, title: "Station-service", text: "24h/24 · 7j/7" },
   ];
@@ -94,13 +100,14 @@ export function TrustBar() {
     </section>
   );
 }
+
 export function SectionHeading({
   eyebrow,
   title,
   to,
   label,
 }: {
-  eyebrow: string;
+  eyebrow: ReactNode;
   title: string;
   to?: "/services" | "/vehicules" | "/entreprise";
   label?: string;
@@ -120,6 +127,54 @@ export function SectionHeading({
     </div>
   );
 }
+
+/** The workshop's services, folded into a single dropdown as the garage asked. */
+export function MechanicalList({ compact = false }: { compact?: boolean }) {
+  return (
+    <details className={compact ? "mech-details mech-details-compact" : "mech-details"}>
+      <summary>
+        <span>{compact ? "Nos prestations" : "Toutes nos prestations mécaniques"}</span>
+        <span className="mech-count">{mechanicalServices.length}</span>
+        <ChevronDown className="mech-chevron" />
+      </summary>
+      <ul>
+        {mechanicalServices.map((item) => (
+          <li key={item}>
+            <Check />
+            <span>{item}</span>
+          </li>
+        ))}
+      </ul>
+    </details>
+  );
+}
+
+function ServiceLink({
+  id,
+  children,
+}: {
+  id: (typeof services)[number]["id"];
+  children: ReactNode;
+}) {
+  if (id === "vente")
+    return (
+      <Link to="/vehicules" className="card-link">
+        {children}
+      </Link>
+    );
+  if (id === "carrosserie")
+    return (
+      <Link to="/services" hash="carrosserie" className="card-link">
+        {children}
+      </Link>
+    );
+  return (
+    <Link to="/contact" search={{ demande: "atelier" }} hash="contact" className="card-link">
+      {children}
+    </Link>
+  );
+}
+
 export function ServicesPreview() {
   return (
     <section className="section">
@@ -134,14 +189,16 @@ export function ServicesPreview() {
           {services.map((service) => {
             const Icon = icons[service.icon];
             return (
-              <Link to="/services" hash={service.id} className="service-card" key={service.id}>
+              <article className="service-card reveal-on-scroll" key={service.id}>
                 <Icon className="service-icon" />
                 <h3>{service.title}</h3>
                 <p>{service.short}</p>
-                <span className="card-arrow">
+                {service.id === "mecanique" && <MechanicalList compact />}
+                <ServiceLink id={service.id}>
+                  {service.cta}
                   <ArrowRight />
-                </span>
-              </Link>
+                </ServiceLink>
+              </article>
             );
           })}
         </div>
@@ -149,12 +206,13 @@ export function ServicesPreview() {
     </section>
   );
 }
+
 export function Partnership() {
   return (
     <section className="partnership">
       <div className="container editorial-grid">
         <img
-          className="editorial-image"
+          className="editorial-image reveal-on-scroll"
           src={sales}
           alt="Le showroom Suzuki du Garage de la Plaine"
           loading="lazy"
@@ -182,7 +240,8 @@ export function Partnership() {
           </p>
           <p>
             Découvrez les véhicules neufs dans notre showroom, nos occasions toutes marques et les
-            possibilités de financement ou de leasing.
+            possibilités de financement ou de leasing. Une offre ou un essai sur route ? Il suffit
+            de demander.
           </p>
           <Button variant="premium" asChild>
             <Link to="/suzuki">
@@ -194,6 +253,7 @@ export function Partnership() {
     </section>
   );
 }
+
 export function CompanyStory() {
   return (
     <section className="story">
@@ -211,7 +271,7 @@ export function CompanyStory() {
           <div className="red-rule" />
           <p>
             Installé à Denges, à 5 minutes de Morges et 10 minutes de Lausanne, le Garage de la
-            Plaine réunit la vente, l’atelier mécanique et la carrosserie.
+            Plaine réunit la vente, la carrosserie et l’atelier mécanique.
           </p>
           <p>
             Entreprise formatrice, nous mettons le savoir-faire de notre équipe au service de votre
@@ -224,7 +284,7 @@ export function CompanyStory() {
           </Button>
         </div>
         <img
-          className="editorial-image"
+          className="editorial-image reveal-on-scroll"
           src={garagePhoto}
           alt="La façade et la station-service du Garage de la Plaine à Denges"
           loading="lazy"
@@ -235,14 +295,17 @@ export function CompanyStory() {
     </section>
   );
 }
+
 export function PageIntro({
   title,
   description,
   label,
+  children,
 }: {
   title: string;
   description: string;
   label: string;
+  children?: ReactNode;
 }) {
   return (
     <section className="page-intro">
@@ -254,10 +317,12 @@ export function PageIntro({
         </div>
         <h1>{title}</h1>
         <p>{description}</p>
+        {children}
       </div>
     </section>
   );
 }
+
 export function CheckList({ items }: { items: readonly string[] }) {
   return (
     <ul className="detail-list">

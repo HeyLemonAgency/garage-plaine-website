@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { PageIntro, CheckList } from "@/components/garage/sections";
 import { Location } from "@/components/garage/contact";
 import { pageHead } from "@/lib/garage";
-import fuel from "@/assets/fuel.jpg";
+import fuel from "@/assets/fuel.webp";
 export const Route = createFileRoute("/station-service")({
   head: () =>
     pageHead(

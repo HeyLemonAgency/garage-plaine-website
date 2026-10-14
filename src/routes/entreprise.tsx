@@ -3,6 +3,7 @@ import { ArrowRight, GraduationCap } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { PageIntro, TrustBar, photos, CheckList } from "@/components/garage/sections";
 import { ContactSection } from "@/components/garage/contact";
+import { TeamGrid } from "@/components/garage/people";
 import { pageHead } from "@/lib/garage";
 export const Route = createFileRoute("/entreprise")({
   head: () =>
@@ -70,25 +71,7 @@ function Entreprise() {
               <h2>Une équipe à votre écoute.</h2>
             </div>
           </div>
-          <div className="staff-grid">
-            <div className="staff-item">
-              <h3>Tiago Bessa</h3>
-              <p>Service vente</p>
-              <a href="tel:+41791089299">079 108 92 99</a>
-              <br />
-              <a href="mailto:vente@garageplaine.ch">vente@garageplaine.ch</a>
-            </div>
-            <div className="staff-item">
-              <h3>Jérôme Baatard</h3>
-              <p>Atelier mécanique · Brevet fédéral</p>
-              <a href="mailto:jerome.baatard@garageplaine.ch">jerome.baatard@garageplaine.ch</a>
-            </div>
-            <div className="staff-item">
-              <h3>Marco Da Silva</h3>
-              <p>Carrosserie</p>
-              <a href="mailto:marco.dasilva@garageplaine.ch">marco.dasilva@garageplaine.ch</a>
-            </div>
-          </div>
+          <TeamGrid />
         </div>
       </section>
       <section className="partnership">

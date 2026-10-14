@@ -13,26 +13,36 @@ import { useEffect, type ReactNode } from "react";
 import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
 import { SiteHeader, SiteFooter } from "@/components/garage/site-shell";
+import { garage } from "@/lib/garage";
 
 function NotFoundComponent() {
   return (
-    <div className="flex min-h-screen items-center justify-center bg-background px-4">
-      <div className="max-w-md text-center">
-        <h1 className="text-7xl font-bold text-foreground">404</h1>
-        <h2 className="mt-4 text-xl font-semibold text-foreground">Page not found</h2>
-        <p className="mt-2 text-sm text-muted-foreground">
-          The page you're looking for doesn't exist or has been moved.
+    <section className="status-page">
+      <div className="container">
+        <div className="eyebrow">
+          <span className="eyebrow-dot" />
+          Erreur 404
+        </div>
+        <h1>Cette page n’existe pas, ou plus.</h1>
+        <p>
+          L’adresse a peut-être changé avec notre nouveau site. Ces liens devraient vous aider :
         </p>
-        <div className="mt-6">
-          <Link
-            to="/"
-            className="inline-flex items-center justify-center rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/90"
-          >
-            Go home
+        <div className="detail-actions">
+          <Link to="/" className="garage-button garage-button-primary inline-flex items-center">
+            Retour à l’accueil
           </Link>
+          <Link
+            to="/vehicules"
+            className="garage-button garage-button-outline inline-flex items-center"
+          >
+            Voir les véhicules
+          </Link>
+          <a href={garage.phoneHref} className="section-link">
+            Appeler le {garage.phone}
+          </a>
         </div>
       </div>
-    </div>
+    </section>
   );
 }
 
@@ -44,35 +54,55 @@ function ErrorComponent({ error, reset }: ErrorComponentProps) {
   }, [error]);
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-background px-4">
-      <div className="max-w-md text-center">
-        <h1 className="text-xl font-semibold tracking-tight text-foreground">
-          This page didn't load
-        </h1>
-        <p className="mt-2 text-sm text-muted-foreground">
-          Something went wrong on our end. You can try refreshing or head back home.
-        </p>
-        <div className="mt-6 flex flex-wrap justify-center gap-2">
+    <section className="status-page">
+      <div className="container">
+        <h1>Cette page n’a pas pu s’afficher.</h1>
+        <p>Un problème est survenu de notre côté. Réessayez, ou appelez-nous au {garage.phone}.</p>
+        <div className="detail-actions">
           <button
+            type="button"
             onClick={() => {
               router.invalidate();
               reset();
             }}
-            className="inline-flex items-center justify-center rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/90"
+            className="garage-button garage-button-primary inline-flex items-center"
           >
-            Try again
+            Réessayer
           </button>
-          <a
-            href="/"
-            className="inline-flex items-center justify-center rounded-md border border-input bg-background px-4 py-2 text-sm font-medium text-foreground transition-colors hover:bg-accent"
-          >
-            Go home
+          <a href="/" className="garage-button garage-button-outline inline-flex items-center">
+            Retour à l’accueil
           </a>
         </div>
       </div>
-    </div>
+    </section>
   );
 }
+
+// Business details for search engines (Google business card, opening hours).
+const localBusiness = {
+  "@context": "https://schema.org",
+  "@type": ["AutoDealer", "AutoRepair", "AutoBodyShop"],
+  name: garage.name,
+  telephone: "+41 21 801 68 42",
+  email: garage.email,
+  address: {
+    "@type": "PostalAddress",
+    streetAddress: garage.address,
+    postalCode: garage.postalCode,
+    addressLocality: garage.city,
+    addressRegion: "VD",
+    addressCountry: "CH",
+  },
+  brand: { "@type": "Brand", name: "Suzuki" },
+  openingHoursSpecification: [
+    { days: ["Monday", "Tuesday", "Wednesday", "Thursday"], closes: "18:00" },
+    { days: ["Friday"], closes: "17:00" },
+  ].flatMap(({ days, closes }) => [
+    { "@type": "OpeningHoursSpecification", dayOfWeek: days, opens: "07:30", closes: "12:00" },
+    { "@type": "OpeningHoursSpecification", dayOfWeek: days, opens: "13:30", closes },
+  ]),
+  sameAs: ["https://www.facebook.com/GarageCarrosserieDeLaPlaine"],
+};
 
 export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()({
   head: () => ({
@@ -81,7 +111,9 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { name: "viewport", content: "width=device-width, initial-scale=1" },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
+      { name: "theme-color", content: "#0b2233" },
     ],
+    scripts: [{ type: "application/ld+json", children: JSON.stringify(localBusiness) }],
     links: [
       {
         rel: "stylesheet",
@@ -95,6 +127,12 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
         href: "https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap",
       },
     ],
+  }),
+  // Pages are the same for every visitor, so Netlify's CDN may keep them for 10 minutes
+  // (a deploy clears it). This also bounds how often the homepage asks Autolina for stock.
+  headers: () => ({
+    "Cache-Control": "public, max-age=0, must-revalidate",
+    "Netlify-CDN-Cache-Control": "public, durable, s-maxage=600, stale-while-revalidate=86400",
   }),
   shellComponent: RootShell,
   component: RootComponent,
@@ -122,7 +160,7 @@ function RootComponent() {
   return (
     <QueryClientProvider client={queryClient}>
       <SiteHeader />
-      <main>
+      <main id="contenu" tabIndex={-1}>
         <Outlet />
       </main>
       <SiteFooter />
