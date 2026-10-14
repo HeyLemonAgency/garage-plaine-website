@@ -9,6 +9,7 @@ import {
 import { Link } from "@tanstack/react-router";
 import {
   ArrowRight,
+  ArrowUpRight,
   Check,
   ChevronDown,
   ChevronRight,
@@ -23,10 +24,12 @@ import {
 import { Button } from "@/components/ui/button";
 import { garage, mechanicalServices, services, team, type Contact } from "@/lib/garage";
 import { CountUp } from "./interactive";
-import { usePointerParallax } from "@/hooks/use-interactions";
+import { HeroLights } from "./hero-lights";
+import { OpenStatus } from "./people";
 import hero from "@/assets/suzuki-lake.webp";
 import suzuki from "@/assets/suzuki-logo.png";
 import garagePhoto from "@/assets/garage.webp";
+import garageWide from "@/assets/garage-wide.webp";
 import sales from "@/assets/sales.webp";
 import workshop from "@/assets/workshop.webp";
 import bodywork from "@/assets/bodywork.webp";
@@ -204,12 +207,12 @@ function HeroConcierge({ stockTotal }: { stockTotal: number | null }) {
 }
 
 export function Hero({ stockTotal = null }: { stockTotal?: number | null }) {
-  const section = useRef<HTMLElement>(null);
-  usePointerParallax(section);
+  const image = useRef<HTMLImageElement>(null);
   return (
-    <section className="hero" ref={section}>
+    <section className="hero">
       <div className="hero-media">
         <img
+          ref={image}
           className="hero-image"
           src={hero}
           alt="Suzuki Vitara dans un paysage au bord du Léman"
@@ -217,6 +220,7 @@ export function Hero({ stockTotal = null }: { stockTotal?: number | null }) {
           height={1024}
           fetchPriority="high"
         />
+        <HeroLights imgRef={image} />
       </div>
       <div className="container hero-content">
         <div className="hero-copy reveal">
@@ -447,6 +451,75 @@ export function Partnership() {
   );
 }
 
+type Spot = {
+  id: string;
+  x: number;
+  y: number;
+  align: "start" | "center" | "end";
+  dir?: "down";
+  title: string;
+  text: string;
+  to: "/suzuki" | "/vehicules";
+  cta: string;
+};
+
+// Positions on garage-wide.webp, in % of the photo.
+const storySpots: Spot[] = [
+  {
+    id: "showroom",
+    x: 12,
+    y: 56,
+    align: "start",
+    title: "Le showroom Suzuki",
+    text: "Les véhicules neufs Suzuki, à découvrir et à essayer sur place.",
+    to: "/suzuki",
+    cta: "Partenaire Suzuki",
+  },
+  {
+    id: "occasions",
+    x: 70,
+    y: 74,
+    align: "end",
+    dir: "down",
+    title: "Nos occasions exposées",
+    text: "Une partie de notre stock vous attend devant le garage.",
+    to: "/vehicules",
+    cta: "Voir le stock",
+  },
+];
+
+function StorySpot({ spot }: { spot: Spot }) {
+  const [open, setOpen] = useState(false);
+  return (
+    <div
+      className="story-spot"
+      data-open={open || undefined}
+      data-align={spot.align}
+      data-dir={spot.dir}
+      style={{ left: `${spot.x}%`, top: `${spot.y}%` }}
+      onPointerEnter={(e) => e.pointerType !== "touch" && setOpen(true)}
+      onPointerLeave={(e) => e.pointerType !== "touch" && setOpen(false)}
+      onKeyDown={(e) => e.key === "Escape" && setOpen(false)}
+    >
+      <button
+        type="button"
+        className="story-spot-dot"
+        aria-expanded={open}
+        aria-controls={`spot-${spot.id}`}
+        aria-label={spot.title}
+        onClick={() => setOpen((v) => !v)}
+      />
+      <div className="story-tip" id={`spot-${spot.id}`} role="tooltip">
+        <strong>{spot.title}</strong>
+        <p>{spot.text}</p>
+        <Link to={spot.to}>
+          {spot.cta} <ArrowRight />
+        </Link>
+      </div>
+    </div>
+  );
+}
+
 export function CompanyStory() {
   return (
     <section className="story">
@@ -476,14 +549,40 @@ export function CompanyStory() {
             </Link>
           </Button>
         </div>
-        <img
-          className="editorial-image reveal-on-scroll"
-          src={garagePhoto}
-          alt="La façade et la station-service du Garage de la Plaine à Denges"
-          loading="lazy"
-          width={700}
-          height={500}
-        />
+        <figure className="story-visual">
+          <span className="story-accent" aria-hidden="true" />
+          <div className="story-frame">
+            <div className="story-photo">
+              <img
+                src={garageWide}
+                alt="Le showroom Suzuki du Garage de la Plaine à Denges et les véhicules d’occasion exposés devant"
+                loading="lazy"
+                width={1024}
+                height={512}
+              />
+            </div>
+            {storySpots.map((spot) => (
+              <StorySpot spot={spot} key={spot.id} />
+            ))}
+          </div>
+          <img
+            className="story-inset"
+            src={sales}
+            alt="L’intérieur du showroom, avec des Suzuki Swift exposées"
+            loading="lazy"
+            width={1024}
+            height={683}
+          />
+          <figcaption className="story-card">
+            <span className="story-card-label">Venez nous voir</span>
+            <strong>{garage.address}</strong>
+            <span>{garage.locality}</span>
+            <OpenStatus />
+            <a href={garage.directions} target="_blank" rel="noreferrer">
+              Itinéraire <ArrowUpRight />
+            </a>
+          </figcaption>
+        </figure>
       </div>
     </section>
   );
