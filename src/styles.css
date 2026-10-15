@@ -3221,13 +3221,11 @@ main:focus {
   position: absolute;
   inset: 0;
   display: block;
-  opacity: 0;
-  transition: opacity 0s 0.2s;
+  visibility: hidden;
 }
 .vehicle-photos picture.is-active {
   z-index: 1;
-  opacity: 1;
-  transition: opacity 0.18s ease;
+  visibility: visible;
 }
 .vehicle-photos img {
   width: 100%;
@@ -4424,18 +4422,17 @@ main:focus {
     0 0 0 1px oklch(1 0 0 / 0.14),
     0 34px 60px -24px oklch(0 0 0 / 0.85);
 }
-/* The next photo fades in over the current one, which only then disappears: no dip. */
+/* Photos switch instantly, like flipping through a listing: a fade lags behind a fast
+   scrub and can leave a frame with no photo at all. */
 .sr-photo picture {
   position: absolute;
   inset: 0;
   display: block;
-  opacity: 0;
-  transition: opacity 0s 0.24s;
+  visibility: hidden;
 }
 .sr-photo picture.is-active {
   z-index: 1;
-  opacity: 1;
-  transition: opacity 0.22s ease;
+  visibility: visible;
 }
 .sr-photo img {
   width: 100%;
