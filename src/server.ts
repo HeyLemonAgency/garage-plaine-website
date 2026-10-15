@@ -2,6 +2,7 @@ import "./lib/error-capture";
 
 import { consumeLastCapturedError } from "./lib/error-capture";
 import { renderErrorPage } from "./lib/error-page";
+import { legacyRedirect } from "./lib/legacy-urls";
 
 type ServerEntry = {
   fetch: (request: Request, env: unknown, ctx: unknown) => Promise<Response> | Response;
@@ -46,6 +47,14 @@ function isH3SwallowedErrorBody(body: string): boolean {
 
 export default {
   async fetch(request: Request, env: unknown, ctx: unknown) {
+    // Old garageplaine.ch addresses and variants (trailing slash, /index.php) of current pages.
+    const url = new URL(request.url);
+    const target = legacyRedirect(url.pathname);
+    if (target) {
+      // A relative Location keeps the visitor on whichever host they came in on.
+      const location = target.includes("#") ? target : `${target}${url.search}`;
+      return new Response(null, { status: 301, headers: { Location: location } });
+    }
     try {
       const handler = await getServerEntry();
       const response = await handler.fetch(request, env, ctx);

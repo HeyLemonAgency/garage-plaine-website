@@ -6,14 +6,18 @@ import { ContactSection } from "@/components/garage/contact";
 import { SalesContact } from "@/components/garage/people";
 import { StockCarousel } from "@/components/garage/stock";
 import { getLatestCars } from "@/lib/stock.functions";
-import { pageHead } from "@/lib/garage";
+import { pageHead } from "@/lib/seo";
 import suzuki from "@/assets/suzuki-logo.png";
 export const Route = createFileRoute("/suzuki")({
-  head: () =>
-    pageHead(
-      "Votre partenaire officiel Suzuki",
-      "Concessionnaire Suzuki depuis plus de 20 ans à Denges. Découvrez le showroom, la gamme Suzuki, les possibilités de financement et l’atelier.",
-    ),
+  head: ({ loaderData }) =>
+    pageHead({
+      path: "/suzuki",
+      title: "Concessionnaire Suzuki à Denges, La Côte",
+      crumb: "Partenaire Suzuki",
+      description:
+        "Concessionnaire Suzuki depuis plus de 20 ans à Denges, entre Morges et Lausanne : gamme Suzuki neuve, essais sur route, financement, leasing et atelier.",
+      cars: loaderData?.cars.filter((c) => c.make === "Suzuki"),
+    }),
   loader: () => getLatestCars(),
   staleTime: 5 * 60_000,
   component: Suzuki,
@@ -40,8 +44,7 @@ function Suzuki() {
           <div className="editorial-copy">
             <img className="partnership-logo" src={suzuki} alt="Suzuki" width={150} height={40} />
             <h2>
-              Découvrez la gamme.
-              <br />
+              Découvrez la gamme. <br />
               Rencontrez votre garage.
             </h2>
             <p>

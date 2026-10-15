@@ -2,22 +2,21 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { PageIntro } from "@/components/garage/sections";
-import { pageHead } from "@/lib/garage";
+import { wirRates } from "@/lib/garage";
+import { pageHead } from "@/lib/seo";
 export const Route = createFileRoute("/wir")({
   head: () =>
-    pageHead(
-      "Partenariat WIR",
-      "Découvrez les conditions de paiement WIR du Garage de la Plaine : main-d’œuvre, pièces d’entretien, pièces spécifiques et pneumatiques.",
-    ),
+    pageHead({
+      path: "/wir",
+      title: "Paiement en WIR : les conditions",
+      crumb: "WIR",
+      description:
+        "Le Garage de la Plaine à Denges est partenaire WIR : main-d’œuvre et pneumatiques 100 %, pièces d’entretien 50 %, pièces spécifiques 20 %, aux tarifs CHF.",
+    }),
   component: Wir,
 });
 function Wir() {
-  const rates = [
-    ["Main-d’œuvre", "100 % WIR"],
-    ["Pièces d’entretien", "50 % WIR"],
-    ["Pièces spécifiques", "20 % WIR"],
-    ["Pneumatiques", "100 % WIR"],
-  ];
+  const rates = wirRates;
   return (
     <>
       <PageIntro

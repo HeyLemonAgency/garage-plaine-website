@@ -2,7 +2,9 @@ import { createFileRoute } from "@tanstack/react-router";
 import { PageIntro } from "@/components/garage/sections";
 import { ContactSection, Location } from "@/components/garage/contact";
 import { TeamGrid } from "@/components/garage/people";
-import { departments, pageHead, type DepartmentId } from "@/lib/garage";
+import { departments, type DepartmentId, faqs } from "@/lib/garage";
+import { pageHead } from "@/lib/seo";
+import { FaqSection } from "@/components/garage/faq";
 
 type ContactSearch = { demande?: DepartmentId };
 
@@ -12,10 +14,15 @@ export const Route = createFileRoute("/contact")({
     return demande ? { demande } : {};
   },
   head: () =>
-    pageHead(
-      "Contact et horaires",
-      "Contactez le Garage de la Plaine au 021 801 68 42 ou le service vente au 079 108 92 99. Route de la Plaine 20, 1026 Denges. Horaires et itinéraire.",
-    ),
+    pageHead({
+      path: "/contact",
+      title: "Contact, horaires et accès à Denges",
+      crumb: "Contact",
+      description:
+        "Garage de la Plaine, Route de la Plaine 20, 1026 Denges : 021 801 68 42, vente 079 108 92 99. Horaires d’ouverture, itinéraire et contacts par service.",
+      type: "ContactPage",
+      faqs: faqs.contact,
+    }),
   component: Contact,
 });
 
@@ -41,6 +48,11 @@ function Contact() {
       </section>
       <ContactSection {...(demande ? { defaultTopic: demande } : {})} />
       <Location />
+      <FaqSection
+        items={faqs.contact}
+        title="Avant de nous appeler."
+        intro="Samedi, interlocuteurs par service et paiement en WIR."
+      />
     </>
   );
 }

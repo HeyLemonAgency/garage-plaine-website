@@ -8,15 +8,21 @@ import {
 } from "@/components/garage/sections";
 import { ContactSection } from "@/components/garage/contact";
 import { StockPreview } from "@/components/garage/stock";
-import { pageHead } from "@/lib/garage";
+import { faqs } from "@/lib/garage";
+import { FaqSection } from "@/components/garage/faq";
+import { pageHead } from "@/lib/seo";
 import { getLatestCars } from "@/lib/stock.functions";
 
 export const Route = createFileRoute("/")({
-  head: () =>
-    pageHead(
-      "Votre garage de confiance à Denges",
-      "Garage de la Plaine à Denges : vente Suzuki, occasions toutes marques, carrosserie et atelier mécanique. Découvrez nos dernières annonces et contactez notre équipe.",
-    ),
+  head: ({ loaderData }) =>
+    pageHead({
+      path: "/",
+      title: "Garage de la Plaine, Denges – Suzuki, occasions, carrosserie",
+      description:
+        "Garage à Denges (VD) depuis plus de 40 ans : concessionnaire Suzuki, occasions toutes marques, carrosserie, atelier multimarque et station Jubin 24h/24.",
+      faqs: faqs.home,
+      cars: loaderData?.cars,
+    }),
   loader: () => getLatestCars(),
   staleTime: 5 * 60_000,
   component: Index,
@@ -32,6 +38,11 @@ function Index() {
       <StockPreview stock={stock} />
       <Partnership />
       <CompanyStory />
+      <FaqSection
+        items={faqs.home}
+        title="L’essentiel sur le garage."
+        intro="Adresse, horaires, marques et rendez-vous : les réponses aux questions qu’on nous pose le plus souvent."
+      />
       <ContactSection />
     </>
   );

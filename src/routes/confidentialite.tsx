@@ -1,12 +1,16 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { PageIntro } from "@/components/garage/sections";
-import { pageHead, garage } from "@/lib/garage";
+import { garage } from "@/lib/garage";
+import { pageHead } from "@/lib/seo";
 export const Route = createFileRoute("/confidentialite")({
   head: () =>
-    pageHead(
-      "Confidentialité des demandes",
-      "Informations sur les demandes de contact et les contenus externes du site du Garage de la Plaine.",
-    ),
+    pageHead({
+      path: "/confidentialite",
+      title: "Confidentialité des demandes",
+      crumb: "Confidentialité",
+      description:
+        "Comment le site du Garage de la Plaine traite vos demandes de contact et les contenus externes (cartes, annonces Autolina).",
+    }),
   component: Confidentialite,
 });
 function Confidentialite() {
@@ -44,10 +48,8 @@ function Confidentialite() {
           <div>
             <h2>Nous contacter</h2>
             <p>
-              Garage de la Plaine
-              <br />
-              {garage.address}
-              <br />
+              Garage de la Plaine <br />
+              {garage.address} <br />
               {garage.locality}
             </p>
             <a className="section-link" href={"mailto:" + garage.email}>

@@ -6,7 +6,17 @@
 // You can pass additional config via defineConfig({ vite: { ... }, etc... }) if needed.
 import { defineConfig } from "@lovable.dev/vite-tanstack-config";
 
+// Netlify sets URL to the site's main address (its custom domain once connected); canonical
+// links, the sitemap and structured data use it (see src/lib/site.ts).
+const siteUrl = process.env["URL"] || "https://garage-plaine.netlify.app";
+
 export default defineConfig({
+  vite: {
+    define: {
+      __SITE_URL__: JSON.stringify(siteUrl),
+      __BUILD_DATE__: JSON.stringify(new Date().toISOString().slice(0, 10)),
+    },
+  },
   // The site is hosted on Netlify: nitro emits the client to dist/ and the SSR
   // handler to .netlify/functions-internal/server (see netlify.toml).
   nitro: { preset: "netlify" },

@@ -4,7 +4,11 @@ import { ArrowLeft, ArrowUpRight, ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { PageIntro } from "@/components/garage/sections";
 import { SalesContact } from "@/components/garage/people";
-import { garage, pageHead } from "@/lib/garage";
+import { faqs, garage } from "@/lib/garage";
+import { getLatestCars } from "@/lib/stock.functions";
+import { FaqSection } from "@/components/garage/faq";
+import { StockList } from "@/components/garage/stock-list";
+import { pageHead } from "@/lib/seo";
 import { isListingPath, listingFrameUrl } from "@/lib/autolina";
 
 type VehiculesSearch = { annonce?: string };
@@ -16,16 +20,25 @@ export const Route = createFileRoute("/vehicules")({
     const annonce = search["annonce"];
     return typeof annonce === "string" && isListingPath(annonce) ? { annonce } : {};
   },
-  head: () =>
-    pageHead(
-      "Véhicules en stock",
-      "Consultez le stock actuel du Garage de la Plaine : véhicules neufs Suzuki et occasions toutes marques à Denges. Service vente : Tiago Bessa, 079 108 92 99.",
-    ),
+  loader: () => getLatestCars(),
+  staleTime: 5 * 60_000,
+  head: ({ loaderData }) =>
+    pageHead({
+      path: "/vehicules",
+      title: "Occasions et Suzuki neuves à Denges",
+      crumb: "Véhicules",
+      description:
+        "Notre stock en direct : Suzuki neuves et occasions toutes marques à Denges (VD), avec prix et kilométrage. Essai et offre : Tiago Bessa, 079 108 92 99.",
+      type: "CollectionPage",
+      faqs: faqs.vehicules,
+      cars: loaderData?.cars,
+    }),
   component: Vehicules,
 });
 
 function Vehicules() {
   const { annonce } = Route.useSearch();
+  const stock = Route.useLoaderData();
   const src = (annonce && listingFrameUrl(annonce)) || garage.inventory;
   const frame = useRef<HTMLIFrameElement>(null);
   const loads = useRef(0);
@@ -94,6 +107,12 @@ function Vehicules() {
           </p>
         </div>
       </section>
+      <StockList cars={stock.cars} total={stock.total} />
+      <FaqSection
+        items={faqs.vehicules}
+        title="Acheter chez nous : vos questions."
+        intro="Disponibilité, essai, financement et reprise de votre véhicule."
+      />
       <section className="contact-band">
         <div className="container cta-band">
           <div>

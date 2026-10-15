@@ -14,6 +14,7 @@ import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
 import { SiteHeader, SiteFooter } from "@/components/garage/site-shell";
 import { garage } from "@/lib/garage";
+import { siteJsonLd } from "@/lib/seo";
 
 function NotFoundComponent() {
   return (
@@ -78,42 +79,16 @@ function ErrorComponent({ error, reset }: ErrorComponentProps) {
   );
 }
 
-// Business details for search engines (Google business card, opening hours).
-const localBusiness = {
-  "@context": "https://schema.org",
-  "@type": ["AutoDealer", "AutoRepair", "AutoBodyShop"],
-  name: garage.name,
-  telephone: "+41 21 801 68 42",
-  email: garage.email,
-  address: {
-    "@type": "PostalAddress",
-    streetAddress: garage.address,
-    postalCode: garage.postalCode,
-    addressLocality: garage.city,
-    addressRegion: "VD",
-    addressCountry: "CH",
-  },
-  brand: { "@type": "Brand", name: "Suzuki" },
-  openingHoursSpecification: [
-    { days: ["Monday", "Tuesday", "Wednesday", "Thursday"], closes: "18:00" },
-    { days: ["Friday"], closes: "17:00" },
-  ].flatMap(({ days, closes }) => [
-    { "@type": "OpeningHoursSpecification", dayOfWeek: days, opens: "07:30", closes: "12:00" },
-    { "@type": "OpeningHoursSpecification", dayOfWeek: days, opens: "13:30", closes },
-  ]),
-  sameAs: ["https://www.facebook.com/GarageCarrosserieDeLaPlaine"],
-};
-
 export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()({
   head: () => ({
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { property: "og:type", content: "website" },
-      { name: "twitter:card", content: "summary_large_image" },
       { name: "theme-color", content: "#0b2233" },
+      { name: "format-detection", content: "telephone=yes" },
     ],
-    scripts: [{ type: "application/ld+json", children: JSON.stringify(localBusiness) }],
+    // The business, its departments and people, for search engines and AI assistants.
+    scripts: [{ type: "application/ld+json", children: siteJsonLd() }],
     links: [
       {
         rel: "stylesheet",

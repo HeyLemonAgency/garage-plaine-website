@@ -2,7 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { PageIntro } from "@/components/garage/sections";
 import { AppointmentPlanner } from "@/components/garage/appointment";
 import { OpenStatus } from "@/components/garage/people";
-import { pageHead } from "@/lib/garage";
+import { pageHead } from "@/lib/seo";
 import { isTopicId, type TopicId } from "@/lib/appointment";
 import { isListingPath } from "@/lib/autolina";
 
@@ -24,10 +24,13 @@ export const Route = createFileRoute("/rendez-vous")({
     };
   },
   head: () =>
-    pageHead(
-      "Demander un rendez-vous",
-      "Demandez un rendez-vous à l’atelier, à la carrosserie ou au service vente du Garage de la Plaine à Denges, en quatre étapes.",
-    ),
+    pageHead({
+      path: "/rendez-vous",
+      title: "Rendez-vous atelier, carrosserie ou essai",
+      crumb: "Rendez-vous",
+      description:
+        "Demandez en ligne un rendez-vous à l’atelier, à la carrosserie ou un essai au service vente du Garage de la Plaine à Denges ; le garage vous confirme.",
+    }),
   component: RendezVous,
 });
 

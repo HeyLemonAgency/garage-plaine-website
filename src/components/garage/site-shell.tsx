@@ -142,8 +142,7 @@ export function SiteFooter() {
             <div>
               <div className="footer-name">Garage de la Plaine.</div>
               <p>
-                Votre garage de confiance à Denges.
-                <br />
+                Votre garage de confiance à Denges. <br />
                 Vente · Carrosserie · Atelier multimarque
               </p>
             </div>
@@ -164,8 +163,7 @@ export function SiteFooter() {
             <div>
               <h3>Venez nous rencontrer</h3>
               <p>
-                {garage.address}
-                <br />
+                {garage.address} <br />
                 {garage.locality}
               </p>
               <a href={garage.phoneHref}>{garage.phone}</a>

@@ -5,13 +5,17 @@ import { PageIntro, TrustBar, photos, CheckList } from "@/components/garage/sect
 import { ContactSection } from "@/components/garage/contact";
 import { TeamGrid } from "@/components/garage/people";
 import { TrainingStory } from "@/components/garage/training";
-import { pageHead } from "@/lib/garage";
+import { pageHead } from "@/lib/seo";
 export const Route = createFileRoute("/entreprise")({
   head: () =>
-    pageHead(
-      "Une équipe locale, un savoir-faire établi",
-      "Découvrez le Garage de la Plaine à Denges, son équipe, son atelier multimarque et sa carrosserie. Plus de 40 ans au service de votre voiture.",
-    ),
+    pageHead({
+      path: "/entreprise",
+      title: "Le garage et son équipe à Denges",
+      crumb: "Entreprise",
+      description:
+        "Depuis plus de 40 ans à Denges : le Garage de la Plaine, son équipe vente, atelier et carrosserie, et son engagement d’entreprise formatrice.",
+      type: "AboutPage",
+    }),
   component: Entreprise,
 });
 function Entreprise() {
@@ -27,8 +31,7 @@ function Entreprise() {
           <div className="editorial-copy">
             <div className="eyebrow">Garage de la Plaine · Denges</div>
             <h2>
-              Des racines locales.
-              <br />
+              Des racines locales. <br />
               Un service complet.
             </h2>
             <p>

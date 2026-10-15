@@ -13,9 +13,12 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as ConfidentialiteRouteImport } from './routes/confidentialite'
 import { Route as ContactRouteImport } from './routes/contact'
 import { Route as EntrepriseRouteImport } from './routes/entreprise'
+import { Route as LlmsDottxtRouteImport } from './routes/llms[.]txt'
 import { Route as RendezVousRouteImport } from './routes/rendez-vous'
 import { Route as RepriseRouteImport } from './routes/reprise'
+import { Route as RobotsDottxtRouteImport } from './routes/robots[.]txt'
 import { Route as ServicesRouteImport } from './routes/services'
+import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as StationServiceRouteImport } from './routes/station-service'
 import { Route as SuzukiRouteImport } from './routes/suzuki'
 import { Route as VehiculesRouteImport } from './routes/vehicules'
@@ -41,6 +44,11 @@ const EntrepriseRoute = EntrepriseRouteImport.update({
   path: '/entreprise',
   getParentRoute: () => rootRouteImport,
 } as any)
+const LlmsDottxtRoute = LlmsDottxtRouteImport.update({
+  id: '/llms.txt',
+  path: '/llms.txt',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const RendezVousRoute = RendezVousRouteImport.update({
   id: '/rendez-vous',
   path: '/rendez-vous',
@@ -51,9 +59,19 @@ const RepriseRoute = RepriseRouteImport.update({
   path: '/reprise',
   getParentRoute: () => rootRouteImport,
 } as any)
+const RobotsDottxtRoute = RobotsDottxtRouteImport.update({
+  id: '/robots.txt',
+  path: '/robots.txt',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ServicesRoute = ServicesRouteImport.update({
   id: '/services',
   path: '/services',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
+  id: '/sitemap.xml',
+  path: '/sitemap.xml',
   getParentRoute: () => rootRouteImport,
 } as any)
 const StationServiceRoute = StationServiceRouteImport.update({
@@ -82,9 +100,12 @@ export interface FileRoutesByFullPath {
   '/confidentialite': typeof ConfidentialiteRoute
   '/contact': typeof ContactRoute
   '/entreprise': typeof EntrepriseRoute
+  '/llms.txt': typeof LlmsDottxtRoute
   '/rendez-vous': typeof RendezVousRoute
   '/reprise': typeof RepriseRoute
+  '/robots.txt': typeof RobotsDottxtRoute
   '/services': typeof ServicesRoute
+  '/sitemap.xml': typeof SitemapDotxmlRoute
   '/station-service': typeof StationServiceRoute
   '/suzuki': typeof SuzukiRoute
   '/vehicules': typeof VehiculesRoute
@@ -95,9 +116,12 @@ export interface FileRoutesByTo {
   '/confidentialite': typeof ConfidentialiteRoute
   '/contact': typeof ContactRoute
   '/entreprise': typeof EntrepriseRoute
+  '/llms.txt': typeof LlmsDottxtRoute
   '/rendez-vous': typeof RendezVousRoute
   '/reprise': typeof RepriseRoute
+  '/robots.txt': typeof RobotsDottxtRoute
   '/services': typeof ServicesRoute
+  '/sitemap.xml': typeof SitemapDotxmlRoute
   '/station-service': typeof StationServiceRoute
   '/suzuki': typeof SuzukiRoute
   '/vehicules': typeof VehiculesRoute
@@ -109,9 +133,12 @@ export interface FileRoutesById {
   '/confidentialite': typeof ConfidentialiteRoute
   '/contact': typeof ContactRoute
   '/entreprise': typeof EntrepriseRoute
+  '/llms.txt': typeof LlmsDottxtRoute
   '/rendez-vous': typeof RendezVousRoute
   '/reprise': typeof RepriseRoute
+  '/robots.txt': typeof RobotsDottxtRoute
   '/services': typeof ServicesRoute
+  '/sitemap.xml': typeof SitemapDotxmlRoute
   '/station-service': typeof StationServiceRoute
   '/suzuki': typeof SuzukiRoute
   '/vehicules': typeof VehiculesRoute
@@ -124,9 +151,12 @@ export interface FileRouteTypes {
     | '/confidentialite'
     | '/contact'
     | '/entreprise'
+    | '/llms.txt'
     | '/rendez-vous'
     | '/reprise'
+    | '/robots.txt'
     | '/services'
+    | '/sitemap.xml'
     | '/station-service'
     | '/suzuki'
     | '/vehicules'
@@ -137,9 +167,12 @@ export interface FileRouteTypes {
     | '/confidentialite'
     | '/contact'
     | '/entreprise'
+    | '/llms.txt'
     | '/rendez-vous'
     | '/reprise'
+    | '/robots.txt'
     | '/services'
+    | '/sitemap.xml'
     | '/station-service'
     | '/suzuki'
     | '/vehicules'
@@ -150,9 +183,12 @@ export interface FileRouteTypes {
     | '/confidentialite'
     | '/contact'
     | '/entreprise'
+    | '/llms.txt'
     | '/rendez-vous'
     | '/reprise'
+    | '/robots.txt'
     | '/services'
+    | '/sitemap.xml'
     | '/station-service'
     | '/suzuki'
     | '/vehicules'
@@ -164,9 +200,12 @@ export interface RootRouteChildren {
   ConfidentialiteRoute: typeof ConfidentialiteRoute
   ContactRoute: typeof ContactRoute
   EntrepriseRoute: typeof EntrepriseRoute
+  LlmsDottxtRoute: typeof LlmsDottxtRoute
   RendezVousRoute: typeof RendezVousRoute
   RepriseRoute: typeof RepriseRoute
+  RobotsDottxtRoute: typeof RobotsDottxtRoute
   ServicesRoute: typeof ServicesRoute
+  SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   StationServiceRoute: typeof StationServiceRoute
   SuzukiRoute: typeof SuzukiRoute
   VehiculesRoute: typeof VehiculesRoute
@@ -203,6 +242,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof EntrepriseRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/llms.txt': {
+      id: '/llms.txt'
+      path: '/llms.txt'
+      fullPath: '/llms.txt'
+      preLoaderRoute: typeof LlmsDottxtRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/rendez-vous': {
       id: '/rendez-vous'
       path: '/rendez-vous'
@@ -217,11 +263,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof RepriseRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/robots.txt': {
+      id: '/robots.txt'
+      path: '/robots.txt'
+      fullPath: '/robots.txt'
+      preLoaderRoute: typeof RobotsDottxtRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/services': {
       id: '/services'
       path: '/services'
       fullPath: '/services'
       preLoaderRoute: typeof ServicesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/sitemap.xml': {
+      id: '/sitemap.xml'
+      path: '/sitemap.xml'
+      fullPath: '/sitemap.xml'
+      preLoaderRoute: typeof SitemapDotxmlRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/station-service': {
@@ -260,9 +320,12 @@ const rootRouteChildren: RootRouteChildren = {
   ConfidentialiteRoute: ConfidentialiteRoute,
   ContactRoute: ContactRoute,
   EntrepriseRoute: EntrepriseRoute,
+  LlmsDottxtRoute: LlmsDottxtRoute,
   RendezVousRoute: RendezVousRoute,
   RepriseRoute: RepriseRoute,
+  RobotsDottxtRoute: RobotsDottxtRoute,
   ServicesRoute: ServicesRoute,
+  SitemapDotxmlRoute: SitemapDotxmlRoute,
   StationServiceRoute: StationServiceRoute,
   SuzukiRoute: SuzukiRoute,
   VehiculesRoute: VehiculesRoute,

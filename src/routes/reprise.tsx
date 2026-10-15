@@ -3,14 +3,18 @@ import { useState, type FormEvent } from "react";
 import { ArrowRight } from "lucide-react";
 import { PageIntro } from "@/components/garage/sections";
 import { Button } from "@/components/ui/button";
-import { pageHead, team } from "@/lib/garage";
+import { team } from "@/lib/garage";
+import { pageHead } from "@/lib/seo";
 import { SalesContact } from "@/components/garage/people";
 export const Route = createFileRoute("/reprise")({
   head: () =>
-    pageHead(
-      "Nous achetons votre véhicule",
-      "Vous souhaitez vendre ou faire reprendre votre véhicule ? Proposez votre voiture au service vente du Garage de la Plaine à Denges.",
-    ),
+    pageHead({
+      path: "/reprise",
+      title: "Nous achetons votre voiture, à Denges",
+      crumb: "Reprise",
+      description:
+        "Vous vendez votre voiture ? Le Garage de la Plaine à Denges achète et reprend les véhicules : décrivez le vôtre en ligne, le service vente vous recontacte.",
+    }),
   component: Reprise,
 });
 function Reprise() {

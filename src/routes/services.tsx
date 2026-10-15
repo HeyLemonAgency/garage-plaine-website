@@ -11,15 +11,21 @@ import {
 import { ContactSection } from "@/components/garage/contact";
 import { BodyworkSection } from "@/components/garage/bodywork";
 import { WorkshopTour } from "@/components/garage/workshop-tour";
+import { FaqSection } from "@/components/garage/faq";
 import { SalesContact } from "@/components/garage/people";
-import { pageHead, salesServices, team } from "@/lib/garage";
+import { salesServices, team, faqs } from "@/lib/garage";
+import { pageHead } from "@/lib/seo";
 
 export const Route = createFileRoute("/services")({
   head: () =>
-    pageHead(
-      "Vente, carrosserie et atelier",
-      "Vente Suzuki et occasions, carrosserie toutes marques et atelier mécanique à Denges. Découvrez les services du Garage de la Plaine.",
-    ),
+    pageHead({
+      path: "/services",
+      title: "Carrosserie, atelier et vente à Denges",
+      crumb: "Services",
+      description:
+        "Carrosserie (sinistres, 8 véhicules de remplacement), atelier multimarque (diagnostic, pneus, climatisation, géométrie) et vente Suzuki à Denges.",
+      faqs: faqs.services,
+    }),
   component: Services,
 });
 
@@ -136,6 +142,11 @@ function Services() {
           </div>
         </div>
       </section>
+      <FaqSection
+        items={faqs.services}
+        title="Carrosserie et atelier : vos questions."
+        intro="Assurance, véhicule de remplacement, garanties et prestations de l’atelier."
+      />
       <ContactSection />
     </>
   );

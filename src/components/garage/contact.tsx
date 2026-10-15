@@ -141,13 +141,11 @@ export function ContactSection({ defaultTopic }: { defaultTopic?: DepartmentId }
             <span className="eyebrow-dot" />À votre écoute
           </div>
           <h2 className="contact-title">
-            Parlons de votre
-            <br />
+            Parlons de votre <br />
             prochain projet.
           </h2>
           <p className="contact-intro">
-            Une nouvelle voiture, une réparation ou un entretien&nbsp;?
-            <br />
+            Une nouvelle voiture, une réparation ou un entretien&nbsp;? <br />
             Notre équipe est à votre disposition.
           </p>
           <div className="contact-lines">
@@ -169,8 +167,7 @@ export function ContactSection({ defaultTopic }: { defaultTopic?: DepartmentId }
           <a className="contact-line" href={garage.directions} target="_blank" rel="noreferrer">
             <MapPin />
             <div>
-              {garage.address}
-              <br />
+              {garage.address} <br />
               {garage.locality}
             </div>
           </a>
@@ -192,8 +189,8 @@ export function Location() {
           <MapPin className="location-pin" />
           <h2>Au cœur de Denges.</h2>
           <p>
-            {garage.address} · {garage.locality}
-            <br />À 5 minutes de Morges et 10 minutes de Lausanne.
+            {garage.address} · {garage.locality} <br />À 5 minutes de Morges et 10 minutes de
+            Lausanne.
           </p>
           <OpenStatus />
           <Button asChild variant="premium">

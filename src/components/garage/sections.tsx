@@ -229,10 +229,8 @@ export function Hero({ stockTotal = null }: { stockTotal?: number | null }) {
             Garage de la Plaine · Denges
           </div>
           <h1>
-            Votre garage
-            <br />
-            de confiance
-            <br />à Denges.
+            Votre garage <br />
+            de confiance <br />à Denges.
           </h1>
           <div className="red-rule" />
           <p>Vente, carrosserie et entretien : un service de proximité depuis plus de 40 ans.</p>
@@ -458,8 +456,7 @@ export function Partnership() {
           />
           <div className="eyebrow">Partenaire officiel</div>
           <h2>
-            L’esprit Suzuki.
-            <br />
+            L’esprit Suzuki. <br />
             La proximité en plus.
           </h2>
           <p>
@@ -561,8 +558,7 @@ export function CompanyStory() {
             Votre garage, tout près de chez vous
           </div>
           <h2>
-            Une équipe locale.
-            <br />
+            Une équipe locale. <br />
             Une relation de confiance.
           </h2>
           <div className="red-rule" />

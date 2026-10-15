@@ -6056,3 +6056,161 @@ main:focus {
     animation: none;
   }
 }
+
+/* ---- Questions fréquentes ---- */
+.faq-section {
+  border-top: 1px solid var(--border);
+}
+.faq-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
+  gap: 24px 64px;
+  align-items: start;
+}
+.faq-head {
+  position: sticky;
+  top: 96px;
+}
+.faq-head h2 {
+  margin: 12px 0 0;
+  font-size: 30px;
+  line-height: 1.15;
+  text-wrap: balance;
+}
+.faq-head p {
+  margin: 14px 0 0;
+  font-size: 13px;
+  line-height: 1.7;
+  color: var(--muted-foreground);
+}
+.faq-list {
+  border-top: 1px solid var(--border);
+}
+.faq-item {
+  border-bottom: 1px solid var(--border);
+}
+.faq-item summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 18px 2px;
+  cursor: pointer;
+  list-style: none;
+}
+.faq-item summary::-webkit-details-marker {
+  display: none;
+}
+.faq-item h3 {
+  margin: 0;
+  font-size: 15px;
+  font-weight: 600;
+  line-height: 1.4;
+  color: var(--primary);
+}
+.faq-item summary svg {
+  width: 18px;
+  height: 18px;
+  flex-shrink: 0;
+  color: var(--accent);
+  transition: transform 0.25s;
+}
+.faq-item[open] summary svg {
+  transform: rotate(180deg);
+}
+.faq-item summary:hover h3 {
+  color: var(--accent);
+}
+.faq-item p {
+  margin: 0;
+  padding: 0 40px 20px 2px;
+  font-size: 13px;
+  line-height: 1.75;
+  color: var(--muted-foreground);
+}
+
+/* ---- Latest listings as a list (vehicles page) ---- */
+.stock-list-section h2 {
+  margin: 10px 0 0;
+  font-size: 28px;
+}
+.stock-list-intro {
+  margin: 10px 0 22px;
+  max-width: 60ch;
+  font-size: 13px;
+  color: var(--muted-foreground);
+}
+.stock-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0 32px;
+  border-top: 1px solid var(--border);
+}
+.stock-list li {
+  border-bottom: 1px solid var(--border);
+}
+.stock-list a {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 14px 2px;
+  color: var(--primary);
+}
+.stock-list-name {
+  display: grid;
+  gap: 3px;
+  min-width: 0;
+  flex: 1;
+}
+.stock-list-name strong {
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 1.4;
+}
+.stock-list-name span {
+  font-size: 11px;
+  line-height: 1.5;
+  color: var(--muted-foreground);
+}
+.stock-list-price {
+  font-size: 13px;
+  font-weight: 700;
+  white-space: nowrap;
+}
+.stock-list a > svg {
+  width: 16px;
+  height: 16px;
+  flex-shrink: 0;
+  color: var(--accent);
+  transition: transform 0.2s;
+}
+.stock-list a:hover strong {
+  color: var(--accent);
+}
+.stock-list a:hover > svg {
+  transform: translateX(3px);
+}
+
+@media (max-width: 900px) {
+  .faq-layout {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .faq-head {
+    position: static;
+  }
+  .stock-list {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+@media (max-width: 600px) {
+  .faq-head h2,
+  .stock-list-section h2 {
+    font-size: 24px;
+  }
+  .faq-item p {
+    padding-right: 4px;
+  }
+}

@@ -16,8 +16,7 @@ export function TrainingStory() {
             Entreprise formatrice
           </div>
           <h2 id="training-title">
-            Transmettre
-            <br />
+            Transmettre <br />
             le savoir-faire.
           </h2>
           <div className="red-rule" />

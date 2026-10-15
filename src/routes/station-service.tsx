@@ -3,14 +3,17 @@ import { ArrowRight, Fuel } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { PageIntro, CheckList } from "@/components/garage/sections";
 import { Location } from "@/components/garage/contact";
-import { pageHead } from "@/lib/garage";
+import { pageHead } from "@/lib/seo";
 import fuel from "@/assets/fuel.webp";
 export const Route = createFileRoute("/station-service")({
   head: () =>
-    pageHead(
-      "Station-service Jubin, 24h/24",
-      "Faites le plein à la station-service Jubin du Garage de la Plaine à Denges, accessible 24h/24 et 7j/7. Renseignez-vous sur la Jubin Card.",
-    ),
+    pageHead({
+      path: "/station-service",
+      title: "Station-service Jubin 24h/24 à Denges",
+      crumb: "Station-service",
+      description:
+        "Faites le plein à la station-service Jubin du Garage de la Plaine à Denges, accessible 24h/24 et 7j/7. Commandez votre Jubin Card sur place.",
+    }),
   component: Station,
 });
 function Station() {
@@ -29,8 +32,7 @@ function Station() {
               Station-service Jubin
             </div>
             <h2>
-              À toute heure,
-              <br />
+              À toute heure, <br />
               tout près de chez vous.
             </h2>
             <p>
