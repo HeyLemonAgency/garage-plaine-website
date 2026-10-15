@@ -3214,16 +3214,20 @@ main:focus {
 .vehicle-photos {
   position: absolute;
   inset: 0;
+  /* Contain the photos' stacking so the badge and photo bars stay on top. */
+  z-index: 0;
 }
 .vehicle-photos picture {
   position: absolute;
   inset: 0;
   display: block;
   opacity: 0;
-  transition: opacity 0.18s ease;
+  transition: opacity 0s 0.2s;
 }
 .vehicle-photos picture.is-active {
+  z-index: 1;
   opacity: 1;
+  transition: opacity 0.18s ease;
 }
 .vehicle-photos img {
   width: 100%;
@@ -4408,6 +4412,7 @@ main:focus {
 .sr-photo:after {
   content: "";
   position: absolute;
+  z-index: 3;
   inset: 0;
   background: oklch(0.14 0.03 240);
   opacity: var(--shade, 0);
@@ -4419,15 +4424,18 @@ main:focus {
     0 0 0 1px oklch(1 0 0 / 0.14),
     0 34px 60px -24px oklch(0 0 0 / 0.85);
 }
+/* The next photo fades in over the current one, which only then disappears: no dip. */
 .sr-photo picture {
   position: absolute;
   inset: 0;
   display: block;
   opacity: 0;
-  transition: opacity 0.2s ease;
+  transition: opacity 0s 0.24s;
 }
 .sr-photo picture.is-active {
+  z-index: 1;
   opacity: 1;
+  transition: opacity 0.22s ease;
 }
 .sr-photo img {
   width: 100%;

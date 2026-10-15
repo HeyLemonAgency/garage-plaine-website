@@ -215,8 +215,11 @@ export function Showroom({ cars, total }: { cars: StockCar[]; total: number | nu
     moved: boolean;
   } | null>(null);
 
-  const active = n ? ((index % n) + n) % n : 0;
-  const car = shown[active];
+  const mod = (i: number) => (n ? ((i % n) + n) % n : 0);
+  const active = mod(index);
+  // While dragging, the details follow the car crossing the centre.
+  const focus = mod(index - Math.round(shift));
+  const car = shown[focus];
   const price = useTween(car?.priceValue ?? null);
   const powerValue = car?.power ? parseInt(car.power, 10) : null;
   const power = useTween(Number.isFinite(powerValue) ? powerValue : null, 600);
@@ -236,20 +239,20 @@ export function Showroom({ cars, total }: { cars: StockCar[]; total: number | nu
   useEffect(() => {
     if (!manual.current || !car) return;
     setAnnounce(
-      `${car.make} ${car.model}, ${car.price ?? "prix sur demande"}. ${active + 1} sur ${n}.`,
+      `${car.make} ${car.model}, ${car.price ?? "prix sur demande"}. ${focus + 1} sur ${n}.`,
     );
-  }, [car, active, n]);
+  }, [car, focus, n]);
 
   // Keep the active thumbnail in view without scrolling the page.
   useEffect(() => {
     const el = strip.current;
-    const thumb = el?.children[active] as HTMLElement | undefined;
+    const thumb = el?.children[focus] as HTMLElement | undefined;
     if (!el || !thumb) return;
     el.scrollTo({
       left: thumb.offsetLeft - (el.clientWidth - thumb.offsetWidth) / 2,
       behavior: "smooth",
     });
-  }, [active]);
+  }, [focus]);
 
   useEffect(() => {
     const el = stage.current;
@@ -437,7 +440,7 @@ export function Showroom({ cars, total }: { cars: StockCar[]; total: number | nu
         <div className="sr-info">
           <div className="sr-count">
             <span className="sr-index">
-              <strong>{pad(active + 1)}</strong> / {pad(n)}
+              <strong>{pad(focus + 1)}</strong> / {pad(n)}
             </span>
             {n > 1 && (
               <>
@@ -543,8 +546,8 @@ export function Showroom({ cars, total }: { cars: StockCar[]; total: number | nu
             <button
               key={c.id}
               type="button"
-              className={`sr-thumb ${i === active ? "is-active" : ""}`}
-              aria-current={i === active ? "true" : undefined}
+              className={`sr-thumb ${i === focus ? "is-active" : ""}`}
+              aria-current={i === focus ? "true" : undefined}
               aria-label={`${c.make} ${c.model}${c.price ? `, ${c.price}` : ""}`}
               onClick={() => go(i)}
             >
