@@ -1,77 +1,14 @@
-import { useCallback, useEffect, useRef, useState, type ReactNode } from "react";
+import { useEffect, useRef, useState, type ReactNode } from "react";
 import { Link, useNavigate } from "@tanstack/react-router";
-import {
-  ArrowDownUp,
-  ArrowLeft,
-  ArrowRight,
-  CalendarDays,
-  CarFront,
-  Heart,
-  Phone,
-} from "lucide-react";
+import { ArrowLeft, ArrowRight, CalendarDays, CarFront, Heart, Phone } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { listingPhoto, type StockCar, type StockSnapshot } from "@/lib/autolina";
+import type { StockCar, StockSnapshot } from "@/lib/autolina";
 import { team } from "@/lib/garage";
-import { useSelection } from "@/hooks/use-selection";
+import { useGallery, useStockView } from "@/hooks/use-stock";
+import { SelectionBar, StockControls } from "./stock-controls";
+import { Showroom } from "./showroom";
 import { SectionHeading } from "./sections";
 import { SalesContact } from "./people";
-
-const FILTERS: { id: string; label: string; test: (car: StockCar) => boolean }[] = [
-  { id: "all", label: "Toutes", test: () => true },
-  { id: "suzuki", label: "Suzuki", test: (c) => c.make === "Suzuki" },
-  { id: "new", label: "Neuves", test: (c) => c.isNew },
-  { id: "hybrid", label: "Hybrides", test: (c) => /hybride|électri|electri/i.test(c.fuel ?? "") },
-  { id: "auto", label: "Automatiques", test: (c) => /automatique/i.test(c.gearbox ?? "") },
-  {
-    id: "budget",
-    label: "Moins de CHF 20’000",
-    test: (c) => c.priceValue !== null && c.priceValue < 20000,
-  },
-];
-
-const SORTS: { id: string; label: string; compare?: (a: StockCar, b: StockCar) => number }[] = [
-  { id: "recent", label: "Plus récentes" },
-  {
-    id: "price-asc",
-    label: "Prix croissant",
-    compare: (a, b) => (a.priceValue ?? Infinity) - (b.priceValue ?? Infinity),
-  },
-  {
-    id: "price-desc",
-    label: "Prix décroissant",
-    compare: (a, b) => (b.priceValue ?? -Infinity) - (a.priceValue ?? -Infinity),
-  },
-  { id: "km", label: "Kilométrage", compare: (a, b) => km(a) - km(b) },
-];
-const km = (car: StockCar) => (car.mileage ? Number(car.mileage.replace(/\D/g, "")) : Infinity);
-const MAX_PHOTOS = 6;
-
-/**
- * A listing's photos: the first comes with the stock page; the next ones are fetched the
- * first time the visitor shows interest, and kept only if they load.
- */
-function useGallery(image: string | null) {
-  const [photos, setPhotos] = useState<string[]>(image ? [image] : []);
-  const probed = useRef(false);
-  const probe = useCallback(() => {
-    if (probed.current || !image) return;
-    probed.current = true;
-    let n = 2;
-    const next = () => {
-      if (n > MAX_PHOTOS) return;
-      const url = listingPhoto(image, n++);
-      const img = new Image();
-      img.referrerPolicy = "no-referrer";
-      img.onload = () => {
-        setPhotos((prev) => [...prev, url]);
-        next();
-      };
-      img.src = url;
-    };
-    next();
-  }, [image]);
-  return { photos, probe };
-}
 
 function Photo({
   src,
@@ -111,8 +48,7 @@ export function VehicleCard({
   onToggleSaved: (path: string) => void;
 }) {
   const navigate = useNavigate();
-  const { photos, probe } = useGallery(car.image);
-  const [index, setIndex] = useState(0);
+  const { photos, probe, index, setIndex, advance } = useGallery(car.image);
   const [failed, setFailed] = useState(!car.image);
   const [pop, setPop] = useState(false);
   const first = useRef<HTMLDivElement>(null);
@@ -159,13 +95,11 @@ export function VehicleCard({
           const i = Math.floor(((e.clientX - r.left) / r.width) * photos.length);
           setIndex(Math.min(photos.length - 1, Math.max(0, i)));
         }}
-        onPointerLeave={() => setIndex(0)}
+        onPointerLeave={(e) => e.pointerType === "mouse" && setIndex(0)}
         onClick={() => {
           // Touch: the photo flips through the gallery; the text below opens the listing.
-          if (touch()) {
-            probe();
-            setIndex((i) => (photos.length > 1 ? (i + 1) % photos.length : 0));
-          } else open();
+          if (touch()) advance();
+          else open();
         }}
       >
         {failed ? (
@@ -267,31 +201,13 @@ export function StockCarousel({
   showFilters?: boolean;
   label?: string;
 }) {
-  const [filter, setFilter] = useState("all");
-  const [sort, setSort] = useState("recent");
+  const view = useStockView(cars);
+  const { filter: active, sort, shown, saved, toggle, savedHere } = view;
   const [edges, setEdges] = useState({ start: true, end: false });
   const [progress, setProgress] = useState(0);
   const track = useRef<HTMLDivElement>(null);
   const drag = useRef<{ x: number; left: number; moved: boolean } | null>(null);
   const suppressClick = useRef(false);
-  const { paths: saved, toggle } = useSelection();
-
-  const savedHere = cars.filter((c) => saved.includes(c.path));
-  const filters = [
-    ...FILTERS.map((f) => ({ ...f, count: cars.filter(f.test).length })).filter(
-      (f) => f.id === "all" || (f.count > 0 && f.count < cars.length),
-    ),
-    ...(savedHere.length > 0
-      ? [{ id: "saved", label: "Ma sélection", test: () => true, count: savedHere.length }]
-      : []),
-  ];
-  const active = filter === "saved" && savedHere.length === 0 ? "all" : filter;
-  const filtered =
-    active === "saved"
-      ? savedHere
-      : cars.filter(FILTERS.find((f) => f.id === active)?.test ?? (() => true));
-  const compare = SORTS.find((s) => s.id === sort)?.compare;
-  const shown = compare ? [...filtered].sort(compare) : filtered;
 
   function measure() {
     const el = track.current;
@@ -320,60 +236,26 @@ export function StockCarousel({
 
   return (
     <div className="stock-carousel">
-      <div className="stock-controls">
-        {showFilters && filters.length > 1 ? (
-          <div className="chip-row filter-row" role="group" aria-label="Filtrer les annonces">
-            {filters.map((f) => (
-              <button
-                key={f.id}
-                type="button"
-                className={`filter-chip ${active === f.id ? "is-active" : ""} ${f.id === "saved" ? "filter-chip-saved" : ""}`}
-                aria-pressed={active === f.id}
-                onClick={() => setFilter(f.id)}
-              >
-                {f.id === "saved" && <Heart />}
-                {f.label}
-                <span className="filter-count">{f.count}</span>
-              </button>
-            ))}
-          </div>
-        ) : (
-          <span />
-        )}
-        <div className="carousel-tools">
-          {cars.length > 2 && (
-            <label className="sort-select">
-              <span className="sr-only">Trier les annonces</span>
-              <ArrowDownUp aria-hidden="true" />
-              <select value={sort} onChange={(e) => setSort(e.target.value)}>
-                {SORTS.map((s) => (
-                  <option key={s.id} value={s.id}>
-                    {s.label}
-                  </option>
-                ))}
-              </select>
-            </label>
-          )}
-          <div className="carousel-arrows">
-            <button
-              type="button"
-              aria-label="Annonces précédentes"
-              disabled={edges.start}
-              onClick={() => step(-1)}
-            >
-              <ArrowLeft />
-            </button>
-            <button
-              type="button"
-              aria-label="Annonces suivantes"
-              disabled={edges.end}
-              onClick={() => step(1)}
-            >
-              <ArrowRight />
-            </button>
-          </div>
+      <StockControls view={view} showFilters={showFilters} sortable={cars.length > 2}>
+        <div className="carousel-arrows">
+          <button
+            type="button"
+            aria-label="Annonces précédentes"
+            disabled={edges.start}
+            onClick={() => step(-1)}
+          >
+            <ArrowLeft />
+          </button>
+          <button
+            type="button"
+            aria-label="Annonces suivantes"
+            disabled={edges.end}
+            onClick={() => step(1)}
+          >
+            <ArrowRight />
+          </button>
         </div>
-      </div>
+      </StockControls>
       <div
         ref={track}
         className="stock-track"
@@ -434,23 +316,7 @@ export function StockCarousel({
       <div className="carousel-progress" aria-hidden="true">
         <span style={{ width: `${Math.max(12, progress * 100)}%` }} />
       </div>
-      {savedHere.length > 0 && (
-        <div className="selection-bar" role="status">
-          <span>
-            <Heart />
-            {savedHere.length === 1
-              ? "1 véhicule dans votre sélection"
-              : `${savedHere.length} véhicules dans votre sélection`}
-          </span>
-          <Link
-            to="/rendez-vous"
-            search={{ besoin: "vente", selection: savedHere.map((c) => c.path).join(",") }}
-          >
-            {savedHere.length === 1 ? "Demander un essai" : "Demander un essai pour ces véhicules"}{" "}
-            <ArrowRight />
-          </Link>
-        </div>
-      )}
+      <SelectionBar cars={savedHere} />
     </div>
   );
 }
@@ -458,8 +324,7 @@ export function StockCarousel({
 export function StockPreview({ stock }: { stock: StockSnapshot }) {
   const { cars, total } = stock;
   let content: ReactNode;
-  if (cars.length > 0)
-    content = <StockCarousel cars={cars} total={total} label="Nos dernières annonces" />;
+  if (cars.length > 0) content = <Showroom cars={cars} total={total} />;
   else
     content = (
       <div className="stock-placeholder">
