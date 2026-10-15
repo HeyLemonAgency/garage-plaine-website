@@ -168,7 +168,7 @@ export const workshopTour = [
     title: "Mécanique & électricité",
     place: "À bord",
     services: [mechanicalServices[7]],
-    point: [0.884, 0.351],
+    point: [0.862, 0.36],
   },
   {
     id: "attelages",

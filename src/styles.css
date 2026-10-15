@@ -5765,11 +5765,14 @@ main:focus {
   animation: none;
   opacity: 0;
 }
+/* Centred under its point with transform alone: the build drops a separate translate
+   declaration sitting in the same rule as a transform. */
 .tour-spot-label {
+  --label-top: 46px;
   position: absolute;
   left: 50%;
-  top: 46px;
-  translate: -50% 0;
+  top: calc(var(--label-top) - 4px);
+  transform: translateX(-50%);
   padding: 4px 10px;
   border-radius: 999px;
   white-space: nowrap;
@@ -5779,16 +5782,25 @@ main:focus {
   background: #fff;
   box-shadow: 0 6px 16px -6px oklch(0 0 0 / 0.5);
   opacity: 0;
-  transform: translateY(-4px);
   transition:
     opacity 0.2s,
-    transform 0.2s;
+    top 0.2s;
   pointer-events: none;
 }
 .tour-spot:hover .tour-spot-label,
 .tour-spot:focus-visible .tour-spot-label,
 .tour-spot.is-active .tour-spot-label {
   opacity: 1;
+  top: var(--label-top);
+}
+/* Near an edge of the frame the label opens towards the middle. */
+.tour-spot.is-right .tour-spot-label {
+  left: auto;
+  right: -4px;
+  transform: none;
+}
+.tour-spot.is-left .tour-spot-label {
+  left: -4px;
   transform: none;
 }
 .tour-tag {
@@ -6031,7 +6043,7 @@ main:focus {
     margin: -17px 0 0 -17px;
   }
   .tour-spot-label {
-    top: 42px;
+    --label-top: 42px;
   }
   .tour-hint {
     top: auto;

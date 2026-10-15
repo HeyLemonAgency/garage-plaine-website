@@ -212,11 +212,13 @@ export function WorkshopTour() {
             if (!t.point) return null;
             const [x, y] = toScreen(t.point);
             const SpotIcon = icons[t.icon];
+            // Near an edge of the frame, the label opens towards the middle so it stays whole.
+            const side = size && x > size.w - 120 ? "is-right" : x < 120 ? "is-left" : "";
             return (
               <button
                 key={t.id}
                 type="button"
-                className={`tour-spot ${stop === i ? "is-active" : ""}`}
+                className={`tour-spot ${side} ${stop === i ? "is-active" : ""}`}
                 style={
                   { transform: `translate(${x}px, ${y}px)`, ["--d" as string]: i } as CSSProperties
                 }
