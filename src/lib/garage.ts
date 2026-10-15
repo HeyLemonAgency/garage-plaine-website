@@ -116,6 +116,72 @@ export const mechanicalServices = [
   "Installation de feux diurnes",
 ] as const;
 
+/**
+ * The workshop tour on the services page: points in the real workshop photo
+ * (workshop-tour.webp, positions as shares of its width and height) and the services
+ * each one stands for. The last stop has no point: hitches and trailers are not in the shot.
+ */
+export const workshopTour = [
+  {
+    id: "diagnostic",
+    icon: "diagnostic",
+    title: "Diagnostic",
+    place: "Le poste de diagnostic",
+    services: [mechanicalServices[1]],
+    point: [0.112, 0.482],
+  },
+  {
+    id: "climatisation",
+    icon: "ac",
+    title: "Climatisation",
+    place: "La station de climatisation",
+    services: [mechanicalServices[4]],
+    point: [0.459, 0.341],
+  },
+  {
+    id: "feux",
+    icon: "lights",
+    title: "Feux diurnes",
+    place: "L’avant du véhicule",
+    services: [mechanicalServices[8]],
+    point: [0.607, 0.426],
+  },
+  {
+    id: "pneus",
+    icon: "tyres",
+    title: "Pneus & géométrie",
+    place: "Les roues",
+    services: [mechanicalServices[2], mechanicalServices[3]],
+    point: [0.659, 0.653],
+  },
+  {
+    id: "entretien",
+    icon: "service",
+    title: "Entretien & réparations",
+    place: "Sous le capot",
+    services: [mechanicalServices[0]],
+    point: [0.742, 0.141],
+  },
+  {
+    id: "electricite",
+    icon: "electrics",
+    title: "Mécanique & électricité",
+    place: "À bord",
+    services: [mechanicalServices[7]],
+    point: [0.884, 0.351],
+  },
+  {
+    id: "attelages",
+    icon: "towing",
+    title: "Attelages & remorques",
+    place: "Et aussi",
+    services: [mechanicalServices[5], mechanicalServices[6]],
+    point: null,
+  },
+] as const;
+
+export type WorkshopIcon = (typeof workshopTour)[number]["icon"];
+
 export const services = [
   {
     id: "vente",

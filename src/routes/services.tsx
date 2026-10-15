@@ -10,6 +10,7 @@ import {
 } from "@/components/garage/sections";
 import { ContactSection } from "@/components/garage/contact";
 import { BodyworkSection } from "@/components/garage/bodywork";
+import { WorkshopTour } from "@/components/garage/workshop-tour";
 import { SalesContact } from "@/components/garage/people";
 import { pageHead, salesServices, team } from "@/lib/garage";
 
@@ -79,16 +80,21 @@ function Services() {
 
       <BodyworkSection />
 
-      <section id="mecanique" className="service-detail">
-        <div className="container detail-layout">
-          <div>
-            <div className="eyebrow">03 / Atelier mécanique</div>
-            <h2>Un atelier multimarque à votre service.</h2>
+      <section id="mecanique" className="service-detail mechanics">
+        <div className="container">
+          <div className="mechanics-head">
+            <div>
+              <div className="eyebrow">03 / Atelier mécanique</div>
+              <h2>Un atelier multimarque à votre service.</h2>
+            </div>
             <p>
               Équipé des derniers appareils de diagnostic, notre atelier entretient et répare les
               véhicules de toutes marques, notre marque de référence étant Suzuki.{" "}
               {team.atelier.name}, titulaire d’un brevet fédéral, est votre interlocuteur.
             </p>
+          </div>
+          <WorkshopTour />
+          <div className="mechanics-foot">
             <MechanicalList />
             <div className="detail-actions">
               <Button asChild variant="premium">
@@ -101,14 +107,6 @@ function Services() {
               </a>
             </div>
           </div>
-          <img
-            className="reveal-on-scroll"
-            src={photos.workshop}
-            alt="L’atelier mécanique du Garage de la Plaine"
-            width={700}
-            height={340}
-            loading="lazy"
-          />
         </div>
       </section>
 
