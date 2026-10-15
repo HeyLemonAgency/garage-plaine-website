@@ -26,7 +26,7 @@ function NotFoundComponent() {
         </div>
         <h1>Cette page n’existe pas, ou plus.</h1>
         <p>
-          L’adresse a peut-être changé avec notre nouveau site. Ces liens devraient vous aider :
+          L’adresse a peut-être changé avec notre nouveau site. Ces liens devraient vous aider :
         </p>
         <div className="detail-actions">
           <Link to="/" className="garage-button garage-button-primary inline-flex items-center">
@@ -83,7 +83,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
   head: () => ({
     meta: [
       { charSet: "utf-8" },
-      { name: "viewport", content: "width=device-width, initial-scale=1" },
+      { name: "viewport", content: "width=device-width, initial-scale=1, viewport-fit=cover" },
       { name: "theme-color", content: "#0b2233" },
       { name: "format-detection", content: "telephone=yes" },
     ],
@@ -95,12 +95,14 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
         href: appCss,
       },
       { rel: "icon", href: "/favicon.png", type: "image/png" },
-      { rel: "preconnect", href: "https://fonts.googleapis.com" },
-      { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "anonymous" },
-      {
-        rel: "stylesheet",
-        href: "https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap",
-      },
+      // The two fonts every page uses first, so text renders in them without a second wait.
+      ...["/fonts/inter-latin.woff2", "/fonts/manrope-latin.woff2"].map((href) => ({
+        rel: "preload",
+        href,
+        as: "font",
+        type: "font/woff2",
+        crossOrigin: "anonymous" as const,
+      })),
     ],
   }),
   // Pages are the same for every visitor, so Netlify's CDN may keep them for 10 minutes

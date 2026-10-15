@@ -15,7 +15,7 @@ export const Route = createFileRoute("/suzuki")({
       title: "Concessionnaire Suzuki à Denges, La Côte",
       crumb: "Partenaire Suzuki",
       description:
-        "Concessionnaire Suzuki depuis plus de 20 ans à Denges, entre Morges et Lausanne : gamme Suzuki neuve, essais sur route, financement, leasing et atelier.",
+        "Concessionnaire Suzuki depuis plus de 20 ans à Denges, entre Morges et Lausanne : gamme Suzuki neuve, essais sur route, financement, leasing et atelier.",
       cars: loaderData?.cars.filter((c) => c.make === "Suzuki"),
     }),
   loader: () => getLatestCars(),
@@ -87,7 +87,7 @@ function Suzuki() {
             />
             <p className="stock-note">
               Parmi nos dernières annonces Autolina. Toute la gamme Suzuki est aussi disponible sur
-              commande : demandez une offre.
+              commande : demandez une offre.
             </p>
           </div>
         </section>

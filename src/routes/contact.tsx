@@ -19,7 +19,7 @@ export const Route = createFileRoute("/contact")({
       title: "Contact, horaires et accès à Denges",
       crumb: "Contact",
       description:
-        "Garage de la Plaine, Route de la Plaine 20, 1026 Denges : 021 801 68 42, vente 079 108 92 99. Horaires d’ouverture, itinéraire et contacts par service.",
+        "Garage de la Plaine, Route de la Plaine 20, 1026 Denges : 021 801 68 42, vente 079 108 92 99. Horaires d’ouverture, itinéraire et contacts par service.",
       type: "ContactPage",
       faqs: faqs.contact,
     }),

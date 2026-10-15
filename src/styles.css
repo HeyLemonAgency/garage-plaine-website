@@ -2,6 +2,49 @@
 @import "tw-animate-css";
 @source "../src";
 @custom-variant dark (&:is(.dark *));
+/* Self-hosted variable fonts (see public/fonts/README.md): no wait on Google Fonts. */
+@font-face {
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 400 700;
+  font-display: swap;
+  src: url("/fonts/inter-latin.woff2") format("woff2");
+  unicode-range:
+    U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329,
+    U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 400 700;
+  font-display: swap;
+  src: url("/fonts/inter-latin-ext.woff2") format("woff2");
+  unicode-range:
+    U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329,
+    U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F,
+    U+A720-A7FF;
+}
+@font-face {
+  font-family: "Manrope";
+  font-style: normal;
+  font-weight: 400 800;
+  font-display: swap;
+  src: url("/fonts/manrope-latin.woff2") format("woff2");
+  unicode-range:
+    U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329,
+    U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: "Manrope";
+  font-style: normal;
+  font-weight: 400 800;
+  font-display: swap;
+  src: url("/fonts/manrope-latin-ext.woff2") format("woff2");
+  unicode-range:
+    U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329,
+    U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F,
+    U+A720-A7FF;
+}
 @theme inline {
   --font-sans: "Inter", sans-serif;
   --font-display: "Manrope", sans-serif;
@@ -28,6 +71,39 @@
   --radius-md: 6px;
   --radius-lg: 8px;
 }
+/* Type scale: small sizes are tokens so phones can read them. Desktop keeps the original
+   sizes; on a phone every step grows by about 2px (body copy 13px -> 15px, labels 10px -> 12px). */
+:root {
+  --fs-8: 8px;
+  --fs-9: 9px;
+  --fs-9-5: 9.5px;
+  --fs-10: 10px;
+  --fs-10-5: 10.5px;
+  --fs-11: 11px;
+  --fs-11-5: 11.5px;
+  --fs-12: 12px;
+  --fs-12-5: 12.5px;
+  --fs-13: 13px;
+  --fs-14: 14px;
+  --fs-15: 15px;
+}
+@media (max-width: 640px) {
+  :root {
+    --fs-8: 10px;
+    --fs-9: 11px;
+    --fs-9-5: 11.5px;
+    --fs-10: 12px;
+    --fs-10-5: 12.5px;
+    --fs-11: 13px;
+    --fs-11-5: 13.5px;
+    --fs-12: 14px;
+    --fs-12-5: 14.5px;
+    --fs-13: 15px;
+    --fs-14: 15.5px;
+    --fs-15: 16px;
+  }
+}
+
 :root {
   --background: oklch(0.984 0.002 100);
   --foreground: oklch(0.25 0.012 240);
@@ -58,7 +134,7 @@ body {
   background: var(--background);
   color: var(--foreground);
   font-family: var(--font-sans);
-  font-size: 14px;
+  font-size: var(--fs-14);
   -webkit-font-smoothing: antialiased;
 }
 h1,
@@ -102,7 +178,7 @@ button {
 .info-bar {
   background: var(--primary);
   color: var(--primary-foreground);
-  font-size: 11px;
+  font-size: var(--fs-11);
   height: 34px;
 }
 .info-inner {
@@ -153,7 +229,7 @@ button {
   display: flex;
   gap: 29px;
   align-items: center;
-  font-size: 12px;
+  font-size: var(--fs-12);
   font-weight: 500;
 }
 .nav-link {
@@ -185,7 +261,7 @@ button {
   height: 46px;
   border-radius: 5px;
   padding: 0 21px;
-  font-size: 12px;
+  font-size: var(--fs-12);
   font-weight: 600;
   gap: 12px;
   box-shadow: none;
@@ -243,7 +319,7 @@ button {
   padding-top: 56px;
 }
 .eyebrow {
-  font-size: 10px;
+  font-size: var(--fs-10);
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 1.5px;
@@ -274,7 +350,7 @@ button {
 }
 .hero p {
   max-width: 330px;
-  font-size: 14px;
+  font-size: var(--fs-14);
   color: var(--muted-foreground);
   line-height: 1.65;
 }
@@ -301,14 +377,14 @@ button {
 .suzuki-signature span {
   border-left: 1px solid var(--border);
   padding-left: 17px;
-  font-size: 10px;
+  font-size: var(--fs-10);
 }
 .hero-caption {
   position: absolute;
   z-index: 2;
   bottom: 14px;
   right: 20px;
-  font-size: 9px;
+  font-size: var(--fs-9);
   color: var(--primary);
   background: color-mix(in oklch, var(--card) 85%, transparent);
   padding: 3px 7px;
@@ -343,13 +419,13 @@ button {
 }
 .trust-item strong {
   font-family: var(--font-display);
-  font-size: 14px;
+  font-size: var(--fs-14);
   font-weight: 700;
   display: block;
 }
 .trust-item span {
   display: block;
-  font-size: 11px;
+  font-size: var(--fs-11);
   line-height: 1.6;
 }
 .section {
@@ -367,7 +443,7 @@ button {
   margin-top: 10px;
 }
 .section-link {
-  font-size: 11px;
+  font-size: var(--fs-11);
   font-weight: 600;
   display: inline-flex;
   align-items: center;
@@ -406,11 +482,11 @@ button {
   }
 }
 .service-card h3 {
-  font-size: 14px;
+  font-size: var(--fs-14);
   margin-bottom: 9px;
 }
 .service-card p {
-  font-size: 11px;
+  font-size: var(--fs-11);
   line-height: 1.65;
   color: var(--muted-foreground);
 }
@@ -465,25 +541,25 @@ button {
   padding: 16px;
 }
 .vehicle-info h3 {
-  font-size: 13px;
+  font-size: var(--fs-13);
   line-height: 1.4;
 }
 .vehicle-info p {
-  font-size: 11px;
+  font-size: var(--fs-11);
   color: var(--muted-foreground);
   margin-top: 4px;
 }
 .vehicle-meta {
-  font-size: 10px;
+  font-size: var(--fs-10);
   color: var(--muted-foreground);
   margin: 9px 0;
 }
 .vehicle-price {
-  font-size: 13px;
+  font-size: var(--fs-13);
   font-weight: 600;
 }
 .stock-note {
-  font-size: 10px;
+  font-size: var(--fs-10);
   color: var(--muted-foreground);
   margin-top: 15px;
 }
@@ -516,7 +592,7 @@ button {
   margin: 17px 0 20px;
 }
 .editorial-copy p {
-  font-size: 13px;
+  font-size: var(--fs-13);
   color: var(--muted-foreground);
   margin: 0 0 17px;
 }
@@ -543,7 +619,7 @@ button {
 .story-number span {
   font-family: var(--font-sans);
   font-weight: 400;
-  font-size: 12px;
+  font-size: var(--fs-12);
   display: block;
   margin-top: 10px;
   color: var(--muted-foreground);
@@ -563,7 +639,7 @@ button {
   margin: 14px 0 22px;
 }
 .contact-intro {
-  font-size: 13px;
+  font-size: var(--fs-13);
   color: var(--muted-foreground);
   margin-bottom: 24px;
 }
@@ -572,7 +648,7 @@ button {
   gap: 13px;
   align-items: flex-start;
   margin: 16px 0;
-  font-size: 12px;
+  font-size: var(--fs-12);
   line-height: 1.6;
 }
 .contact-line svg {
@@ -590,7 +666,7 @@ button {
   margin-top: 23px;
   border-top: 1px solid color-mix(in oklch, var(--primary) 16%, transparent);
   padding-top: 18px;
-  font-size: 11px;
+  font-size: var(--fs-11);
   max-width: 340px;
 }
 .hours-row {
@@ -601,7 +677,7 @@ button {
 }
 .contact-form label {
   display: block;
-  font-size: 11px;
+  font-size: var(--fs-11);
   font-weight: 500;
   margin-bottom: 8px;
 }
@@ -621,7 +697,7 @@ button {
   border: 1px solid var(--border);
   border-radius: 4px;
   padding: 12px;
-  font-size: 12px;
+  font-size: var(--fs-12);
   outline: none;
   color: var(--foreground);
 }
@@ -641,12 +717,12 @@ button {
   gap: 15px;
 }
 .form-footer p {
-  font-size: 10px;
+  font-size: var(--fs-10);
   color: var(--muted-foreground);
   max-width: 260px;
 }
 .form-status {
-  font-size: 12px;
+  font-size: var(--fs-12);
   margin-top: 14px;
 }
 .contact-form .privacy {
@@ -654,7 +730,7 @@ button {
   gap: 9px;
   align-items: flex-start;
   font-weight: 400;
-  font-size: 10px;
+  font-size: var(--fs-10);
   margin-bottom: 17px;
   line-height: 1.6;
 }
@@ -683,11 +759,11 @@ button {
 }
 .footer-top p,
 .footer-top a {
-  font-size: 11px;
+  font-size: var(--fs-11);
   line-height: 1.9;
 }
 .footer-top h3 {
-  font-size: 12px;
+  font-size: var(--fs-12);
   margin-bottom: 12px;
 }
 .footer-links {
@@ -705,7 +781,7 @@ button {
   display: flex;
   justify-content: space-between;
   gap: 15px;
-  font-size: 10px;
+  font-size: var(--fs-10);
   color: color-mix(in oklch, var(--card) 65%, var(--primary));
 }
 .mobile-call {
@@ -717,7 +793,7 @@ button {
   border-bottom: 1px solid var(--border);
 }
 .breadcrumb {
-  font-size: 10px;
+  font-size: var(--fs-10);
   color: var(--muted-foreground);
   display: flex;
   gap: 9px;
@@ -735,7 +811,7 @@ button {
 }
 .page-intro p {
   max-width: 650px;
-  font-size: 14px;
+  font-size: var(--fs-14);
   color: var(--muted-foreground);
 }
 .detail-layout {
@@ -750,7 +826,7 @@ button {
 }
 .detail-layout p {
   color: var(--muted-foreground);
-  font-size: 13px;
+  font-size: var(--fs-13);
   margin: 0 0 18px;
 }
 .detail-layout img {
@@ -768,7 +844,7 @@ button {
   display: flex;
   gap: 11px;
   align-items: flex-start;
-  font-size: 13px;
+  font-size: var(--fs-13);
   line-height: 1.6;
 }
 .detail-list svg {
@@ -802,11 +878,11 @@ button {
   margin-bottom: 8px;
 }
 .staff-item p {
-  font-size: 12px;
+  font-size: var(--fs-12);
   color: var(--muted-foreground);
 }
 .staff-item a {
-  font-size: 11px;
+  font-size: var(--fs-11);
   display: inline-block;
   margin-top: 12px;
   overflow-wrap: anywhere;
@@ -820,11 +896,11 @@ button {
   margin-bottom: 25px;
 }
 .inventory-toolbar p {
-  font-size: 12px;
+  font-size: var(--fs-12);
   color: var(--muted-foreground);
 }
 .small-note {
-  font-size: 11px;
+  font-size: var(--fs-11);
   color: var(--muted-foreground);
   line-height: 1.8;
 }
@@ -851,7 +927,7 @@ button {
   color: var(--primary-foreground);
   padding: 10px 16px;
   border-radius: 4px;
-  font-size: 12px;
+  font-size: var(--fs-12);
   font-weight: 600;
 }
 .skip-link:focus {
@@ -898,7 +974,7 @@ main:focus {
   display: inline-flex;
   align-items: center;
   gap: 7px;
-  font-size: 11px;
+  font-size: var(--fs-11);
   min-height: 1em;
 }
 .open-status strong {
@@ -948,7 +1024,7 @@ main:focus {
   display: inline-flex;
   align-items: center;
   gap: 9px;
-  font-size: 11px;
+  font-size: var(--fs-11);
   font-weight: 600;
   color: var(--accent);
 }
@@ -975,7 +1051,7 @@ main:focus {
   padding: 15px 18px;
   font-family: var(--font-display);
   font-weight: 700;
-  font-size: 14px;
+  font-size: var(--fs-14);
   color: var(--primary);
 }
 .mech-details summary::-webkit-details-marker {
@@ -983,7 +1059,7 @@ main:focus {
 }
 .mech-count {
   font-family: var(--font-sans);
-  font-size: 10px;
+  font-size: var(--fs-10);
   font-weight: 600;
   background: var(--secondary);
   color: var(--primary);
@@ -1013,7 +1089,7 @@ main:focus {
 .mech-details li {
   display: flex;
   gap: 10px;
-  font-size: 12px;
+  font-size: var(--fs-12);
   line-height: 1.55;
 }
 .mech-details li svg {
@@ -1032,7 +1108,7 @@ main:focus {
   border-color: transparent;
 }
 .mech-details-compact summary {
-  font-size: 11px;
+  font-size: var(--fs-11);
   padding: 10px 12px;
 }
 .mech-details-compact ul {
@@ -1041,7 +1117,7 @@ main:focus {
   padding: 12px;
 }
 .mech-details-compact li {
-  font-size: 11px;
+  font-size: var(--fs-11);
 }
 
 /* ---- Live stock cards ---- */
@@ -1077,7 +1153,7 @@ main:focus {
   left: 10px;
   background: var(--accent);
   color: var(--accent-foreground);
-  font-size: 10px;
+  font-size: var(--fs-10);
   font-weight: 700;
   padding: 3px 8px;
   border-radius: 3px;
@@ -1089,7 +1165,7 @@ main:focus {
   justify-items: center;
   gap: 6px;
   color: var(--muted-foreground);
-  font-size: 10px;
+  font-size: var(--fs-10);
 }
 .vehicle-photo-missing svg {
   width: 30px;
@@ -1101,7 +1177,7 @@ main:focus {
   flex: 1;
 }
 .vehicle-make {
-  font-size: 10px;
+  font-size: var(--fs-10);
   font-weight: 600;
   letter-spacing: 1.2px;
   text-transform: uppercase;
@@ -1150,7 +1226,7 @@ main:focus {
   margin-bottom: 6px;
 }
 .stock-placeholder p {
-  font-size: 12px;
+  font-size: var(--fs-12);
   color: var(--muted-foreground);
 }
 
@@ -1177,7 +1253,7 @@ main:focus {
   place-items: center;
   font-family: var(--font-display);
   font-weight: 700;
-  font-size: 15px;
+  font-size: var(--fs-15);
   flex-shrink: 0;
 }
 .sales-body {
@@ -1185,7 +1261,7 @@ main:focus {
 }
 .sales-role {
   display: block;
-  font-size: 10px;
+  font-size: var(--fs-10);
   font-weight: 600;
   letter-spacing: 1.2px;
   text-transform: uppercase;
@@ -1206,7 +1282,7 @@ main:focus {
   display: inline-flex;
   align-items: center;
   gap: 7px;
-  font-size: 12px;
+  font-size: var(--fs-12);
   overflow-wrap: anywhere;
 }
 .sales-action svg {
@@ -1229,16 +1305,16 @@ main:focus {
 .sales-contact-compact .sales-avatar {
   width: 40px;
   height: 40px;
-  font-size: 13px;
+  font-size: var(--fs-13);
 }
 .sales-contact-compact .sales-name {
-  font-size: 14px;
+  font-size: var(--fs-14);
   margin-bottom: 4px;
 }
 
 /* ---- Team grid ---- */
 .staff-role {
-  font-size: 10px;
+  font-size: var(--fs-10);
   font-weight: 600;
   letter-spacing: 1.2px;
   text-transform: uppercase;
@@ -1280,7 +1356,7 @@ main:focus {
   margin-bottom: 10px;
 }
 .form-recipient {
-  font-size: 10px;
+  font-size: var(--fs-10);
   color: var(--muted-foreground);
   margin-top: 7px;
 }
@@ -1321,7 +1397,7 @@ main:focus {
   font-size: 24px;
 }
 .location-card p {
-  font-size: 12px;
+  font-size: var(--fs-12);
   color: var(--muted-foreground);
 }
 .location-card .garage-button {
@@ -1361,7 +1437,7 @@ main:focus {
   color: var(--primary);
 }
 .map-consent p {
-  font-size: 10px;
+  font-size: var(--fs-10);
   color: var(--muted-foreground);
   max-width: 260px;
 }
@@ -1374,7 +1450,7 @@ main:focus {
   margin-top: 26px;
 }
 .anchor-nav a {
-  font-size: 11px;
+  font-size: var(--fs-11);
   font-weight: 600;
   padding: 8px 14px;
   border-radius: 999px;
@@ -1407,7 +1483,7 @@ main:focus {
   max-width: 640px;
 }
 .status-page p {
-  font-size: 14px;
+  font-size: var(--fs-14);
   color: var(--muted-foreground);
   margin-bottom: 28px;
   max-width: 560px;
@@ -1485,7 +1561,7 @@ main:focus {
 }
 .training-copy p {
   color: oklch(1 0 0 / 0.76);
-  font-size: 14px;
+  font-size: var(--fs-14);
   max-width: 460px;
   margin-bottom: 14px;
 }
@@ -1561,7 +1637,7 @@ main:focus {
   background: var(--card);
 }
 .training-year {
-  font-size: 10px;
+  font-size: var(--fs-10);
   font-weight: 700;
   letter-spacing: 1.5px;
   text-transform: uppercase;
@@ -1575,7 +1651,7 @@ main:focus {
   margin: 6px 0 5px;
 }
 .training-card p {
-  font-size: 12px;
+  font-size: var(--fs-12);
   color: oklch(1 0 0 / 0.7);
 }
 .training-step-today .training-card p {
@@ -1586,7 +1662,7 @@ main:focus {
   display: inline-flex;
   align-items: center;
   gap: 7px;
-  font-size: 12px;
+  font-size: var(--fs-12);
   font-weight: 600;
   color: var(--primary);
 }
@@ -1650,7 +1726,7 @@ main:focus {
   animation: reveal 0.7s 0.15s ease both;
 }
 .concierge-head {
-  font-size: 10px;
+  font-size: var(--fs-10);
   font-weight: 600;
   letter-spacing: 1.4px;
   text-transform: uppercase;
@@ -1687,7 +1763,7 @@ main:focus {
   height: 38px;
   border: 0;
   background: none;
-  font-size: 12px;
+  font-size: var(--fs-12);
   font-weight: 600;
   color: var(--primary);
   cursor: pointer;
@@ -1710,7 +1786,7 @@ main:focus {
   margin-bottom: 6px;
 }
 .concierge-panel p {
-  font-size: 12.5px;
+  font-size: var(--fs-12-5);
   color: var(--muted-foreground);
   line-height: 1.6;
   max-width: none;
@@ -1732,16 +1808,16 @@ main:focus {
 .concierge-person .sales-avatar {
   width: 36px;
   height: 36px;
-  font-size: 12px;
+  font-size: var(--fs-12);
 }
 .concierge-person strong {
   display: block;
-  font-size: 13px;
+  font-size: var(--fs-13);
   font-family: var(--font-display);
 }
 .concierge-person span span {
   display: block;
-  font-size: 11px;
+  font-size: var(--fs-11);
   color: var(--muted-foreground);
 }
 .concierge-phone {
@@ -1749,7 +1825,7 @@ main:focus {
   align-items: center;
   gap: 7px;
   font-weight: 700;
-  font-size: 13px;
+  font-size: var(--fs-13);
   color: var(--primary);
   padding: 8px 12px;
   border-radius: 999px;
@@ -1923,7 +1999,7 @@ main:focus {
   align-items: center;
   gap: 7px;
   white-space: nowrap;
-  font-size: 11px;
+  font-size: var(--fs-11);
   font-weight: 600;
   color: var(--primary);
   background: color-mix(in oklch, var(--card) 92%, transparent);
@@ -1961,7 +2037,7 @@ main:focus {
     min-width: 0;
     padding: 0 8px;
     gap: 6px;
-    font-size: 10.5px;
+    font-size: var(--fs-10-5);
     white-space: nowrap;
   }
   .mobile-call > :last-child svg {
@@ -2028,7 +2104,7 @@ main:focus {
   border-radius: 5px;
   background: var(--accent);
   color: var(--accent-foreground);
-  font-size: 12px;
+  font-size: var(--fs-12);
   font-weight: 600;
   white-space: nowrap;
   transition:
@@ -2090,7 +2166,7 @@ main:focus {
   border-radius: 999px;
   border: 1px solid var(--border);
   background: var(--card);
-  font-size: 11px;
+  font-size: var(--fs-11);
   font-weight: 600;
   color: var(--primary);
   cursor: pointer;
@@ -2108,7 +2184,7 @@ main:focus {
   color: var(--primary-foreground);
 }
 .filter-count {
-  font-size: 10px;
+  font-size: var(--fs-10);
   background: var(--secondary);
   color: var(--primary);
   border-radius: 999px;
@@ -2200,7 +2276,7 @@ main:focus {
   left: 10px;
   background: oklch(0.235 0.046 235 / 0.78);
   color: var(--primary-foreground);
-  font-size: 10px;
+  font-size: var(--fs-10);
   padding: 3px 8px;
   border-radius: 3px;
   backdrop-filter: blur(4px);
@@ -2209,7 +2285,7 @@ main:focus {
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  font-size: 11px;
+  font-size: var(--fs-11);
   font-weight: 600;
   color: var(--accent);
 }
@@ -2282,7 +2358,7 @@ main:focus {
 .section-tabs a {
   position: relative;
   padding: 16px 0;
-  font-size: 12px;
+  font-size: var(--fs-12);
   font-weight: 600;
   color: var(--muted-foreground);
   white-space: nowrap;
@@ -2332,7 +2408,7 @@ main:focus {
   border: 0;
   box-shadow: 0 12px 30px oklch(0.23 0.035 235 / 0.3);
   font-weight: 600;
-  font-size: 13px;
+  font-size: var(--fs-13);
   cursor: pointer;
   transition: transform 0.2s;
 }
@@ -2370,7 +2446,7 @@ main:focus {
 }
 .quick-head strong {
   font-family: var(--font-display);
-  font-size: 15px;
+  font-size: var(--fs-15);
 }
 .quick-row {
   display: flex;
@@ -2392,11 +2468,11 @@ main:focus {
 }
 .quick-row strong {
   display: block;
-  font-size: 12.5px;
+  font-size: var(--fs-12-5);
 }
 .quick-row span span {
   display: block;
-  font-size: 11px;
+  font-size: var(--fs-11);
   color: var(--muted-foreground);
 }
 .quick-row-primary {
@@ -2436,7 +2512,7 @@ main:focus {
   background: none;
   border: 0;
   padding: 6px 0;
-  font-size: 12px;
+  font-size: var(--fs-12);
   font-weight: 600;
   color: var(--muted-foreground);
   cursor: pointer;
@@ -2454,7 +2530,7 @@ main:focus {
   place-items: center;
   border: 1.5px solid var(--border);
   background: var(--card);
-  font-size: 12px;
+  font-size: var(--fs-12);
   flex-shrink: 0;
   transition:
     background 0.25s,
@@ -2523,7 +2599,7 @@ main:focus {
   display: flex;
   gap: 8px;
   align-items: center;
-  font-size: 10px;
+  font-size: var(--fs-10);
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 1.3px;
@@ -2532,13 +2608,13 @@ main:focus {
 }
 .planner-label-inline {
   display: block;
-  font-size: 11px;
+  font-size: var(--fs-11);
   font-weight: 500;
   margin-bottom: 8px;
 }
 .planner label {
   display: block;
-  font-size: 11px;
+  font-size: var(--fs-11);
   font-weight: 500;
   margin-bottom: 8px;
 }
@@ -2549,7 +2625,7 @@ main:focus {
   border: 1px solid var(--border);
   border-radius: 6px;
   padding: 12px;
-  font-size: 13px;
+  font-size: var(--fs-13);
   color: var(--foreground);
   outline: none;
   transition:
@@ -2569,7 +2645,7 @@ main:focus {
   display: flex;
   gap: 9px;
   align-items: flex-start;
-  font-size: 11px;
+  font-size: var(--fs-11);
   font-weight: 400;
   line-height: 1.6;
   margin: 4px 0 0;
@@ -2630,10 +2706,10 @@ main:focus {
 }
 .choice-topic strong {
   font-family: var(--font-display);
-  font-size: 15px;
+  font-size: var(--fs-15);
 }
 .choice-topic span {
-  font-size: 11px;
+  font-size: var(--fs-11);
   color: var(--muted-foreground);
 }
 .need-block {
@@ -2651,7 +2727,7 @@ main:focus {
   gap: 7px;
   padding: 9px 14px;
   border-radius: 999px;
-  font-size: 12px;
+  font-size: var(--fs-12);
   font-weight: 500;
 }
 .choice-chip svg {
@@ -2690,7 +2766,7 @@ main:focus {
   display: none;
 }
 .day-weekday {
-  font-size: 10px;
+  font-size: var(--fs-10);
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 1px;
@@ -2703,11 +2779,11 @@ main:focus {
   color: var(--primary);
 }
 .day-month {
-  font-size: 11px;
+  font-size: var(--fs-11);
   color: var(--muted-foreground);
 }
 .day-tag {
-  font-size: 9px;
+  font-size: var(--fs-9);
   font-weight: 700;
   color: var(--accent);
   margin-top: 2px;
@@ -2729,14 +2805,14 @@ main:focus {
   min-width: 160px;
 }
 .choice-slot strong {
-  font-size: 13px;
+  font-size: var(--fs-13);
 }
 .choice-slot span {
-  font-size: 11px;
+  font-size: var(--fs-11);
   color: var(--muted-foreground);
 }
 .form-hint {
-  font-size: 11px;
+  font-size: var(--fs-11);
   color: var(--muted-foreground);
   margin-top: 14px;
 }
@@ -2772,14 +2848,14 @@ main:focus {
   gap: 14px;
 }
 .planner-summary dt {
-  font-size: 10px;
+  font-size: var(--fs-10);
   text-transform: uppercase;
   letter-spacing: 1.2px;
   color: oklch(1 0 0 / 0.6);
 }
 .planner-summary dd {
   margin: 3px 0 0;
-  font-size: 13px;
+  font-size: var(--fs-13);
   font-weight: 600;
 }
 .planner-summary .small-note {
@@ -2803,10 +2879,10 @@ main:focus {
 .summary-contact strong {
   display: block;
   font-family: var(--font-display);
-  font-size: 15px;
+  font-size: var(--fs-15);
 }
 .summary-role {
-  font-size: 11px;
+  font-size: var(--fs-11);
   color: oklch(1 0 0 / 0.7);
 }
 .summary-call {
@@ -2814,7 +2890,7 @@ main:focus {
   gap: 8px;
   align-items: center;
   margin-top: 16px;
-  font-size: 12px;
+  font-size: var(--fs-12);
   color: oklch(1 0 0 / 0.85);
 }
 .summary-call svg {
@@ -2843,7 +2919,7 @@ main:focus {
 }
 .planner-done p {
   color: var(--muted-foreground);
-  font-size: 13px;
+  font-size: var(--fs-13);
   margin-bottom: 14px;
 }
 .mobile-nav-cta {
@@ -2971,10 +3047,10 @@ main:focus {
   border-radius: 8px;
   padding: 16px 18px;
   box-shadow: 0 22px 44px oklch(0.23 0.035 235 / 0.16);
-  font-size: 12px;
+  font-size: var(--fs-12);
 }
 .story-card-label {
-  font-size: 10px;
+  font-size: var(--fs-10);
   font-weight: 600;
   letter-spacing: 1.3px;
   text-transform: uppercase;
@@ -2982,7 +3058,7 @@ main:focus {
 }
 .story-card strong {
   font-family: var(--font-display);
-  font-size: 15px;
+  font-size: var(--fs-15);
   margin-top: 2px;
 }
 .story-card .open-status {
@@ -3081,11 +3157,11 @@ main:focus {
 .story-tip strong {
   display: block;
   font-family: var(--font-display);
-  font-size: 13px;
+  font-size: var(--fs-13);
   margin-bottom: 4px;
 }
 .story-tip p {
-  font-size: 11.5px;
+  font-size: var(--fs-11-5);
   line-height: 1.55;
   color: var(--muted-foreground);
 }
@@ -3094,7 +3170,7 @@ main:focus {
   align-items: center;
   gap: 6px;
   margin-top: 8px;
-  font-size: 11px;
+  font-size: var(--fs-11);
   font-weight: 600;
   color: var(--accent);
 }
@@ -3343,7 +3419,7 @@ main:focus {
   gap: 5px;
 }
 .vehicle-specs li {
-  font-size: 10px;
+  font-size: var(--fs-10);
   line-height: 1.4;
   padding: 3px 8px;
   border-radius: 999px;
@@ -3375,7 +3451,7 @@ main:focus {
   border-radius: 999px;
   border: 1px solid var(--border);
   background: var(--card);
-  font-size: 11px;
+  font-size: var(--fs-11);
   font-weight: 600;
   color: var(--primary);
   white-space: nowrap;
@@ -3466,7 +3542,7 @@ main:focus {
   border-radius: 999px;
   background: var(--card);
   color: var(--primary);
-  font-size: 11px;
+  font-size: var(--fs-11);
   font-weight: 600;
   cursor: pointer;
 }
@@ -3508,7 +3584,7 @@ main:focus {
   border-radius: 8px;
   border: 1px solid color-mix(in srgb, var(--accent) 30%, var(--border));
   background: color-mix(in srgb, var(--accent) 5%, var(--card));
-  font-size: 12px;
+  font-size: var(--fs-12);
   animation: reveal 0.35s ease both;
 }
 .selection-bar > span {
@@ -3561,7 +3637,7 @@ main:focus {
   }
   .desktop-nav {
     gap: 18px;
-    font-size: 11px;
+    font-size: var(--fs-11);
   }
   .logo {
     width: 230px;
@@ -3610,7 +3686,7 @@ main:focus {
   }
   .mobile-nav a {
     padding: 12px 0;
-    font-size: 14px;
+    font-size: var(--fs-14);
   }
   .mobile-nav a[data-status="active"] {
     color: var(--accent);
@@ -3681,7 +3757,7 @@ main:focus {
   }
   .info-bar {
     height: 32px;
-    font-size: 9px;
+    font-size: var(--fs-9);
   }
   .info-phone {
     padding: 0 8px;
@@ -3719,7 +3795,7 @@ main:focus {
     padding-top: 30px;
   }
   .hero .eyebrow {
-    font-size: 9px;
+    font-size: var(--fs-9);
   }
   .hero h1 {
     font-size: 39px;
@@ -3730,7 +3806,7 @@ main:focus {
     margin-bottom: 12px;
   }
   .hero p {
-    font-size: 12px;
+    font-size: var(--fs-12);
     max-width: 290px;
   }
   .hero-actions {
@@ -3740,7 +3816,7 @@ main:focus {
   .garage-button {
     padding: 0 14px;
     height: 44px;
-    font-size: 10px;
+    font-size: var(--fs-10);
     gap: 8px;
   }
   .suzuki-signature {
@@ -3753,12 +3829,12 @@ main:focus {
     height: 20px;
   }
   .suzuki-signature span {
-    font-size: 9px;
+    font-size: var(--fs-9);
     padding-left: 12px;
   }
   .hero-caption {
     bottom: 10px;
-    font-size: 8px;
+    font-size: var(--fs-8);
     right: 12px;
   }
   .trust-grid {
@@ -3774,10 +3850,10 @@ main:focus {
     height: 25px;
   }
   .trust-item strong {
-    font-size: 11px;
+    font-size: var(--fs-11);
   }
   .trust-item span {
-    font-size: 10px;
+    font-size: var(--fs-10);
   }
   .section {
     padding: 38px 0;
@@ -3792,10 +3868,10 @@ main:focus {
     font-size: 23px;
   }
   .eyebrow {
-    font-size: 9px;
+    font-size: var(--fs-9);
   }
   .section-link {
-    font-size: 9px;
+    font-size: var(--fs-9);
     gap: 5px;
   }
   .service-grid,
@@ -3807,10 +3883,10 @@ main:focus {
     min-height: 215px;
   }
   .service-card h3 {
-    font-size: 12px;
+    font-size: var(--fs-12);
   }
   .service-card p {
-    font-size: 10px;
+    font-size: var(--fs-10);
   }
   .stock-section {
     padding-top: 0;
@@ -3822,17 +3898,17 @@ main:focus {
     padding: 12px;
   }
   .vehicle-info h3 {
-    font-size: 11px;
+    font-size: var(--fs-11);
   }
   .vehicle-info p {
-    font-size: 10px;
+    font-size: var(--fs-10);
   }
   .vehicle-meta {
-    font-size: 9px;
+    font-size: var(--fs-9);
     line-height: 1.6;
   }
   .vehicle-price {
-    font-size: 12px;
+    font-size: var(--fs-12);
   }
   .partnership,
   .story,
@@ -3853,7 +3929,7 @@ main:focus {
     align-items: flex-start;
   }
   .form-footer p {
-    font-size: 9px;
+    font-size: var(--fs-9);
   }
   .footer-top {
     gap: 24px;
@@ -3879,7 +3955,7 @@ main:focus {
     gap: 12px;
   }
   .mobile-call .garage-button {
-    font-size: 11px;
+    font-size: var(--fs-11);
     width: 100%;
     height: 42px;
   }
@@ -3890,7 +3966,7 @@ main:focus {
     font-size: 33px;
   }
   .page-intro p {
-    font-size: 12px;
+    font-size: var(--fs-12);
   }
   .detail-layout h2 {
     font-size: 25px;
@@ -3979,7 +4055,7 @@ main:focus {
     align-items: center;
     gap: 10px;
     padding: 4px 0;
-    font-size: 13px;
+    font-size: var(--fs-13);
     font-weight: 600;
   }
   .mobile-nav-contacts svg {
@@ -4014,7 +4090,7 @@ main:focus {
   .sales-avatar {
     width: 40px;
     height: 40px;
-    font-size: 13px;
+    font-size: var(--fs-13);
   }
   .sales-actions {
     flex-direction: column;
@@ -4057,7 +4133,7 @@ main:focus {
   .training-badge {
     width: 46px;
     height: 46px;
-    font-size: 15px;
+    font-size: var(--fs-15);
   }
   .training-timeline:before {
     left: 22px;
@@ -4215,7 +4291,7 @@ main:focus {
     padding: 12px;
   }
   .concierge-tabs button {
-    font-size: 11px;
+    font-size: var(--fs-11);
     gap: 5px;
   }
   .concierge-tabs svg {
@@ -4515,13 +4591,13 @@ main:focus {
   display: flex;
   align-items: center;
   gap: 12px;
-  font-size: 11px;
+  font-size: var(--fs-11);
   letter-spacing: 0.08em;
   color: oklch(1 0 0 / 0.55);
   font-variant-numeric: tabular-nums;
 }
 .sr-count strong {
-  font-size: 14px;
+  font-size: var(--fs-14);
   color: #fff;
 }
 .sr-timer {
@@ -4596,7 +4672,7 @@ main:focus {
   align-items: center;
   gap: 10px;
   margin-top: 24px;
-  font-size: 11px;
+  font-size: var(--fs-11);
   font-weight: 700;
   letter-spacing: 0.24em;
   text-transform: uppercase;
@@ -4607,7 +4683,7 @@ main:focus {
   border-radius: 3px;
   background: var(--accent);
   color: #fff;
-  font-size: 10px;
+  font-size: var(--fs-10);
   letter-spacing: 0.04em;
 }
 .sr-model {
@@ -4639,7 +4715,7 @@ main:focus {
   display: flex;
   align-items: center;
   gap: 6px;
-  font-size: 9.5px;
+  font-size: var(--fs-9-5);
   letter-spacing: 0.08em;
   text-transform: uppercase;
   color: oklch(1 0 0 / 0.52);
@@ -4651,7 +4727,7 @@ main:focus {
 }
 .sr-specs dd {
   margin: 4px 0 0;
-  font-size: 13px;
+  font-size: var(--fs-13);
   font-weight: 600;
   color: #fff;
   white-space: nowrap;
@@ -4675,7 +4751,7 @@ main:focus {
   padding-top: 22px;
 }
 .sr-price span {
-  font-size: 11px;
+  font-size: var(--fs-11);
   letter-spacing: 0.12em;
   text-transform: uppercase;
   color: oklch(1 0 0 / 0.52);
@@ -4705,7 +4781,7 @@ main:focus {
   border-radius: 999px;
   border: 1px solid oklch(1 0 0 / 0.24);
   color: #fff;
-  font-size: 12px;
+  font-size: var(--fs-12);
   font-weight: 700;
   white-space: nowrap;
   transition:
@@ -4846,7 +4922,7 @@ main:focus {
 }
 .sr-thumb-name {
   display: block;
-  font-size: 10px;
+  font-size: var(--fs-10);
   font-weight: 600;
   white-space: nowrap;
   overflow: hidden;
@@ -4883,7 +4959,7 @@ main:focus {
   color: #fff;
 }
 .sr-thumb-more .sr-thumb-img span {
-  font-size: 9.5px;
+  font-size: var(--fs-9-5);
   letter-spacing: 0.08em;
   text-transform: uppercase;
 }
@@ -4972,7 +5048,7 @@ main:focus {
     padding: 8px 9px;
   }
   .sr-specs dd {
-    font-size: 12px;
+    font-size: var(--fs-12);
   }
   .sr-price strong {
     font-size: 26px;
@@ -5040,7 +5116,7 @@ main:focus {
 }
 .bodywork-copy p {
   margin: 0;
-  font-size: 13px;
+  font-size: var(--fs-13);
   line-height: 1.75;
   color: oklch(1 0 0 / 0.68);
 }
@@ -5073,7 +5149,7 @@ main:focus {
 }
 .bodywork-figures dd {
   margin: 6px 0 0;
-  font-size: 11px;
+  font-size: var(--fs-11);
   line-height: 1.45;
   color: oklch(1 0 0 / 0.58);
 }
@@ -5185,7 +5261,7 @@ main:focus {
   left: 12px;
   padding: 3px 8px;
   border-radius: 4px;
-  font-size: 9px;
+  font-size: var(--fs-9);
   color: #fff;
   background: rgb(10 18 28 / 0.5);
   backdrop-filter: blur(6px);
@@ -5201,7 +5277,7 @@ main:focus {
   gap: 8px;
   padding: 9px 16px;
   border-radius: 999px;
-  font-size: 12px;
+  font-size: var(--fs-12);
   font-weight: 600;
   color: var(--primary);
   background: rgb(255 255 255 / 0.9);
@@ -5262,14 +5338,14 @@ main:focus {
 }
 .polish-gauge small {
   display: block;
-  font-size: 9px;
+  font-size: var(--fs-9);
   letter-spacing: 0.12em;
   text-transform: uppercase;
   color: rgb(255 255 255 / 0.65);
 }
 .polish-gauge strong {
   display: block;
-  font-size: 15px;
+  font-size: var(--fs-15);
   line-height: 1.2;
   font-variant-numeric: tabular-nums;
 }
@@ -5288,7 +5364,7 @@ main:focus {
   background: rgb(10 18 28 / 0.55);
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
-  font-size: 11px;
+  font-size: var(--fs-11);
   font-weight: 700;
   cursor: pointer;
   transition:
@@ -5333,12 +5409,12 @@ main:focus {
   transform: translateY(-2px);
 }
 .telltale strong {
-  font-size: 15px;
+  font-size: var(--fs-15);
   font-weight: 600;
   color: #fff;
 }
 .telltale > span:last-child {
-  font-size: 12px;
+  font-size: var(--fs-12);
   line-height: 1.5;
   color: oklch(1 0 0 / 0.62);
 }
@@ -5366,7 +5442,7 @@ main:focus {
   position: absolute;
   top: 18px;
   right: 18px;
-  font-size: 10px;
+  font-size: var(--fs-10);
   letter-spacing: 0.14em;
   color: oklch(1 0 0 / 0.32);
   font-variant-numeric: tabular-nums;
@@ -5409,13 +5485,13 @@ main:focus {
   border-radius: 50%;
   display: grid;
   place-items: center;
-  font-size: 14px;
+  font-size: var(--fs-14);
   font-weight: 700;
   color: #fff;
   background: var(--accent);
 }
 .telltale-role {
-  font-size: 10px;
+  font-size: var(--fs-10);
   letter-spacing: 0.12em;
   text-transform: uppercase;
   color: oklch(1 0 0 / 0.6);
@@ -5425,7 +5501,7 @@ main:focus {
   align-items: center;
   gap: 7px;
   margin-top: 4px;
-  font-size: 12px;
+  font-size: var(--fs-12);
   font-weight: 600;
   color: #fff;
   text-decoration: underline;
@@ -5448,7 +5524,7 @@ main:focus {
   gap: 10px;
   max-width: 74ch;
   margin: 0 0 10px;
-  font-size: 12px;
+  font-size: var(--fs-12);
   line-height: 1.6;
   color: oklch(1 0 0 / 0.6);
 }
@@ -5497,7 +5573,7 @@ main:focus {
     font-size: 22px;
   }
   .bodywork-figures dd {
-    font-size: 10px;
+    font-size: var(--fs-10);
   }
   .bodywork-grid {
     margin-top: 36px;
@@ -5577,7 +5653,7 @@ main:focus {
 }
 .mechanics-head p {
   margin: 0;
-  font-size: 13px;
+  font-size: var(--fs-13);
   line-height: 1.75;
   color: var(--muted-foreground);
 }
@@ -5776,7 +5852,7 @@ main:focus {
   padding: 4px 10px;
   border-radius: 999px;
   white-space: nowrap;
-  font-size: 11px;
+  font-size: var(--fs-11);
   font-weight: 700;
   color: var(--primary);
   background: #fff;
@@ -5810,7 +5886,7 @@ main:focus {
   z-index: 3;
   padding: 4px 9px;
   border-radius: 5px;
-  font-size: 10px;
+  font-size: var(--fs-10);
   font-weight: 600;
   color: #fff;
   background: oklch(0.15 0.03 240 / 0.55);
@@ -5828,7 +5904,7 @@ main:focus {
   gap: 8px;
   padding: 7px 14px;
   border-radius: 999px;
-  font-size: 11px;
+  font-size: var(--fs-11);
   font-weight: 600;
   color: var(--primary);
   background: oklch(1 0 0 / 0.92);
@@ -5906,7 +5982,7 @@ main:focus {
 }
 .tour-step {
   display: block;
-  font-size: 10px;
+  font-size: var(--fs-10);
   font-weight: 700;
   letter-spacing: 0.14em;
   text-transform: uppercase;
@@ -5938,7 +6014,7 @@ main:focus {
 }
 .tour-card p {
   margin: 8px 0 0;
-  font-size: 12px;
+  font-size: var(--fs-12);
   line-height: 1.6;
   color: oklch(1 0 0 / 0.7);
 }
@@ -5952,7 +6028,7 @@ main:focus {
 .tour-card li {
   display: flex;
   gap: 9px;
-  font-size: 13px;
+  font-size: var(--fs-13);
   line-height: 1.5;
   color: oklch(1 0 0 / 0.88);
 }
@@ -5981,7 +6057,7 @@ main:focus {
   align-items: center;
   justify-content: center;
   gap: 8px;
-  font-size: 12px;
+  font-size: var(--fs-12);
   font-weight: 700;
   cursor: pointer;
   transition:
@@ -6079,7 +6155,7 @@ main:focus {
 }
 .faq-head p {
   margin: 14px 0 0;
-  font-size: 13px;
+  font-size: var(--fs-13);
   line-height: 1.7;
   color: var(--muted-foreground);
 }
@@ -6103,7 +6179,7 @@ main:focus {
 }
 .faq-item h3 {
   margin: 0;
-  font-size: 15px;
+  font-size: var(--fs-15);
   font-weight: 600;
   line-height: 1.4;
   color: var(--primary);
@@ -6124,7 +6200,7 @@ main:focus {
 .faq-item p {
   margin: 0;
   padding: 0 40px 20px 2px;
-  font-size: 13px;
+  font-size: var(--fs-13);
   line-height: 1.75;
   color: var(--muted-foreground);
 }
@@ -6137,7 +6213,7 @@ main:focus {
 .stock-list-intro {
   margin: 10px 0 22px;
   max-width: 60ch;
-  font-size: 13px;
+  font-size: var(--fs-13);
   color: var(--muted-foreground);
 }
 .stock-list {
@@ -6166,17 +6242,17 @@ main:focus {
   flex: 1;
 }
 .stock-list-name strong {
-  font-size: 13px;
+  font-size: var(--fs-13);
   font-weight: 600;
   line-height: 1.4;
 }
 .stock-list-name span {
-  font-size: 11px;
+  font-size: var(--fs-11);
   line-height: 1.5;
   color: var(--muted-foreground);
 }
 .stock-list-price {
-  font-size: 13px;
+  font-size: var(--fs-13);
   font-weight: 700;
   white-space: nowrap;
 }
@@ -6212,5 +6288,176 @@ main:focus {
   }
   .faq-item p {
     padding-right: 4px;
+  }
+}
+
+/* ---- Phones: comfortable to read, easy to tap ---- */
+html {
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+body {
+  padding-left: env(safe-area-inset-left);
+  padding-right: env(safe-area-inset-right);
+}
+@media (max-width: 640px) {
+  /* iOS zooms into any field under 16px when it is tapped (a platform rule, hence !important). */
+  input:not([type="checkbox"]):not([type="radio"]),
+  select,
+  textarea {
+    font-size: 16px !important;
+  }
+  /* Links and details people read or tap: no smaller than 13-14px. */
+  .section-link {
+    font-size: 14px;
+  }
+  .vehicle-meta,
+  .form-footer p {
+    font-size: 13px;
+  }
+  .privacy {
+    min-height: 44px;
+    align-items: center;
+  }
+  .privacy input[type="checkbox"] {
+    width: 20px;
+    height: 20px;
+    flex-shrink: 0;
+  }
+  .telltale-contact a,
+  .mech-details summary {
+    min-height: 44px;
+  }
+  .sort-select {
+    padding: 0;
+  }
+  .sort-select svg {
+    position: absolute;
+    left: 14px;
+    pointer-events: none;
+  }
+  .sort-select select {
+    height: 44px;
+    padding: 0 16px 0 38px;
+  }
+  /* The info bar repeats the call bar and the menu: give its height back to the page. */
+  .info-bar {
+    display: none;
+  }
+  .nav-row {
+    height: 64px;
+  }
+  /* Everything you tap is at least 44px high (Apple and Google guidance). */
+  .mobile-toggle {
+    width: 44px;
+    height: 44px;
+    justify-content: center;
+  }
+  .section-link,
+  .card-link,
+  .sales-action,
+  .contact-line,
+  .summary-call,
+  .concierge-tabs button,
+  .sort-select,
+  .tour-nav-main,
+  .vehicle-more {
+    min-height: 44px;
+  }
+  .breadcrumb a,
+  .staff-links a,
+  .footer-links a,
+  .footer-top a,
+  .footer-bottom a {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+  }
+  .breadcrumb {
+    margin-bottom: 12px;
+  }
+  .footer-links {
+    row-gap: 0;
+  }
+  .filter-chip {
+    height: 44px;
+  }
+  .vehicle-action {
+    height: 40px;
+  }
+  .vehicle-action-icon {
+    width: 40px;
+  }
+  .fav-button {
+    width: 44px;
+    height: 44px;
+  }
+  .sr-arrow,
+  .tour-nav-btn {
+    width: 44px;
+    height: 44px;
+  }
+  .sr-play {
+    width: 40px;
+    height: 40px;
+  }
+  .polish-btn {
+    height: 40px;
+  }
+  .planner-steps button {
+    min-width: 44px;
+    min-height: 44px;
+  }
+  .mobile-call .garage-button {
+    height: 46px;
+  }
+  /* The footer's last line stays clear of the call bar and the home indicator. */
+  .site-footer {
+    padding-bottom: calc(100px + env(safe-area-inset-bottom));
+  }
+}
+
+/* Narrow phones (320-380px): keep every row inside the screen. */
+.mc-short {
+  display: none;
+}
+@media (max-width: 800px) {
+  .trust-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .trust-item {
+    min-width: 0;
+  }
+  .trust-item strong {
+    flex-wrap: wrap;
+  }
+}
+/* The call bar keeps its full labels on common phones; only the smallest get the short ones. */
+@media (max-width: 359px) {
+  .mc-long {
+    display: none;
+  }
+  .mc-short {
+    display: inline;
+  }
+}
+@media (max-width: 400px) {
+  .tour-nav {
+    flex-wrap: wrap;
+  }
+  .tour-nav-main {
+    order: -1;
+    flex-basis: 100%;
+  }
+  .tour-nav-btn {
+    flex: 1;
+  }
+  .tour-dots {
+    display: none;
+  }
+  .tour-hint {
+    max-width: calc(100% - 24px);
+    white-space: normal;
+    text-align: center;
   }
 }

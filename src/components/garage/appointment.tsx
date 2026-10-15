@@ -179,7 +179,7 @@ export function AppointmentPlanner({
               <h2>Votre demande est prête.</h2>
               <p>
                 Elle s’est ouverte dans votre messagerie, adressée à {contact?.name}. Envoyez
-                l’e-mail : nous vous confirmons le rendez-vous par {contactBy}.
+                l’e-mail : nous vous confirmons le rendez-vous par {contactBy}.
               </p>
               <p className="small-note">
                 Votre messagerie ne s’est pas ouverte&nbsp;? Copiez le récapitulatif et envoyez-le à{" "}
@@ -237,7 +237,7 @@ export function AppointmentPlanner({
             </fieldset>
           ) : step === 1 ? (
             <fieldset>
-              <legend>{isSale ? "Quel véhicule vous intéresse ?" : "Votre véhicule"}</legend>
+              <legend>{isSale ? "Quel véhicule vous intéresse ?" : "Votre véhicule"}</legend>
               {isSale ? (
                 <div className="form-field">
                   <label htmlFor="pl-interest">Véhicule ou annonce (facultatif)</label>
@@ -369,7 +369,7 @@ export function AppointmentPlanner({
                 </div>
               )}
               <p className="form-hint">
-                C’est une demande : nous vous confirmons le rendez-vous, ou vous proposons un autre
+                C’est une demande : nous vous confirmons le rendez-vous, ou vous proposons un autre
                 moment.
               </p>
             </fieldset>
@@ -508,10 +508,10 @@ export function AppointmentPlanner({
               </div>
             </div>
           ) : (
-            <p className="small-note">Choisissez un service : nous vous dirons qui s’en occupe.</p>
+            <p className="small-note">Choisissez un service : nous vous dirons qui s’en occupe.</p>
           )}
           <a className="summary-call" href={contact?.mobileHref ?? garage.phoneHref}>
-            <Phone /> Plus rapide par téléphone : {contact?.mobile ?? garage.phone}
+            <Phone /> Plus rapide par téléphone : {contact?.mobile ?? garage.phone}
           </a>
         </aside>
       </div>

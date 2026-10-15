@@ -33,6 +33,12 @@ export default tseslint.config(
         },
       ],
       "react-refresh/only-export-components": ["warn", { allowConstantExport: true }],
+      // French text uses no-break spaces before ? ! : ; and inside « », so that punctuation
+      // never starts a line. They are allowed in text, still flagged in code.
+      "no-irregular-whitespace": [
+        "error",
+        { skipStrings: true, skipTemplates: true, skipJSXText: true },
+      ],
       "@typescript-eslint/no-unused-vars": "off",
     },
   },

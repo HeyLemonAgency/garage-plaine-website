@@ -28,6 +28,9 @@ import { HeroLights } from "./hero-lights";
 import { serviceIcons } from "./service-icons";
 import { OpenStatus } from "./people";
 import hero from "@/assets/suzuki-lake.webp";
+import hero640 from "@/assets/suzuki-lake-640.webp";
+import hero960 from "@/assets/suzuki-lake-960.webp";
+import hero1440 from "@/assets/suzuki-lake-1440.webp";
 import suzuki from "@/assets/suzuki-logo.png";
 import garagePhoto from "@/assets/garage.webp";
 import garageWide from "@/assets/garage-wide.webp";
@@ -215,6 +218,9 @@ export function Hero({ stockTotal = null }: { stockTotal?: number | null }) {
           ref={image}
           className="hero-image"
           src={hero}
+          // On a phone the photo is cropped to about 470px wide: no need for the 1920px file.
+          srcSet={`${hero640} 640w, ${hero960} 960w, ${hero1440} 1440w, ${hero} 1920w`}
+          sizes="(max-width: 640px) 470px, (max-width: 1000px) 1350px, 100vw"
           alt="Suzuki Vitara dans un paysage au bord du Léman"
           width={1920}
           height={1024}
@@ -233,7 +239,7 @@ export function Hero({ stockTotal = null }: { stockTotal?: number | null }) {
             de confiance <br />à Denges.
           </h1>
           <div className="red-rule" />
-          <p>Vente, carrosserie et entretien : un service de proximité depuis plus de 40 ans.</p>
+          <p>Vente, carrosserie et entretien : un service de proximité depuis plus de 40 ans.</p>
         </div>
         <HeroConcierge stockTotal={stockTotal} />
       </div>

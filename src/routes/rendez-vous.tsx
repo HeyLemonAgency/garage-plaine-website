@@ -29,7 +29,7 @@ export const Route = createFileRoute("/rendez-vous")({
       title: "Rendez-vous atelier, carrosserie ou essai",
       crumb: "Rendez-vous",
       description:
-        "Demandez en ligne un rendez-vous à l’atelier, à la carrosserie ou un essai au service vente du Garage de la Plaine à Denges ; le garage vous confirme.",
+        "Demandez en ligne un rendez-vous à l’atelier, à la carrosserie ou un essai au service vente du Garage de la Plaine à Denges ; le garage vous confirme.",
     }),
   component: RendezVous,
 });

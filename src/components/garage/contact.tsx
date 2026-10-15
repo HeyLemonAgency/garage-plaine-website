@@ -203,7 +203,7 @@ export function Location() {
           {showMap ? (
             <iframe
               src={garage.mapEmbed}
-              title="Carte : Garage de la Plaine, Route de la Plaine 20, Denges"
+              title="Carte : Garage de la Plaine, Route de la Plaine 20, Denges"
               loading="lazy"
               referrerPolicy="no-referrer-when-downgrade"
               allowFullScreen

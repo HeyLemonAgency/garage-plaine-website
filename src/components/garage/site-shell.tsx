@@ -14,7 +14,7 @@ import { Button } from "@/components/ui/button";
 import { garage, team } from "@/lib/garage";
 import { OpenStatus } from "./people";
 import { useSpotlight } from "@/hooks/use-interactions";
-import logo from "@/assets/garage-logo.png";
+import logo from "@/assets/garage-logo-720.png";
 
 const nav = [
   ["/", "Accueil"],
@@ -195,23 +195,27 @@ export function SiteFooter() {
           {salesPage ? (
             <a href={team.vente.mobileHref}>
               <Phone />
-              Appeler la vente
+              <span className="mc-long">Appeler la vente</span>
+              <span className="mc-short">Appeler</span>
             </a>
           ) : (
             <a href={garage.phoneHref}>
               <Phone />
-              Appeler le garage
+              <span className="mc-long">Appeler le garage</span>
+              <span className="mc-short">Appeler</span>
             </a>
           )}
         </Button>
         <Button variant="appointment" asChild>
           {salesPage ? (
             <Link to="/rendez-vous" search={{ besoin: "vente" }}>
-              Demander un essai <ArrowUpRight />
+              <span className="mc-long">Demander un essai</span>
+              <span className="mc-short">Essai</span> <ArrowUpRight />
             </Link>
           ) : (
             <Link to="/rendez-vous">
-              Prendre rendez-vous <ArrowUpRight />
+              <span className="mc-long">Prendre rendez-vous</span>
+              <span className="mc-short">Rendez-vous</span> <ArrowUpRight />
             </Link>
           )}
         </Button>

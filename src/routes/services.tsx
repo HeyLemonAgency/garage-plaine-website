@@ -144,7 +144,7 @@ function Services() {
       </section>
       <FaqSection
         items={faqs.services}
-        title="Carrosserie et atelier : vos questions."
+        title="Carrosserie et atelier : vos questions."
         intro="Assurance, véhicule de remplacement, garanties et prestations de l’atelier."
       />
       <ContactSection />

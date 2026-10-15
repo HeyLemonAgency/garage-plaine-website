@@ -8,10 +8,10 @@ export const Route = createFileRoute("/wir")({
   head: () =>
     pageHead({
       path: "/wir",
-      title: "Paiement en WIR : les conditions",
+      title: "Paiement en WIR : les conditions",
       crumb: "WIR",
       description:
-        "Le Garage de la Plaine à Denges est partenaire WIR : main-d’œuvre et pneumatiques 100 %, pièces d’entretien 50 %, pièces spécifiques 20 %, aux tarifs CHF.",
+        "Le Garage de la Plaine à Denges est partenaire WIR : main-d’œuvre et pneumatiques 100 %, pièces d’entretien 50 %, pièces spécifiques 20 %, aux tarifs CHF.",
     }),
   component: Wir,
 });

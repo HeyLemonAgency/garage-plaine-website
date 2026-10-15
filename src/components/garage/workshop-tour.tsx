@@ -189,7 +189,7 @@ export function WorkshopTour() {
         <img
           className="tour-photo"
           src={photo}
-          alt="L’atelier mécanique du Garage de la Plaine : poste de diagnostic, station de climatisation et véhicule en entretien"
+          alt="L’atelier mécanique du Garage de la Plaine : poste de diagnostic, station de climatisation et véhicule en entretien"
           width={NAT_W}
           height={NAT_H}
           loading="lazy"

@@ -28,7 +28,7 @@ export const Route = createFileRoute("/vehicules")({
       title: "Occasions et Suzuki neuves à Denges",
       crumb: "Véhicules",
       description:
-        "Notre stock en direct : Suzuki neuves et occasions toutes marques à Denges (VD), avec prix et kilométrage. Essai et offre : Tiago Bessa, 079 108 92 99.",
+        "Notre stock en direct : Suzuki neuves et occasions toutes marques à Denges (VD), avec prix et kilométrage. Essai et offre : Tiago Bessa, 079 108 92 99.",
       type: "CollectionPage",
       faqs: faqs.vehicules,
       cars: loaderData?.cars,
@@ -103,14 +103,14 @@ function Vehicules() {
           />
           <p className="small-note">
             Les prix, les équipements et les disponibilités sont ceux de l’annonce Autolina. Si le
-            stock ne s’affiche pas, utilisez le lien « Ouvrir sur Autolina ».
+            stock ne s’affiche pas, utilisez le lien « Ouvrir sur Autolina ».
           </p>
         </div>
       </section>
       <StockList cars={stock.cars} total={stock.total} />
       <FaqSection
         items={faqs.vehicules}
-        title="Acheter chez nous : vos questions."
+        title="Acheter chez nous : vos questions."
         intro="Disponibilité, essai, financement et reprise de votre véhicule."
       />
       <section className="contact-band">

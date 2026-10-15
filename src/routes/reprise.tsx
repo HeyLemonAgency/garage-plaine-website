@@ -13,7 +13,7 @@ export const Route = createFileRoute("/reprise")({
       title: "Nous achetons votre voiture, à Denges",
       crumb: "Reprise",
       description:
-        "Vous vendez votre voiture ? Le Garage de la Plaine à Denges achète et reprend les véhicules : décrivez le vôtre en ligne, le service vente vous recontacte.",
+        "Vous vendez votre voiture ? Le Garage de la Plaine à Denges achète et reprend les véhicules : décrivez le vôtre en ligne, le service vente vous recontacte.",
     }),
   component: Reprise,
 });
@@ -40,7 +40,7 @@ function Reprise() {
           <div>
             <h2>Parlons de votre voiture.</h2>
             <p>
-              Indiquez ses principales caractéristiques et vos coordonnées : notre service vente
+              Indiquez ses principales caractéristiques et vos coordonnées : notre service vente
               revient vers vous. Vous pourrez joindre des photos de votre véhicule à votre e-mail
               avant de l’envoyer.
             </p>

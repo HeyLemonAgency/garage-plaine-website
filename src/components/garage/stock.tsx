@@ -170,7 +170,7 @@ export function VehicleCard({
               to="/rendez-vous"
               search={{ besoin: "vente", annonce: car.path }}
               className="vehicle-action vehicle-action-primary"
-              aria-label={`Essai : ${name}`}
+              aria-label={`Essai : ${name}`}
             >
               <CalendarDays /> Essai
             </Link>

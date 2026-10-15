@@ -245,7 +245,7 @@ export const bodyworkFacts = {
     { value: "H₂O", label: "peintures hydrosolubles" },
   ],
   warranty:
-    "Les réparations sont réalisées avec des pièces d’origine, dans le respect des garanties constructeur. Les travaux sont garantis à vie, selon conditions : contactez la carrosserie pour connaître les modalités applicables.",
+    "Les réparations sont réalisées avec des pièces d’origine, dans le respect des garanties constructeur. Les travaux sont garantis à vie, selon conditions : contactez la carrosserie pour connaître les modalités applicables.",
   windscreen:
     "Pour tout remplacement de pare-brise, une vignette autoroutière ou un bon d’essence est offert.",
 } as const;
@@ -273,86 +273,86 @@ const hoursText = garage.hours.map(([d, t]) => `${d} : ${t}`).join(" ; ");
 export const faqs = {
   home: [
     {
-      q: "Où se trouve le Garage de la Plaine ?",
+      q: "Où se trouve le Garage de la Plaine ?",
       a: `Le Garage de la Plaine se trouve ${garage.address}, ${garage.postalCode} ${garage.city} (VD), sur La Côte, à 5 minutes de Morges et 10 minutes de Lausanne.`,
     },
     {
-      q: "Quels sont les horaires d’ouverture du garage ?",
+      q: "Quels sont les horaires d’ouverture du garage ?",
       a: `${hoursText}. La station-service Jubin est accessible 24h/24 et 7j/7.`,
     },
     {
-      q: "Le Garage de la Plaine est-il concessionnaire Suzuki ?",
-      a: "Oui. Le Garage de la Plaine est concessionnaire Suzuki depuis plus de 20 ans : véhicules neufs de la gamme Suzuki, essais sur route, financement et leasing, et un atelier dont Suzuki est la marque de référence.",
+      q: "Le Garage de la Plaine est-il concessionnaire Suzuki ?",
+      a: "Oui. Le Garage de la Plaine est concessionnaire Suzuki depuis plus de 20 ans : véhicules neufs de la gamme Suzuki, essais sur route, financement et leasing, et un atelier dont Suzuki est la marque de référence.",
     },
     {
-      q: "Entretenez-vous et réparez-vous les voitures de toutes les marques ?",
-      a: `Oui. L’atelier mécanique entretient et répare les véhicules de toutes marques, avec des appareils de diagnostic de pointe ; Suzuki est sa marque de référence. ${team.atelier.name}, titulaire d’un brevet fédéral, est votre interlocuteur.`,
+      q: "Entretenez-vous et réparez-vous les voitures de toutes les marques ?",
+      a: `Oui. L’atelier mécanique entretient et répare les véhicules de toutes marques, avec des appareils de diagnostic de pointe ; Suzuki est sa marque de référence. ${team.atelier.name}, titulaire d’un brevet fédéral, est votre interlocuteur.`,
     },
     {
-      q: "Comment prendre rendez-vous au garage ?",
-      a: `Par téléphone au ${garage.phone}, ou en ligne : choisissez le service (atelier, carrosserie ou vente), le jour et le moment qui vous conviennent, et le garage vous confirme le rendez-vous.`,
+      q: "Comment prendre rendez-vous au garage ?",
+      a: `Par téléphone au ${garage.phone}, ou en ligne : choisissez le service (atelier, carrosserie ou vente), le jour et le moment qui vous conviennent, et le garage vous confirme le rendez-vous.`,
     },
     {
-      q: "Peut-on faire le plein en dehors des heures d’ouverture ?",
+      q: "Peut-on faire le plein en dehors des heures d’ouverture ?",
       a: "Oui. La station-service Jubin du garage est accessible 24h/24 et 7j/7, et vous pouvez y commander une Jubin Card pour bénéficier d’avantages tout au long de l’année.",
     },
   ],
   services: [
     {
-      q: "Vous occupez-vous des sinistres avec mon assurance ?",
+      q: "Vous occupez-vous des sinistres avec mon assurance ?",
       a: "Oui. La carrosserie gère les sinistres et prend en charge les formalités administratives avec les assurances, que vous soyez lésé ou responsable.",
     },
     {
-      q: "Aurai-je une voiture de remplacement pendant les travaux ?",
+      q: "Aurai-je une voiture de remplacement pendant les travaux ?",
       a: "La carrosserie dispose de 8 véhicules de remplacement pour vous garder mobile pendant les réparations.",
     },
     {
-      q: "Les réparations de carrosserie sont-elles garanties ?",
-      a: "Les réparations sont réalisées exclusivement avec des pièces d’origine, dans le respect des garanties constructeur, et les travaux sont garantis à vie selon conditions : la carrosserie vous en précise les modalités.",
+      q: "Les réparations de carrosserie sont-elles garanties ?",
+      a: "Les réparations sont réalisées exclusivement avec des pièces d’origine, dans le respect des garanties constructeur, et les travaux sont garantis à vie selon conditions : la carrosserie vous en précise les modalités.",
     },
     {
-      q: "Quelles prestations propose l’atelier mécanique ?",
+      q: "Quelles prestations propose l’atelier mécanique ?",
       a: `${mechanicalServicesText}.`,
     },
     {
-      q: "Pouvez-vous poser un attelage sur ma voiture ?",
+      q: "Pouvez-vous poser un attelage sur ma voiture ?",
       a: "Oui. L’atelier vend et pose des attelages, et entretient aussi les remorques de transport.",
     },
     {
-      q: "Y a-t-il une offre lors du remplacement d’un pare-brise ?",
-      a: "Oui : pour tout remplacement de pare-brise, une vignette autoroutière ou un bon d’essence est offert.",
+      q: "Y a-t-il une offre lors du remplacement d’un pare-brise ?",
+      a: "Oui : pour tout remplacement de pare-brise, une vignette autoroutière ou un bon d’essence est offert.",
     },
   ],
   vehicules: [
     {
-      q: "Les véhicules affichés sont-ils vraiment disponibles ?",
-      a: "Les annonces viennent directement du stock que le service vente publie sur Autolina et met à jour lui-même. Prix et disponibilités restent sous réserve : appelez-nous pour confirmer avant de vous déplacer.",
+      q: "Les véhicules affichés sont-ils vraiment disponibles ?",
+      a: "Les annonces viennent directement du stock que le service vente publie sur Autolina et met à jour lui-même. Prix et disponibilités restent sous réserve : appelez-nous pour confirmer avant de vous déplacer.",
     },
     {
-      q: "Puis-je essayer un véhicule avant de l’acheter ?",
+      q: "Puis-je essayer un véhicule avant de l’acheter ?",
       a: `Oui. Demandez un essai sur route à ${team.vente.name}, au service vente (${team.vente.mobile}), ou en ligne depuis l’annonce qui vous intéresse.`,
     },
     {
-      q: "Proposez-vous un financement ou un leasing ?",
+      q: "Proposez-vous un financement ou un leasing ?",
       a: "Oui. Le service vente vous propose des offres détaillées, ainsi que des financements et des leasings adaptés à votre budget.",
     },
     {
-      q: "Reprenez-vous mon véhicule actuel ?",
-      a: "Oui. Le service vente reprend votre ancien véhicule lors d’un achat, et nous achetons aussi des véhicules : décrivez le vôtre en ligne et nous vous recontactons.",
+      q: "Reprenez-vous mon véhicule actuel ?",
+      a: "Oui. Le service vente reprend votre ancien véhicule lors d’un achat, et nous achetons aussi des véhicules : décrivez le vôtre en ligne et nous vous recontactons.",
     },
   ],
   contact: [
     {
-      q: "Le garage est-il ouvert le samedi ?",
+      q: "Le garage est-il ouvert le samedi ?",
       a: "Le samedi, le garage vous reçoit sur rendez-vous. Du lundi au vendredi, il est ouvert de 7h30 à 12h00 et dès 13h30 l’après-midi.",
     },
     {
-      q: "À qui m’adresser pour la vente, l’atelier ou la carrosserie ?",
-      a: `Vente : ${team.vente.name}, ${team.vente.mobile}, ${team.vente.email}. Atelier mécanique : ${team.atelier.name}, ${team.atelier.email}. Carrosserie : ${team.carrosserie.name}, ${team.carrosserie.email}. Réception : ${garage.phone}.`,
+      q: "À qui m’adresser pour la vente, l’atelier ou la carrosserie ?",
+      a: `Vente : ${team.vente.name}, ${team.vente.mobile}, ${team.vente.email}. Atelier mécanique : ${team.atelier.name}, ${team.atelier.email}. Carrosserie : ${team.carrosserie.name}, ${team.carrosserie.email}. Réception : ${garage.phone}.`,
     },
     {
-      q: "Acceptez-vous les paiements en WIR ?",
-      a: `Oui, le garage est partenaire WIR : ${wirRates.map(([k, v]) => `${k.toLowerCase()} ${v}`).join(", ")}. Les tarifs appliqués en WIR sont identiques à ceux en CHF.`,
+      q: "Acceptez-vous les paiements en WIR ?",
+      a: `Oui, le garage est partenaire WIR : ${wirRates.map(([k, v]) => `${k.toLowerCase()} ${v}`).join(", ")}. Les tarifs appliqués en WIR sont identiques à ceux en CHF.`,
     },
   ],
 } satisfies Record<string, readonly Faq[]>;

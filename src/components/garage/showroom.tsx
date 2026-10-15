@@ -150,10 +150,11 @@ function Slide({
         ) : (
           photos.map((src, i) => (
             <picture key={src} className={i === photo ? "is-active" : ""}>
+              {/* The 2x photo only for the car in focus; the dimmed side cars get the 1x one. */}
               {i === 0 && (
                 <source
                   type="image/avif"
-                  srcSet={`${src.replace(/\.jpg\?/, ".avif?")} 534w, ${src.replace(/\.jpg\?/, ".avif?")}&dpr=2 1068w`}
+                  srcSet={`${src.replace(/\.jpg\?/, ".avif?")} 534w${active ? `, ${src.replace(/\.jpg\?/, ".avif?")}&dpr=2 1068w` : ""}`}
                   sizes="(max-width: 600px) 76vw, (max-width: 1000px) 58vw, 440px"
                 />
               )}
@@ -161,7 +162,7 @@ function Slide({
                 src={src}
                 {...(i === 0
                   ? {
-                      srcSet: `${src} 534w, ${src}&dpr=2 1068w`,
+                      srcSet: `${src} 534w${active ? `, ${src}&dpr=2 1068w` : ""}`,
                       sizes: "(max-width: 600px) 76vw, (max-width: 1000px) 58vw, 440px",
                     }
                   : {})}
