@@ -4998,3 +4998,552 @@ main:focus {
     display: none;
   }
 }
+
+/* ---- Carrosserie: a dark workshop band with the polish visual and dashboard tiles ---- */
+.service-detail.bodywork {
+  position: relative;
+  padding: 76px 0 64px;
+  color: oklch(0.97 0.005 240);
+  background:
+    radial-gradient(55% 70% at 88% 0%, oklch(0.33 0.06 240 / 0.85), transparent 70%),
+    linear-gradient(180deg, oklch(0.21 0.04 240), oklch(0.155 0.03 240));
+  border-bottom: 0;
+  overflow: hidden;
+  isolation: isolate;
+}
+/* A faint carbon-fibre weave */
+.service-detail.bodywork:before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: repeating-conic-gradient(oklch(1 0 0 / 0.03) 0 25%, transparent 0 50%) 0 0 / 6px 6px;
+  -webkit-mask-image: linear-gradient(180deg, #000, transparent 55%);
+  mask-image: linear-gradient(180deg, #000, transparent 55%);
+  pointer-events: none;
+}
+.bodywork .eyebrow {
+  color: oklch(1 0 0 / 0.6);
+}
+.bodywork-head {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.12fr);
+  gap: 56px;
+  align-items: center;
+}
+.bodywork-copy h2 {
+  margin: 0 0 18px;
+  font-size: 34px;
+  line-height: 1.15;
+  color: #fff;
+  text-wrap: balance;
+}
+.bodywork-copy p {
+  margin: 0;
+  font-size: 13px;
+  line-height: 1.75;
+  color: oklch(1 0 0 / 0.68);
+}
+.bodywork-figures {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+  margin: 30px 0 0;
+}
+.bodywork-figures > div {
+  position: relative;
+  padding-top: 14px;
+  border-top: 1px solid oklch(1 0 0 / 0.14);
+}
+.bodywork-figures > div:before {
+  content: "";
+  position: absolute;
+  top: -1px;
+  left: 0;
+  width: 28px;
+  height: 2px;
+  background: var(--accent);
+}
+.bodywork-figures dt {
+  font-family: var(--font-display);
+  font-size: 30px;
+  font-weight: 700;
+  line-height: 1.1;
+  color: #fff;
+}
+.bodywork-figures dd {
+  margin: 6px 0 0;
+  font-size: 11px;
+  line-height: 1.45;
+  color: oklch(1 0 0 / 0.58);
+}
+
+/* Polish visual */
+.polish {
+  margin: 0;
+}
+.polish-frame {
+  position: relative;
+  aspect-ratio: 1024 / 683;
+  border-radius: 16px;
+  overflow: hidden;
+  background: #0d1218;
+  box-shadow:
+    0 0 0 1px oklch(1 0 0 / 0.1),
+    0 34px 70px -30px oklch(0 0 0 / 0.85);
+  touch-action: pan-y;
+  user-select: none;
+  -webkit-user-select: none;
+}
+@media (hover: hover) and (pointer: fine) {
+  .polish-frame:not(.is-done) {
+    cursor: none;
+  }
+}
+.polish-base,
+.polish-canvas,
+.polish-haze,
+.polish-sheen {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+.polish-base {
+  object-fit: cover;
+  filter: grayscale(0.55) contrast(0.68) brightness(1.12) sepia(0.25) blur(0.6px);
+}
+/* Oxidised paint: a milky film with swirl marks */
+.polish-haze {
+  background:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.5'/%3E%3C/svg%3E"),
+    radial-gradient(55% 45% at 32% 38%, rgb(255 250 236 / 0.26), transparent 70%),
+    radial-gradient(45% 55% at 74% 66%, rgb(255 250 236 / 0.18), transparent 70%),
+    linear-gradient(rgb(226 220 204 / 0.2), rgb(226 220 204 / 0.2));
+  mix-blend-mode: screen;
+  opacity: 0.85;
+}
+.polish-canvas {
+  filter: contrast(1.06) saturate(1.08);
+}
+.polish-sheen {
+  background: linear-gradient(
+    105deg,
+    transparent 30%,
+    rgb(255 255 255 / 0.4) 46%,
+    rgb(255 255 255 / 0.08) 54%,
+    transparent 66%
+  );
+  mix-blend-mode: soft-light;
+  translate: -110% 0;
+}
+.polish-frame.is-done .polish-sheen {
+  animation: polish-sheen 1.3s 0.1s cubic-bezier(0.3, 0.6, 0.2, 1);
+}
+@keyframes polish-sheen {
+  to {
+    translate: 110% 0;
+  }
+}
+/* The rotary polisher under the mouse */
+.polish-pad {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: var(--pad);
+  aspect-ratio: 1;
+  margin: calc(var(--pad) / -2) 0 0 calc(var(--pad) / -2);
+  border-radius: 50%;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.2s;
+  background: radial-gradient(circle, rgb(255 255 255 / 0.12), transparent 70%);
+}
+.polish-pad:before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  border: 2px dashed rgb(255 255 255 / 0.75);
+  box-shadow: 0 0 0 1px rgb(0 0 0 / 0.25);
+  animation: polish-spin 0.9s linear infinite;
+}
+@keyframes polish-spin {
+  to {
+    rotate: 360deg;
+  }
+}
+@media (hover: hover) and (pointer: fine) {
+  .polish-frame:hover:not(.is-done) .polish-pad {
+    opacity: 1;
+  }
+}
+.polish-tag {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  padding: 3px 8px;
+  border-radius: 4px;
+  font-size: 9px;
+  color: #fff;
+  background: rgb(10 18 28 / 0.5);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+}
+.polish-hint {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  translate: -50% -50%;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 9px 16px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--primary);
+  background: rgb(255 255 255 / 0.9);
+  box-shadow: 0 10px 30px -10px rgb(0 0 0 / 0.5);
+  pointer-events: none;
+  animation: polish-hint 2.4s ease-in-out infinite;
+}
+.polish-hint svg {
+  width: 15px;
+  height: 15px;
+  color: var(--accent);
+}
+@keyframes polish-hint {
+  50% {
+    scale: 1.05;
+  }
+}
+.polish-hint-touch {
+  display: none;
+}
+@media (hover: none) {
+  .polish-hint-fine {
+    display: none;
+  }
+  .polish-hint-touch {
+    display: inline;
+  }
+}
+.polish-gauge {
+  position: absolute;
+  left: 12px;
+  bottom: 12px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 14px 8px 10px;
+  border-radius: 12px;
+  color: #fff;
+  background: rgb(10 18 28 / 0.58);
+  border: 1px solid rgb(255 255 255 / 0.14);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+.polish-gauge svg {
+  width: 52px;
+  height: 30px;
+  fill: none;
+  stroke-linecap: round;
+}
+.polish-gauge-track {
+  stroke: rgb(255 255 255 / 0.18);
+  stroke-width: 5;
+}
+.polish-gauge-fill {
+  stroke: var(--accent);
+  stroke-width: 5;
+  transition: stroke-dasharray 0.3s;
+}
+.polish-gauge small {
+  display: block;
+  font-size: 9px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: rgb(255 255 255 / 0.65);
+}
+.polish-gauge strong {
+  display: block;
+  font-size: 15px;
+  line-height: 1.2;
+  font-variant-numeric: tabular-nums;
+}
+.polish-btn {
+  position: absolute;
+  right: 12px;
+  bottom: 12px;
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  height: 36px;
+  padding: 0 14px;
+  border-radius: 999px;
+  border: 1px solid rgb(255 255 255 / 0.22);
+  color: #fff;
+  background: rgb(10 18 28 / 0.55);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  font-size: 11px;
+  font-weight: 700;
+  cursor: pointer;
+  transition:
+    background 0.2s,
+    border-color 0.2s;
+}
+.polish-btn:hover {
+  background: var(--accent);
+  border-color: var(--accent);
+}
+.polish-btn svg {
+  width: 14px;
+  height: 14px;
+}
+
+/* Dashboard indicator tiles */
+.bodywork-grid {
+  list-style: none;
+  margin: 52px 0 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 12px;
+}
+.telltale {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  min-height: 176px;
+  padding: 18px 18px 18px;
+  border-radius: 14px;
+  background: linear-gradient(180deg, oklch(1 0 0 / 0.065), oklch(1 0 0 / 0.025));
+  border: 1px solid oklch(1 0 0 / 0.09);
+  transition:
+    border-color 0.25s,
+    background 0.25s,
+    transform 0.25s;
+}
+.telltale:hover {
+  border-color: oklch(1 0 0 / 0.2);
+  transform: translateY(-2px);
+}
+.telltale strong {
+  font-size: 15px;
+  font-weight: 600;
+  color: #fff;
+}
+.telltale > span:last-child {
+  font-size: 12px;
+  line-height: 1.5;
+  color: oklch(1 0 0 / 0.62);
+}
+.telltale-icon {
+  width: 44px;
+  height: 44px;
+  margin-bottom: 18px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  color: oklch(1 0 0 / 0.5);
+  background: oklch(1 0 0 / 0.05);
+  border: 1px solid oklch(1 0 0 / 0.12);
+  transition:
+    color 0.25s,
+    background 0.25s,
+    border-color 0.25s,
+    box-shadow 0.25s;
+}
+.telltale-icon svg {
+  width: 20px;
+  height: 20px;
+}
+.telltale-num {
+  position: absolute;
+  top: 18px;
+  right: 18px;
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  color: oklch(1 0 0 / 0.32);
+  font-variant-numeric: tabular-nums;
+}
+.telltale:hover .telltale-icon {
+  color: #fff;
+  background: var(--accent);
+  border-color: var(--accent);
+  box-shadow:
+    0 0 0 4px color-mix(in srgb, var(--accent) 22%, transparent),
+    0 0 28px color-mix(in srgb, var(--accent) 70%, transparent);
+}
+/* Bulb check at ignition: each indicator lights up in turn, once */
+.bodywork-grid.is-checking .telltale-icon {
+  animation: telltale-check 0.95s ease calc(var(--i, 0) * 0.12s);
+}
+@keyframes telltale-check {
+  25%,
+  60% {
+    color: #fff;
+    background: var(--accent);
+    border-color: var(--accent);
+    box-shadow:
+      0 0 0 4px color-mix(in srgb, var(--accent) 22%, transparent),
+      0 0 28px color-mix(in srgb, var(--accent) 70%, transparent);
+  }
+}
+.telltale-contact {
+  background: linear-gradient(
+    180deg,
+    color-mix(in srgb, var(--accent) 22%, transparent),
+    color-mix(in srgb, var(--accent) 8%, transparent)
+  );
+  border-color: color-mix(in srgb, var(--accent) 42%, transparent);
+}
+.telltale-avatar {
+  width: 44px;
+  height: 44px;
+  margin-bottom: 18px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  font-size: 14px;
+  font-weight: 700;
+  color: #fff;
+  background: var(--accent);
+}
+.telltale-role {
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: oklch(1 0 0 / 0.6);
+}
+.telltale-contact a {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  margin-top: 4px;
+  font-size: 12px;
+  font-weight: 600;
+  color: #fff;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  text-decoration-color: oklch(1 0 0 / 0.4);
+}
+.telltale-contact a svg {
+  width: 14px;
+  height: 14px;
+}
+.bodywork-foot {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 24px 48px;
+  align-items: end;
+  margin-top: 30px;
+}
+.bodywork-notes p {
+  display: flex;
+  gap: 10px;
+  max-width: 74ch;
+  margin: 0 0 10px;
+  font-size: 12px;
+  line-height: 1.6;
+  color: oklch(1 0 0 / 0.6);
+}
+.bodywork-notes p:last-child {
+  margin-bottom: 0;
+}
+.bodywork-notes svg {
+  width: 16px;
+  height: 16px;
+  flex-shrink: 0;
+  margin-top: 2px;
+  color: oklch(1 0 0 / 0.8);
+}
+.bodywork .garage-button-primary {
+  background: var(--accent);
+  color: var(--accent-foreground);
+  box-shadow: 0 12px 26px -12px var(--accent);
+}
+.bodywork .garage-button-primary:hover {
+  background: color-mix(in srgb, var(--accent) 88%, black);
+}
+.bodywork .section-link {
+  color: #fff;
+}
+
+@media (max-width: 1000px) {
+  .bodywork-head {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 36px;
+  }
+  .bodywork-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .bodywork-foot {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+@media (max-width: 600px) {
+  .service-detail.bodywork {
+    padding: 48px 0 44px;
+  }
+  .bodywork-copy h2 {
+    font-size: 26px;
+  }
+  .bodywork-figures dt {
+    font-size: 22px;
+  }
+  .bodywork-figures dd {
+    font-size: 10px;
+  }
+  .bodywork-grid {
+    margin-top: 36px;
+    gap: 8px;
+  }
+  .telltale {
+    min-height: 0;
+    padding: 14px;
+  }
+  .telltale-icon,
+  .telltale-avatar {
+    width: 38px;
+    height: 38px;
+  }
+  .telltale-icon,
+  .telltale-avatar {
+    margin-bottom: 12px;
+  }
+  .telltale-num {
+    top: 14px;
+    right: 14px;
+  }
+  .polish-gauge {
+    left: 8px;
+    bottom: 8px;
+    padding: 6px 10px 6px 8px;
+  }
+  .polish-gauge svg {
+    width: 40px;
+    height: 23px;
+  }
+  .polish-btn {
+    right: 8px;
+    bottom: 8px;
+    height: 32px;
+    padding: 0 11px;
+  }
+}
+@media (max-width: 380px) {
+  .bodywork-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .polish-hint,
+  .polish-pad:before {
+    animation: none;
+  }
+}

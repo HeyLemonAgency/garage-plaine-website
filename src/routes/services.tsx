@@ -9,8 +9,9 @@ import {
   SectionTabs,
 } from "@/components/garage/sections";
 import { ContactSection } from "@/components/garage/contact";
+import { BodyworkSection } from "@/components/garage/bodywork";
 import { SalesContact } from "@/components/garage/people";
-import { bodyworkServices, pageHead, salesServices, team } from "@/lib/garage";
+import { pageHead, salesServices, team } from "@/lib/garage";
 
 export const Route = createFileRoute("/services")({
   head: () =>
@@ -76,47 +77,7 @@ function Services() {
         </div>
       </section>
 
-      <section id="carrosserie" className="service-detail">
-        <div className="container detail-layout">
-          <div>
-            <div className="eyebrow">02 / Carrosserie</div>
-            <h2>Retrouver le plaisir d’une voiture impeccable.</h2>
-            <p>
-              De la réparation à la restauration, notre carrosserie vous accompagne et prend en
-              charge les formalités administratives avec les assurances. Nous utilisons des
-              peintures hydrosolubles respectueuses de l’environnement.
-            </p>
-            <CheckList items={bodyworkServices} />
-            <p>
-              Les réparations sont réalisées avec des pièces d’origine, dans le respect des
-              garanties constructeur. Les travaux sont garantis à vie, selon conditions : contactez
-              la carrosserie pour connaître les modalités applicables.
-            </p>
-            <p>
-              Pour tout remplacement de pare-brise, une vignette autoroutière ou un bon d’essence
-              est offert.
-            </p>
-            <div className="detail-actions">
-              <Button asChild variant="premium">
-                <Link to="/rendez-vous" search={{ besoin: "carrosserie" }}>
-                  Demander un devis <ArrowRight />
-                </Link>
-              </Button>
-              <a className="section-link" href={`mailto:${team.carrosserie.email}`}>
-                <Mail /> Écrire à {team.carrosserie.name}
-              </a>
-            </div>
-          </div>
-          <img
-            className="reveal-on-scroll"
-            src={photos.bodywork}
-            alt="Une voiture de collection en restauration à la carrosserie"
-            width={700}
-            height={340}
-            loading="lazy"
-          />
-        </div>
-      </section>
+      <BodyworkSection />
 
       <section id="mecanique" className="service-detail">
         <div className="container detail-layout">

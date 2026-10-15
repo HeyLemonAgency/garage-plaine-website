@@ -141,14 +141,37 @@ export const services = [
 ] as const;
 
 export const bodyworkServices = [
-  "Gestion des sinistres avec les assurances",
-  "8 véhicules de remplacement à disposition",
-  "Restauration de véhicules, expertise et devis personnalisés",
-  "Peinture partielle ou complète",
-  "Polissage de la carrosserie et des optiques de phares",
-  "Traitement Teflon et traitement de corps creux",
-  "Suppression de la rouille fine",
+  { icon: "claims", title: "Sinistres", text: "Gestion des sinistres avec les assurances" },
+  { icon: "car", title: "Remplacement", text: "8 véhicules de remplacement à disposition" },
+  {
+    icon: "restore",
+    title: "Restauration",
+    text: "Restauration de véhicules, expertise et devis personnalisés",
+  },
+  { icon: "paint", title: "Peinture", text: "Peinture partielle ou complète" },
+  {
+    icon: "polish",
+    title: "Polissage",
+    text: "Polissage de la carrosserie et des optiques de phares",
+  },
+  { icon: "protect", title: "Protection", text: "Traitement Teflon et traitement de corps creux" },
+  { icon: "rust", title: "Anti-rouille", text: "Suppression de la rouille fine" },
 ] as const;
+
+export type BodyworkIcon = (typeof bodyworkServices)[number]["icon"];
+
+/** Key figures and terms of the bodywork shop, as published by the garage. */
+export const bodyworkFacts = {
+  figures: [
+    { value: "8", label: "véhicules de remplacement" },
+    { value: "À vie", label: "travaux garantis, selon conditions" },
+    { value: "H₂O", label: "peintures hydrosolubles" },
+  ],
+  warranty:
+    "Les réparations sont réalisées avec des pièces d’origine, dans le respect des garanties constructeur. Les travaux sont garantis à vie, selon conditions : contactez la carrosserie pour connaître les modalités applicables.",
+  windscreen:
+    "Pour tout remplacement de pare-brise, une vignette autoroutière ou un bon d’essence est offert.",
+} as const;
 
 export const salesServices = [
   "Un large choix de véhicules neufs et d’occasion en stock",
