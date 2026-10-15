@@ -6455,8 +6455,14 @@ body {
   .tour-dots {
     display: none;
   }
+  /* Centred between both edges rather than from the middle, so the pill can use the full
+     width and wraps only when it really has to. */
   .tour-hint {
-    max-width: calc(100% - 24px);
+    left: 12px;
+    right: 12px;
+    width: fit-content;
+    margin-inline: auto;
+    translate: none;
     white-space: normal;
     text-align: center;
   }

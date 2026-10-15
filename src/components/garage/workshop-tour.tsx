@@ -238,7 +238,7 @@ export function WorkshopTour() {
           <span className="tour-hint" aria-hidden="true">
             <Hand />
             <span className="tour-hint-fine">Bougez la souris, cliquez sur un point</span>
-            <span className="tour-hint-touch">Glissez pour explorer, touchez un point</span>
+            <span className="tour-hint-touch">Glissez pour explorer, touchez un point</span>
           </span>
         )}
         <div className="tour-dots" aria-hidden="true">
