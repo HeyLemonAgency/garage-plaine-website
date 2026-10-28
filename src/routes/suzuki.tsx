@@ -39,7 +39,8 @@ const perks = [
   ],
 ] as const;
 
-const thousands = (n: number) => n.toLocaleString("fr-CH").replace(/\s/g, "’");
+// Grouped by hand: server and browser locales disagree (1'200, 1 200), which breaks hydration.
+const thousands = (n: number) => String(n).replace(/\B(?=(\d{3})+(?!\d))/g, "’");
 
 function Suzuki() {
   const stock = Route.useLoaderData();
