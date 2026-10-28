@@ -15,7 +15,8 @@ export const sCross3d: SpinModel & {
   points: Record<SuzukiSpotId, Omit<SpinSpot, "id">>;
 } = {
   available: true,
-  url: "/models/suzuki-s-cross.glb",
+  // Compressed with meshopt and WebP, then gzipped: 2.1 MB instead of the original 19.7 MB.
+  url: "/models/suzuki-s-cross.glb.gz",
   // Rendered from this scene at the starting angle, so the switch to 3D is seamless.
   poster: { wide: posterWide, phone: posterPhone },
   // The file's nose already points to +x; it is 4.28 m long, scaled to the real 4.305 m.

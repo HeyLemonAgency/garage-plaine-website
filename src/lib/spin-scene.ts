@@ -156,6 +156,36 @@ function studio() {
   return room;
 }
 
+/**
+ * Downloads the model, reporting progress. Netlify does not compress binary files, so the
+ * model is stored gzipped (a third smaller) and unpacked here.
+ */
+async function fetchModel(url: string, onProgress: (share: number) => void) {
+  const res = await fetch(url);
+  if (!res.ok || !res.body) throw new Error(`${url}: ${res.status}`);
+  const total = Number(res.headers.get("content-length")) || 0;
+  let loaded = 0;
+  const counted = res.body.pipeThrough(
+    new TransformStream<Uint8Array, Uint8Array>({
+      transform(chunk, out) {
+        loaded += chunk.byteLength;
+        if (total) onProgress(Math.min(1, loaded / total));
+        out.enqueue(chunk);
+      },
+    }),
+  );
+  const raw = await new Response(counted).arrayBuffer();
+  // Unpack only real gzip data: a server may already have sent it with Content-Encoding.
+  const head = new Uint8Array(raw, 0, 2);
+  if (head[0] !== 0x1f || head[1] !== 0x8b) return raw;
+  // A gzip stream accepts any buffer, Uint8Array included; the DOM types are stricter.
+  const gunzip = new DecompressionStream("gzip") as unknown as ReadableWritablePair<
+    Uint8Array,
+    Uint8Array
+  >;
+  return new Response(new Blob([raw]).stream().pipeThrough(gunzip)).arrayBuffer();
+}
+
 /** The reflection on the floor, fading out away from the car. */
 const floorShader = {
   name: "SpinFloor",
@@ -534,20 +564,16 @@ export function createSpin(o: SpinOptions): Spin {
 
   const loader = new GLTFLoader();
   loader.setMeshoptDecoder(MeshoptDecoder);
-  loader.load(
-    o.model.url,
-    (gltf) => {
+  fetchModel(o.model.url, o.onProgress)
+    .then((data) => loader.parseAsync(data, ""))
+    .then((gltf) => {
       prepare(gltf.scene);
       resize();
       ready = true;
       last = performance.now();
       o.onReady();
-    },
-    (e) => {
-      if (e.total) o.onProgress(e.loaded / e.total);
-    },
-    (error) => o.onError(error),
-  );
+    })
+    .catch((error: unknown) => o.onError(error));
   raf = requestAnimationFrame(frame);
 
   return {
