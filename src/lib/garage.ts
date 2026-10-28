@@ -356,3 +356,148 @@ export const faqs = {
     },
   ],
 } satisfies Record<string, readonly Faq[]>;
+
+/**
+ * The Suzuki range sold in Switzerland and the S-Cross shown in 3D on /suzuki. Figures come
+ * from Suzuki Schweiz AG: the S-Cross price list and technical data 2026, the S-Cross brochure
+ * and the model pages of suzuki.ch (October 2026). No prices: Suzuki publishes and updates them.
+ */
+export const suzukiSource = "Liste de prix et données techniques Suzuki Suisse 2026";
+
+export const suzukiRange = [
+  {
+    id: "swift",
+    name: "Swift",
+    kind: "Citadine hybride",
+    text: "La compacte de Suzuki, avec un moteur 1.2 essence hybride.",
+    tags: ["Hybride"],
+    url: "https://www.suzuki.ch/fr/modeles/swift",
+  },
+  {
+    id: "vitara",
+    name: "Vitara",
+    kind: "SUV hybride",
+    text: "1.4 turbo mild hybrid de 110 ch, boîte manuelle ou automatique, transmission intégrale ALLGRIP.",
+    tags: ["Hybride", "4x4"],
+    url: "https://www.suzuki.ch/fr/modeles/vitara",
+  },
+  {
+    id: "s-cross",
+    name: "S-Cross",
+    kind: "SUV hybride",
+    text: "Polyvalent et spacieux : 1.4 turbo mild hybrid 48 V, traction avant ou ALLGRIP 4x4.",
+    tags: ["Hybride", "4x4"],
+    url: "https://www.suzuki.ch/fr/modeles/s-cross",
+  },
+  {
+    id: "e-vitara",
+    name: "e Vitara",
+    kind: "SUV 100 % électrique",
+    text: "Un véritable SUV 4x4 électrique, avec la transmission intégrale électrique ALLGRIP-e ou en traction avant.",
+    tags: ["Électrique", "4x4"],
+    url: "https://www.suzuki.ch/fr/modeles/e-vitara",
+  },
+  {
+    id: "across",
+    name: "Across",
+    kind: "SUV hybride rechargeable",
+    text: "2.5 essence et deux moteurs électriques : 309 ch, 4x4 E-Four de série et jusqu’à 129 km en électrique.",
+    tags: ["Hybride rechargeable", "4x4"],
+    url: "https://www.suzuki.ch/fr/modeles/across",
+  },
+] as const;
+
+export type SuzukiSpotId =
+  "phares" | "hybride" | "ecran" | "toit" | "jantes" | "allgrip" | "coffre";
+export type AllgripMode = "auto" | "sport" | "snow" | "lock";
+
+export const sCross = {
+  name: "Suzuki S-Cross",
+  figures: [
+    { value: 110, unit: "ch", label: "1.4 BOOSTERJET mild hybrid 48 V" },
+    { value: 4, unit: "modes", label: "Transmission intégrale ALLGRIP SELECT" },
+    { value: 430, unit: "L", label: "De coffre, 665 L sièges rabattus" },
+    { value: 175, unit: "mm", label: "De garde au sol" },
+    { value: 1200, unit: "kg", label: "De charge tractable freinée" },
+  ],
+  spots: [
+    {
+      id: "phares",
+      title: "Phares LED",
+      text: "Feux de croisement et de route à LED, et trois feux de position LED à l’avant comme à l’arrière ; ceux de l’avant servent de feux diurnes.",
+    },
+    {
+      id: "hybride",
+      title: "Mild hybrid 48 V",
+      text: "Moteur 1.4 BOOSTERJET turbo de 110 ch (81 kW) et 235 Nm, épaulé par un alterno-démarreur et une batterie lithium-ion de 48 V qui l’aident à accélérer.",
+    },
+    {
+      id: "ecran",
+      title: "Écran tactile 9 pouces",
+      text: "Navigation, DAB+, Bluetooth et connexion smartphone avec Apple CarPlay et Android Auto.",
+    },
+    {
+      id: "toit",
+      title: "Toit panoramique",
+      text: "Toit ouvrant panoramique électrique en verre sur les versions Top, pour admirer le paysage depuis toutes les places.",
+    },
+    {
+      id: "jantes",
+      title: "Jantes 17 pouces",
+      text: "Jantes en alliage léger de 17 pouces et pneus 215/55 R17 sur toutes les versions.",
+    },
+    {
+      id: "allgrip",
+      title: "ALLGRIP SELECT",
+      text: "Transmission intégrale à quatre modes, Auto, Sport, Snow et Lock, avec boîte manuelle ou automatique à 6 rapports.",
+    },
+    {
+      id: "coffre",
+      title: "Coffre de 430 L",
+      text: "430 à 440 litres, 665 litres avec la banquette 60/40 rabattue et 1230 litres jusqu’au pavillon.",
+    },
+  ] satisfies { id: SuzukiSpotId; title: string; text: string }[],
+  /** The four positions of the ALLGRIP SELECT dial, as Suzuki describes them. */
+  modes: [
+    {
+      id: "auto",
+      name: "Auto",
+      text: "Privilégie l’efficacité et enclenche la transmission intégrale dès qu’une roue patine.",
+    },
+    {
+      id: "sport",
+      name: "Sport",
+      text: "Plus de couple sur les roues arrière et un accélérateur plus vif, idéal sur les routes sinueuses.",
+    },
+    {
+      id: "snow",
+      name: "Snow",
+      text: "Motricité renforcée à l’accélération sur la neige, les routes glissantes ou non goudronnées.",
+    },
+    {
+      id: "lock",
+      name: "Lock",
+      text: "Envoie un maximum de couple aux roues arrière pour se sortir de la neige, de la boue ou du sable.",
+    },
+  ] satisfies { id: AllgripMode; name: string; text: string }[],
+  /** Official paint names; the swatches are only an indication of each colour. */
+  colours: [
+    { name: "Sphere Blue Pearl Metallic", hex: "#1d4e9e" },
+    { name: "Energetic Red Pearl Metallic", hex: "#a5141c" },
+    { name: "Canyon Brown Pearl Metallic", hex: "#6a4835" },
+    { name: "Titan Dark Grey Pearl", hex: "#4a4e54" },
+    { name: "Cosmic Black Pearl Metallic", hex: "#141619" },
+    { name: "Silky Silver Metallic", hex: "#b8bbbf" },
+    { name: "Cool White Pearl Metallic", hex: "#e6e7e3" },
+    { name: "White", hex: "#f3f3f1" },
+  ],
+  /** A free 3D model, not a Suzuki file: its author is credited under the licence. */
+  model: {
+    title: "2025 Suzuki S-Corss X4",
+    author: "tonielpro520",
+    source:
+      "https://sketchfab.com/3d-models/2025-suzuki-s-corss-x4-31e629eb18954ab9904816a75cfcf803",
+    license: "CC BY 4.0",
+    licenseUrl: "https://creativecommons.org/licenses/by/4.0/deed.fr",
+  },
+};

@@ -8,10 +8,12 @@ export function CountUp({
   value,
   suffix = "",
   duration = 1400,
+  format = String,
 }: {
   value: number;
   suffix?: string;
   duration?: number;
+  format?: (n: number) => string;
 }) {
   const ref = useRef<HTMLSpanElement>(null);
   const [shown, setShown] = useState(value);
@@ -25,7 +27,8 @@ export function CountUp({
         observer.disconnect();
         const start = performance.now();
         const tick = (now: number) => {
-          const p = Math.min(1, (now - start) / duration);
+          // The first frame's timestamp can be slightly before `start`.
+          const p = Math.min(1, Math.max(0, (now - start) / duration));
           setShown(Math.round(value * (1 - Math.pow(1 - p, 3))));
           if (p < 1) frame = requestAnimationFrame(tick);
         };
@@ -42,7 +45,7 @@ export function CountUp({
   }, [value, duration]);
   return (
     <span ref={ref} className="count-up">
-      {shown}
+      {format(shown)}
       {suffix}
     </span>
   );
