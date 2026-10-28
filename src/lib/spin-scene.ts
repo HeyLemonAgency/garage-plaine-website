@@ -3,9 +3,12 @@
 // reports where each detail point sits on screen so the page can draw its own labels.
 import {
   ACESFilmicToneMapping,
+  BackSide,
+  BoxGeometry,
   Box3,
   CanvasTexture,
   Color,
+  DoubleSide,
   DirectionalLight,
   Group,
   Mesh,
@@ -24,7 +27,6 @@ import {
 } from "three";
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js";
 import { MeshoptDecoder } from "three/examples/jsm/libs/meshopt_decoder.module.js";
-import { RoomEnvironment } from "three/examples/jsm/environments/RoomEnvironment.js";
 import { Reflector } from "three/examples/jsm/objects/Reflector.js";
 
 export type Vec3 = readonly [number, number, number];
@@ -39,13 +41,28 @@ export type SpinModel = {
   yawFix: number;
   /** Real length of the car in metres, to scale the file. */
   length: number;
-  /** Material names by role; names not listed fall back to keyword guesses. */
+  /** Material names by role. When none are given, roles are guessed from the names. */
   paint: readonly string[];
   glass: readonly string[];
   chrome: readonly string[];
   rubber: readonly string[];
+  /** Finishes for the file's other materials (many exports come out flat and matte). */
+  finish: Readonly<Record<string, Finish>>;
   /** Lamps that light up while the matching detail point is open. */
   lamps: Readonly<Record<string, readonly string[]>>;
+};
+
+export type Finish = {
+  color?: string;
+  metalness?: number;
+  roughness?: number;
+  clearcoat?: number;
+  /** Below 1, the material becomes see-through (lamp lenses). */
+  opacity?: number;
+  /** A colour it glows with, faintly, all the time (tail lights). */
+  glow?: string;
+  /** Drawn after the tinted glass, so lamps behind a shared cover keep their colour. */
+  overGlass?: boolean;
 };
 
 export type SpinPoint = { id: string; x: number; y: number; facing: number };
@@ -108,6 +125,37 @@ function shadowTexture() {
   return t;
 }
 
+/**
+ * What the car reflects: a dark studio lit by long softbox strips, as in car photography.
+ * The strips draw clean highlights along the bonnet and the flanks instead of a grey wash.
+ */
+function studio() {
+  const room = new Scene();
+  room.add(
+    new Mesh(
+      new BoxGeometry(40, 16, 40),
+      new MeshBasicMaterial({ color: 0x0c1016, side: BackSide }),
+    ),
+  );
+  const panel = (w: number, h: number, at: Vec3, rx: number, ry: number, power: number) => {
+    const m = new Mesh(
+      new PlaneGeometry(w, h),
+      new MeshBasicMaterial({ color: new Color(1, 1, 1).multiplyScalar(power), side: DoubleSide }),
+    );
+    m.position.set(...at);
+    m.rotation.set(rx, ry, 0);
+    room.add(m);
+  };
+  panel(18, 1.1, [0, 7, 4], Math.PI / 2, 0, 9);
+  panel(18, 1.1, [0, 7, -4], Math.PI / 2, 0, 7);
+  panel(1.2, 14, [0, 7.5, 0], Math.PI / 2, 0, 3);
+  panel(8, 5, [-14, 3.5, 2], 0, Math.PI / 2, 2.6);
+  panel(8, 5, [14, 3.5, -2], 0, -Math.PI / 2, 2.2);
+  panel(14, 3, [0, 2.5, 15], 0, Math.PI, 1.4);
+  panel(14, 3, [0, 2.5, -15], 0, 0, 0.8);
+  return room;
+}
+
 /** The reflection on the floor, fading out away from the car. */
 const floorShader = {
   name: "SpinFloor",
@@ -156,9 +204,16 @@ export function createSpin(o: SpinOptions): Spin {
 
   const scene = new Scene();
   const pmrem = new PMREMGenerator(renderer);
-  const env = pmrem.fromScene(new RoomEnvironment(), 0.04).texture;
+  const studioScene = studio();
+  const env = pmrem.fromScene(studioScene, 0.02).texture;
+  studioScene.traverse((obj) => {
+    const mesh = obj as Mesh;
+    if (!mesh.isMesh) return;
+    mesh.geometry.dispose();
+    (mesh.material as Material).dispose();
+  });
   scene.environment = env;
-  scene.environmentIntensity = 0.95;
+  scene.environmentIntensity = 1;
 
   const key = new DirectionalLight(0xffffff, 2.4);
   key.position.set(4, 8, 6);
@@ -190,14 +245,17 @@ export function createSpin(o: SpinOptions): Spin {
   let activeId: string | null = null;
   let reflector: Reflector | null = null;
   let drag: { x: number; y: number; t: number; moved: boolean; id: number } | null = null;
+  /** What the last frame showed: when nothing has moved, the next frame is skipped. */
+  let shown = "";
   let dragging = false;
 
   const paint = new MeshPhysicalMaterial({
     color: new Color(o.paint),
-    metalness: 0.6,
-    roughness: 0.3,
+    metalness: 0.55,
+    roughness: 0.32,
     clearcoat: 1,
-    clearcoatRoughness: 0.05,
+    clearcoatRoughness: 0.04,
+    envMapIntensity: 1,
   });
   const paintTarget = new Color(o.paint);
   const lampMats = new Map<string, MeshStandardMaterial[]>();
@@ -208,16 +266,46 @@ export function createSpin(o: SpinOptions): Spin {
     spot: s,
   }));
 
+  const roles = ["paint", "glass", "chrome", "rubber"] as const;
+  const explicit = roles.some((role) => o.model[role].length > 0);
   function roleOf(material: Material, mesh: Object3D) {
+    for (const role of roles) if (o.model[role].includes(material.name)) return role;
+    if (explicit) return null;
     const name = material.name || mesh.name;
-    for (const role of ["paint", "glass", "chrome", "rubber"] as const)
-      if (o.model[role].includes(material.name)) return role;
     for (const [re, role] of guesses) if (re.test(name)) return role;
     return null;
   }
 
-  function tune(material: Material, mesh: Object3D): Material {
-    const role = roleOf(material, mesh);
+  function finish(material: Material) {
+    const f = o.model.finish[material.name];
+    if (!f) return material;
+    const m = new MeshPhysicalMaterial({
+      name: material.name,
+      color: f.color ? new Color(f.color) : (material as MeshStandardMaterial).color,
+      map: (material as MeshStandardMaterial).map ?? null,
+      metalness: f.metalness ?? 0,
+      roughness: f.roughness ?? 0.6,
+      clearcoat: f.clearcoat ?? 0,
+      clearcoatRoughness: 0.08,
+      side: material.side,
+    });
+    const opacity = f.opacity ?? (material.transparent ? material.opacity : 1);
+    if (opacity < 1 || f.overGlass) {
+      m.transparent = true;
+      m.opacity = opacity;
+      m.depthWrite = opacity >= 1;
+    }
+    if (f.glow) {
+      m.emissive = new Color(f.glow);
+      m.emissiveIntensity = 0.6;
+    }
+    material.dispose();
+    return m;
+  }
+
+  function tune(source: Material, mesh: Object3D): Material {
+    const role = roleOf(source, mesh);
+    const material = role ? source : finish(source);
     const std = material as MeshStandardMaterial;
     for (const [id, names] of Object.entries(o.model.lamps))
       if (names.includes(material.name) && "emissive" in std) {
@@ -230,12 +318,13 @@ export function createSpin(o: SpinOptions): Spin {
     if (role === "paint") return paint;
     if (role === "glass")
       return new MeshPhysicalMaterial({
-        color: 0x0a0e13,
+        color: 0x05070a,
         metalness: 0,
-        roughness: 0.03,
+        roughness: 0.04,
         transparent: true,
-        opacity: 0.55,
-        envMapIntensity: 1.6,
+        opacity: 0.86,
+        envMapIntensity: 0.55,
+        depthWrite: false,
       });
     if (role === "chrome")
       return new MeshStandardMaterial({ color: 0xdfe3e8, metalness: 1, roughness: 0.12 });
@@ -260,6 +349,8 @@ export function createSpin(o: SpinOptions): Spin {
     root.traverse((obj) => {
       const mesh = obj as Mesh;
       if (!mesh.isMesh) return;
+      const name = Array.isArray(mesh.material) ? mesh.material[0]?.name : mesh.material.name;
+      if (name && o.model.finish[name]?.overGlass) mesh.renderOrder = 3;
       mesh.material = Array.isArray(mesh.material)
         ? mesh.material.map((m) => tune(m, mesh))
         : tune(mesh.material, mesh);
@@ -298,7 +389,7 @@ export function createSpin(o: SpinOptions): Spin {
     renderer.setSize(w, h, false);
     camera.aspect = w / h;
     // On wide screens the car sits right of centre, leaving room for the title.
-    const shift = w > 980 ? w * 0.13 : 0;
+    const shift = w > 980 ? w * 0.15 : 0;
     camera.setViewOffset(w, h, -shift, 0, w, h);
     camera.updateProjectionMatrix();
     reflector
@@ -315,7 +406,7 @@ export function createSpin(o: SpinOptions): Spin {
     // Fit the car whichever way it faces (its widest extent is the diagonal): on wide
     // screens into the right part of the stage, on phones into almost all of it.
     const reach = Math.hypot(dims.L, dims.W) / 2;
-    const share = w > 980 ? 0.58 : 0.94;
+    const share = w > 980 ? 0.54 : 0.94;
     const byWidth = reach / (share * Math.tan(hfov / 2));
     const byHeight = dims.H / (0.46 * 2 * Math.tan(vfov / 2));
     const dist = Math.max(byWidth, byHeight) * zoom;
@@ -360,9 +451,24 @@ export function createSpin(o: SpinOptions): Spin {
     zoom = damp(zoom, zoomTarget, 3.5 * quick, dt);
     lookY = damp(lookY, lookTarget, 3.5 * quick, dt);
     paint.color.lerp(paintTarget, 1 - Math.exp(-6 * quick * dt));
+    let glow = 0;
     for (const [id, mats] of lampMats)
-      for (const m of mats)
+      for (const m of mats) {
         m.emissiveIntensity = damp(m.emissiveIntensity, id === activeId ? 2.2 : 0, 5, dt);
+        glow += m.emissiveIntensity;
+      }
+    // Render only when something changed: a still car costs no battery.
+    const state = [
+      yaw.toFixed(5),
+      zoom.toFixed(4),
+      lookY.toFixed(4),
+      paint.color.getHexString(),
+      glow.toFixed(3),
+      w,
+      h,
+    ].join();
+    if (state === shown) return;
+    shown = state;
     placeCamera();
     renderer.render(scene, camera);
     o.onFrame(points(), yaw);
@@ -445,7 +551,9 @@ export function createSpin(o: SpinOptions): Spin {
   raf = requestAnimationFrame(frame);
 
   return {
-    setPaint: (hex) => paintTarget.set(hex),
+    setPaint(hex) {
+      paintTarget.set(hex);
+    },
     focus(id) {
       activeId = id;
       const a = anchors.find((x) => x.id === id);
@@ -461,7 +569,8 @@ export function createSpin(o: SpinOptions): Spin {
       // Face the point towards the camera, slightly turned for a three-quarter view.
       const want = flat > 0.25 ? -Math.atan2(a.normal.x, a.normal.z) + 0.32 : yaw;
       target = yaw + wrapAngle(want - yaw);
-      zoomTarget = 0.82;
+      // Closer on wide screens; on phones the car already fills the frame.
+      zoomTarget = w > 640 ? 0.82 : 0.97;
       lookTarget = Math.min(dims.H * 0.55, Math.max(dims.H * 0.3, a.local.y * 0.85));
     },
     setAutoRotate(on) {

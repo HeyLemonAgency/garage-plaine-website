@@ -6514,7 +6514,7 @@ body {
       transform 0.35s,
       visibility 0s;
   }
-  .sz-hero:has(.spin[data-active]) .sz-hero-copy > :not(.breadcrumb) {
+  .sz-hero[data-detail] .sz-hero-copy > :not(.breadcrumb) {
     opacity: 0;
     visibility: hidden;
     transform: translateX(-16px);
@@ -6869,7 +6869,7 @@ body {
   color: var(--accent);
 }
 .spin-error {
-  top: 50%;
+  bottom: 24px;
   width: min(420px, 86%);
   margin: 0;
   text-align: center;
@@ -7450,7 +7450,7 @@ body {
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  min-height: 40px;
+  min-height: 44px;
   font-size: var(--fs-13);
   font-weight: 700;
 }

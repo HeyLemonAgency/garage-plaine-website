@@ -39,6 +39,7 @@ type State = "idle" | "loading" | "ready" | "error";
 export function SuzukiSpin() {
   const stage = useRef<HTMLDivElement>(null);
   const canvas = useRef<HTMLCanvasElement>(null);
+  const card = useRef<HTMLDivElement>(null);
   const spin = useRef<Spin | null>(null);
   const els = useRef(new Map<string, HTMLButtonElement>());
   const [state, setState] = useState<State>("idle");
@@ -111,9 +112,35 @@ export function SuzukiSpin() {
     };
   }, []);
 
-  useEffect(() => spin.current?.focus(active), [active, state]);
-  useEffect(() => spin.current?.setPaint(sCross.colours[paint]!.hex), [paint, state]);
-  useEffect(() => spin.current?.setAutoRotate(playing && !active), [playing, active, state]);
+  useEffect(() => {
+    spin.current?.focus(active);
+  }, [active, state]);
+  // While a detail is open, the hero hides its title on wide screens (see .sz-hero[data-detail]).
+  useEffect(() => {
+    stage.current?.closest(".sz-hero")?.toggleAttribute("data-detail", !!active);
+  }, [active]);
+  // On phones the card opens under the car: bring both into view.
+  useEffect(() => {
+    const el = stage.current;
+    const box = card.current;
+    if (!active || !el || !box || window.innerWidth > 980) return;
+    const frame = requestAnimationFrame(() => {
+      const top = el.getBoundingClientRect().top;
+      const bottom = box.getBoundingClientRect().bottom;
+      const room = window.innerHeight - 96;
+      if (top >= 64 && bottom <= room) return;
+      // Show the card's bottom, but never push the top of the car under the header.
+      const by = bottom > room ? Math.min(bottom - room, top - 64) : top - 64;
+      window.scrollBy({ top: by, behavior: "smooth" });
+    });
+    return () => cancelAnimationFrame(frame);
+  }, [active]);
+  useEffect(() => {
+    spin.current?.setPaint(sCross.colours[paint]!.hex);
+  }, [paint, state]);
+  useEffect(() => {
+    spin.current?.setAutoRotate(playing && !active);
+  }, [playing, active, state]);
 
   const index = active ? spots.findIndex((s) => s.id === active) : -1;
   const current = index >= 0 ? spots[index] : null;
@@ -146,7 +173,15 @@ export function SuzukiSpin() {
         </span>
         <span className="spin-floor" aria-hidden="true" />
         {sCross3d.poster && (
-          <img className="spin-poster" src={sCross3d.poster} alt="" width={1600} height={900} />
+          <picture>
+            <source media="(max-width: 980px)" srcSet={sCross3d.poster.phone} />
+            <img
+              className="spin-poster"
+              src={sCross3d.poster.wide}
+              alt="Le Suzuki S-Cross en 3D"
+              fetchPriority="high"
+            />
+          </picture>
         )}
         <canvas ref={canvas} className="spin-canvas" aria-hidden="true" />
 
@@ -240,7 +275,7 @@ export function SuzukiSpin() {
         <span className="spin-colour-name">{colour.name}</span>
       </div>
 
-      <div className="spin-card" aria-live="polite">
+      <div className="spin-card" ref={card} aria-live="polite">
         {current && Icon && (
           <div className="spin-card-body" key={current.id}>
             <span className="spin-card-step">
@@ -280,7 +315,8 @@ export function SuzukiSpin() {
               onClick={() => {
                 setTouched(true);
                 setActive(active === s.id ? null : s.id);
-                stage.current?.scrollIntoView({ block: "nearest", behavior: "smooth" });
+                if (window.innerWidth > 980)
+                  stage.current?.scrollIntoView({ block: "nearest", behavior: "smooth" });
               }}
             >
               <ChipIcon aria-hidden="true" />
