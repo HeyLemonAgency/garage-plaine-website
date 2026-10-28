@@ -413,6 +413,8 @@ export type AllgripMode = "auto" | "sport" | "snow" | "lock";
 
 export const sCross = {
   name: "Suzuki S-Cross",
+  /** The line under the model's name, above the 3D car. */
+  tagline: ["Mild hybrid 48 V", "4x4 ALLGRIP SELECT", "110 ch"],
   figures: [
     { value: 110, unit: "ch", label: "1.4 BOOSTERJET mild hybrid 48 V" },
     { value: 4, unit: "modes", label: "Transmission intégrale ALLGRIP SELECT" },

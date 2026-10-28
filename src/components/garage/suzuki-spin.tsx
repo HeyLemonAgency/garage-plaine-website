@@ -97,7 +97,7 @@ export function SuzukiSpin() {
             setTouched(true);
             setActive(null);
           },
-          onFrame(points, yaw) {
+          onFrame(points) {
             const width = el.clientWidth;
             for (const p of points) {
               const b = els.current.get(p.id);
@@ -109,7 +109,6 @@ export function SuzukiSpin() {
               b.dataset["side"] = p.x > width - 190 ? "left" : "right";
               b.toggleAttribute("data-behind", show < 0.35);
             }
-            el.style.setProperty("--sway", Math.sin(yaw).toFixed(3));
           },
         });
       })
@@ -197,9 +196,17 @@ export function SuzukiSpin() {
           e.preventDefault();
         }}
       >
-        <span className="spin-word" aria-hidden="true">
-          S-CROSS
-        </span>
+        <div className="spin-head">
+          <span className="spin-brand">Suzuki</span>
+          <h2 className="spin-name" aria-label="Suzuki S-Cross">
+            S-Cross
+          </h2>
+          <p className="spin-line">
+            {sCross.tagline.map((t) => (
+              <span key={t}>{t}</span>
+            ))}
+          </p>
+        </div>
         <span className="spin-floor" aria-hidden="true" />
         {sCross3d.poster && (
           <picture>

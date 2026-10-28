@@ -418,9 +418,12 @@ export function createSpin(o: SpinOptions): Spin {
     h = Math.max(1, o.stage.clientHeight);
     renderer.setSize(w, h, false);
     camera.aspect = w / h;
-    // On wide screens the car sits right of centre, leaving room for the title.
-    const shift = w > 980 ? w * 0.15 : 0;
-    camera.setViewOffset(w, h, -shift, 0, w, h);
+    // On wide screens the car sits right of centre, leaving room for the headline, and it
+    // sits a little low everywhere, leaving room for the model's name above it.
+    // Keep in step with the 67% used for the title and hints in styles.css.
+    const shift = w > 980 ? w * 0.17 : 0;
+    const drop = h * (w > 980 ? 0.07 : 0.13);
+    camera.setViewOffset(w, h, -shift, -drop, w, h);
     camera.updateProjectionMatrix();
     reflector
       ?.getRenderTarget()
@@ -436,7 +439,7 @@ export function createSpin(o: SpinOptions): Spin {
     // Fit the car whichever way it faces (its widest extent is the diagonal): on wide
     // screens into the right part of the stage, on phones into almost all of it.
     const reach = Math.hypot(dims.L, dims.W) / 2;
-    const share = w > 980 ? 0.54 : 0.94;
+    const share = w > 980 ? 0.5 : 0.94;
     const byWidth = reach / (share * Math.tan(hfov / 2));
     const byHeight = dims.H / (0.46 * 2 * Math.tan(vfov / 2));
     const dist = Math.max(byWidth, byHeight) * zoom;

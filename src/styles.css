@@ -27,7 +27,7 @@
 @font-face {
   font-family: "Manrope";
   font-style: normal;
-  font-weight: 400 800;
+  font-weight: 200 800;
   font-display: swap;
   src: url("/fonts/manrope-latin.woff2") format("woff2");
   unicode-range:
@@ -37,7 +37,7 @@
 @font-face {
   font-family: "Manrope";
   font-style: normal;
-  font-weight: 400 800;
+  font-weight: 200 800;
   font-display: swap;
   src: url("/fonts/manrope-latin-ext.woff2") format("woff2");
   unicode-range:
@@ -6476,8 +6476,8 @@ body {
   display: grid;
   color: oklch(0.97 0.005 240);
   background:
-    radial-gradient(48% 44% at 63% 42%, oklch(0.38 0.06 245 / 0.7), transparent 72%),
-    radial-gradient(70% 40% at 63% 78%, oklch(0.3 0.04 240 / 0.8), transparent 70%),
+    radial-gradient(48% 44% at 67% 42%, oklch(0.38 0.06 245 / 0.7), transparent 72%),
+    radial-gradient(70% 40% at 67% 78%, oklch(0.3 0.04 240 / 0.8), transparent 70%),
     linear-gradient(180deg, oklch(0.2 0.035 242), oklch(0.13 0.025 242));
   overflow: hidden;
   isolation: isolate;
@@ -6553,7 +6553,7 @@ body {
   background: #fff;
 }
 .sz-hero h1 {
-  font-size: clamp(40px, 4vw, 58px);
+  font-size: clamp(40px, 3.5vw, 52px);
   line-height: 1.04;
   letter-spacing: -0.035em;
   color: #fff;
@@ -6654,26 +6654,124 @@ body {
 .spin[data-state="ready"] .spin-poster {
   opacity: 0;
 }
-.spin-word {
+/* The model's name, above the car: thin, wide-set capitals in brushed silver. */
+.spin-head {
   position: absolute;
-  left: 63%;
-  top: 44%;
-  transform: translate(calc(-50% + var(--sway, 0) * 3%), -50%);
+  z-index: 4;
+  left: 67%;
+  top: clamp(22px, 5.5%, 52px);
+  display: grid;
+  justify-items: center;
+  gap: 10px;
+  text-align: center;
+  transform: translateX(-50%);
+  pointer-events: none;
+  transition: opacity 0.4s;
+}
+.spin-brand {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  color: oklch(0.7 0.19 27);
+  font-size: var(--fs-11);
+  font-weight: 700;
+  letter-spacing: 0.5em;
+  text-transform: uppercase;
+  margin-right: -0.5em;
+}
+.spin-brand:before,
+.spin-brand:after {
+  content: "";
+  width: 44px;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, oklch(1 0 0 / 0.35));
+}
+.spin-brand:after {
+  margin-left: -0.5em;
+  background: linear-gradient(270deg, transparent, oklch(1 0 0 / 0.35));
+}
+.spin-name {
+  margin: 0;
+  padding-left: 0.16em;
   font-family: var(--font-display);
-  font-size: clamp(110px, 16vw, 280px);
-  font-weight: 800;
-  line-height: 1;
-  letter-spacing: 0.02em;
+  font-size: clamp(60px, 7.4vw, 124px);
+  font-weight: 200;
+  line-height: 0.95;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
   white-space: nowrap;
   color: transparent;
-  -webkit-text-stroke: 1.2px oklch(1 0 0 / 0.1);
-  pointer-events: none;
+  background: linear-gradient(
+    100deg,
+    #8ea2bc 0%,
+    #dfe6ef 22%,
+    #ffffff 34%,
+    #aebdd0 50%,
+    #eef2f7 68%,
+    #93a7c0 100%
+  );
+  background-size: 220% 100%;
+  background-position: 100% 0;
+  -webkit-background-clip: text;
+  background-clip: text;
+  animation:
+    spin-name-in 1.6s cubic-bezier(0.2, 0.7, 0.2, 1) both,
+    spin-sheen 7s ease-in-out 1.8s infinite;
+}
+.spin-line {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 6px 18px;
+  margin: 2px 0 0;
+  color: oklch(1 0 0 / 0.62);
+  font-size: var(--fs-11);
+  font-weight: 600;
+  letter-spacing: 0.24em;
+  line-height: 1.4;
+  text-transform: uppercase;
+  animation: spin-fade-in 1s 0.7s both;
+}
+.spin-line span + span:before {
+  content: "";
+  display: inline-block;
+  width: 4px;
+  height: 4px;
+  margin: 0 18px 2px 0;
+  border-radius: 50%;
+  background: oklch(0.7 0.19 27);
+  vertical-align: middle;
+}
+.spin-brand {
+  animation: spin-fade-in 1s 0.3s both;
+}
+@keyframes spin-name-in {
+  from {
+    opacity: 0;
+    letter-spacing: 0.42em;
+    filter: blur(8px);
+  }
+}
+@keyframes spin-sheen {
+  0%,
+  55% {
+    background-position: 100% 0;
+  }
+  100% {
+    background-position: -120% 0;
+  }
+}
+@keyframes spin-fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
 }
 .spin-floor {
   position: absolute;
   inset: 0;
   background:
-    radial-gradient(30% 9% at 63% 68%, oklch(0.75 0.04 245 / 0.22), transparent 70%),
+    radial-gradient(30% 9% at 67% 68%, oklch(0.75 0.04 245 / 0.22), transparent 70%),
     linear-gradient(180deg, transparent 62%, oklch(0.09 0.02 240 / 0.55));
   pointer-events: none;
 }
@@ -6779,7 +6877,7 @@ body {
 .spin-load,
 .spin-error {
   position: absolute;
-  left: 63%;
+  left: 67%;
   z-index: 5;
   transform: translateX(-50%);
 }
@@ -7114,7 +7212,10 @@ body {
 }
 @media (prefers-reduced-motion: reduce) {
   .spin-spot-dot:before,
-  .spin-hint svg {
+  .spin-hint svg,
+  .spin-name,
+  .spin-line,
+  .spin-brand {
     animation: none;
   }
 }
@@ -7610,10 +7711,6 @@ body {
   .sz-hero-copy > * {
     max-width: 620px;
   }
-  .spin-word {
-    left: 50%;
-    top: 46%;
-  }
   .spin-floor {
     background:
       radial-gradient(42% 8% at 50% 70%, oklch(0.75 0.04 245 / 0.22), transparent 70%),
@@ -7624,6 +7721,12 @@ body {
   .spin-load,
   .spin-error {
     left: 50%;
+  }
+  .spin-head {
+    left: 50%;
+    top: 18px;
+    gap: 7px;
+    width: calc(100% - 32px);
   }
   .spin-tools {
     position: relative;
@@ -7713,7 +7816,7 @@ body {
 }
 @media (max-width: 640px) {
   .sz-hero {
-    --stage-h: clamp(280px, 84vw, 480px);
+    --stage-h: clamp(330px, 100vw, 500px);
   }
   .sz-hero h1 {
     font-size: 34px;
@@ -7731,8 +7834,27 @@ body {
   .spin-spot-label {
     display: none;
   }
-  .spin-word {
-    font-size: 96px;
+  .spin-name {
+    font-size: clamp(40px, 12vw, 64px);
+    letter-spacing: 0.12em;
+    padding-left: 0.12em;
+  }
+  .spin-brand:before,
+  .spin-brand:after {
+    width: 26px;
+  }
+  .spin-line {
+    gap: 4px 12px;
+    font-size: var(--fs-9);
+    letter-spacing: 0.18em;
+  }
+  .spin-line span + span:before {
+    margin-right: 12px;
+  }
+}
+@media (max-width: 380px) {
+  .spin-line span:nth-child(n + 3) {
+    display: none;
   }
   .sz-figure-list {
     grid-template-columns: repeat(2, minmax(0, 1fr));

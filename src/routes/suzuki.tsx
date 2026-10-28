@@ -61,10 +61,7 @@ function Suzuki() {
           {sCross3d.available ? (
             <>
               <h1>
-                Suzuki à Denges.{" "}
-                <em>
-                  Faites le tour du <span className="nowrap">S-Cross</span>.
-                </em>
+                Suzuki à Denges. <em>Sous tous les angles.</em>
               </h1>
               <p>
                 Le SUV hybride de Suzuki, traction avant ou 4x4 ALLGRIP, à découvrir sous tous les
