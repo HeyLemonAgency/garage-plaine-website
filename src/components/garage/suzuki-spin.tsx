@@ -34,6 +34,25 @@ const pad = (n: number) => String(n).padStart(2, "0");
 
 type State = "idle" | "loading" | "ready" | "error";
 
+/** True when the browser would draw 3D without a graphics chip (old PCs, virtual machines,
+ *  blocked drivers): the scene would crawl, so it then waits to be asked for. */
+function softwareRendering() {
+  try {
+    const c = document.createElement("canvas");
+    const opts = { failIfMajorPerformanceCaveat: true };
+    const gl = (c.getContext("webgl2", opts) ?? c.getContext("webgl", opts)) as
+      WebGLRenderingContext | WebGL2RenderingContext | null;
+    if (!gl) return true;
+    // Chrome names the real renderer only through this extension; Firefox in RENDERER.
+    const info = gl.getExtension("WEBGL_debug_renderer_info");
+    const renderer = String(gl.getParameter(info ? info.UNMASKED_RENDERER_WEBGL : gl.RENDERER));
+    gl.getExtension("WEBGL_lose_context")?.loseContext();
+    return /swiftshader|llvmpipe|software/i.test(renderer);
+  } catch {
+    return true;
+  }
+}
+
 /** The S-Cross on a turntable: it turns slowly on its own, the visitor can spin it by hand,
  *  pick a paint and open the points that explain the car. */
 export function SuzukiSpin() {
@@ -101,11 +120,21 @@ export function SuzukiSpin() {
   };
 
   useEffect(() => {
-    // Phones on a data-saving plan load the 3D view only when asked.
+    // Phones on a data-saving plan, and devices without a graphics chip, load it when asked.
     const saveData = (navigator as Navigator & { connection?: { saveData?: boolean } }).connection
       ?.saveData;
-    const timer = saveData ? 0 : window.setTimeout(() => startRef.current(), 150);
+    let idle = 0;
+    let timer = 0;
+    if (!saveData && !softwareRendering()) {
+      // Start once the page has settled, so the 3D never delays the first interactions.
+      const go = () => startRef.current();
+      // Safari has no requestIdleCallback.
+      if (typeof window.requestIdleCallback === "function")
+        idle = window.requestIdleCallback(go, { timeout: 1500 });
+      else timer = window.setTimeout(go, 300);
+    }
     return () => {
+      if (idle) window.cancelIdleCallback(idle);
       window.clearTimeout(timer);
       spin.current?.dispose();
       spin.current = null;

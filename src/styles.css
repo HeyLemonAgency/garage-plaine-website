@@ -6850,6 +6850,8 @@ body {
 }
 .spin-load {
   top: 50%;
+  margin-top: -24px;
+  white-space: nowrap;
   display: inline-flex;
   align-items: center;
   gap: 10px;
@@ -6886,6 +6888,9 @@ body {
   align-items: center;
   gap: 12px;
   max-width: calc(100% - 48px);
+}
+.spin:not([data-state="ready"]) .spin-tools {
+  visibility: hidden;
 }
 .spin-tool {
   display: grid;
