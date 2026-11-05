@@ -5,12 +5,12 @@
 import tiagoPhoto from "@/assets/team-tiago-bessa.webp";
 
 export const garage = {
-  name: "Garage de la Plaine",
-  /** Names the garage also goes by (logo, previous website). */
-  alternateNames: ["Garage-Carrosserie de la Plaine", "Garage Carrosserie de la Plaine"],
+  name: "Garage Carrosserie de la Plaine",
+  /** Names the garage also goes by (short form, logo); the name above is the one shown. */
+  alternateNames: ["Garage de la Plaine", "Garage-Carrosserie de la Plaine"],
   /** One factual paragraph for search engines and AI assistants (JSON-LD, llms.txt). */
   summary:
-    "Le Garage de la Plaine (Garage-Carrosserie de la Plaine) est un garage de Denges (VD), sur La Côte, à 5 minutes de Morges et 10 minutes de Lausanne. Concessionnaire Suzuki depuis plus de 20 ans, il vend des Suzuki neuves et des occasions toutes marques, répare et entretient les véhicules de toutes marques dans son atelier mécanique, dispose d’une carrosserie et d’une station-service Jubin ouverte 24h/24. Un service de qualité depuis plus de 40 ans.",
+    "Le Garage Carrosserie de la Plaine (aussi appelé Garage de la Plaine) est un garage de Denges (VD), sur La Côte, à 5 minutes de Morges et 10 minutes de Lausanne. Concessionnaire Suzuki depuis plus de 20 ans, il vend des Suzuki neuves et des occasions toutes marques, répare et entretient les véhicules de toutes marques dans son atelier mécanique, dispose d’une carrosserie et d’une station-service Jubin ouverte 24h/24. Un service de qualité depuis plus de 40 ans.",
   address: "Route de la Plaine 20",
   postalCode: "1026",
   city: "Denges",
@@ -25,9 +25,9 @@ export const garage = {
   inventory:
     "https://www.autolina.ch/fr/iframe/30366?border=000000&buttons=f11c27&buttonsText=ffffff&footer=block&garantieFilter=none&icon=f11c27&links=000000&text=000000",
   directions:
-    "https://www.google.com/maps/search/?api=1&query=Garage+de+la+Plaine+Route+de+la+Plaine+20+1026+Denges",
+    "https://www.google.com/maps/search/?api=1&query=Garage+Carrosserie+de+la+Plaine+Route+de+la+Plaine+20+1026+Denges",
   mapEmbed:
-    "https://www.google.com/maps?q=Garage+de+la+Plaine,+Route+de+la+Plaine+20,+1026+Denges&hl=fr&output=embed",
+    "https://www.google.com/maps?q=Garage+Carrosserie+de+la+Plaine,+Route+de+la+Plaine+20,+1026+Denges&hl=fr&output=embed",
   hours: [
     ["Lundi – jeudi", "07h30 – 12h00 / 13h30 – 18h00"],
     ["Vendredi", "07h30 – 12h00 / 13h30 – 17h00"],
@@ -254,6 +254,9 @@ export const bodyworkFacts = {
     "Les réparations sont réalisées avec des pièces d’origine, dans le respect des garanties constructeur. Les travaux sont garantis à vie, selon conditions : contactez la carrosserie pour connaître les modalités applicables.",
   windscreen:
     "Pour tout remplacement de pare-brise, une vignette autoroutière ou un bon d’essence est offert.",
+  advice: "Des conseils d’entretien gratuits, donnés par un professionnel de la carrosserie.",
+  gifts:
+    "Une idée cadeau : demandez nos packs d’entretien personnalisés, composés selon votre budget.",
 } as const;
 
 export const salesServices = [
@@ -279,16 +282,16 @@ const hoursText = garage.hours.map(([d, t]) => `${d} : ${t}`).join(" ; ");
 export const faqs = {
   home: [
     {
-      q: "Où se trouve le Garage de la Plaine ?",
-      a: `Le Garage de la Plaine se trouve ${garage.address}, ${garage.postalCode} ${garage.city} (VD), sur La Côte, à 5 minutes de Morges et 10 minutes de Lausanne.`,
+      q: "Où se trouve le Garage Carrosserie de la Plaine ?",
+      a: `Le Garage Carrosserie de la Plaine se trouve ${garage.address}, ${garage.postalCode} ${garage.city} (VD), sur La Côte, à 5 minutes de Morges et 10 minutes de Lausanne.`,
     },
     {
       q: "Quels sont les horaires d’ouverture du garage ?",
       a: `${hoursText}. La station-service Jubin est accessible 24h/24 et 7j/7.`,
     },
     {
-      q: "Le Garage de la Plaine est-il concessionnaire Suzuki ?",
-      a: "Oui. Le Garage de la Plaine est concessionnaire Suzuki depuis plus de 20 ans : véhicules neufs de la gamme Suzuki, essais sur route, financement et leasing, et un atelier dont Suzuki est la marque de référence.",
+      q: "Le Garage Carrosserie de la Plaine est-il concessionnaire Suzuki ?",
+      a: "Oui. Le Garage Carrosserie de la Plaine est concessionnaire Suzuki depuis plus de 20 ans : véhicules neufs de la gamme Suzuki, essais sur route, financement et leasing, et un atelier dont Suzuki est la marque de référence.",
     },
     {
       q: "Entretenez-vous et réparez-vous les voitures de toutes les marques ?",

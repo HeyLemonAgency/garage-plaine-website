@@ -71,10 +71,10 @@ export function SiteHeader() {
       </div>
       <header className="site-header" data-scrolled={scrolled || undefined}>
         <div className="container nav-row">
-          <Link to="/" className="logo" aria-label="Garage de la Plaine — Accueil">
+          <Link to="/" className="logo" aria-label="Garage Carrosserie de la Plaine — Accueil">
             <img
               src={logo}
-              alt="Garage-Carrosserie de la Plaine, Denges — Suzuki"
+              alt="Garage Carrosserie de la Plaine, Denges — Suzuki"
               width={600}
               height={90}
             />
@@ -140,7 +140,7 @@ export function SiteFooter() {
         <div className="container">
           <div className="footer-top">
             <div>
-              <div className="footer-name">Garage de la Plaine.</div>
+              <div className="footer-name">Garage Carrosserie de la Plaine.</div>
               <p>
                 Votre garage de confiance à Denges. <br />
                 Vente · Carrosserie · Atelier multimarque
@@ -183,7 +183,7 @@ export function SiteFooter() {
             </div>
           </div>
           <div className="footer-bottom">
-            <span>© {new Date().getFullYear()} Garage de la Plaine · Denges</span>
+            <span>© {new Date().getFullYear()} Garage Carrosserie de la Plaine · Denges</span>
             <span>Agent officiel Suzuki · La Côte, Vaud</span>
             <Link to="/confidentialite">Confidentialité</Link>
           </div>

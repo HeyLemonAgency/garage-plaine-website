@@ -3,7 +3,7 @@ export function renderErrorPage(): string {
 <html lang="fr-CH">
   <head>
     <meta charset="utf-8" />
-    <title>Page momentanément indisponible — Garage de la Plaine</title>
+    <title>Page momentanément indisponible — Garage Carrosserie de la Plaine</title>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <style>
       body { font: 15px/1.5 system-ui, -apple-system, sans-serif; background: #f9f9f7; color: #22272c; display: grid; place-items: center; min-height: 100vh; margin: 0; padding: 1.5rem; }

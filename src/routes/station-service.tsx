@@ -12,7 +12,7 @@ export const Route = createFileRoute("/station-service")({
       title: "Station-service Jubin 24h/24 à Denges",
       crumb: "Station-service",
       description:
-        "Faites le plein à la station-service Jubin du Garage de la Plaine à Denges, accessible 24h/24 et 7j/7. Commandez votre Jubin Card sur place.",
+        "Faites le plein à la station-service Jubin du Garage Carrosserie de la Plaine à Denges, accessible 24h/24 et 7j/7. Commandez votre Jubin Card sur place.",
     }),
   component: Station,
 });
@@ -46,7 +46,20 @@ function Station() {
                 "Jubin Card disponible sur commande",
               ]}
             />
-            <p>Contactez le garage pour commander votre Jubin Card et connaître ses avantages.</p>
+            <p>
+              Contactez le garage pour commander votre Jubin Card et connaître ses avantages tout au
+              long de l’année. Plus d’informations sur{" "}
+              <a
+                className="text-link"
+                href="https://www.jubin.ch/"
+                target="_blank"
+                rel="noreferrer"
+              >
+                jubin.ch
+                <span className="sr-only"> (nouvel onglet)</span>
+              </a>
+              .
+            </p>
             <Button variant="premium" asChild>
               <Link to="/contact">
                 Nous contacter <ArrowRight />
@@ -56,7 +69,7 @@ function Station() {
           <img
             className="editorial-image"
             src={fuel}
-            alt="Station-service Jubin au Garage de la Plaine"
+            alt="Station-service Jubin au Garage Carrosserie de la Plaine"
             width={700}
             height={500}
           />

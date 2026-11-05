@@ -95,7 +95,7 @@ function Vehicules() {
             ref={frame}
             key={src}
             className="inventory-frame"
-            title="Stock actuel du Garage de la Plaine sur Autolina"
+            title="Stock actuel du Garage Carrosserie de la Plaine sur Autolina"
             src={src}
             loading="eager"
             allow="fullscreen"

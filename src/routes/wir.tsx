@@ -4,14 +4,15 @@ import { Button } from "@/components/ui/button";
 import { PageIntro } from "@/components/garage/sections";
 import { wirRates } from "@/lib/garage";
 import { pageHead } from "@/lib/seo";
+import wirLogo from "@/assets/wir-partner.webp";
 export const Route = createFileRoute("/wir")({
   head: () =>
     pageHead({
       path: "/wir",
-      title: "Paiement en WIR : les conditions",
+      title: "Paiement en WIR à Denges : les conditions",
       crumb: "WIR",
       description:
-        "Le Garage de la Plaine à Denges est partenaire WIR : main-d’œuvre et pneumatiques 100 %, pièces d’entretien 50 %, pièces spécifiques 20 %, aux tarifs CHF.",
+        "Le Garage Carrosserie de la Plaine à Denges est partenaire WIR : main-d’œuvre et pneumatiques 100 %, pièces d’entretien 50 %, pièces spécifiques 20 %, aux tarifs CHF.",
     }),
   component: Wir,
 });
@@ -22,7 +23,7 @@ function Wir() {
       <PageIntro
         label="Partenariat WIR"
         title="Votre garage, partenaire WIR."
-        description="Le Garage de la Plaine accepte les paiements WIR selon les conditions ci-dessous."
+        description="Le Garage Carrosserie de la Plaine accepte les paiements WIR selon les conditions ci-dessous."
       />
       <section className="section">
         <div className="container detail-layout">
@@ -39,6 +40,13 @@ function Wir() {
             </div>
           </div>
           <div>
+            <img
+              className="wir-logo wir-logo-lg"
+              src={wirLogo}
+              alt="WIR partner"
+              width={566}
+              height={271}
+            />
             <h2>Une question sur votre règlement&nbsp;?</h2>
             <p>
               Notre équipe est à votre disposition pour préciser les conditions applicables à votre

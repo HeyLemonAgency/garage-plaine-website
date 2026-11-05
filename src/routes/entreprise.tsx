@@ -13,7 +13,7 @@ export const Route = createFileRoute("/entreprise")({
       title: "Le garage et son équipe à Denges",
       crumb: "Entreprise",
       description:
-        "Depuis plus de 40 ans à Denges : le Garage de la Plaine, son équipe vente, atelier et carrosserie, et son engagement d’entreprise formatrice.",
+        "Depuis plus de 40 ans à Denges : le Garage Carrosserie de la Plaine, son équipe vente, atelier et carrosserie, et son engagement d’entreprise formatrice.",
       type: "AboutPage",
     }),
   component: Entreprise,
@@ -29,7 +29,7 @@ function Entreprise() {
       <section className="section">
         <div className="container editorial-grid">
           <div className="editorial-copy">
-            <div className="eyebrow">Garage de la Plaine · Denges</div>
+            <div className="eyebrow">Garage Carrosserie de la Plaine · Denges</div>
             <h2>
               Des racines locales. <br />
               Un service complet.
@@ -60,7 +60,7 @@ function Entreprise() {
           <img
             className="editorial-image"
             src={photos.garage}
-            alt="Garage de la Plaine, Route de la Plaine à Denges"
+            alt="Garage Carrosserie de la Plaine, Route de la Plaine à Denges"
             width={700}
             height={500}
           />

@@ -15,12 +15,14 @@ import {
   Droplets,
   Gift,
   Hammer,
+  Lightbulb,
   Mail,
   Phone,
   RotateCcw,
   ShieldCheck,
   Sparkles,
   SprayCan,
+  Ticket,
   type LucideIcon,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -396,8 +398,16 @@ export function BodyworkSection() {
               {bodyworkFacts.warranty}
             </p>
             <p>
-              <Gift aria-hidden="true" />
+              <Ticket aria-hidden="true" />
               {bodyworkFacts.windscreen}
+            </p>
+            <p>
+              <Lightbulb aria-hidden="true" />
+              {bodyworkFacts.advice}
+            </p>
+            <p>
+              <Gift aria-hidden="true" />
+              {bodyworkFacts.gifts}
             </p>
           </div>
           <div className="detail-actions">

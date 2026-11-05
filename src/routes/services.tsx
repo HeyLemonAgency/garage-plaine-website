@@ -15,6 +15,7 @@ import { FaqSection } from "@/components/garage/faq";
 import { SalesContact } from "@/components/garage/people";
 import { salesServices, team, faqs } from "@/lib/garage";
 import { pageHead } from "@/lib/seo";
+import wirLogo from "@/assets/wir-partner.webp";
 
 export const Route = createFileRoute("/services")({
   head: () =>
@@ -76,7 +77,7 @@ function Services() {
           <img
             className="reveal-on-scroll"
             src={photos.sales}
-            alt="Le showroom Suzuki du Garage de la Plaine"
+            alt="Le showroom Suzuki du Garage Carrosserie de la Plaine"
             width={700}
             height={467}
             loading="lazy"
@@ -95,8 +96,9 @@ function Services() {
             </div>
             <p>
               Équipé des derniers appareils de diagnostic, notre atelier entretient et répare les
-              véhicules de toutes marques, notre marque de référence étant Suzuki.{" "}
-              {team.atelier.name}, titulaire d’un brevet fédéral, est votre interlocuteur.
+              véhicules de toutes marques, notre marque de référence étant Suzuki. L’équipe se forme
+              en continu pour suivre l’évolution des techniques automobiles. {team.atelier.name},
+              titulaire d’un brevet fédéral, est votre interlocuteur.
             </p>
           </div>
           <WorkshopTour />
@@ -133,6 +135,14 @@ function Services() {
             </Link>
           </div>
           <div>
+            <img
+              className="wir-logo"
+              src={wirLogo}
+              alt="WIR partner"
+              width={566}
+              height={271}
+              loading="lazy"
+            />
             <div className="eyebrow">Paiement</div>
             <h2>Partenaire WIR.</h2>
             <p>Nous acceptons les paiements WIR, selon le type de prestation.</p>

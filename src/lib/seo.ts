@@ -18,7 +18,7 @@ export const OG_IMAGE = {
   path: "/og/garage-de-la-plaine.jpg",
   width: 1200,
   height: 630,
-  alt: "Garage de la Plaine à Denges : Suzuki, occasions, carrosserie et atelier",
+  alt: "Garage Carrosserie de la Plaine à Denges : Suzuki, occasions, carrosserie et atelier",
 };
 export const LOGO_PATH = "/brand/garage-de-la-plaine-logo.png";
 
@@ -133,7 +133,8 @@ export function siteGraph() {
         })),
         openingHoursSpecification: openingHours(),
         brand: { "@type": "Brand", name: "Suzuki" },
-        currenciesAccepted: "CHF",
+        // CHW is the ISO 4217 code of the WIR franc: the garage is a WIR partner.
+        currenciesAccepted: "CHF, CHW",
         sameAs: [garage.facebook],
         department: [
           {
@@ -253,7 +254,7 @@ function carList(cars: readonly StockCar[], pageUrl: string) {
 
 export type PageSeo = {
   path: string;
-  /** Title without the brand; " | Garage de la Plaine" is added unless it already names it. */
+  /** Title without the brand; " | Garage Carrosserie de la Plaine" is added unless it already names it. */
   title: string;
   description: string;
   /** Name in the breadcrumb (defaults to the title). The home page has none. */

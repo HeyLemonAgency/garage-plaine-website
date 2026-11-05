@@ -833,6 +833,30 @@ button {
   width: 100%;
   border-radius: 6px;
 }
+.text-link {
+  color: var(--foreground);
+  font-weight: 600;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+.text-link:hover {
+  color: var(--accent);
+}
+.detail-layout .wir-logo {
+  display: block;
+  width: 132px;
+  height: auto;
+  margin: 0 0 18px;
+  padding: 10px 14px;
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  box-sizing: content-box;
+}
+.detail-layout .wir-logo-lg {
+  width: 200px;
+  margin-bottom: 26px;
+}
 .detail-list {
   list-style: none;
   margin: 20px 0 30px;

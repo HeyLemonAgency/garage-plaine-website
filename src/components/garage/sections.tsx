@@ -226,7 +226,7 @@ export function Hero({ stockTotal = null }: { stockTotal?: number | null }) {
         <div className="hero-copy reveal">
           <div className="eyebrow">
             <span className="eyebrow-dot" />
-            Garage de la Plaine · Denges
+            Garage Carrosserie de la Plaine · Denges
           </div>
           <h1>
             Votre garage <br />
@@ -440,7 +440,7 @@ export function Partnership() {
         <img
           className="editorial-image reveal-on-scroll"
           src={sales}
-          alt="Le showroom Suzuki du Garage de la Plaine"
+          alt="Le showroom Suzuki du Garage Carrosserie de la Plaine"
           loading="lazy"
           width={700}
           height={540}
@@ -460,8 +460,8 @@ export function Partnership() {
             La proximité en plus.
           </h2>
           <p>
-            Concessionnaire Suzuki depuis plus de 20 ans, le Garage de la Plaine est votre référence
-            Suzuki sur La Côte.
+            Concessionnaire Suzuki depuis plus de 20 ans, le Garage Carrosserie de la Plaine est
+            votre référence Suzuki sur La Côte.
           </p>
           <p>
             Découvrez les véhicules neufs dans notre showroom, nos occasions toutes marques et les
@@ -563,8 +563,8 @@ export function CompanyStory() {
           </h2>
           <div className="red-rule" />
           <p>
-            Installé à Denges, à 5 minutes de Morges et 10 minutes de Lausanne, le Garage de la
-            Plaine réunit la vente, la carrosserie et l’atelier mécanique.
+            Installé à Denges, à 5 minutes de Morges et 10 minutes de Lausanne, le Garage
+            Carrosserie de la Plaine réunit la vente, la carrosserie et l’atelier mécanique.
           </p>
           <p>
             Entreprise formatrice, nous mettons le savoir-faire de notre équipe au service de votre
@@ -582,7 +582,7 @@ export function CompanyStory() {
             <div className="story-photo">
               <img
                 src={garageWide}
-                alt="Le showroom Suzuki du Garage de la Plaine à Denges et les véhicules d’occasion exposés devant"
+                alt="Le showroom Suzuki du Garage Carrosserie de la Plaine à Denges et les véhicules d’occasion exposés devant"
                 loading="lazy"
                 width={1024}
                 height={512}

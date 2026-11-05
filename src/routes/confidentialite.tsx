@@ -9,7 +9,7 @@ export const Route = createFileRoute("/confidentialite")({
       title: "Confidentialité des demandes",
       crumb: "Confidentialité",
       description:
-        "Comment le site du Garage de la Plaine traite vos demandes de contact et les contenus externes (cartes, annonces Autolina).",
+        "Comment le site du Garage Carrosserie de la Plaine traite vos demandes de contact et les contenus externes (cartes, annonces Autolina).",
     }),
   component: Confidentialite,
 });
@@ -48,7 +48,7 @@ function Confidentialite() {
           <div>
             <h2>Nous contacter</h2>
             <p>
-              Garage de la Plaine <br />
+              Garage Carrosserie de la Plaine <br />
               {garage.address} <br />
               {garage.locality}
             </p>

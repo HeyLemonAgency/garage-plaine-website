@@ -9,6 +9,7 @@
 > the editor, so keep the branch in a working state.
 <!-- LOVABLE:END -->
 
+- The garage is called « Garage Carrosserie de la Plaine » everywhere it is named (`garage.name`), as the garage asked. « Garage de la Plaine » and the logo's hyphenated « Garage-Carrosserie » are kept only as alternate names for search (`alternateNames`).
 - Keep French garage content in a shared source module, with individual TanStack content routes and reusable site sections; this keeps verified facts consistent across all pages.
 - Use Autolina as the live inventory source and external listing destination, never a local stock database; stock must stay owned by the dealer's feed. The homepage preview reads the dealer's Autolina listing page at request time (`src/lib/autolina.ts`, `src/lib/stock.functions.ts`) and falls back to a plain stock link; never hard-code cars or prices.
 - Keep the mechanical services folded into a single dropdown item (`MechanicalList`): the garage asked for sales and bodywork to lead. On the services page the workshop tour (`WorkshopTour`, stops in `workshopTour`) shows them over the real workshop photo, with the dropdown kept as the full text list. Tiago Bessa (service vente) is the contact on every car-related page.

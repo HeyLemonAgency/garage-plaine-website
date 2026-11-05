@@ -96,7 +96,7 @@ function Suzuki() {
           <div className="container sz-hero-photo">
             <img
               src={photos.sales}
-              alt="Le showroom Suzuki du Garage de la Plaine à Denges"
+              alt="Le showroom Suzuki du Garage Carrosserie de la Plaine à Denges"
               width={700}
               height={540}
             />
@@ -185,7 +185,7 @@ function Suzuki() {
           <figure className="sz-home-photo">
             <img
               src={photos.sales}
-              alt="Le showroom Suzuki du Garage de la Plaine à Denges"
+              alt="Le showroom Suzuki du Garage Carrosserie de la Plaine à Denges"
               width={700}
               height={540}
               loading="lazy"
