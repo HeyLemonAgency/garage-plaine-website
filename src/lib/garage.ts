@@ -1,6 +1,9 @@
 // Verified garage facts (source: garageplaine.ch). Every page reads from here so the
 // contacts, hours and services stay identical across the site.
 
+// Real portraits, supplied by the garage (none yet for the workshop and the body shop).
+import tiagoPhoto from "@/assets/team-tiago-bessa.webp";
+
 export const garage = {
   name: "Garage de la Plaine",
   /** Names the garage also goes by (logo, previous website). */
@@ -75,6 +78,7 @@ export const team = {
     email: "vente@garageplaine.ch",
     mobile: "079 108 92 99",
     mobileHref: "tel:+41791089299",
+    photo: tiagoPhoto,
   },
   atelier: {
     role: "Atelier mécanique",

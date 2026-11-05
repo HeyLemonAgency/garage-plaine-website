@@ -73,6 +73,7 @@ const people = {
     jobTitle: "Conseiller de vente",
     telephone: tel(team.vente.mobileHref),
     email: team.vente.email,
+    ...(team.vente.photo ? { image: absoluteUrl(team.vente.photo) } : {}),
     worksFor: { "@id": ids.garage },
   },
   atelier: {
