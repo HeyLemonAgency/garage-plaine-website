@@ -62,6 +62,12 @@ export const sitePages = [
     about: "Le garage, son équipe et son rôle d’entreprise formatrice.",
   },
   {
+    path: "/offre",
+    name: "Demander une offre Suzuki",
+    priority: 0.6,
+    about: "Une offre pour une Suzuki neuve : modèle, préférences, financement et reprise.",
+  },
+  {
     path: "/reprise",
     name: "Nous achetons votre véhicule",
     priority: 0.6,

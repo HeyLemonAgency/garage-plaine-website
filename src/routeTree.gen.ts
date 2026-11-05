@@ -14,6 +14,7 @@ import { Route as ConfidentialiteRouteImport } from './routes/confidentialite'
 import { Route as ContactRouteImport } from './routes/contact'
 import { Route as EntrepriseRouteImport } from './routes/entreprise'
 import { Route as LlmsDottxtRouteImport } from './routes/llms[.]txt'
+import { Route as OffreRouteImport } from './routes/offre'
 import { Route as RendezVousRouteImport } from './routes/rendez-vous'
 import { Route as RepriseRouteImport } from './routes/reprise'
 import { Route as RobotsDottxtRouteImport } from './routes/robots[.]txt'
@@ -47,6 +48,11 @@ const EntrepriseRoute = EntrepriseRouteImport.update({
 const LlmsDottxtRoute = LlmsDottxtRouteImport.update({
   id: '/llms.txt',
   path: '/llms.txt',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const OffreRoute = OffreRouteImport.update({
+  id: '/offre',
+  path: '/offre',
   getParentRoute: () => rootRouteImport,
 } as any)
 const RendezVousRoute = RendezVousRouteImport.update({
@@ -101,6 +107,7 @@ export interface FileRoutesByFullPath {
   '/contact': typeof ContactRoute
   '/entreprise': typeof EntrepriseRoute
   '/llms.txt': typeof LlmsDottxtRoute
+  '/offre': typeof OffreRoute
   '/rendez-vous': typeof RendezVousRoute
   '/reprise': typeof RepriseRoute
   '/robots.txt': typeof RobotsDottxtRoute
@@ -117,6 +124,7 @@ export interface FileRoutesByTo {
   '/contact': typeof ContactRoute
   '/entreprise': typeof EntrepriseRoute
   '/llms.txt': typeof LlmsDottxtRoute
+  '/offre': typeof OffreRoute
   '/rendez-vous': typeof RendezVousRoute
   '/reprise': typeof RepriseRoute
   '/robots.txt': typeof RobotsDottxtRoute
@@ -134,6 +142,7 @@ export interface FileRoutesById {
   '/contact': typeof ContactRoute
   '/entreprise': typeof EntrepriseRoute
   '/llms.txt': typeof LlmsDottxtRoute
+  '/offre': typeof OffreRoute
   '/rendez-vous': typeof RendezVousRoute
   '/reprise': typeof RepriseRoute
   '/robots.txt': typeof RobotsDottxtRoute
@@ -152,6 +161,7 @@ export interface FileRouteTypes {
     | '/contact'
     | '/entreprise'
     | '/llms.txt'
+    | '/offre'
     | '/rendez-vous'
     | '/reprise'
     | '/robots.txt'
@@ -168,6 +178,7 @@ export interface FileRouteTypes {
     | '/contact'
     | '/entreprise'
     | '/llms.txt'
+    | '/offre'
     | '/rendez-vous'
     | '/reprise'
     | '/robots.txt'
@@ -184,6 +195,7 @@ export interface FileRouteTypes {
     | '/contact'
     | '/entreprise'
     | '/llms.txt'
+    | '/offre'
     | '/rendez-vous'
     | '/reprise'
     | '/robots.txt'
@@ -201,6 +213,7 @@ export interface RootRouteChildren {
   ContactRoute: typeof ContactRoute
   EntrepriseRoute: typeof EntrepriseRoute
   LlmsDottxtRoute: typeof LlmsDottxtRoute
+  OffreRoute: typeof OffreRoute
   RendezVousRoute: typeof RendezVousRoute
   RepriseRoute: typeof RepriseRoute
   RobotsDottxtRoute: typeof RobotsDottxtRoute
@@ -247,6 +260,13 @@ declare module '@tanstack/react-router' {
       path: '/llms.txt'
       fullPath: '/llms.txt'
       preLoaderRoute: typeof LlmsDottxtRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/offre': {
+      id: '/offre'
+      path: '/offre'
+      fullPath: '/offre'
+      preLoaderRoute: typeof OffreRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/rendez-vous': {
@@ -321,6 +341,7 @@ const rootRouteChildren: RootRouteChildren = {
   ContactRoute: ContactRoute,
   EntrepriseRoute: EntrepriseRoute,
   LlmsDottxtRoute: LlmsDottxtRoute,
+  OffreRoute: OffreRoute,
   RendezVousRoute: RendezVousRoute,
   RepriseRoute: RepriseRoute,
   RobotsDottxtRoute: RobotsDottxtRoute,

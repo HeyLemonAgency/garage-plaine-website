@@ -16,6 +16,7 @@ describe("App routing", () => {
     "/station-service",
     "/wir",
     "/reprise",
+    "/offre",
     "/confidentialite",
   ])("matches the garage page %s", (path) => {
     const router = createRouter({ routeTree, context: { queryClient: new QueryClient() } });

@@ -8866,3 +8866,15 @@ body {
     transform: none;
   }
 }
+
+.form-row-3 {
+  grid-template-columns: 2fr 1fr 1fr;
+}
+@media (max-width: 640px) {
+  .form-row-3 {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  }
+  .form-row-3 > :first-child {
+    grid-column: 1 / -1;
+  }
+}

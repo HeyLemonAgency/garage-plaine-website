@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useState, type FormEvent, type ReactNode } from "react";
+import { useState, type FormEvent } from "react";
 import { ArrowRight, Camera, Mail, MessageCircle } from "lucide-react";
 import { PageIntro } from "@/components/garage/sections";
 import { Button } from "@/components/ui/button";
@@ -20,6 +20,7 @@ import {
 } from "@/lib/reprise";
 import { pageHead } from "@/lib/seo";
 import { SalesContact } from "@/components/garage/people";
+import { Field, Options } from "@/components/garage/form-parts";
 import { ReviewQuote } from "@/components/garage/reviews";
 import {
   Honeypot,
@@ -49,53 +50,6 @@ const steps = [
   ["Le service vente vous rappelle", `${team.vente.name} vous recontacte et vous dit la suite.`],
   ["Vous passez à Denges", "Nous regardons la voiture ensemble et vous faisons une offre."],
 ] as const;
-
-/** Tappable options backed by real radio buttons or checkboxes (keyboard and screen readers). */
-function Options({
-  name,
-  legend,
-  options,
-  multiple = false,
-}: {
-  name: string;
-  legend: string;
-  options: readonly string[];
-  multiple?: boolean;
-}) {
-  return (
-    <fieldset className="opt-group">
-      <legend>{legend}</legend>
-      <div className="opt-set">
-        {options.map((o) => (
-          <label className="opt" key={o}>
-            <input type={multiple ? "checkbox" : "radio"} name={name} value={o} />
-            <span>{o}</span>
-          </label>
-        ))}
-      </div>
-    </fieldset>
-  );
-}
-
-function Field({
-  id,
-  label,
-  hint,
-  children,
-}: {
-  id: string;
-  label: string;
-  hint?: string;
-  children: ReactNode;
-}) {
-  return (
-    <div className="form-field">
-      <label htmlFor={id}>{label}</label>
-      {children}
-      {hint && <p className="field-hint">{hint}</p>}
-    </div>
-  );
-}
 
 function Reprise() {
   const [state, setState] = useState<SendState>({ step: "typing" });

@@ -145,7 +145,7 @@ export function SuzukiRange() {
             ))}
           </ul>
           <div className="range-links">
-            <Link to="/rendez-vous" search={{ besoin: "vente" }} className="range-offer">
+            <Link to="/offre" search={{ modele: model.id }} className="range-offer">
               Demander une offre <ArrowRight />
             </Link>
             <a href={model.url} target="_blank" rel="noreferrer" className="range-more">
