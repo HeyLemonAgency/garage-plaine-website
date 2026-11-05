@@ -1496,28 +1496,6 @@ main:focus {
   border: 0;
   display: block;
 }
-.map-consent {
-  height: 100%;
-  min-height: 320px;
-  display: grid;
-  place-content: center;
-  justify-items: center;
-  gap: 14px;
-  text-align: center;
-  padding: 24px;
-  background: color-mix(in oklch, var(--card) 70%, transparent);
-}
-.map-consent > svg {
-  width: 34px;
-  height: 34px;
-  color: var(--primary);
-}
-.map-consent p {
-  font-size: var(--fs-10);
-  color: var(--muted-foreground);
-  max-width: 260px;
-}
-
 /* ---- Page helpers ---- */
 .anchor-nav {
   display: flex;

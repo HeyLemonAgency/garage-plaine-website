@@ -1,6 +1,6 @@
 import { useEffect, useState, type FormEvent } from "react";
 import { Link } from "@tanstack/react-router";
-import { ArrowRight, Phone, MapPin, Clock, ArrowUpRight, Map as MapIcon } from "lucide-react";
+import { ArrowRight, Phone, MapPin, Clock, ArrowUpRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { departments, garage, team, type DepartmentId } from "@/lib/garage";
 import { OpenStatus } from "./people";
@@ -179,9 +179,8 @@ export function ContactSection({ defaultTopic }: { defaultTopic?: DepartmentId }
   );
 }
 
-/** Address panel with a Google map that only loads once the visitor asks for it. */
+/** Address panel with the Google map, loaded once the panel nears the screen. */
 export function Location() {
-  const [showMap, setShowMap] = useState(false);
   return (
     <section className="location-panel" aria-label="Localisation du garage">
       <div className="container location-grid">
@@ -200,23 +199,13 @@ export function Location() {
           </Button>
         </div>
         <div className="location-map">
-          {showMap ? (
-            <iframe
-              src={garage.mapEmbed}
-              title="Carte : Garage Carrosserie de la Plaine, Route de la Plaine 20, Denges"
-              loading="lazy"
-              referrerPolicy="no-referrer-when-downgrade"
-              allowFullScreen
-            />
-          ) : (
-            <div className="map-consent">
-              <MapIcon />
-              <Button variant="appointment" type="button" onClick={() => setShowMap(true)}>
-                Afficher la carte
-              </Button>
-              <p>La carte est fournie par Google Maps et ne se charge qu’à votre demande.</p>
-            </div>
-          )}
+          <iframe
+            src={garage.mapEmbed}
+            title="Carte : Garage Carrosserie de la Plaine, Route de la Plaine 20, Denges"
+            loading="lazy"
+            referrerPolicy="no-referrer-when-downgrade"
+            allowFullScreen
+          />
         </div>
       </div>
     </section>
