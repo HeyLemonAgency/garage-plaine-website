@@ -6,14 +6,13 @@ import {
   Menu,
   X,
   ArrowUpRight,
-  Mail,
   CalendarDays,
   MessageCircle,
   Facebook,
   Instagram,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { garage, googleProfile, team } from "@/lib/garage";
+import { garage, googleProfile, team, type Contact } from "@/lib/garage";
 import { GoogleMark } from "./reviews";
 import { OpenStatus, WhatsAppIcon, whatsappHref } from "./people";
 import { useSpotlight } from "@/hooks/use-interactions";
@@ -197,17 +196,28 @@ export function SiteFooter() {
               </a>
             </div>
             <div>
-              <h3>Service vente</h3>
-              <p>{team.vente.name}</p>
-              <a href={team.vente.mobileHref}>{team.vente.mobile}</a>
-              <br />
-              <a href={whatsappHref(team.vente)} target="_blank" rel="noreferrer">
-                <WhatsAppIcon className="inline size-3" /> WhatsApp
-              </a>
-              <br />
-              <a href={`mailto:${team.vente.email}`}>
-                <Mail className="inline size-3" /> {team.vente.email}
-              </a>
+              <h3>Nos interlocuteurs</h3>
+              <ul className="footer-people">
+                {([team.vente, team.atelier, team.carrosserie] as Contact[]).map((c) => (
+                  <li key={c.email}>
+                    <span>{c.role}</span>
+                    <strong>{c.name}</strong>
+                    <p>
+                      <a href={c.mobileHref ?? garage.phoneHref}>{c.mobile ?? garage.phone}</a>
+                      {" · "}
+                      <a href={`mailto:${c.email}`}>E-mail</a>
+                      {c.whatsapp && (
+                        <>
+                          {" · "}
+                          <a href={whatsappHref(c)} target="_blank" rel="noreferrer">
+                            WhatsApp
+                          </a>
+                        </>
+                      )}
+                    </p>
+                  </li>
+                ))}
+              </ul>
             </div>
           </div>
           <div className="footer-bottom">

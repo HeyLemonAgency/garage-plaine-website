@@ -17,7 +17,6 @@ import { useGallery, useStockView } from "@/hooks/use-stock";
 import { SelectionBar, StockControls } from "./stock-controls";
 import { Showroom } from "./showroom";
 import { SectionHeading } from "./sections";
-import { SalesContact } from "./people";
 
 function Photo({
   src,
@@ -413,7 +412,6 @@ export function StockPreview({ stock }: { stock: StockSnapshot }) {
               ? `Les ${cars.length} annonces les plus récentes, en direct depuis notre stock Autolina. Prix et disponibilités sous réserve.`
               : "Le stock est publié sur Autolina, la plateforme de notre service vente."}
           </p>
-          <SalesContact compact />
         </div>
       </div>
     </section>

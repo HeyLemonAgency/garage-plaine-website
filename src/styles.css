@@ -4567,9 +4567,21 @@ main:focus {
   .concierge-person {
     grid-template-columns: auto minmax(0, 1fr);
   }
-  .concierge-phone {
+  /* Name on the first line; phone and WhatsApp share the second, full width. */
+  .concierge-reach {
     grid-column: 1 / -1;
+    display: flex;
+    gap: 8px;
+  }
+  .concierge-reach .concierge-phone {
+    flex: 1;
     justify-content: center;
+    min-height: 44px;
+  }
+  .concierge-reach .concierge-wa {
+    width: 44px;
+    height: 44px;
+    flex: none;
   }
   .trust-item strong {
     font-size: 16px;
@@ -8578,52 +8590,6 @@ body {
   width: 16px;
   height: 16px;
 }
-.contact-cta-people {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  display: grid;
-  gap: 12px;
-}
-.contact-cta-people li {
-  display: flex;
-  gap: 16px;
-  align-items: flex-start;
-  padding: 18px 20px;
-  border-radius: 18px;
-  background: oklch(1 0 0 / 0.05);
-  border: 1px solid oklch(1 0 0 / 0.1);
-  transition:
-    background 0.25s,
-    border-color 0.25s;
-}
-.contact-cta-people li:hover {
-  background: oklch(1 0 0 / 0.08);
-  border-color: oklch(1 0 0 / 0.2);
-}
-.contact-cta-people li.is-first {
-  border-color: color-mix(in srgb, var(--accent) 55%, transparent);
-}
-.contact-cta-people li > div {
-  display: grid;
-  gap: 2px;
-  min-width: 0;
-}
-.contact-cta-role {
-  font-size: var(--fs-10);
-  font-weight: 700;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: oklch(1 0 0 / 0.6);
-}
-.contact-cta-people strong {
-  font-family: var(--font-display);
-  font-size: 18px;
-}
-.contact-cta-people .sales-avatar {
-  width: 48px;
-  height: 48px;
-}
 @media (max-width: 900px) {
   .contact-cta {
     padding: 64px 0;
@@ -8634,10 +8600,6 @@ body {
   }
 }
 @media (max-width: 640px) {
-  .contact-cta-people li {
-    padding: 16px;
-    gap: 12px;
-  }
 }
 
 /* ---- Stock block without the live feed ---- */
@@ -9135,5 +9097,94 @@ body {
   }
   .mech-card:hover {
     transform: none;
+  }
+}
+
+/* ---- Closing band: one sentence, the next steps ---- */
+.contact-cta-grid {
+  grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
+}
+.contact-cta-actions {
+  display: grid;
+  gap: 14px;
+  justify-items: stretch;
+  max-width: 440px;
+  width: 100%;
+  justify-self: end;
+}
+.contact-cta-actions > .garage-button {
+  justify-content: center;
+  min-height: 52px;
+}
+.contact-cta-quick {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+.contact-cta-chip {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 48px;
+  padding: 0 14px;
+  border-radius: 999px;
+  border: 1px solid oklch(1 0 0 / 0.22);
+  background: oklch(1 0 0 / 0.06);
+  color: #fff;
+  font-weight: 600;
+  font-size: var(--fs-12);
+  text-decoration: none;
+  transition:
+    background 0.2s,
+    border-color 0.2s;
+}
+.contact-cta-chip:hover {
+  background: oklch(1 0 0 / 0.12);
+  border-color: oklch(1 0 0 / 0.4);
+}
+.contact-cta-chip svg {
+  width: 17px;
+  height: 17px;
+}
+.contact-cta-chip svg[fill="currentColor"] {
+  color: #4ade80;
+}
+.contact-cta-links {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 4px 18px;
+}
+.footer-people {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 12px;
+}
+.footer-people li {
+  display: grid;
+  gap: 1px;
+}
+.footer-people span {
+  font-size: var(--fs-10);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: oklch(1 0 0 / 0.55);
+}
+.footer-people strong {
+  font-weight: 600;
+}
+.footer-people p {
+  margin: 0;
+}
+@media (max-width: 900px) {
+  .contact-cta-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .contact-cta-actions {
+    justify-self: stretch;
+    max-width: none;
   }
 }

@@ -2,8 +2,8 @@ import { useEffect, useState, type FormEvent, type ReactNode } from "react";
 import { Link } from "@tanstack/react-router";
 import { ArrowRight, Phone, MapPin, Clock, ArrowUpRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { departments, garage, team, type Contact, type DepartmentId } from "@/lib/garage";
-import { ContactActions, OpenStatus, Portrait, WhatsAppIcon, whatsappHref } from "./people";
+import { departments, garage, team, type DepartmentId } from "@/lib/garage";
+import { OpenStatus, WhatsAppIcon, whatsappHref } from "./people";
 import { verifierMessage } from "@/lib/lemon";
 import {
   Honeypot,
@@ -239,29 +239,25 @@ export function ContactSection({ defaultTopic }: { defaultTopic?: DepartmentId }
 }
 
 type Trade = "vente" | "atelier" | "carrosserie";
-const bandPeople: readonly { trade: Trade; topic: DepartmentId; contact: Contact }[] = [
-  { trade: "vente", topic: "vente", contact: team.vente },
-  { trade: "atelier", topic: "atelier", contact: team.atelier },
-  { trade: "carrosserie", topic: "carrosserie", contact: team.carrosserie },
-];
+const tradeTopic: Record<Trade, DepartmentId> = {
+  vente: "vente",
+  atelier: "atelier",
+  carrosserie: "carrosserie",
+};
 
 /**
- * The closing band of every page but /contact: the right person first, the three ways to reach
- * each one, and the two next steps (an appointment, or a message on the contact page, where the
- * only form lives).
+ * The closing band of every page but /contact: one sentence and the next steps (an
+ * appointment, a call, WhatsApp, a message). People are shown where they matter in the page
+ * itself, all together on /contact and in the footer, never three times over.
  */
 export function ContactBand({
   trade = "vente",
   children,
 }: {
   trade?: Trade;
-  /** A page's own extra next step, after the two shared ones. */
+  /** A page's own extra next step, after the shared ones. */
   children?: ReactNode;
 }) {
-  const people = [...bandPeople].sort(
-    (a, b) => Number(b.trade === trade) - Number(a.trade === trade),
-  );
-  const first = people[0]!;
   return (
     <section className="contact-cta" aria-labelledby="contact-cta-title">
       <div className="container contact-cta-grid">
@@ -272,34 +268,44 @@ export function ContactBand({
           <h2 id="contact-cta-title">
             Une question ? <span className="nowrap">Parlons-en.</span>
           </h2>
-          <p>
-            Appelez, écrivez sur WhatsApp ou par e-mail : la bonne personne vous répond directement.
-          </p>
+          <p>Lundi à vendredi, de 7h30 à 12h et dès 13h30 ; le samedi sur rendez-vous.</p>
           <OpenStatus className="contact-cta-status" />
-          <div className="detail-actions">
-            <Button asChild variant="premium">
-              <Link to="/rendez-vous" search={{ besoin: first.trade }}>
-                Prendre rendez-vous <ArrowRight />
-              </Link>
-            </Button>
-            <Link to="/contact" search={{ demande: first.topic }} className="contact-cta-link">
+        </div>
+        <div className="contact-cta-actions">
+          <Button asChild variant="premium">
+            <Link to="/rendez-vous" search={{ besoin: trade }}>
+              Prendre rendez-vous <ArrowRight />
+            </Link>
+          </Button>
+          <div className="contact-cta-quick">
+            <a className="contact-cta-chip" href={garage.phoneHref}>
+              <Phone aria-hidden="true" />
+              {garage.phone}
+            </a>
+            <a
+              className="contact-cta-chip"
+              href={whatsappHref(team.vente, "Bonjour, ")}
+              target="_blank"
+              rel="noreferrer"
+            >
+              <WhatsAppIcon />
+              WhatsApp
+            </a>
+          </div>
+          <div className="contact-cta-links">
+            <Link
+              to="/contact"
+              search={{ demande: tradeTopic[trade] }}
+              className="contact-cta-link"
+            >
               Écrire un message <ArrowRight />
+            </Link>
+            <Link to="/contact" className="contact-cta-link">
+              Tous nos interlocuteurs <ArrowRight />
             </Link>
             {children}
           </div>
         </div>
-        <ul className="contact-cta-people">
-          {people.map(({ trade: t, contact }) => (
-            <li key={t} className={t === trade ? "is-first" : ""}>
-              <Portrait contact={contact} className="sales-avatar" />
-              <div>
-                <span className="contact-cta-role">{contact.role}</span>
-                <strong>{contact.name}</strong>
-                <ContactActions contact={contact} className="contact-actions-dark" />
-              </div>
-            </li>
-          ))}
-        </ul>
       </div>
     </section>
   );
