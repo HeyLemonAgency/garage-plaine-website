@@ -829,7 +829,8 @@ button {
   font-size: var(--fs-13);
   margin: 0 0 18px;
 }
-.detail-layout img {
+/* Photos fill their column; portraits and logos keep their own size. */
+.detail-layout img:not(.portrait, .wir-logo) {
   width: 100%;
   border-radius: 6px;
 }
