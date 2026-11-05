@@ -6,6 +6,7 @@ import {
   apprenticeAwards,
   bodyworkServices,
   garage,
+  googleProfile,
   mechanicalServices,
   salesServices,
   schedule,
@@ -135,7 +136,7 @@ export function siteGraph() {
         brand: { "@type": "Brand", name: "Suzuki" },
         // CHW is the ISO 4217 code of the WIR franc: the garage is a WIR partner.
         currenciesAccepted: "CHF, CHW",
-        sameAs: [garage.facebook],
+        sameAs: [garage.facebook, garage.instagram, googleProfile.url],
         department: [
           {
             "@type": "AutoDealer",

@@ -9,9 +9,12 @@ import {
   Mail,
   CalendarDays,
   MessageCircle,
+  Facebook,
+  Instagram,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { garage, team } from "@/lib/garage";
+import { garage, googleProfile, team } from "@/lib/garage";
+import { GoogleMark } from "./reviews";
 import { OpenStatus } from "./people";
 import { useSpotlight } from "@/hooks/use-interactions";
 import logo from "@/assets/garage-logo-720.png";
@@ -145,6 +148,23 @@ export function SiteFooter() {
                 Votre garage de confiance à Denges. <br />
                 Vente · Carrosserie · Atelier multimarque
               </p>
+              <div className="footer-social">
+                <a
+                  href={googleProfile.url}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="footer-social-google"
+                >
+                  <GoogleMark /> Nos avis Google
+                  <span className="sr-only"> (nouvel onglet)</span>
+                </a>
+                <a href={garage.facebook} target="_blank" rel="noreferrer" aria-label="Facebook">
+                  <Facebook aria-hidden="true" />
+                </a>
+                <a href={garage.instagram} target="_blank" rel="noreferrer" aria-label="Instagram">
+                  <Instagram aria-hidden="true" />
+                </a>
+              </div>
             </div>
             <div>
               <h3>Le garage</h3>

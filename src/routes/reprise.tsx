@@ -20,6 +20,7 @@ import {
 } from "@/lib/reprise";
 import { pageHead } from "@/lib/seo";
 import { SalesContact } from "@/components/garage/people";
+import { ReviewQuote } from "@/components/garage/reviews";
 import {
   Honeypot,
   NoScriptNote,
@@ -378,6 +379,7 @@ function Reprise() {
               ))}
             </ol>
             <SalesContact />
+            <ReviewQuote name="Adriano Jalber Rocha Lima" />
             {state.step !== "sent" && (
               <p className="small-note">
                 <Mail className="inline size-4" /> Une question avant de remplir&nbsp;? Écrivez à{" "}

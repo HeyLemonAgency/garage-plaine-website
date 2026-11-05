@@ -19,6 +19,7 @@ export const garage = {
   /** Swiss federal address register (geo.admin.ch), Route de la Plaine 20, 1026 Denges. */
   geo: { latitude: 46.52489, longitude: 6.53765 },
   facebook: "https://www.facebook.com/GarageCarrosserieDeLaPlaine",
+  instagram: "https://www.instagram.com/carrosserie_de_la_plaine/",
   phone: "021 801 68 42",
   phoneHref: "tel:+41218016842",
   email: "vente@garageplaine.ch",
@@ -273,6 +274,37 @@ export const wirRates = [
   ["Pièces d’entretien", "50 % WIR"],
   ["Pièces spécifiques", "20 % WIR"],
   ["Pneumatiques", "100 % WIR"],
+] as const;
+
+/**
+ * The garage's Google profile. rating and count are shown when the live figure cannot be read
+ * (src/lib/google-rating.functions.ts): as seen on Google on 5 November 2026.
+ */
+export const googleProfile = {
+  url: "https://share.google/XmcFBNH5CqMYa4nV7",
+  rating: 4.5,
+  count: 85,
+  /** What the live reading searches for when no GOOGLE_PLACE_ID is set. */
+  query: "Garage Carrosserie de la Plaine, Route de la Plaine 20, 1026 Denges",
+} as const;
+
+/** Reviews from the garage's Google profile, quoted word for word. */
+export const googleReviews = [
+  {
+    name: "Adriano Jalber Rocha Lima",
+    topic: "Reprise",
+    text: "Ils ont été formidables ! Ils m’ont beaucoup aidé et m’ont offert le meilleur prix du marché pour la reprise de ma voiture. Monsieur Tiago a été exceptionnel ; il a tout fait pour que la transaction se termine bien. Je n’ai que des éloges à faire.",
+  },
+  {
+    name: "Frederic Vonlanthen",
+    topic: "Achat",
+    text: "Je recommande vivement ce garage ! J’ai récemment acheté une voiture chez eux et l’expérience a été excellente du début à la fin. L’équipe est très professionnelle, à l’écoute et ne met aucune pression pour acheter. Ils ont pris le temps de répondre à toutes mes questions et de m’expliquer les différents modèles en détail. La qualité des véhicules est top, et j’ai particulièrement apprécié la transparence sur l’historique des voitures. Le service après-vente est également impeccable. Un grand merci à toute l’équipe pour leur accueil chaleureux et leur sérieux. Si vous cherchez un garage de confiance, ne cherchez plus, vous êtes au bon endroit !",
+  },
+  {
+    name: "Jérémy Burkli",
+    topic: "Carrosserie et atelier",
+    text: "Carrosserie très professionnelle ! Ils font bien plus que le travail de demandé. Véhicule de remplacement offert également. Je recommande à 1000%. Secteur mécanique excellent aussi! Je recommande !!!",
+  },
 ] as const;
 
 /** Questions and answers, written from the facts above; each set appears on one page only. */

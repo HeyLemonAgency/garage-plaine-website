@@ -12,6 +12,8 @@ import { faqs } from "@/lib/garage";
 import { FaqSection } from "@/components/garage/faq";
 import { pageHead } from "@/lib/seo";
 import { getLatestCars } from "@/lib/stock.functions";
+import { getGoogleRating } from "@/lib/google-rating.functions";
+import { GoogleReviews } from "@/components/garage/reviews";
 
 export const Route = createFileRoute("/")({
   head: ({ loaderData }) =>
@@ -23,7 +25,11 @@ export const Route = createFileRoute("/")({
       faqs: faqs.home,
       cars: loaderData?.cars,
     }),
-  loader: () => getLatestCars(),
+  // Both are cached and never throw: the page renders even when Autolina or Google is down.
+  loader: async () => {
+    const [stock, rating] = await Promise.all([getLatestCars(), getGoogleRating()]);
+    return { ...stock, rating };
+  },
   staleTime: 5 * 60_000,
   component: Index,
 });
@@ -38,6 +44,7 @@ function Index() {
       <StockPreview stock={stock} />
       <Partnership />
       <CompanyStory />
+      <GoogleReviews rating={stock.rating} />
       <FaqSection
         items={faqs.home}
         title="L’essentiel sur le garage."
