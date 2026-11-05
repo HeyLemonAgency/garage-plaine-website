@@ -2,8 +2,8 @@ import { useEffect, useState, type FormEvent } from "react";
 import { Link } from "@tanstack/react-router";
 import { ArrowRight, Phone, MapPin, Clock, ArrowUpRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { departments, garage, team, type DepartmentId } from "@/lib/garage";
-import { OpenStatus, WhatsAppIcon, whatsappHref } from "./people";
+import { departments, garage, team, type Contact, type DepartmentId } from "@/lib/garage";
+import { ContactActions, OpenStatus, Portrait, WhatsAppIcon, whatsappHref } from "./people";
 import { verifierMessage } from "@/lib/lemon";
 import {
   Honeypot,
@@ -233,6 +233,65 @@ export function ContactSection({ defaultTopic }: { defaultTopic?: DepartmentId }
           <Hours />
         </div>
         <ContactForm {...(defaultTopic ? { defaultTopic } : {})} />
+      </div>
+    </section>
+  );
+}
+
+type Trade = "vente" | "atelier" | "carrosserie";
+const bandPeople: readonly { trade: Trade; topic: DepartmentId; contact: Contact }[] = [
+  { trade: "vente", topic: "vente", contact: team.vente },
+  { trade: "atelier", topic: "atelier", contact: team.atelier },
+  { trade: "carrosserie", topic: "carrosserie", contact: team.carrosserie },
+];
+
+/**
+ * The closing band of every page but /contact: the right person first, the three ways to reach
+ * each one, and the two next steps (an appointment, or a message on the contact page, where the
+ * only form lives).
+ */
+export function ContactBand({ trade = "vente" }: { trade?: Trade }) {
+  const people = [...bandPeople].sort(
+    (a, b) => Number(b.trade === trade) - Number(a.trade === trade),
+  );
+  const first = people[0]!;
+  return (
+    <section className="contact-cta" aria-labelledby="contact-cta-title">
+      <div className="container contact-cta-grid">
+        <div className="contact-cta-copy">
+          <div className="eyebrow">
+            <span className="eyebrow-dot" />À votre écoute
+          </div>
+          <h2 id="contact-cta-title">
+            Une question ? <span className="nowrap">Parlons-en.</span>
+          </h2>
+          <p>
+            Appelez, écrivez sur WhatsApp ou par e-mail : la bonne personne vous répond directement.
+          </p>
+          <OpenStatus className="contact-cta-status" />
+          <div className="detail-actions">
+            <Button asChild variant="premium">
+              <Link to="/rendez-vous" search={{ besoin: first.trade }}>
+                Prendre rendez-vous <ArrowRight />
+              </Link>
+            </Button>
+            <Link to="/contact" search={{ demande: first.topic }} className="contact-cta-link">
+              Écrire un message <ArrowRight />
+            </Link>
+          </div>
+        </div>
+        <ul className="contact-cta-people">
+          {people.map(({ trade: t, contact }) => (
+            <li key={t} className={t === trade ? "is-first" : ""}>
+              <Portrait contact={contact} className="sales-avatar" />
+              <div>
+                <span className="contact-cta-role">{contact.role}</span>
+                <strong>{contact.name}</strong>
+                <ContactActions contact={contact} className="contact-actions-dark" />
+              </div>
+            </li>
+          ))}
+        </ul>
       </div>
     </section>
   );

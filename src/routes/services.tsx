@@ -8,7 +8,7 @@ import {
   MechanicalList,
   SectionTabs,
 } from "@/components/garage/sections";
-import { ContactSection } from "@/components/garage/contact";
+import { ContactBand } from "@/components/garage/contact";
 import { BodyworkSection } from "@/components/garage/bodywork";
 import { WorkshopTour } from "@/components/garage/workshop-tour";
 import { FaqSection } from "@/components/garage/faq";
@@ -155,7 +155,7 @@ function Services() {
         title="Carrosserie et atelier : vos questions."
         intro="Assurance, véhicule de remplacement, garanties et prestations de l’atelier."
       />
-      <ContactSection />
+      <ContactBand />
     </>
   );
 }

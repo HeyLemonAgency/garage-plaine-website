@@ -2,7 +2,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { PageIntro, TrustBar, photos, CheckList } from "@/components/garage/sections";
-import { ContactSection } from "@/components/garage/contact";
+import { ContactBand } from "@/components/garage/contact";
 import { TeamGrid } from "@/components/garage/people";
 import { TrainingStory } from "@/components/garage/training";
 import { pageHead } from "@/lib/seo";
@@ -79,7 +79,7 @@ function Entreprise() {
         </div>
       </section>
       <TrainingStory />
-      <ContactSection />
+      <ContactBand />
     </>
   );
 }

@@ -2,7 +2,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { ArrowDown, ArrowRight, ChevronRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { photos } from "@/components/garage/sections";
-import { ContactSection } from "@/components/garage/contact";
+import { ContactBand } from "@/components/garage/contact";
 import { SalesContact } from "@/components/garage/people";
 import { StockCarousel } from "@/components/garage/stock";
 import { CountUp } from "@/components/garage/interactive";
@@ -211,7 +211,7 @@ function Suzuki() {
         </div>
       </section>
 
-      <ContactSection defaultTopic="vente" />
+      <ContactBand trade="vente" />
     </>
   );
 }

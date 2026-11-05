@@ -255,9 +255,18 @@ export function SiteFooter() {
 /** Desktop floating contact: who to call, whether we're open, and the planner. */
 function QuickContact() {
   const [open, setOpen] = useState(false);
+  // Shown once the visitor scrolls past the first screen: the hero keeps its own actions and
+  // nothing floats over them (the S-Cross detail chips, the hero card).
+  const [shown, setShown] = useState(false);
   const root = useRef<HTMLDivElement>(null);
   const pathname = useRouterState({ select: (s) => s.location.pathname });
   useEffect(() => setOpen(false), [pathname]);
+  useEffect(() => {
+    const check = () => setShown(window.scrollY > window.innerHeight * 0.6);
+    check();
+    window.addEventListener("scroll", check, { passive: true });
+    return () => window.removeEventListener("scroll", check);
+  }, [pathname]);
   useEffect(() => {
     if (!open) return;
     const onKey = (e: KeyboardEvent) => e.key === "Escape" && setOpen(false);
@@ -274,7 +283,12 @@ function QuickContact() {
   }, [open]);
   if (pathname === "/rendez-vous") return null;
   return (
-    <div className="quick-contact" ref={root} data-open={open || undefined}>
+    <div
+      className="quick-contact"
+      ref={root}
+      data-open={open || undefined}
+      data-shown={shown || open || undefined}
+    >
       {open && (
         <div className="quick-panel" role="dialog" aria-label="Contact rapide">
           <div className="quick-head">

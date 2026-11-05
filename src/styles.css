@@ -556,14 +556,6 @@ button {
   color: var(--muted-foreground);
   margin-top: 15px;
 }
-.stock-placeholder {
-  background: var(--secondary);
-  padding: 32px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 20px;
-}
 .partnership {
   background: var(--muted);
   padding: 66px 0;
@@ -1581,17 +1573,6 @@ main:focus {
 .stock-footer .stock-note {
   margin: 0;
   max-width: 420px;
-}
-.stock-placeholder {
-  border-radius: 6px;
-}
-.stock-placeholder h3 {
-  font-size: 20px;
-  margin-bottom: 6px;
-}
-.stock-placeholder p {
-  font-size: var(--fs-12);
-  color: var(--muted-foreground);
 }
 
 /* ---- Sales advisor card (Tiago) ---- */
@@ -2712,10 +2693,10 @@ main:focus {
   position: sticky;
   top: 70px;
   z-index: 30;
-  background: color-mix(in oklch, var(--background) 90%, transparent);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
+  /* Opaque: content scrolling under a see-through bar read as a glitch. */
+  background: var(--card);
   border-bottom: 1px solid var(--border);
+  box-shadow: 0 8px 18px -14px oklch(0.2 0.03 240 / 0.35);
 }
 .section-tabs-inner {
   display: flex;
@@ -2763,6 +2744,18 @@ main:focus {
   align-items: flex-end;
   gap: 12px;
   view-transition-name: quick-contact;
+}
+.quick-contact:not([data-shown]) {
+  opacity: 0;
+  transform: translateY(12px);
+  pointer-events: none;
+  visibility: hidden;
+}
+.quick-contact {
+  transition:
+    opacity 0.3s,
+    transform 0.3s cubic-bezier(0.2, 0.8, 0.2, 1),
+    visibility 0.3s;
 }
 .quick-toggle {
   display: inline-flex;
@@ -4350,11 +4343,6 @@ main:focus {
     align-items: start;
     flex-direction: column;
   }
-  .stock-placeholder {
-    padding: 25px;
-    flex-direction: column;
-    align-items: start;
-  }
 }
 /* ---- Responsive rules for the components above ---- */
 @media (max-width: 1100px) {
@@ -5906,12 +5894,14 @@ main:focus {
   margin-top: 2px;
   color: oklch(1 0 0 / 0.8);
 }
-.bodywork .garage-button-primary {
+.bodywork .garage-button-primary,
+.contact-cta .garage-button-primary {
   background: var(--accent);
   color: var(--accent-foreground);
   box-shadow: 0 12px 26px -12px var(--accent);
 }
-.bodywork .garage-button-primary:hover {
+.bodywork .garage-button-primary:hover,
+.contact-cta .garage-button-primary:hover {
   background: color-mix(in srgb, var(--accent) 88%, black);
 }
 .bodywork .section-link {
@@ -8644,5 +8634,235 @@ body {
 @media (max-width: 640px) {
   .contact-action {
     min-height: 44px;
+  }
+}
+
+/* ---- Closing contact band (every page but /contact) ---- */
+.contact-cta {
+  position: relative;
+  overflow: hidden;
+  padding: 88px 0;
+  color: #fff;
+  background:
+    radial-gradient(
+      60% 90% at 100% 0%,
+      color-mix(in srgb, var(--accent) 22%, transparent),
+      transparent 70%
+    ),
+    linear-gradient(160deg, var(--primary), color-mix(in oklch, var(--primary) 82%, #000));
+}
+.contact-cta-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+  gap: 56px;
+  align-items: center;
+}
+.contact-cta .eyebrow {
+  color: oklch(1 0 0 / 0.7);
+}
+.contact-cta h2 {
+  margin: 12px 0 14px;
+  font-size: clamp(32px, 3.2vw, 44px);
+  line-height: 1.08;
+  color: #fff;
+}
+.contact-cta-copy > p {
+  margin: 0 0 14px;
+  max-width: 44ch;
+  font-size: var(--fs-13);
+  color: oklch(1 0 0 / 0.72);
+}
+.contact-cta-status {
+  display: inline-flex;
+  margin-bottom: 26px;
+  color: oklch(1 0 0 / 0.86);
+}
+.contact-cta-status .open-detail {
+  color: oklch(1 0 0 / 0.6);
+}
+.contact-cta-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 44px;
+  font-weight: 600;
+  font-size: var(--fs-12);
+  color: #fff;
+  text-decoration: underline;
+  text-underline-offset: 4px;
+  text-decoration-color: oklch(1 0 0 / 0.35);
+}
+.contact-cta-link:hover {
+  text-decoration-color: #fff;
+}
+.contact-cta-link svg {
+  width: 16px;
+  height: 16px;
+}
+.contact-cta-people {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 12px;
+}
+.contact-cta-people li {
+  display: flex;
+  gap: 16px;
+  align-items: flex-start;
+  padding: 18px 20px;
+  border-radius: 18px;
+  background: oklch(1 0 0 / 0.05);
+  border: 1px solid oklch(1 0 0 / 0.1);
+  transition:
+    background 0.25s,
+    border-color 0.25s;
+}
+.contact-cta-people li:hover {
+  background: oklch(1 0 0 / 0.08);
+  border-color: oklch(1 0 0 / 0.2);
+}
+.contact-cta-people li.is-first {
+  border-color: color-mix(in srgb, var(--accent) 55%, transparent);
+}
+.contact-cta-people li > div {
+  display: grid;
+  gap: 2px;
+  min-width: 0;
+}
+.contact-cta-role {
+  font-size: var(--fs-10);
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: oklch(1 0 0 / 0.6);
+}
+.contact-cta-people strong {
+  font-family: var(--font-display);
+  font-size: 18px;
+}
+.contact-cta-people .sales-avatar {
+  width: 48px;
+  height: 48px;
+}
+@media (max-width: 900px) {
+  .contact-cta {
+    padding: 64px 0;
+  }
+  .contact-cta-grid {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 32px;
+  }
+}
+@media (max-width: 640px) {
+  .contact-cta-people li {
+    padding: 16px;
+    gap: 12px;
+  }
+}
+
+/* ---- Stock block without the live feed ---- */
+.stock-fallback {
+  display: grid;
+  grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
+  gap: 28px;
+  padding: 36px;
+  border-radius: 22px;
+  background:
+    radial-gradient(
+      70% 120% at 0% 0%,
+      color-mix(in srgb, var(--accent) 7%, transparent),
+      transparent 60%
+    ),
+    var(--card);
+  border: 1px solid var(--border);
+  box-shadow: 0 24px 60px -40px oklch(0.2 0.04 240 / 0.45);
+}
+.stock-fallback-main {
+  display: grid;
+  align-content: center;
+  justify-items: start;
+  gap: 12px;
+}
+.stock-fallback-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: var(--fs-10);
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--muted-foreground);
+}
+.stock-fallback h3 {
+  margin: 0;
+  font-size: clamp(24px, 2.4vw, 30px);
+  line-height: 1.15;
+}
+.stock-fallback-main > p {
+  margin: 0 0 6px;
+  max-width: 46ch;
+  font-size: var(--fs-13);
+  color: var(--muted-foreground);
+}
+.stock-fallback-ways {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 10px;
+}
+.stock-fallback-ways a {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 14px;
+  min-height: 64px;
+  padding: 12px 16px;
+  border-radius: 14px;
+  background: var(--background);
+  border: 1px solid var(--border);
+  text-decoration: none;
+  color: var(--foreground);
+  transition:
+    border-color 0.2s,
+    transform 0.25s cubic-bezier(0.2, 0.8, 0.2, 1),
+    box-shadow 0.25s;
+}
+.stock-fallback-ways a:hover {
+  border-color: var(--primary);
+  transform: translateX(3px);
+  box-shadow: 0 10px 24px -18px oklch(0.2 0.04 240 / 0.5);
+}
+.stock-fallback-ways svg {
+  width: 20px;
+  height: 20px;
+  color: var(--accent);
+}
+.stock-fallback-ways a > svg:last-child {
+  width: 16px;
+  height: 16px;
+  color: var(--muted-foreground);
+}
+.stock-fallback-ways a > span {
+  display: grid;
+  gap: 2px;
+}
+.stock-fallback-ways strong {
+  font-size: var(--fs-12-5);
+}
+.stock-fallback-ways a > span > span {
+  font-size: var(--fs-11);
+  color: var(--muted-foreground);
+}
+@media (max-width: 860px) {
+  .stock-fallback {
+    grid-template-columns: minmax(0, 1fr);
+    padding: 24px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .stock-fallback-ways a:hover {
+    transform: none;
   }
 }

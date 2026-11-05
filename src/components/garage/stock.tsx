@@ -1,6 +1,15 @@
 import { useEffect, useRef, useState, type ReactNode } from "react";
 import { Link, useNavigate } from "@tanstack/react-router";
-import { ArrowLeft, ArrowRight, CalendarDays, CarFront, Heart, Phone } from "lucide-react";
+import {
+  ArrowLeft,
+  ArrowRight,
+  CalendarDays,
+  CarFront,
+  Heart,
+  Phone,
+  RefreshCw,
+  Sparkles,
+} from "lucide-react";
 import { Button } from "@/components/ui/button";
 import type { StockCar, StockSnapshot } from "@/lib/autolina";
 import { team } from "@/lib/garage";
@@ -327,16 +336,56 @@ export function StockPreview({ stock }: { stock: StockSnapshot }) {
   if (cars.length > 0) content = <Showroom cars={cars} total={total} />;
   else
     content = (
-      <div className="stock-placeholder">
-        <div>
-          <h3>Notre stock complet est en ligne.</h3>
-          <p>Véhicules neufs Suzuki et occasions toutes marques, mis à jour par notre équipe.</p>
+      // Without the live feed: the stock page as the one main action, and three ways in.
+      <div className="stock-fallback">
+        <div className="stock-fallback-main">
+          <span className="stock-fallback-badge">
+            <span className="live-dot" aria-hidden="true" />
+            Mis à jour par notre équipe
+          </span>
+          <h3>Tout notre stock, en ligne.</h3>
+          <p>
+            Suzuki neuves et occasions toutes marques&nbsp;: filtrez, ouvrez une annonce, puis
+            appelez Tiago ou réservez un essai.
+          </p>
+          <Button variant="premium" asChild>
+            <Link to="/vehicules">
+              Voir le stock <ArrowRight />
+            </Link>
+          </Button>
         </div>
-        <Button variant="premium" asChild>
-          <Link to="/vehicules">
-            Voir le stock <ArrowRight />
-          </Link>
-        </Button>
+        <ul className="stock-fallback-ways">
+          <li>
+            <Link to="/suzuki">
+              <Sparkles aria-hidden="true" />
+              <span>
+                <strong>Suzuki neuves</strong>
+                <span>Toute la gamme, avec une offre et un essai</span>
+              </span>
+              <ArrowRight aria-hidden="true" />
+            </Link>
+          </li>
+          <li>
+            <Link to="/vehicules">
+              <CarFront aria-hidden="true" />
+              <span>
+                <strong>Occasions toutes marques</strong>
+                <span>Les annonces du moment</span>
+              </span>
+              <ArrowRight aria-hidden="true" />
+            </Link>
+          </li>
+          <li>
+            <Link to="/reprise">
+              <RefreshCw aria-hidden="true" />
+              <span>
+                <strong>Vendre votre voiture</strong>
+                <span>Achat ou reprise, décrite en deux minutes</span>
+              </span>
+              <ArrowRight aria-hidden="true" />
+            </Link>
+          </li>
+        </ul>
       </div>
     );
   return (
@@ -350,8 +399,12 @@ export function StockPreview({ stock }: { stock: StockSnapshot }) {
             </>
           }
           title="Nos dernières voitures en stock."
-          to="/vehicules"
-          label={total ? `Voir les ${total} véhicules` : "Voir tous les véhicules"}
+          {...(cars.length > 0
+            ? {
+                to: "/vehicules" as const,
+                label: total ? `Voir les ${total} véhicules` : "Voir tous les véhicules",
+              }
+            : {})}
         />
         {content}
         <div className="stock-footer">

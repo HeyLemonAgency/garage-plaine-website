@@ -6,7 +6,7 @@ import {
   Partnership,
   CompanyStory,
 } from "@/components/garage/sections";
-import { ContactSection } from "@/components/garage/contact";
+import { ContactBand } from "@/components/garage/contact";
 import { StockPreview } from "@/components/garage/stock";
 import { faqs } from "@/lib/garage";
 import { FaqSection } from "@/components/garage/faq";
@@ -50,7 +50,7 @@ function Index() {
         title="L’essentiel sur le garage."
         intro="Adresse, horaires, marques et rendez-vous : les réponses aux questions qu’on nous pose le plus souvent."
       />
-      <ContactSection />
+      <ContactBand />
     </>
   );
 }
