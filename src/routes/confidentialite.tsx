@@ -26,9 +26,11 @@ function Confidentialite() {
           <div>
             <h2>Formulaires de contact</h2>
             <p>
-              Les formulaires préparent un e-mail dans votre application de messagerie. Aucune
-              demande n’est enregistrée par ce site. L’envoi intervient uniquement lorsque vous
-              envoyez l’e-mail depuis votre messagerie.
+              Le formulaire de contact transmet votre message à la messagerie du garage, sur la
+              plateforme Lemon (le prestataire qui gère ce site et la console du garage). Ce site
+              n’en garde aucune copie. Les formulaires de reprise et de rendez-vous préparent encore
+              un e-mail dans votre application de messagerie : l’envoi n’a lieu que lorsque vous
+              l’envoyez vous-même.
             </p>
             <p>
               Vos coordonnées et votre message sont destinés au service du garage que vous

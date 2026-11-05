@@ -3,6 +3,7 @@ import "./lib/error-capture";
 import { consumeLastCapturedError } from "./lib/error-capture";
 import { renderErrorPage } from "./lib/error-page";
 import { legacyRedirect } from "./lib/legacy-urls";
+import { withSecurityHeaders } from "./lib/security-headers";
 
 type ServerEntry = {
   fetch: (request: Request, env: unknown, ctx: unknown) => Promise<Response> | Response;
@@ -45,26 +46,33 @@ function isH3SwallowedErrorBody(body: string): boolean {
   }
 }
 
+async function handle(request: Request, env: unknown, ctx: unknown): Promise<Response> {
+  // Old garageplaine.ch addresses and variants (trailing slash, /index.php) of current pages.
+  const url = new URL(request.url);
+  const target = legacyRedirect(url.pathname);
+  if (target) {
+    // A relative Location keeps the visitor on whichever host they came in on.
+    const location = target.includes("#") ? target : `${target}${url.search}`;
+    return new Response(null, { status: 301, headers: { Location: location } });
+  }
+  try {
+    const handler = await getServerEntry();
+    const response = await handler.fetch(request, env, ctx);
+    return await normalizeCatastrophicSsrResponse(response);
+  } catch (error) {
+    console.error(error);
+    return new Response(renderErrorPage(), {
+      status: 500,
+      headers: { "content-type": "text/html; charset=utf-8" },
+    });
+  }
+}
+
 export default {
   async fetch(request: Request, env: unknown, ctx: unknown) {
-    // Old garageplaine.ch addresses and variants (trailing slash, /index.php) of current pages.
-    const url = new URL(request.url);
-    const target = legacyRedirect(url.pathname);
-    if (target) {
-      // A relative Location keeps the visitor on whichever host they came in on.
-      const location = target.includes("#") ? target : `${target}${url.search}`;
-      return new Response(null, { status: 301, headers: { Location: location } });
-    }
-    try {
-      const handler = await getServerEntry();
-      const response = await handler.fetch(request, env, ctx);
-      return await normalizeCatastrophicSsrResponse(response);
-    } catch (error) {
-      console.error(error);
-      return new Response(renderErrorPage(), {
-        status: 500,
-        headers: { "content-type": "text/html; charset=utf-8" },
-      });
-    }
+    const response = await handle(request, env, ctx);
+    // Production only: the Lovable editor shows the dev server in a frame, which the
+    // frame-ancestors rule would block.
+    return import.meta.env.PROD ? withSecurityHeaders(response) : response;
   },
 };

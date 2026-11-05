@@ -718,6 +718,49 @@ button {
   font-size: var(--fs-12);
   margin-top: 14px;
 }
+.form-error {
+  padding: 12px 14px;
+  border: 1px solid color-mix(in oklch, var(--accent) 45%, transparent);
+  border-radius: 8px;
+  background: color-mix(in oklch, var(--accent) 6%, var(--card));
+  color: var(--foreground);
+  margin: 0 0 14px;
+}
+.form-error a {
+  font-weight: 600;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+/* Honeypot: off screen for people, still in the form for robots. */
+.form-honeypot {
+  position: absolute;
+  left: -9999px;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}
+.form-sent {
+  display: grid;
+  align-content: center;
+  justify-items: start;
+  gap: 10px;
+  min-height: 280px;
+}
+.form-sent svg {
+  width: 36px;
+  height: 36px;
+  color: oklch(0.6 0.15 150);
+}
+.form-sent strong {
+  font-family: var(--font-display);
+  font-size: 24px;
+  line-height: 1.2;
+}
+.form-sent p {
+  margin: 0;
+  color: var(--muted-foreground);
+  font-size: var(--fs-13);
+}
 .contact-form .privacy {
   display: flex;
   gap: 9px;

@@ -13,3 +13,12 @@ export const SITE_URL = (typeof __SITE_URL__ === "string" && __SITE_URL__ ? __SI
 export function absoluteUrl(path = "/"): string {
   return `${SITE_URL}${path.startsWith("/") ? path : `/${path}`}`;
 }
+
+/**
+ * The Lemon platform (the garage's console) receives the contact form's messages; see
+ * src/lib/lemon.ts. Its origin must be in connect-src (src/lib/security-headers.ts).
+ */
+export const plateforme = {
+  tenant: "garage-plaine",
+  plateformeUrl: "https://connexions.heylemon.app",
+} as const;

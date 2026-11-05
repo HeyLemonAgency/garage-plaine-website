@@ -1,0 +1,10 @@
+# Security headers, the same as netlify.toml and src/lib/security-headers.ts (a test checks
+# all three). Netlify applies them to the files it serves; src/server.ts sends them on the pages.
+/*
+  Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline' 'wasm-unsafe-eval'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob: https://www.autolina.ch; font-src 'self'; media-src 'self'; connect-src 'self' blob: https://connexions.heylemon.app; worker-src 'self' blob:; frame-src https://www.google.com https://www.autolina.ch; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'; manifest-src 'self'
+  Strict-Transport-Security: max-age=31536000; includeSubDomains
+  X-Content-Type-Options: nosniff
+  X-Frame-Options: DENY
+  Referrer-Policy: strict-origin-when-cross-origin
+  Permissions-Policy: camera=(), microphone=(), geolocation=(), payment=(), usb=(), browsing-topics=()
+  Cross-Origin-Opener-Policy: same-origin
