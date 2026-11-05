@@ -344,6 +344,7 @@ export function MechanicalList({ compact = false }: { compact?: boolean }) {
   );
 }
 
+/** Each card opens its trade's section on the services page (the stock has its own block). */
 function ServiceLink({
   id,
   children,
@@ -351,20 +352,8 @@ function ServiceLink({
   id: (typeof services)[number]["id"];
   children: ReactNode;
 }) {
-  if (id === "vente")
-    return (
-      <Link to="/vehicules" className="card-link">
-        {children}
-      </Link>
-    );
-  if (id === "carrosserie")
-    return (
-      <Link to="/services" hash="carrosserie" className="card-link">
-        {children}
-      </Link>
-    );
   return (
-    <Link to="/rendez-vous" search={{ besoin: "atelier" }} className="card-link">
+    <Link to="/services" hash={id} className="card-link">
       {children}
     </Link>
   );
@@ -419,7 +408,6 @@ export function ServicesPreview() {
                 </span>
                 <h3>{service.title}</h3>
                 <p>{service.short}</p>
-                {service.id === "mecanique" && <MechanicalList compact />}
                 <ServiceLink id={service.id}>
                   {service.cta}
                   <ArrowRight />

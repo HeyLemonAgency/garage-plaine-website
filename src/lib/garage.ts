@@ -68,6 +68,8 @@ export type Contact = {
   email: string;
   mobile?: string;
   mobileHref?: string;
+  /** WhatsApp chat link (wa.me) on the same mobile, for photos of a car to sell. */
+  whatsapp?: string;
   /** A real portrait (imported from src/assets); without one, a "photo à venir" frame shows. */
   photo?: string;
 };
@@ -79,6 +81,7 @@ export const team = {
     email: "vente@garageplaine.ch",
     mobile: "079 108 92 99",
     mobileHref: "tel:+41791089299",
+    whatsapp: "https://wa.me/41791089299",
     photo: tiagoPhoto,
   },
   atelier: {
@@ -206,7 +209,7 @@ export const services = [
     title: "Vente & reprise",
     short: "Suzuki neuves, occasions toutes marques, financement, leasing et reprise.",
     icon: "key",
-    cta: "Voir les véhicules",
+    cta: "Découvrir la vente",
   },
   {
     id: "carrosserie",
@@ -220,7 +223,7 @@ export const services = [
     title: "Atelier mécanique",
     short: "Entretien et réparations toutes marques, avec une spécialité Suzuki.",
     icon: "wrench",
-    cta: "Prendre rendez-vous",
+    cta: "Découvrir l’atelier",
   },
 ] as const;
 

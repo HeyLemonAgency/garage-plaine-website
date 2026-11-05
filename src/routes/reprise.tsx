@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useState, type FormEvent, type ReactNode } from "react";
-import { ArrowRight, Camera, Mail } from "lucide-react";
+import { ArrowRight, Camera, Mail, MessageCircle } from "lucide-react";
 import { PageIntro } from "@/components/garage/sections";
 import { Button } from "@/components/ui/button";
 import { team } from "@/lib/garage";
@@ -156,6 +156,11 @@ function Reprise() {
     }
   }
 
+  const photosText = sent
+    ? `Bonjour ${seller.name.split(" ")[0]}, voici les photos de ma ${sent.car}, en complément de la proposition envoyée depuis le site. ${sent.name}`
+    : "";
+  const photosWhatsapp =
+    seller.whatsapp && `${seller.whatsapp}?text=${encodeURIComponent(photosText)}`;
   const photosMail =
     sent &&
     `mailto:${seller.email}?subject=${encodeURIComponent(`Photos — ${sent.car} — ${sent.name}`)}&body=${encodeURIComponent(`Bonjour ${seller.name.split(" ")[0]},\n\nVoici les photos de ma ${sent.car}, en complément de la proposition envoyée depuis le site.\n\n${sent.name}`)}`;
@@ -173,7 +178,7 @@ function Reprise() {
             <SentPanel title={`Merci, ${seller.name} a bien reçu votre proposition.`}>
               <p>
                 Il vous recontacte pour la suite. Pour une estimation plus précise, envoyez-lui
-                quelques photos de votre {sent.car}&nbsp;:
+                quelques photos de votre {sent.car}, par WhatsApp ou par e-mail&nbsp;:
               </p>
               <ul className="photo-list">
                 {photoChecklist.map((p) => (
@@ -181,13 +186,20 @@ function Reprise() {
                 ))}
               </ul>
               <div className="detail-actions">
-                <Button asChild variant="premium">
+                {photosWhatsapp && (
+                  <Button asChild variant="premium">
+                    <a href={photosWhatsapp} target="_blank" rel="noreferrer">
+                      <MessageCircle /> Par WhatsApp
+                    </a>
+                  </Button>
+                )}
+                <Button asChild variant="appointment">
                   <a href={photosMail}>
-                    <Camera /> Envoyer mes photos à {seller.name.split(" ")[0]}
+                    <Camera /> Par e-mail
                   </a>
                 </Button>
                 <a className="section-link" href={seller.mobileHref}>
-                  Ou appelez-le au {seller.mobile}
+                  Ou appelez {seller.name.split(" ")[0]} au {seller.mobile}
                 </a>
               </div>
             </SentPanel>
@@ -350,7 +362,7 @@ function Reprise() {
                 {state.step === "error" && <SendError message={state.message} contact={seller} />}
               </div>
               <div className="form-footer">
-                <p>Les photos, vous pourrez les envoyer juste après.</p>
+                <p>Les photos, vous les enverrez juste après, par WhatsApp ou par e-mail.</p>
                 <Button
                   variant="premium"
                   type="submit"

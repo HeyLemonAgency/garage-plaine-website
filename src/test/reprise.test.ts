@@ -68,7 +68,7 @@ describe("reprise", () => {
         "Remarques :",
         "Pneus hiver neufs.",
         "",
-        "Photos : le vendeur peut les envoyer par e-mail au service vente.",
+        "Photos : le vendeur les envoie par e-mail ou WhatsApp au service vente.",
       ].join("\n"),
     );
   });

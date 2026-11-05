@@ -110,6 +110,6 @@ export function repriseMessage(f: RepriseFields): string {
     line("Prix souhaité", price && `CHF ${price}`),
   ].filter((l, i) => i < 2 || l);
   if (f.notes.trim()) lines.push("", "Remarques :", f.notes.trim());
-  lines.push("", "Photos : le vendeur peut les envoyer par e-mail au service vente.");
+  lines.push("", "Photos : le vendeur les envoie par e-mail ou WhatsApp au service vente.");
   return lines.join("\n");
 }
