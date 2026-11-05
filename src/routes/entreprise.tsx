@@ -23,8 +23,8 @@ function Entreprise() {
     <>
       <PageIntro
         label="Entreprise"
-        title="Le garage. Et les gens derrière."
-        description="Plus de 40 ans de service de qualité, et une même volonté : prendre soin de votre voiture et de votre confiance."
+        title="Plus de 40 ans au service de vos voitures, à Denges."
+        description="La vente, la carrosserie et l’atelier réunis, et une même volonté : prendre soin de votre voiture et de votre confiance."
       />
       <section className="section">
         <div className="container editorial-grid">

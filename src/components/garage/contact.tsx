@@ -193,8 +193,8 @@ export function ContactSection({ defaultTopic }: { defaultTopic?: DepartmentId }
             <span className="eyebrow-dot" />À votre écoute
           </div>
           <h2 className="contact-title">
-            Parlons de votre <br />
-            prochain projet.
+            Une question ? <br />
+            Écrivez-nous.
           </h2>
           <p className="contact-intro">
             Une nouvelle voiture, une réparation ou un entretien&nbsp;? <br />

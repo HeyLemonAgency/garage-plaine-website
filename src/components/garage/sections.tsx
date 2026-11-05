@@ -444,12 +444,12 @@ export function Partnership() {
           />
           <div className="eyebrow">Partenaire officiel</div>
           <h2>
-            L’esprit Suzuki. <br />
-            La proximité en plus.
+            Concessionnaire Suzuki <br />
+            depuis plus de 20 ans.
           </h2>
           <p>
-            Concessionnaire Suzuki depuis plus de 20 ans, le Garage Carrosserie de la Plaine est
-            votre référence Suzuki sur La Côte.
+            Le Garage Carrosserie de la Plaine est votre référence Suzuki sur La Côte : toute la
+            gamme neuve, les essais sur route et un atelier dont Suzuki est la marque de référence.
           </p>
           <p>
             Découvrez les véhicules neufs dans notre showroom, nos occasions toutes marques et les
@@ -546,13 +546,13 @@ export function CompanyStory() {
             Votre garage, tout près de chez vous
           </div>
           <h2>
-            Une équipe locale. <br />
-            Une relation de confiance.
+            Une équipe à 5 minutes <br />
+            de Morges.
           </h2>
           <div className="red-rule" />
           <p>
-            Installé à Denges, à 5 minutes de Morges et 10 minutes de Lausanne, le Garage
-            Carrosserie de la Plaine réunit la vente, la carrosserie et l’atelier mécanique.
+            Installé à Denges, entre Morges et Lausanne, le Garage Carrosserie de la Plaine réunit
+            la vente, la carrosserie et l’atelier mécanique.
           </p>
           <p>
             Entreprise formatrice, nous mettons le savoir-faire de notre équipe au service de votre

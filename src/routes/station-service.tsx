@@ -21,7 +21,7 @@ function Station() {
     <>
       <PageIntro
         label="Station-service"
-        title="Le plein. À votre rythme."
+        title="Faites le plein à toute heure, 7 jours sur 7."
         description="Notre station-service Jubin à Denges est accessible 24h/24 et 7j/7."
       />
       <section className="section">

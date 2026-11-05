@@ -62,7 +62,7 @@ function Vehicules() {
     <>
       <PageIntro
         label="Véhicules en stock"
-        title="Trouvez votre prochaine voiture."
+        title="Suzuki neuves et occasions toutes marques, à Denges."
         description="Véhicules neufs Suzuki et occasions toutes marques. Filtrez le stock, ouvrez une annonce, puis contactez directement notre service vente."
       />
       <section className="section inventory-section">

@@ -349,7 +349,7 @@ export function StockPreview({ stock }: { stock: StockSnapshot }) {
               Nos dernières annonces
             </>
           }
-          title="Votre prochaine voiture est ici."
+          title="Nos dernières voitures en stock."
           to="/vehicules"
           label={total ? `Voir les ${total} véhicules` : "Voir tous les véhicules"}
         />
