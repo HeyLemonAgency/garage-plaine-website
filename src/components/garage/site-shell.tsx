@@ -29,7 +29,7 @@ const nav = [
 
 // Pages where a visitor is most likely shopping for a car: the mobile call button
 // rings the sales advisor directly there.
-const SALES_PAGES = new Set(["/vehicules", "/suzuki", "/reprise"]);
+const SALES_PAGES = new Set(["/vehicules", "/suzuki", "/reprise", "/offre"]);
 
 export function SiteHeader() {
   const [open, setOpen] = useState(false);

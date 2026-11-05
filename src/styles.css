@@ -9188,3 +9188,253 @@ body {
     max-width: none;
   }
 }
+
+/* ==== Phone and tablet audit fixes ==== */
+/* Text: no lone last words in titles; phone numbers never split. */
+h1,
+h2,
+h3,
+.eyebrow,
+.form-field label {
+  text-wrap: balance;
+}
+p {
+  text-wrap: pretty;
+}
+.summary-call,
+.form-error a[href^="tel:"],
+.contact-action span,
+.concierge-phone,
+.contact-cta-chip {
+  white-space: nowrap;
+}
+.contact-actions-stack .contact-action-mail span {
+  white-space: normal;
+  overflow-wrap: normal;
+}
+.training-step {
+  z-index: 1;
+}
+.polish-hint {
+  white-space: nowrap;
+}
+.range-grid {
+  scroll-padding-inline: 16px;
+}
+.training-card a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+}
+.hero-caption {
+  font-size: var(--fs-10);
+}
+/* The menu covers the page: the call bar steps aside while it is open, and a long menu scrolls. */
+body:has(.mobile-toggle[aria-expanded="true"]) .mobile-call {
+  display: none;
+}
+.mobile-nav {
+  /* When open, the menu fills the screen under the header: nothing of the page peeks below. */
+  min-height: calc(100dvh - 64px);
+  max-height: calc(100dvh - 64px);
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}
+
+/* Planner: the 14-day row scrolls inside the panel instead of widening the page. */
+@media (max-width: 800px) {
+  .planner-layout {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+/* Tablets: the floating Contact button keeps clear of the footer's last line. */
+@media (min-width: 521px) {
+  .site-footer {
+    padding-bottom: 96px;
+  }
+}
+@media (max-width: 980px) {
+  .reviews-all {
+    display: flex;
+    width: fit-content;
+  }
+}
+@media (max-width: 1000px) {
+  .mechanics-top,
+  .mechanics-foot {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+/* Tablets: five model cards as 3 + 2 without an empty slot. */
+@media (min-width: 761px) and (max-width: 1100px) {
+  .range-grid {
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+  }
+  .range-card {
+    grid-column: span 2;
+  }
+  .range-card:nth-child(n + 4) {
+    grid-column: span 3;
+  }
+}
+/* Body shop: the contact tile (and the tile before it) take the full row on large phones. */
+@media (min-width: 381px) and (max-width: 600px) {
+  .telltale-contact,
+  .bodywork-grid > .telltale:nth-last-child(2):nth-child(odd) {
+    grid-column: 1 / -1;
+  }
+}
+/* Suzuki: all eight colour swatches fit the row. */
+@media (max-width: 640px) {
+  .spin-colours {
+    display: grid;
+    grid-auto-flow: column;
+    grid-auto-columns: minmax(0, 1fr);
+    overflow: visible;
+  }
+  .spin-swatch {
+    width: auto;
+  }
+}
+/* Forms: paired fields keep their inputs aligned when one label wraps. */
+.form-row {
+  row-gap: 0;
+}
+.form-row > .form-field {
+  display: grid;
+  grid-row: span 3;
+  grid-template-rows: subgrid;
+  align-content: start;
+}
+@media (max-width: 520px) {
+  /* Call bar: two equal buttons inside the screen. */
+  .mobile-call {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  }
+  .mobile-call .garage-button {
+    min-width: 0;
+    padding: 0 10px;
+    gap: 6px;
+    white-space: nowrap;
+  }
+  /* Hero headlights: the hint pill centred on its headlight. */
+  .hl-hint {
+    transform: none;
+    translate: -50% -100%;
+  }
+  /* Hero card: the same button layout on every tab. */
+  .concierge-actions {
+    gap: 8px;
+  }
+  .concierge-actions .garage-button {
+    padding: 0 12px;
+  }
+  /* Sales card: avatar beside the name, the three actions below on the full width. */
+  .sales-contact {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr);
+    column-gap: 12px;
+    row-gap: 0;
+    align-items: center;
+  }
+  .sales-body {
+    display: contents;
+  }
+  .sales-contact .sales-avatar {
+    grid-row: 1 / span 2;
+  }
+  .sales-role {
+    grid-column: 2;
+    align-self: end;
+  }
+  .sales-name {
+    grid-column: 2;
+    align-self: start;
+  }
+  .sales-contact .contact-actions {
+    grid-column: 1 / -1;
+    margin-top: 12px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+  }
+  .sales-contact .contact-action {
+    justify-content: center;
+    min-height: 44px;
+  }
+  .sales-contact .contact-action-call {
+    grid-column: 1 / -1;
+  }
+  /* Planner step 4: "Nous vous répondons par" on its own row. */
+  .planner-panel .form-row:has(.chip-row) {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  /* Form footers: the note above the button, full width. */
+  .form-footer {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .form-footer p {
+    max-width: none;
+  }
+}
+@media (max-width: 440px) {
+  .mobile-call > :last-child svg {
+    display: none;
+  }
+}
+@media (max-width: 385px) {
+  .concierge-actions {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
+@media (max-width: 380px) {
+  .section-tabs-inner {
+    gap: 14px;
+  }
+  .section-tabs a {
+    font-size: 13.5px;
+  }
+}
+/* Touch tablets get the phones' 44px tap targets. */
+@media (min-width: 641px) and (pointer: coarse) {
+  .mobile-toggle {
+    width: 44px;
+    height: 44px;
+    justify-content: center;
+  }
+  .section-link,
+  .card-link,
+  .contact-line,
+  .summary-call,
+  .concierge-tabs button,
+  .sort-select,
+  .tour-nav-main,
+  .vehicle-more,
+  .contact-action,
+  .form-more > summary {
+    min-height: 44px;
+  }
+  .breadcrumb a,
+  .footer-links a,
+  .footer-top a,
+  .footer-bottom a {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+  }
+  .sr-arrow,
+  .tour-nav-btn,
+  .fav-button,
+  .concierge-wa,
+  .polish-btn,
+  .sr-play {
+    min-width: 44px;
+    min-height: 44px;
+  }
+  .privacy input[type="checkbox"] {
+    width: 20px;
+    height: 20px;
+  }
+}

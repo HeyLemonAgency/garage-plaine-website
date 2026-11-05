@@ -90,7 +90,17 @@ export function ContactActions({
         aria-label={`E-mail à ${contact.name} : ${contact.email}`}
       >
         <Mail aria-hidden="true" />
-        <span>{showEmail ? contact.email : "E-mail"}</span>
+        <span>
+          {showEmail ? (
+            // A long address may break after the "@", never in the middle of a word.
+            <>
+              {contact.email.split("@")[0]}@<wbr />
+              {contact.email.split("@")[1]}
+            </>
+          ) : (
+            "E-mail"
+          )}
+        </span>
       </a>
     </div>
   );

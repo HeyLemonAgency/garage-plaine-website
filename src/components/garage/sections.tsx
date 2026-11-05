@@ -286,7 +286,13 @@ export function TrustBar({ stockTotal = null }: { stockTotal?: number | null }) 
                 </strong>
                 <span>
                   {"live" in rest && <span className="live-dot" aria-hidden="true" />}
-                  {text}
+                  {/* Each "·" part stays whole: "station-service" never breaks at its hyphen. */}
+                  {text.split(" · ").map((part, i) => (
+                    <span className="nowrap" key={part}>
+                      {i > 0 && " · "}
+                      {part}
+                    </span>
+                  ))}
                 </span>
               </div>
             </>

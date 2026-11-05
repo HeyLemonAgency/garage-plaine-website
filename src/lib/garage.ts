@@ -14,7 +14,8 @@ export const garage = {
   address: "Route de la Plaine 20",
   postalCode: "1026",
   city: "Denges",
-  locality: "1026 Denges / VD",
+  // No-break spaces: the locality never splits across lines.
+  locality: "1026\u00a0Denges\u00a0/\u00a0VD",
   region: "VD",
   /** Swiss federal address register (geo.admin.ch), Route de la Plaine 20, 1026 Denges. */
   geo: { latitude: 46.52489, longitude: 6.53765 },
