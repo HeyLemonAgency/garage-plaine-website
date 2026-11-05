@@ -71,36 +71,29 @@
   --radius-md: 6px;
   --radius-lg: 8px;
 }
-/* Type scale: small sizes are tokens so phones can read them. Desktop keeps the original
-   sizes; on a phone every step grows by about 2px (body copy 13px -> 15px, labels 10px -> 12px). */
+/* Type scale: small sizes are tokens, sized for reading (body copy 16px, menu 14.5px,
+   labels 12px). Phones share the scale; only the smallest labels grow a little more. */
 :root {
-  --fs-8: 8px;
-  --fs-9: 9px;
-  --fs-9-5: 9.5px;
-  --fs-10: 10px;
-  --fs-10-5: 10.5px;
-  --fs-11: 11px;
-  --fs-11-5: 11.5px;
-  --fs-12: 12px;
-  --fs-12-5: 12.5px;
-  --fs-13: 13px;
-  --fs-14: 14px;
-  --fs-15: 15px;
+  --fs-8: 10px;
+  --fs-9: 11px;
+  --fs-9-5: 11.5px;
+  --fs-10: 12px;
+  --fs-10-5: 12.5px;
+  --fs-11: 13.5px;
+  --fs-11-5: 14px;
+  --fs-12: 14.5px;
+  --fs-12-5: 15px;
+  --fs-13: 16px;
+  --fs-14: 16.5px;
+  --fs-15: 17px;
 }
 @media (max-width: 640px) {
   :root {
-    --fs-8: 10px;
-    --fs-9: 11px;
-    --fs-9-5: 11.5px;
-    --fs-10: 12px;
-    --fs-10-5: 12.5px;
-    --fs-11: 13px;
-    --fs-11-5: 13.5px;
-    --fs-12: 14px;
-    --fs-12-5: 14.5px;
-    --fs-13: 15px;
-    --fs-14: 15.5px;
-    --fs-15: 16px;
+    --fs-8: 11px;
+    --fs-9: 12px;
+    --fs-9-5: 12px;
+    --fs-10: 12.5px;
+    --fs-10-5: 13px;
   }
 }
 
@@ -7236,7 +7229,7 @@ body {
   border: 1px solid oklch(1 0 0 / 0.16);
   background: oklch(1 0 0 / 0.05);
   color: oklch(1 0 0 / 0.86);
-  font-size: var(--fs-13);
+  font-size: var(--fs-12);
   font-weight: 600;
   cursor: pointer;
   transition:
@@ -7916,10 +7909,8 @@ body {
     margin-right: 12px;
   }
 }
-@media (max-width: 380px) {
-  .spin-line span:nth-child(n + 3) {
-    display: none;
-  }
+/* Two figures per row once three no longer leave room for the labels. */
+@media (max-width: 480px) {
   .sz-figure-list {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
@@ -7933,6 +7924,11 @@ body {
   }
   .sz-figure-list strong {
     font-size: 34px;
+  }
+}
+@media (max-width: 380px) {
+  .spin-line span:nth-child(n + 3) {
+    display: none;
   }
   .sz-split-copy h2,
   .sz-home-copy h2 {
