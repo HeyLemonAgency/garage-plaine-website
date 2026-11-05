@@ -6496,7 +6496,7 @@ body {
   pointer-events: none;
 }
 .sz-hero-copy > * {
-  max-width: 520px;
+  max-width: min(520px, 40vw);
   pointer-events: auto;
 }
 .sz-hero-copy > .breadcrumb {
@@ -6553,7 +6553,7 @@ body {
   background: #fff;
 }
 .sz-hero h1 {
-  font-size: clamp(40px, 3.5vw, 52px);
+  font-size: clamp(40px, 3.3vw, 48px);
   line-height: 1.04;
   letter-spacing: -0.035em;
   color: #fff;
@@ -6561,11 +6561,20 @@ body {
 }
 .sz-hero h1 em {
   display: block;
+  /* The gradient is painted only inside the box: extend it under the line, or the tails of
+     g, p and q disappear. */
+  padding-bottom: 0.14em;
+  margin-bottom: -0.14em;
   font-style: normal;
   color: transparent;
   background: linear-gradient(95deg, #fff 10%, oklch(0.8 0.08 245) 90%);
   -webkit-background-clip: text;
   background-clip: text;
+}
+@media (min-width: 1200px) {
+  .sz-hero h1 em {
+    white-space: nowrap;
+  }
 }
 .sz-hero-copy p {
   font-size: 17px;
@@ -6648,7 +6657,8 @@ body {
   opacity: 1;
 }
 .spin-poster {
-  object-fit: cover;
+  /* Scaled to fit, like the 3D view, so the car does not jump when the canvas takes over. */
+  object-fit: contain;
   transition: opacity 0.6s;
 }
 .spin[data-state="ready"] .spin-poster {

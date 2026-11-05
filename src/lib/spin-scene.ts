@@ -439,7 +439,8 @@ export function createSpin(o: SpinOptions): Spin {
     // Fit the car whichever way it faces (its widest extent is the diagonal): on wide
     // screens into the right part of the stage, on phones into almost all of it.
     const reach = Math.hypot(dims.L, dims.W) / 2;
-    const share = w > 980 ? 0.5 : 0.94;
+    // On very wide screens the car stops growing (760 px at most), so it never meets the text.
+    const share = w > 980 ? Math.min(0.5, 760 / w) : 0.94;
     const byWidth = reach / (share * Math.tan(hfov / 2));
     const byHeight = dims.H / (0.46 * 2 * Math.tan(vfov / 2));
     const dist = Math.max(byWidth, byHeight) * zoom;
