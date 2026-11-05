@@ -111,7 +111,7 @@ export function topicContact(topic: TopicId): Contact {
   return appointmentTopics.find((t) => t.id === topic)?.contact ?? team.vente;
 }
 
-/** Plain-text summary used in the e-mail and the "copy" button. */
+/** Plain-text summary of the request, as the garage reads it. */
 export function appointmentSummary(req: AppointmentRequest): string {
   const topic = appointmentTopics.find((t) => t.id === req.topic);
   const when = req.day
@@ -127,10 +127,10 @@ export function appointmentSummary(req: AppointmentRequest): string {
   return lines.join("\n");
 }
 
-export function appointmentMailto(req: AppointmentRequest): string {
+/** The message the garage receives in its console: what, for whom, when, then the summary. */
+export function appointmentMessage(req: AppointmentRequest): string {
   const contact = topicContact(req.topic);
   const topic = appointmentTopics.find((t) => t.id === req.topic);
-  const subject = `Demande de rendez-vous — ${topic?.label ?? ""}${req.day ? `, ${req.day.short}` : ""}`;
-  const body = `Bonjour ${contact.name.split(" ")[0]},\n\nJe souhaite prendre rendez-vous.\n\n${appointmentSummary(req)}\n\nMerci et à bientôt,\n${req.name}`;
-  return `mailto:${contact.email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+  const title = `Demande de rendez-vous — ${topic?.label ?? ""}${req.day ? `, ${req.day.short}` : ""}`;
+  return `${title} (pour ${contact.name})\n\n${appointmentSummary(req)}`;
 }

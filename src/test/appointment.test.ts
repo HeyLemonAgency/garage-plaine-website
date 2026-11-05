@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 
-import { appointmentMailto, appointmentSummary, isTopicId, upcomingDays } from "@/lib/appointment";
+import { appointmentMessage, appointmentSummary, isTopicId, upcomingDays } from "@/lib/appointment";
 
 describe("appointment days", () => {
   it("starts tomorrow and skips Sundays", () => {
@@ -24,7 +24,7 @@ describe("appointment days", () => {
   });
 });
 
-describe("appointment e-mail", () => {
+describe("appointment message", () => {
   const request = {
     topic: "atelier" as const,
     need: "Pneus et géométrie",
@@ -38,13 +38,12 @@ describe("appointment e-mail", () => {
     message: "",
   };
 
-  it("goes to the workshop contact with the chosen day", () => {
-    const href = appointmentMailto(request);
-    expect(href.startsWith("mailto:jerome.baatard@garageplaine.ch?subject=")).toBe(true);
-    expect(decodeURIComponent(href)).toContain(
-      "Demande de rendez-vous — Atelier mécanique, jeu. 15 oct.",
+  it("names the trade, the day and the workshop contact first", () => {
+    const message = appointmentMessage(request);
+    expect(message.split("\n")[0]).toBe(
+      "Demande de rendez-vous — Atelier mécanique, jeu. 15 oct. (pour Jérôme Baatard)",
     );
-    expect(decodeURIComponent(href)).toContain("Bonjour Jérôme,");
+    expect(message).toContain("Téléphone : 079 000 00 00");
   });
 
   it("summarises the request without empty lines for skipped fields", () => {

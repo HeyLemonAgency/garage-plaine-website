@@ -26,11 +26,11 @@ function Confidentialite() {
           <div>
             <h2>Formulaires de contact</h2>
             <p>
-              Le formulaire de contact transmet votre message à la messagerie du garage, sur la
-              plateforme Lemon (le prestataire qui gère ce site et la console du garage). Ce site
-              n’en garde aucune copie. Les formulaires de reprise et de rendez-vous préparent encore
-              un e-mail dans votre application de messagerie : l’envoi n’a lieu que lorsque vous
-              l’envoyez vous-même.
+              Les formulaires du site (contact, reprise de véhicule, rendez-vous) transmettent votre
+              message à la messagerie du garage, sur la plateforme Lemon (le prestataire qui gère ce
+              site et la console du garage). Ce site n’en garde aucune copie. Les photos d’un
+              véhicule à vendre s’envoient, si vous le souhaitez, par e-mail depuis votre
+              messagerie.
             </p>
             <p>
               Vos coordonnées et votre message sont destinés au service du garage que vous

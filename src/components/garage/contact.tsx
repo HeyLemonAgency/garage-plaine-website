@@ -1,11 +1,20 @@
-import { useEffect, useId, useState, useSyncExternalStore, type FormEvent } from "react";
+import { useEffect, useState, type FormEvent } from "react";
 import { Link } from "@tanstack/react-router";
-import { ArrowRight, Phone, MapPin, Clock, ArrowUpRight, CheckCircle2 } from "lucide-react";
+import { ArrowRight, Phone, MapPin, Clock, ArrowUpRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { departments, garage, team, type DepartmentId } from "@/lib/garage";
 import { OpenStatus } from "./people";
-import { creerClientLemon, verifierMessage, type ResultatEnvoi } from "@/lib/lemon";
-import { plateforme } from "@/lib/site";
+import { verifierMessage } from "@/lib/lemon";
+import {
+  Honeypot,
+  NoScriptNote,
+  SendError,
+  SentPanel,
+  lemon,
+  sendToGarage,
+  useInteractive,
+  type SendState,
+} from "./platform";
 
 export function Hours() {
   return (
@@ -27,27 +36,6 @@ export function Hours() {
   );
 }
 
-type SendState =
-  { step: "typing" } | { step: "sending" } | { step: "sent" } | { step: "error"; message: string };
-
-function failureText(result: Exclude<ResultatEnvoi, { ok: true }>): string {
-  switch (result.raison) {
-    case "invalide":
-      return `Le message n’a pas été accepté : ${result.erreur}`;
-    case "trop-de-demandes":
-      return "Trop de messages envoyés depuis cette connexion. Réessayez dans quelques minutes.";
-    case "reseau":
-      return "Le message n’est pas parti : la connexion a échoué. Vérifiez votre connexion et réessayez.";
-    case "serveur":
-      return `Le message n’est pas parti (erreur ${result.statut} de notre côté). Réessayez plus tard.`;
-    case "non-configure":
-      return "Le formulaire n’est pas encore relié à la messagerie du garage.";
-  }
-}
-
-const lemon = creerClientLemon(plateforme);
-const subscribeNothing = () => () => undefined;
-
 /**
  * Contact form: the message goes to the garage's console on the Lemon platform (the site keeps
  * nothing). It says "sent" only once the platform has answered 201 { ok: true }.
@@ -55,13 +43,7 @@ const subscribeNothing = () => () => undefined;
 export function ContactForm({ defaultTopic = "vente" }: { defaultTopic?: DepartmentId }) {
   const [topic, setTopic] = useState<DepartmentId>(defaultTopic);
   const [state, setState] = useState<SendState>({ step: "typing" });
-  const honeypot = useId();
-  // The button works only once JavaScript runs: without it, nothing must end up in the URL.
-  const ready = useSyncExternalStore(
-    subscribeNothing,
-    () => true,
-    () => false,
-  );
+  const interactive = useInteractive();
   useEffect(() => setTopic(defaultTopic), [defaultTopic]);
   const department = departments.find((d) => d.id === topic) ?? departments[0];
 
@@ -74,10 +56,8 @@ export function ContactForm({ defaultTopic = "vente" }: { defaultTopic?: Departm
       email: text("email"),
       phone: text("phone"),
       message: text("message"),
-      ...(data.get("consent") === "on" ? { consent: true as const } : {}),
-      page: window.location.pathname,
-      lang: document.documentElement.lang.slice(0, 2) || "fr",
       hp: text("site_web"),
+      ...(data.get("consent") === "on" ? { consent: true as const } : {}),
     };
     const problem = verifierMessage(message);
     if (problem) {
@@ -86,41 +66,28 @@ export function ContactForm({ defaultTopic = "vente" }: { defaultTopic?: Departm
     }
     setState({ step: "sending" });
     // The contract has no field for the trade yet: the first line of the message names it.
-    const result = await lemon.envoyerMessage({
-      ...message,
-      consent: true,
-      message: `Demande : ${department.label} (pour ${department.contact.name})\n\n${message.message.trim()}`,
-    });
-    setState(result.ok ? { step: "sent" } : { step: "error", message: failureText(result) });
+    setState(
+      await sendToGarage({
+        ...message,
+        message: `Demande : ${department.label} (pour ${department.contact.name})\n\n${message.message.trim()}`,
+      }),
+    );
   }
-
-  const direct = (
-    <>
-      appeler le <a href={garage.phoneHref}>{garage.phone}</a> ou écrire à{" "}
-      <a href={`mailto:${department.contact.email}`}>{department.contact.email}</a>.
-    </>
-  );
 
   if (state.step === "sent") {
     return (
-      <div className="contact-form form-sent" role="status">
-        <CheckCircle2 aria-hidden="true" />
-        <strong>Merci, votre message est bien arrivé.</strong>
+      <SentPanel title="Merci, votre message est bien arrivé.">
         <p>
           {department.contact.name} ({department.contact.role.toLowerCase()}) vous répond, en
           général dans la journée ouvrable.
         </p>
-      </div>
+      </SentPanel>
     );
   }
 
   return (
     <form className="contact-form" onSubmit={submit} noValidate>
-      <noscript>
-        <p className="form-status form-error">
-          Ce formulaire a besoin de JavaScript. Vous pouvez aussi {direct}
-        </p>
-      </noscript>
+      <NoScriptNote contact={department.contact} />
       <div className="form-row">
         <div className="form-field">
           <label htmlFor="contact-name">Nom et prénom *</label>
@@ -187,11 +154,7 @@ export function ContactForm({ defaultTopic = "vente" }: { defaultTopic?: Departm
           maxLength={5000}
         />
       </div>
-      {/* Honeypot: hidden from people, filled in by robots; the platform decides. */}
-      <div className="form-honeypot" aria-hidden="true">
-        <label htmlFor={honeypot}>Ne pas remplir ce champ</label>
-        <input id={honeypot} name="site_web" tabIndex={-1} autoComplete="off" />
-      </div>
+      <Honeypot />
       <label className="privacy">
         <input type="checkbox" name="consent" required />{" "}
         <span>
@@ -203,9 +166,7 @@ export function ContactForm({ defaultTopic = "vente" }: { defaultTopic?: Departm
       </label>
       <div aria-live="polite">
         {state.step === "error" && (
-          <p role="alert" className="form-status form-error">
-            {state.message} Vous pouvez aussi {direct}
-          </p>
+          <SendError message={state.message} contact={department.contact} />
         )}
       </div>
       <div className="form-footer">
@@ -213,7 +174,7 @@ export function ContactForm({ defaultTopic = "vente" }: { defaultTopic?: Departm
         <Button
           type="submit"
           variant="premium"
-          disabled={!ready || !lemon.configure || state.step === "sending"}
+          disabled={!interactive || !lemon.configure || state.step === "sending"}
         >
           {state.step === "sending" ? "Envoi en cours…" : "Envoyer le message"} <ArrowRight />
         </Button>

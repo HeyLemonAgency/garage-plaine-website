@@ -4,7 +4,6 @@ import {
   ArrowRight,
   CalendarDays,
   Check,
-  Copy,
   KeyRound,
   Mail,
   Phone,
@@ -14,8 +13,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { garage } from "@/lib/garage";
 import {
-  appointmentMailto,
-  appointmentSummary,
+  appointmentMessage,
   appointmentTopics,
   saturdaySlots,
   topicContact,
@@ -26,6 +24,14 @@ import {
   type TopicId,
 } from "@/lib/appointment";
 import { Portrait } from "./people";
+import {
+  Honeypot,
+  SendError,
+  lemon,
+  sendToGarage,
+  useInteractive,
+  type SendState,
+} from "./platform";
 
 const topicIcons = { wrench: Wrench, spray: SprayCan, key: KeyRound };
 const steps = ["Besoin", "Véhicule", "Date", "Coordonnées"] as const;
@@ -80,8 +86,10 @@ export function AppointmentPlanner({
   const [contactBy, setContactBy] = useState<"téléphone" | "e-mail">("téléphone");
   const [message, setMessage] = useState("");
   const [consent, setConsent] = useState(false);
-  const [sent, setSent] = useState(false);
-  const [copied, setCopied] = useState(false);
+  const [hp, setHp] = useState("");
+  const [send, setSend] = useState<SendState>({ step: "typing" });
+  const sent = send.step === "sent";
+  const interactive = useInteractive();
   const panel = useRef<HTMLDivElement>(null);
 
   // Computed in the browser once the date step opens (it is never server-rendered).
@@ -118,7 +126,10 @@ export function AppointmentPlanner({
     Boolean(topic && need),
     isSale ? true : make.trim().length > 0,
     Boolean(day && slot),
-    name.trim().length > 1 && phone.trim().length > 5 && consent,
+    name.trim().length > 1 &&
+      phone.trim().length > 5 &&
+      /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim()) &&
+      consent,
   ];
 
   function go(to: number) {
@@ -130,20 +141,17 @@ export function AppointmentPlanner({
     });
   }
 
-  function submit() {
-    if (!request) return;
-    window.location.href = appointmentMailto(request);
-    setSent(true);
-  }
-
-  async function copySummary() {
-    if (!request) return;
-    try {
-      await navigator.clipboard.writeText(appointmentSummary(request));
-      setCopied(true);
-    } catch {
-      setCopied(false);
-    }
+  async function submit() {
+    if (!request || !contact) return;
+    setSend({ step: "sending" });
+    const result = await sendToGarage({
+      name: request.name,
+      email: request.email,
+      phone: request.phone,
+      message: appointmentMessage(request),
+      hp,
+    });
+    setSend(result);
   }
 
   return (
@@ -177,23 +185,18 @@ export function AppointmentPlanner({
               <div className="planner-done-icon">
                 <Check />
               </div>
-              <h2>Votre demande est prête.</h2>
+              <h2>Votre demande est bien arrivée.</h2>
               <p>
-                Elle s’est ouverte dans votre messagerie, adressée à {contact?.name}. Envoyez
-                l’e-mail : nous vous confirmons le rendez-vous par {contactBy}.
+                {contact?.name} vous confirme le rendez-vous par {contactBy}, ou vous propose un
+                autre moment.
               </p>
               <p className="small-note">
-                Votre messagerie ne s’est pas ouverte&nbsp;? Copiez le récapitulatif et envoyez-le à{" "}
-                {contact?.email}, ou appelez-nous au {garage.phone}.
+                Une urgence&nbsp;? Appelez-nous au{" "}
+                <a href={contact?.mobileHref ?? garage.phoneHref}>
+                  {contact?.mobile ?? garage.phone}
+                </a>
+                .
               </p>
-              <div className="detail-actions">
-                <Button type="button" variant="premium" onClick={copySummary}>
-                  <Copy /> {copied ? "Récapitulatif copié" : "Copier le récapitulatif"}
-                </Button>
-                <Button type="button" variant="appointment" onClick={() => setSent(false)}>
-                  Modifier ma demande
-                </Button>
-              </div>
             </div>
           ) : step === 0 ? (
             <fieldset>
@@ -403,7 +406,7 @@ export function AppointmentPlanner({
               </div>
               <div className="form-row">
                 <div className="form-field">
-                  <label htmlFor="pl-email">E-mail</label>
+                  <label htmlFor="pl-email">E-mail *</label>
                   <input
                     id="pl-email"
                     type="email"
@@ -438,6 +441,7 @@ export function AppointmentPlanner({
                   maxLength={3000}
                 />
               </div>
+              <Honeypot value={hp} onChange={setHp} />
               <label className="privacy">
                 <input
                   type="checkbox"
@@ -451,6 +455,9 @@ export function AppointmentPlanner({
             </fieldset>
           )}
 
+          {send.step === "error" && contact && (
+            <SendError message={send.message} contact={contact} />
+          )}
           {!sent && (
             <div className="planner-nav">
               {step > 0 ? (
@@ -470,8 +477,16 @@ export function AppointmentPlanner({
                   Continuer <ArrowRight />
                 </Button>
               ) : (
-                <Button type="button" variant="premium" disabled={!canContinue[3]} onClick={submit}>
-                  Préparer ma demande <ArrowRight />
+                <Button
+                  type="button"
+                  variant="premium"
+                  disabled={
+                    !canContinue[3] || !interactive || !lemon.configure || send.step === "sending"
+                  }
+                  onClick={submit}
+                >
+                  {send.step === "sending" ? "Envoi en cours…" : "Envoyer ma demande"}{" "}
+                  <ArrowRight />
                 </Button>
               )}
             </div>
