@@ -13,3 +13,4 @@
 - Use Autolina as the live inventory source and external listing destination, never a local stock database; stock must stay owned by the dealer's feed.
 - Use the supplied logo and actual garage photographs through asset pointers, and distinguish generated editorial imagery from real inventory imagery; avoid misrepresenting the business.
 - Contact forms compose a departmental email in the visitor's email application unless a mail-delivery service is configured; never claim a message was sent without delivery.
+- Read `DESIGN.md` before any visual or UI change; it holds the audience, brand personality, design tokens, motifs and principles, and new work must follow them.
