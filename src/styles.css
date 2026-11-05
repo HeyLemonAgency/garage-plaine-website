@@ -1164,9 +1164,6 @@ button {
   padding: 55px 0;
   border-bottom: 1px solid var(--border);
 }
-.service-detail:nth-child(even) {
-  background: var(--muted);
-}
 .service-detail .eyebrow {
   margin-bottom: 13px;
 }
@@ -1391,89 +1388,6 @@ main:focus {
 }
 .card-link:hover svg {
   transform: translateX(3px);
-}
-.mech-details {
-  border: 1px solid var(--border);
-  border-radius: 6px;
-  background: var(--card);
-  margin: 22px 0 26px;
-}
-.mech-details summary {
-  list-style: none;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  padding: 15px 18px;
-  font-family: var(--font-display);
-  font-weight: 700;
-  font-size: var(--fs-14);
-  color: var(--primary);
-}
-.mech-details summary::-webkit-details-marker {
-  display: none;
-}
-.mech-count {
-  font-family: var(--font-sans);
-  font-size: var(--fs-10);
-  font-weight: 600;
-  background: var(--secondary);
-  color: var(--primary);
-  border-radius: 999px;
-  padding: 2px 8px;
-}
-.mech-chevron {
-  margin-left: auto;
-  width: 18px;
-  height: 18px;
-  color: var(--accent);
-  transition: transform 0.25s;
-}
-.mech-details[open] .mech-chevron {
-  transform: rotate(180deg);
-}
-.mech-details ul {
-  list-style: none;
-  margin: 0;
-  padding: 4px 18px 18px;
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 11px 24px;
-  border-top: 1px solid var(--border);
-  padding-top: 16px;
-}
-.mech-details li {
-  display: flex;
-  gap: 10px;
-  font-size: var(--fs-12);
-  line-height: 1.55;
-}
-.mech-details li svg {
-  width: 15px;
-  height: 15px;
-  flex-shrink: 0;
-  margin-top: 2px;
-  color: var(--accent);
-}
-.mech-details[open] ul {
-  animation: reveal 0.3s ease both;
-}
-.mech-details-compact {
-  margin: 14px 0 0;
-  background: var(--muted);
-  border-color: transparent;
-}
-.mech-details-compact summary {
-  font-size: var(--fs-11);
-  padding: 10px 12px;
-}
-.mech-details-compact ul {
-  grid-template-columns: 1fr;
-  gap: 8px;
-  padding: 12px;
-}
-.mech-details-compact li {
-  font-size: var(--fs-11);
 }
 
 /* ---- Live stock cards ---- */
@@ -4419,9 +4333,6 @@ main:focus {
     height: 16px;
     color: var(--accent);
   }
-  .mech-details ul {
-    grid-template-columns: 1fr;
-  }
   .site-header[data-scrolled] .nav-row {
     height: 64px;
   }
@@ -5895,13 +5806,15 @@ main:focus {
   color: oklch(1 0 0 / 0.8);
 }
 .bodywork .garage-button-primary,
-.contact-cta .garage-button-primary {
+.contact-cta .garage-button-primary,
+.partnership .garage-button-primary {
   background: var(--accent);
   color: var(--accent-foreground);
   box-shadow: 0 12px 26px -12px var(--accent);
 }
 .bodywork .garage-button-primary:hover,
-.contact-cta .garage-button-primary:hover {
+.contact-cta .garage-button-primary:hover,
+.partnership .garage-button-primary:hover {
   background: color-mix(in srgb, var(--accent) 88%, black);
 }
 .bodywork .section-link {
@@ -5998,35 +5911,12 @@ main:focus {
   inherits: false;
   initial-value: 110px;
 }
-.mechanics-head {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-  gap: 16px 56px;
-  align-items: end;
-  margin-bottom: 26px;
-}
-.mechanics-head h2 {
-  margin: 0;
-  font-size: 30px;
-}
-.mechanics-head p {
-  margin: 0;
-  font-size: var(--fs-13);
-  line-height: 1.75;
-  color: var(--muted-foreground);
-}
 .mechanics-foot {
   display: grid;
   grid-template-columns: minmax(0, 1.4fr) auto;
   gap: 20px 40px;
   align-items: start;
   margin-top: 22px;
-}
-.mechanics-foot .mech-details {
-  margin: 0;
-}
-.mechanics-foot .detail-actions {
-  padding-top: 6px;
 }
 .tour {
   position: relative;
@@ -6448,15 +6338,8 @@ main:focus {
 }
 
 @media (max-width: 1000px) {
-  .mechanics-head,
-  .mechanics-foot {
-    grid-template-columns: minmax(0, 1fr);
-  }
 }
 @media (max-width: 640px) {
-  .mechanics-head h2 {
-    font-size: 25px;
-  }
   .tour-stage {
     aspect-ratio: 4 / 5;
     max-height: 70vh;
@@ -6681,10 +6564,6 @@ body {
     width: 20px;
     height: 20px;
     flex-shrink: 0;
-  }
-  .telltale-contact a,
-  .mech-details summary {
-    min-height: 44px;
   }
   .sort-select {
     padding: 0;
@@ -8876,5 +8755,385 @@ body {
   }
   .form-row-3 > :first-child {
     grid-column: 1 / -1;
+  }
+}
+
+/* ==== Section rhythm and contrast ====
+   Every section sits on one of four surfaces and neighbours never share one: PAPER
+   (--background), TINT (--surface-tint), SAGE (--secondary) or INK (--ink-band, navy). Each page
+   starts on TINT, has at most one INK band in the middle and ends INK into the footer. */
+:root {
+  --surface-tint: oklch(0.948 0.008 235);
+  --band-y: clamp(56px, 2.5rem + 3.2vw, 96px);
+  --band-y-sm: clamp(36px, 1.5rem + 2vw, 64px);
+  --h2-band: clamp(26px, 1.125rem + 1.4vw, 36px);
+  --ink-band:
+    radial-gradient(55% 70% at 100% 0%, oklch(0.33 0.06 240 / 0.8), transparent 70%),
+    linear-gradient(180deg, oklch(0.21 0.04 240), oklch(0.155 0.03 240));
+}
+
+/* One vertical rhythm */
+.section,
+.partnership,
+.story,
+.contact-band,
+.service-detail,
+.service-detail.bodywork,
+.location-panel,
+.training,
+.contact-cta {
+  padding-block: var(--band-y);
+}
+.inventory-section,
+.planner-section {
+  padding-top: var(--band-y-sm);
+}
+.stock-section-tight {
+  padding-bottom: 20px;
+}
+
+/* Surfaces: lines between sections give way to contrast */
+.page-intro {
+  background: var(--surface-tint);
+  border-bottom: 0;
+  padding-block: var(--band-y-sm);
+}
+.stock-section,
+.reviews-section,
+.location-panel,
+.sz-range-section,
+.sz-range-section + .stock-section-tight,
+.stock-list-section,
+.inventory-section + .faq-section,
+.service-detail.mechanics,
+.service-extras + .faq-section {
+  background: var(--surface-tint);
+}
+.stock-section {
+  padding-top: var(--band-y);
+}
+.sz-range-section + .stock-section-tight {
+  padding-top: 0;
+}
+.reviews-section,
+.faq-section {
+  border-top: 0;
+}
+.location-panel {
+  border-top: 0;
+  border-bottom: 0;
+}
+.service-detail {
+  border-bottom: 0;
+}
+.site-footer {
+  border-top: 1px solid oklch(1 0 0 / 0.08);
+}
+
+/* The homepage's navy middle: the Suzuki partnership */
+.partnership {
+  background: var(--ink-band);
+  color: var(--primary-foreground);
+}
+.partnership .eyebrow {
+  color: oklch(1 0 0 / 0.66);
+}
+.partnership h2 {
+  color: #fff;
+}
+.partnership .editorial-copy p {
+  color: oklch(1 0 0 / 0.74);
+}
+/* The Suzuki logo file carries a grey rule on its right edge. */
+.partnership-logo,
+.trust-logo {
+  clip-path: inset(0 5% 0 0 round 6px);
+}
+
+/* Headings: one size per level */
+.section-heading h2,
+.detail-layout h2,
+.faq-head h2,
+.editorial-copy h2,
+.contact-title,
+.bodywork-copy h2,
+.mechanics-copy h2,
+.sz-split-copy h2,
+.sz-home-copy h2,
+.reviews-head h2 {
+  font-size: var(--h2-band);
+  line-height: 1.12;
+  text-wrap: balance;
+}
+.detail-layout > * + * h2,
+.service-extras h2,
+.reprise-aside h2 {
+  font-size: 24px;
+}
+/* One eyebrow style: a red dot, unless it already carries a dot or an icon */
+.eyebrow::before {
+  content: "";
+  flex: none;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--accent);
+}
+.eyebrow:has(> .eyebrow-dot, > .live-dot, > svg)::before {
+  content: none;
+}
+
+/* Services: the station and WIR as two cards */
+.service-extras .detail-layout {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 24px;
+  align-items: stretch;
+}
+.service-extras .detail-layout > div {
+  position: relative;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: clamp(24px, 3vw, 36px);
+}
+.service-extras .wir-logo {
+  position: absolute;
+  top: clamp(20px, 2.6vw, 30px);
+  right: clamp(20px, 2.6vw, 30px);
+  width: 88px;
+  margin: 0;
+  padding: 6px 10px;
+}
+
+/* Forms on a white panel (reprise, offre) */
+.reprise-form {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 30px;
+  box-shadow: var(--shadow-card);
+}
+
+/* ---- Atelier mécanique, built like the body shop on a light band ---- */
+.mechanics-top {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 24px 56px;
+  align-items: end;
+  margin-bottom: 30px;
+}
+.mechanics-copy h2 {
+  margin: 10px 0 14px;
+}
+.mechanics-copy p {
+  margin: 0;
+  max-width: 60ch;
+  font-size: var(--fs-13);
+  line-height: 1.75;
+  color: var(--muted-foreground);
+}
+.mechanics-figures {
+  margin: 0;
+}
+.mechanics-figures > div {
+  border-top-color: var(--border);
+}
+.mechanics-figures dt {
+  color: var(--foreground);
+}
+.mechanics-figures dd {
+  color: var(--muted-foreground);
+}
+.mech-grid {
+  list-style: none;
+  margin: 34px 0 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 12px;
+}
+.mech-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  min-height: 170px;
+  padding: 18px;
+  border-radius: 14px;
+  background: var(--card);
+  border: 1px solid var(--border);
+  box-shadow: 0 1px 2px oklch(0.2 0.02 240 / 0.04);
+  transition:
+    border-color 0.25s,
+    transform 0.25s,
+    box-shadow 0.25s;
+}
+.mech-card:hover {
+  border-color: color-mix(in oklch, var(--primary) 35%, var(--border));
+  transform: translateY(-2px);
+  box-shadow: 0 16px 34px -24px oklch(0.2 0.04 240 / 0.45);
+}
+.mech-card strong {
+  font-size: var(--fs-14);
+  font-weight: 600;
+  color: var(--foreground);
+}
+.mech-card > span:last-child {
+  font-size: var(--fs-11-5);
+  line-height: 1.5;
+  color: var(--muted-foreground);
+}
+.mech-card-icon {
+  width: 44px;
+  height: 44px;
+  margin-bottom: 16px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  color: var(--primary);
+  background: color-mix(in oklch, var(--primary) 6%, var(--card));
+  border: 1px solid color-mix(in oklch, var(--primary) 14%, var(--border));
+  transition:
+    color 0.25s,
+    background 0.25s,
+    border-color 0.25s,
+    box-shadow 0.25s;
+}
+.mech-card-icon svg {
+  width: 20px;
+  height: 20px;
+}
+.mech-card-num {
+  position: absolute;
+  top: 18px;
+  right: 18px;
+  font-size: var(--fs-10);
+  letter-spacing: 0.14em;
+  color: var(--muted-foreground);
+  font-variant-numeric: tabular-nums;
+}
+.mech-card:hover .mech-card-icon {
+  color: #fff;
+  background: var(--accent);
+  border-color: var(--accent);
+  box-shadow: 0 0 0 4px color-mix(in srgb, var(--accent) 18%, transparent);
+}
+/* Like the body shop's dashboard check: each icon lights up in turn, once */
+.mech-grid.is-checking .mech-card-icon {
+  animation: mech-check 0.95s ease calc(var(--i, 0) * 0.1s);
+}
+@keyframes mech-check {
+  25%,
+  60% {
+    color: #fff;
+    background: var(--accent);
+    border-color: var(--accent);
+    box-shadow:
+      0 0 0 4px color-mix(in srgb, var(--accent) 18%, transparent),
+      0 0 24px color-mix(in srgb, var(--accent) 45%, transparent);
+  }
+}
+.mech-card-contact {
+  background: linear-gradient(180deg, color-mix(in srgb, var(--accent) 8%, #fff), #fff);
+  border-color: color-mix(in srgb, var(--accent) 35%, var(--border));
+}
+.mech-card-contact .telltale-role,
+.mech-card-contact .mech-card-title {
+  color: var(--muted-foreground);
+}
+.mech-card-contact .mech-card-title {
+  font-size: var(--fs-11);
+}
+.mechanics-foot {
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: end;
+  margin-top: 30px;
+}
+.mechanics-notes p {
+  color: var(--muted-foreground);
+}
+.mechanics-notes svg {
+  color: var(--primary);
+}
+
+/* Tap targets on phones: 44px at least */
+.story-card a {
+  min-height: 44px;
+  display: inline-flex;
+  align-items: center;
+}
+
+@media (max-width: 1100px) {
+  .mech-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+  .mech-card-contact {
+    grid-column: 1 / -1;
+  }
+}
+@media (max-width: 800px) {
+  .service-extras .detail-layout {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 16px;
+  }
+}
+@media (max-width: 760px) {
+  .mechanics-top,
+  .mechanics-foot {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .mech-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+@media (max-width: 640px) {
+  .polish-btn,
+  .vehicle-action,
+  .sr-play {
+    min-width: 44px;
+    min-height: 44px;
+  }
+}
+@media (max-width: 520px) {
+  .section-tabs-inner {
+    gap: 18px;
+  }
+  .section-heading {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 4px;
+  }
+  .contact-band .form-row {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .service-extras .wir-logo {
+    position: static;
+    margin: 0 0 16px;
+  }
+  .reprise-form {
+    padding: 20px 16px;
+  }
+}
+@media (max-width: 420px) {
+  .mech-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .mech-card {
+    min-height: 0;
+  }
+}
+@media (max-width: 380px) {
+  .section-tabs-inner {
+    -webkit-mask-image: linear-gradient(90deg, #000 calc(100% - 28px), transparent);
+    mask-image: linear-gradient(90deg, #000 calc(100% - 28px), transparent);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .mech-grid.is-checking .mech-card-icon {
+    animation: none;
+  }
+  .mech-card:hover {
+    transform: none;
   }
 }

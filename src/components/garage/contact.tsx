@@ -1,4 +1,4 @@
-import { useEffect, useState, type FormEvent } from "react";
+import { useEffect, useState, type FormEvent, type ReactNode } from "react";
 import { Link } from "@tanstack/react-router";
 import { ArrowRight, Phone, MapPin, Clock, ArrowUpRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -250,7 +250,14 @@ const bandPeople: readonly { trade: Trade; topic: DepartmentId; contact: Contact
  * each one, and the two next steps (an appointment, or a message on the contact page, where the
  * only form lives).
  */
-export function ContactBand({ trade = "vente" }: { trade?: Trade }) {
+export function ContactBand({
+  trade = "vente",
+  children,
+}: {
+  trade?: Trade;
+  /** A page's own extra next step, after the two shared ones. */
+  children?: ReactNode;
+}) {
   const people = [...bandPeople].sort(
     (a, b) => Number(b.trade === trade) - Number(a.trade === trade),
   );
@@ -278,6 +285,7 @@ export function ContactBand({ trade = "vente" }: { trade?: Trade }) {
             <Link to="/contact" search={{ demande: first.topic }} className="contact-cta-link">
               Écrire un message <ArrowRight />
             </Link>
+            {children}
           </div>
         </div>
         <ul className="contact-cta-people">

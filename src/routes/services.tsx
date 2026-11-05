@@ -1,18 +1,12 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { ArrowRight, Fuel } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import {
-  PageIntro,
-  photos,
-  CheckList,
-  MechanicalList,
-  SectionTabs,
-} from "@/components/garage/sections";
+import { PageIntro, photos, CheckList, SectionTabs } from "@/components/garage/sections";
 import { ContactBand } from "@/components/garage/contact";
 import { BodyworkSection } from "@/components/garage/bodywork";
-import { WorkshopTour } from "@/components/garage/workshop-tour";
+import { MechanicsSection } from "@/components/garage/mechanics";
 import { FaqSection } from "@/components/garage/faq";
-import { ContactActions, SalesContact } from "@/components/garage/people";
+import { SalesContact } from "@/components/garage/people";
 import { salesServices, team, faqs } from "@/lib/garage";
 import { pageHead } from "@/lib/seo";
 import wirLogo from "@/assets/wir-partner.webp";
@@ -44,79 +38,55 @@ function Services() {
         title="Vente, carrosserie et atelier."
         description="Trois métiers sur un même site à Denges, avec un interlocuteur dédié pour chacun."
       />
-      <SectionTabs items={sections} />
+      {/* The tabs stick only while their three chapters are on screen. */}
+      <div className="service-chapters">
+        <SectionTabs items={sections} />
 
-      <section id="vente" className="service-detail">
-        <div className="container detail-layout">
-          <div>
-            <div className="eyebrow">01 / Vente & reprise</div>
-            <h2>Neuf, occasion ou reprise.</h2>
-            <p>
-              Concessionnaire Suzuki depuis plus de 20 ans, nous vous proposons les véhicules neufs
-              de la gamme Suzuki et un parc d’occasions toutes marques. Un modèle vous
-              intéresse&nbsp;? Demandez une offre ou un essai sur route.
-            </p>
-            <CheckList items={salesServices} />
-            <SalesContact />
-            <div className="detail-actions">
-              <Button asChild variant="premium">
-                <Link to="/vehicules">
-                  Voir les véhicules <ArrowRight />
-                </Link>
-              </Button>
-              <Button asChild variant="appointment">
-                <Link to="/rendez-vous" search={{ besoin: "vente" }}>
-                  Demander un essai <ArrowRight />
-                </Link>
-              </Button>
-              <Link to="/reprise" className="section-link">
-                Proposer mon véhicule <ArrowRight />
-              </Link>
-            </div>
-          </div>
-          <img
-            className="reveal-on-scroll"
-            src={photos.sales}
-            alt="Le showroom Suzuki du Garage Carrosserie de la Plaine"
-            width={700}
-            height={467}
-            loading="lazy"
-          />
-        </div>
-      </section>
-
-      <BodyworkSection />
-
-      <section id="mecanique" className="service-detail mechanics">
-        <div className="container">
-          <div className="mechanics-head">
+        <section id="vente" className="service-detail">
+          <div className="container detail-layout">
             <div>
-              <div className="eyebrow">03 / Atelier mécanique</div>
-              <h2>Un atelier multimarque à votre service.</h2>
-            </div>
-            <p>
-              Équipé des derniers appareils de diagnostic, notre atelier entretient et répare les
-              véhicules de toutes marques, notre marque de référence étant Suzuki. L’équipe se forme
-              en continu pour suivre l’évolution des techniques automobiles. {team.atelier.name},
-              titulaire d’un brevet fédéral, est votre interlocuteur.
-            </p>
-          </div>
-          <WorkshopTour />
-          <div className="mechanics-foot">
-            <MechanicalList />
-            <div className="detail-actions">
-              <Button asChild variant="premium">
-                <Link to="/rendez-vous" search={{ besoin: "atelier" }}>
-                  Prendre rendez-vous <ArrowRight />
+              <div className="eyebrow">01 / Vente & reprise</div>
+              <h2>Neuf, occasion ou reprise.</h2>
+              <p>
+                Concessionnaire Suzuki depuis plus de 20 ans, nous vous proposons les véhicules
+                neufs de la gamme Suzuki et un parc d’occasions toutes marques. Un modèle vous
+                intéresse&nbsp;? Demandez une offre ou un essai sur route.
+              </p>
+              <CheckList items={salesServices} />
+              <SalesContact />
+              <div className="detail-actions">
+                <Button asChild variant="premium">
+                  <Link to="/vehicules">
+                    Voir les véhicules <ArrowRight />
+                  </Link>
+                </Button>
+                <Button asChild variant="appointment">
+                  <Link to="/rendez-vous" search={{ besoin: "vente" }}>
+                    Demander un essai <ArrowRight />
+                  </Link>
+                </Button>
+                <Link to="/reprise" className="section-link">
+                  Proposer mon véhicule <ArrowRight />
                 </Link>
-              </Button>
-              <ContactActions contact={team.atelier} />
+              </div>
             </div>
+            <img
+              className="reveal-on-scroll"
+              src={photos.sales}
+              alt="Le showroom Suzuki du Garage Carrosserie de la Plaine"
+              width={700}
+              height={467}
+              loading="lazy"
+            />
           </div>
-        </div>
-      </section>
+        </section>
 
-      <section className="section">
+        <BodyworkSection />
+
+        <MechanicsSection />
+      </div>
+
+      <section className="section service-extras">
         <div className="container detail-layout">
           <div>
             <div className="eyebrow">

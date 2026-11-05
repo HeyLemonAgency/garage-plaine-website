@@ -47,12 +47,12 @@ function Contact() {
         </div>
       </section>
       <ContactSection {...(demande ? { defaultTopic: demande } : {})} />
-      <Location />
       <FaqSection
         items={faqs.contact}
         title="Avant de nous appeler."
         intro="Samedi, interlocuteurs par service et paiement en WIR."
       />
+      <Location />
     </>
   );
 }

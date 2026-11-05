@@ -4,6 +4,7 @@ import { ArrowLeft, ArrowUpRight, ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { PageIntro } from "@/components/garage/sections";
 import { SalesContact } from "@/components/garage/people";
+import { ContactBand } from "@/components/garage/contact";
 import { faqs, garage } from "@/lib/garage";
 import { getLatestCars } from "@/lib/stock.functions";
 import { FaqSection } from "@/components/garage/faq";
@@ -113,26 +114,11 @@ function Vehicules() {
         title="Acheter chez nous : vos questions."
         intro="Disponibilité, essai, financement et reprise de votre véhicule."
       />
-      <section className="contact-band">
-        <div className="container cta-band">
-          <div>
-            <div className="eyebrow">Un projet automobile&nbsp;?</div>
-            <h2>Demandez une offre ou un essai sur route.</h2>
-          </div>
-          <div className="detail-actions">
-            <Button variant="premium" asChild>
-              <Link to="/rendez-vous" search={{ besoin: "vente" }}>
-                Demander une offre <ArrowRight />
-              </Link>
-            </Button>
-            <Button variant="appointment" asChild>
-              <Link to="/reprise">
-                Faire reprendre mon véhicule <ArrowRight />
-              </Link>
-            </Button>
-          </div>
-        </div>
-      </section>
+      <ContactBand trade="vente">
+        <Link to="/reprise" className="contact-cta-link">
+          Faire reprendre mon véhicule <ArrowRight />
+        </Link>
+      </ContactBand>
     </>
   );
 }

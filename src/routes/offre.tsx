@@ -18,6 +18,7 @@ import {
   type ModelId,
 } from "@/lib/offer";
 import { pageHead } from "@/lib/seo";
+import { groupDigits } from "@/lib/reprise";
 import { SalesContact } from "@/components/garage/people";
 import { Field, Options } from "@/components/garage/form-parts";
 import {
@@ -74,7 +75,11 @@ function Offre() {
       return;
     }
     const trade = tradeIn
-      ? [text("tradeMake"), text("tradeYear"), text("tradeKm") && `${text("tradeKm")} km`]
+      ? [
+          text("tradeMake"),
+          text("tradeYear"),
+          groupDigits(text("tradeKm")) && `${groupDigits(text("tradeKm"))} km`,
+        ]
           .map((v) => v.trim())
           .filter(Boolean)
           .join(", ") || "oui"

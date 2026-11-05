@@ -144,6 +144,36 @@ export const mechanicalServices = [
  */
 const mechanicalServicesText = mechanicalServices.join(", ").replace(/^./, (c) => c.toUpperCase());
 
+/** The workshop's services as cards (same wording as mechanicalServices, from garageplaine.ch). */
+export const mechanicalCards = [
+  { icon: "wrench", title: "Entretien et réparations", text: mechanicalServices[0] },
+  { icon: "gauge", title: "Diagnostic", text: mechanicalServices[1] },
+  { icon: "tyre", title: "Pneus", text: mechanicalServices[2] },
+  { icon: "geometry", title: "Géométrie", text: mechanicalServices[3] },
+  { icon: "snow", title: "Climatisation", text: mechanicalServices[4] },
+  { icon: "hitch", title: "Attelages", text: mechanicalServices[5] },
+  { icon: "trailer", title: "Remorques", text: mechanicalServices[6] },
+  { icon: "spark", title: "Mécanique et électricité", text: mechanicalServices[7] },
+  { icon: "lights", title: "Feux diurnes", text: mechanicalServices[8] },
+] as const;
+export type MechanicalIcon = (typeof mechanicalCards)[number]["icon"];
+
+/** What the workshop says about itself (garageplaine.ch, "Atelier mécanique"). */
+export const workshopFacts = {
+  figures: [
+    {
+      value: String(mechanicalServices.length),
+      label: "prestations, de l’entretien aux feux diurnes",
+    },
+    { value: "Toutes", label: "marques, des plus anciennes aux plus récentes" },
+    { value: "Brevet", label: "fédéral pour votre interlocuteur, Jérôme Baatard" },
+  ],
+  training:
+    "L’équipe se forme en continu pour suivre l’évolution constante des techniques automobiles.",
+  advice:
+    "Nous vous conseillons sur les travaux et les services vraiment utiles pour votre véhicule.",
+} as const;
+
 export const workshopTour = [
   {
     id: "diagnostic",

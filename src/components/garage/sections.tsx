@@ -11,7 +11,6 @@ import {
   ArrowRight,
   ArrowUpRight,
   Check,
-  ChevronDown,
   ChevronRight,
   Fuel,
   KeyRound,
@@ -22,7 +21,7 @@ import {
   CarFront,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { garage, mechanicalServices, services, team, type Contact } from "@/lib/garage";
+import { garage, services, team, type Contact } from "@/lib/garage";
 import { CountUp } from "./interactive";
 import { HeroLights } from "./hero-lights";
 import { serviceIcons } from "./service-icons";
@@ -331,27 +330,6 @@ export function SectionHeading({
         </Link>
       )}
     </div>
-  );
-}
-
-/** The workshop's services, folded into a single dropdown as the garage asked. */
-export function MechanicalList({ compact = false }: { compact?: boolean }) {
-  return (
-    <details className={compact ? "mech-details mech-details-compact" : "mech-details"}>
-      <summary>
-        <span>{compact ? "Nos prestations" : "Toutes nos prestations mécaniques"}</span>
-        <span className="mech-count">{mechanicalServices.length}</span>
-        <ChevronDown className="mech-chevron" />
-      </summary>
-      <ul>
-        {mechanicalServices.map((item) => (
-          <li key={item}>
-            <Check />
-            <span>{item}</span>
-          </li>
-        ))}
-      </ul>
-    </details>
   );
 }
 

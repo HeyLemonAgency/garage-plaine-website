@@ -30,10 +30,7 @@ function Entreprise() {
         <div className="container editorial-grid">
           <div className="editorial-copy">
             <div className="eyebrow">Garage Carrosserie de la Plaine · Denges</div>
-            <h2>
-              Des racines locales. <br />
-              Un service complet.
-            </h2>
+            <h2>Vente, carrosserie et atelier, réunis à Denges.</h2>
             <p>
               À 5 minutes de Morges et 10 minutes de Lausanne, notre garage réunit la vente de
               véhicules, l’entretien mécanique et la carrosserie sur un même site.
@@ -67,6 +64,7 @@ function Entreprise() {
         </div>
       </section>
       <TrustBar />
+      <TrainingStory />
       <section className="section">
         <div className="container">
           <div className="section-heading">
@@ -78,7 +76,6 @@ function Entreprise() {
           <TeamGrid />
         </div>
       </section>
-      <TrainingStory />
       <ContactBand />
     </>
   );
