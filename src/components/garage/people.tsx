@@ -1,22 +1,46 @@
 import { useEffect, useState } from "react";
-import { Mail, Phone } from "lucide-react";
+import { Mail, Phone, UserRound } from "lucide-react";
 import { garage, team, type Contact } from "@/lib/garage";
 import { openingStatus, type OpeningStatus } from "@/lib/opening";
 
-const initials = (name: string) =>
-  name
-    .split(" ")
-    .map((part) => part[0])
-    .join("");
+/**
+ * A person's face: their portrait, or until one is supplied a neutral frame with a
+ * silhouette (never invented faces). `className` gives the size and shape of each spot.
+ */
+export function Portrait({
+  contact,
+  className,
+  label = false,
+}: {
+  contact: Contact;
+  className: string;
+  /** Shows "Photo à venir" in the empty frame (large frames only). */
+  label?: boolean;
+}) {
+  if (contact.photo)
+    return (
+      <img
+        className={`portrait ${className}`}
+        src={contact.photo}
+        alt={`${contact.name}, ${contact.role}`}
+        loading="lazy"
+        decoding="async"
+      />
+    );
+  return (
+    <span className={`portrait portrait-empty ${className}`} aria-hidden="true">
+      <UserRound />
+      {label && <span className="portrait-soon">Photo à venir</span>}
+    </span>
+  );
+}
 
 /** Tiago Bessa's direct sales contact, used wherever a visitor looks at cars. */
 export function SalesContact({ compact = false }: { compact?: boolean }) {
   const t = team.vente;
   return (
     <div className={compact ? "sales-contact sales-contact-compact" : "sales-contact"}>
-      <div className="sales-avatar" aria-hidden="true">
-        {initials(t.name)}
-      </div>
+      <Portrait contact={t} className="sales-avatar" />
       <div className="sales-body">
         <span className="sales-role">Votre conseiller vente</span>
         <strong className="sales-name">{t.name}</strong>
@@ -38,6 +62,7 @@ export function SalesContact({ compact = false }: { compact?: boolean }) {
 function TeamMember({ contact }: { contact: Contact }) {
   return (
     <div className="staff-item">
+      <Portrait contact={contact} className="staff-photo" label />
       <div className="staff-role">{contact.role}</div>
       <h3>{contact.name}</h3>
       {contact.title && <p>{contact.title}</p>}

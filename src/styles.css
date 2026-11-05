@@ -869,6 +869,56 @@ button {
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 24px;
 }
+/* Faces: a real portrait, or a neutral frame until one is supplied (see Portrait). */
+.portrait {
+  object-fit: cover;
+  object-position: 50% 22%;
+}
+.portrait-empty {
+  display: grid;
+  place-items: center;
+  position: relative;
+  overflow: hidden;
+  color: color-mix(in srgb, currentColor 55%, transparent);
+  background: linear-gradient(
+    160deg,
+    color-mix(in srgb, currentColor 9%, transparent),
+    color-mix(in srgb, currentColor 18%, transparent)
+  );
+}
+.portrait-empty svg {
+  width: 52%;
+  height: 52%;
+  stroke-width: 1.3;
+}
+.staff-photo {
+  display: block;
+  width: 100%;
+  aspect-ratio: 1;
+  margin-bottom: 18px;
+  border-radius: 14px;
+}
+.staff-photo.portrait-empty {
+  display: grid;
+  color: var(--muted-foreground);
+}
+.staff-photo.portrait-empty svg {
+  width: 34%;
+  height: 34%;
+}
+.portrait-soon {
+  position: absolute;
+  bottom: 14px;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 5px 11px;
+  border-radius: 999px;
+  background: var(--card);
+  color: var(--muted-foreground);
+  font-size: var(--fs-11);
+  font-weight: 600;
+  white-space: nowrap;
+}
 .staff-item {
   border-top: 2px solid var(--accent);
   padding-top: 21px;
@@ -1247,6 +1297,7 @@ main:focus {
   width: 48px;
   height: 48px;
   border-radius: 50%;
+  overflow: hidden;
   background: var(--primary);
   color: var(--primary-foreground);
   display: grid;

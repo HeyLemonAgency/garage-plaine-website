@@ -25,6 +25,7 @@ import {
   type AppointmentRequest,
   type TopicId,
 } from "@/lib/appointment";
+import { Portrait } from "./people";
 
 const topicIcons = { wrench: Wrench, spray: SprayCan, key: KeyRound };
 const steps = ["Besoin", "Véhicule", "Date", "Coordonnées"] as const;
@@ -495,12 +496,7 @@ export function AppointmentPlanner({
           </dl>
           {contact ? (
             <div className="summary-contact">
-              <div className="sales-avatar" aria-hidden="true">
-                {contact.name
-                  .split(" ")
-                  .map((p) => p[0])
-                  .join("")}
-              </div>
+              <Portrait contact={contact} className="sales-avatar" />
               <div>
                 <span className="sales-role">Votre interlocuteur</span>
                 <strong>{contact.name}</strong>

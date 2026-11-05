@@ -26,7 +26,7 @@ import { garage, mechanicalServices, services, team, type Contact } from "@/lib/
 import { CountUp } from "./interactive";
 import { HeroLights } from "./hero-lights";
 import { serviceIcons } from "./service-icons";
-import { OpenStatus } from "./people";
+import { OpenStatus, Portrait } from "./people";
 import hero from "@/assets/suzuki-lake.webp";
 import hero640 from "@/assets/suzuki-lake-640.webp";
 import hero960 from "@/assets/suzuki-lake-960.webp";
@@ -136,10 +136,6 @@ function HeroConcierge({ stockTotal }: { stockTotal: number | null }) {
   const [active, setActive] = useState(0);
   const tabs = useRef<(HTMLButtonElement | null)[]>([]);
   const intent = intents[active] ?? intents[0]!;
-  const initials = intent.contact.name
-    .split(" ")
-    .map((p) => p[0])
-    .join("");
 
   function onKey(e: KeyboardEvent<HTMLDivElement>) {
     if (e.key !== "ArrowRight" && e.key !== "ArrowLeft") return;
@@ -192,9 +188,7 @@ function HeroConcierge({ stockTotal }: { stockTotal: number | null }) {
           <IntentActions id={intent.id} stockTotal={stockTotal} />
         </div>
         <a className="concierge-person" href={intent.phoneHref}>
-          <span className="sales-avatar" aria-hidden="true">
-            {initials}
-          </span>
+          <Portrait contact={intent.contact} className="sales-avatar" />
           <span>
             <strong>{intent.contact.name}</strong>
             <span>{intent.contact.role}</span>

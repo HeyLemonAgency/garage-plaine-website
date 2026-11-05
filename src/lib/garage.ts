@@ -64,6 +64,8 @@ export type Contact = {
   email: string;
   mobile?: string;
   mobileHref?: string;
+  /** A real portrait (imported from src/assets); without one, a "photo à venir" frame shows. */
+  photo?: string;
 };
 
 export const team = {

@@ -28,6 +28,7 @@ import { bodyworkFacts, bodyworkServices, garage, team, type BodyworkIcon } from
 // Illustration, not the garage's own work: public-domain photo (CC0) from rawpixel,
 // https://www.rawpixel.com/image/6040328
 import polishPhoto from "@/assets/bodywork-polish.webp";
+import { Portrait } from "./people";
 
 const icons: Record<BodyworkIcon, LucideIcon> = {
   claims: ShieldCheck,
@@ -379,13 +380,7 @@ export function BodyworkSection() {
             );
           })}
           <li className="telltale telltale-contact">
-            <span className="telltale-avatar" aria-hidden="true">
-              {contact.name
-                .split(" ")
-                .map((w) => w[0])
-                .join("")
-                .slice(0, 2)}
-            </span>
+            <Portrait contact={contact} className="telltale-avatar" />
             <span className="telltale-role">Votre interlocuteur</span>
             <strong>{contact.name}</strong>
             <a href={`mailto:${contact.email}`}>
