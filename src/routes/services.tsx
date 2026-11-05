@@ -1,5 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { ArrowRight, Fuel, Mail } from "lucide-react";
+import { ArrowRight, Fuel } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
   PageIntro,
@@ -12,7 +12,7 @@ import { ContactSection } from "@/components/garage/contact";
 import { BodyworkSection } from "@/components/garage/bodywork";
 import { WorkshopTour } from "@/components/garage/workshop-tour";
 import { FaqSection } from "@/components/garage/faq";
-import { SalesContact } from "@/components/garage/people";
+import { ContactActions, SalesContact } from "@/components/garage/people";
 import { salesServices, team, faqs } from "@/lib/garage";
 import { pageHead } from "@/lib/seo";
 import wirLogo from "@/assets/wir-partner.webp";
@@ -110,9 +110,7 @@ function Services() {
                   Prendre rendez-vous <ArrowRight />
                 </Link>
               </Button>
-              <a className="section-link" href={`mailto:${team.atelier.email}`}>
-                <Mail /> Écrire à {team.atelier.name}
-              </a>
+              <ContactActions contact={team.atelier} />
             </div>
           </div>
         </div>

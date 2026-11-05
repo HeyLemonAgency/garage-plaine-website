@@ -16,8 +16,6 @@ import {
   Gift,
   Hammer,
   Lightbulb,
-  Mail,
-  Phone,
   RotateCcw,
   ShieldCheck,
   Sparkles,
@@ -30,7 +28,7 @@ import { bodyworkFacts, bodyworkServices, garage, team, type BodyworkIcon } from
 // Illustration, not the garage's own work: public-domain photo (CC0) from rawpixel,
 // https://www.rawpixel.com/image/6040328
 import polishPhoto from "@/assets/bodywork-polish.webp";
-import { Portrait } from "./people";
+import { ContactActions, Portrait } from "./people";
 
 const icons: Record<BodyworkIcon, LucideIcon> = {
   claims: ShieldCheck,
@@ -385,9 +383,7 @@ export function BodyworkSection() {
             <Portrait contact={contact} className="telltale-avatar" />
             <span className="telltale-role">Votre interlocuteur</span>
             <strong>{contact.name}</strong>
-            <a href={`mailto:${contact.email}`}>
-              <Mail /> Écrire à {contact.name.split(" ")[0]}
-            </a>
+            <ContactActions contact={contact} className="contact-actions-dark" />
           </li>
         </ul>
 
@@ -416,9 +412,6 @@ export function BodyworkSection() {
                 Demander un devis <ArrowRight />
               </Link>
             </Button>
-            <a className="section-link" href={garage.phoneHref}>
-              <Phone /> {garage.phone}
-            </a>
           </div>
         </div>
       </div>

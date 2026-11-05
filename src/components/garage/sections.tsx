@@ -26,7 +26,7 @@ import { garage, mechanicalServices, services, team, type Contact } from "@/lib/
 import { CountUp } from "./interactive";
 import { HeroLights } from "./hero-lights";
 import { serviceIcons } from "./service-icons";
-import { OpenStatus, Portrait } from "./people";
+import { OpenStatus, Portrait, WhatsAppIcon, whatsappHref } from "./people";
 import hero from "@/assets/suzuki-lake.webp";
 import hero640 from "@/assets/suzuki-lake-640.webp";
 import hero960 from "@/assets/suzuki-lake-960.webp";
@@ -187,17 +187,28 @@ function HeroConcierge({ stockTotal }: { stockTotal: number | null }) {
         <div className="concierge-actions">
           <IntentActions id={intent.id} stockTotal={stockTotal} />
         </div>
-        <a className="concierge-person" href={intent.phoneHref}>
+        <div className="concierge-person">
           <Portrait contact={intent.contact} className="sales-avatar" />
           <span>
             <strong>{intent.contact.name}</strong>
             <span>{intent.contact.role}</span>
           </span>
-          <span className="concierge-phone">
-            <Phone />
-            {intent.phone}
+          <span className="concierge-reach">
+            <a className="concierge-phone" href={intent.phoneHref}>
+              <Phone />
+              {intent.phone}
+            </a>
+            <a
+              className="concierge-wa"
+              href={whatsappHref(intent.contact)}
+              target="_blank"
+              rel="noreferrer"
+              aria-label={`WhatsApp, ${intent.contact.name} (nouvel onglet)`}
+            >
+              <WhatsAppIcon />
+            </a>
           </span>
-        </a>
+        </div>
       </div>
     </div>
   );

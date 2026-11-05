@@ -15,7 +15,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { garage, googleProfile, team } from "@/lib/garage";
 import { GoogleMark } from "./reviews";
-import { OpenStatus } from "./people";
+import { OpenStatus, WhatsAppIcon, whatsappHref } from "./people";
 import { useSpotlight } from "@/hooks/use-interactions";
 import logo from "@/assets/garage-logo-720.png";
 
@@ -126,6 +126,10 @@ export function SiteHeader() {
                 <Phone />
                 Vente · {team.vente.name} · {team.vente.mobile}
               </a>
+              <a href={whatsappHref(team.vente)} target="_blank" rel="noreferrer">
+                <WhatsAppIcon />
+                WhatsApp · {team.vente.mobile}
+              </a>
             </div>
           </nav>
         )}
@@ -196,6 +200,10 @@ export function SiteFooter() {
               <h3>Service vente</h3>
               <p>{team.vente.name}</p>
               <a href={team.vente.mobileHref}>{team.vente.mobile}</a>
+              <br />
+              <a href={whatsappHref(team.vente)} target="_blank" rel="noreferrer">
+                <WhatsAppIcon className="inline size-3" /> WhatsApp
+              </a>
               <br />
               <a href={`mailto:${team.vente.email}`}>
                 <Mail className="inline size-3" /> {team.vente.email}
@@ -285,6 +293,18 @@ function QuickContact() {
             <span>
               <strong>Vente · {team.vente.name}</strong>
               <span>{team.vente.mobile}</span>
+            </span>
+          </a>
+          <a
+            href={whatsappHref(team.vente)}
+            target="_blank"
+            rel="noreferrer"
+            className="quick-row quick-row-wa"
+          >
+            <WhatsAppIcon />
+            <span>
+              <strong>WhatsApp</strong>
+              <span>Écrivez-nous, réponse rapide</span>
             </span>
           </a>
           <Link to="/rendez-vous" className="quick-row quick-row-primary">

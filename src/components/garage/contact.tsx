@@ -3,7 +3,7 @@ import { Link } from "@tanstack/react-router";
 import { ArrowRight, Phone, MapPin, Clock, ArrowUpRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { departments, garage, team, type DepartmentId } from "@/lib/garage";
-import { OpenStatus } from "./people";
+import { OpenStatus, WhatsAppIcon, whatsappHref } from "./people";
 import { verifierMessage } from "@/lib/lemon";
 import {
   Honeypot,
@@ -212,6 +212,13 @@ export function ContactSection({ defaultTopic }: { defaultTopic?: DepartmentId }
               <Phone />
               <div>
                 <span>Vente · {sales.name}</span>
+                <strong>{sales.mobile}</strong>
+              </div>
+            </a>
+            <a className="contact-line" href={whatsappHref(sales)} target="_blank" rel="noreferrer">
+              <WhatsAppIcon />
+              <div>
+                <span>WhatsApp</span>
                 <strong>{sales.mobile}</strong>
               </div>
             </a>

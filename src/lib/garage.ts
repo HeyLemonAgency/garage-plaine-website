@@ -22,6 +22,8 @@ export const garage = {
   instagram: "https://www.instagram.com/carrosserie_de_la_plaine/",
   phone: "021 801 68 42",
   phoneHref: "tel:+41218016842",
+  /** The garage's WhatsApp: Tiago Bessa's mobile, until the workshop and body shop give theirs. */
+  whatsapp: "https://wa.me/41791089299",
   email: "vente@garageplaine.ch",
   inventory:
     "https://www.autolina.ch/fr/iframe/30366?border=000000&buttons=f11c27&buttonsText=ffffff&footer=block&garantieFilter=none&icon=f11c27&links=000000&text=000000",
