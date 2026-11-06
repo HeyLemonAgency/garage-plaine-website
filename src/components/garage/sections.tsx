@@ -36,6 +36,8 @@ import garagePhoto from "@/assets/garage.webp";
 import garageStory from "@/assets/garage-story.webp";
 import sales from "@/assets/sales-hd.webp";
 import suzukiRoad from "@/assets/suzuki-road.webp";
+import suzukiAlps from "@/assets/suzuki-alps.webp";
+import jubinPump from "@/assets/jubin-pump.webp";
 import workshop from "@/assets/workshop.webp";
 import bodywork from "@/assets/bodywork.webp";
 import fuel from "@/assets/fuel.webp";
@@ -68,6 +70,8 @@ export const illustrations = {
   workshop: workshopIllustration,
   suzukiLake,
   suzukiRoad,
+  suzukiAlps,
+  jubinPump,
   suzukiFront,
   suzukiRear,
 };
@@ -676,6 +680,7 @@ export function PageIntro({
       <div className="container page-hero-inner">
         {crumbs}
         <h1>{title}</h1>
+        <div className="red-rule" aria-hidden="true" />
         <p>{description}</p>
         {actions && <div className="page-hero-actions">{actions}</div>}
         {children}

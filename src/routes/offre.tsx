@@ -118,9 +118,9 @@ function Offre() {
         title={`Votre offre pour une Suzuki ${model.name}.`}
         description="Dites-nous ce qui compte pour vous : Tiago Bessa vous prépare une offre détaillée, avec le financement et la reprise si vous le souhaitez."
         image={{
-          src: illustrations.suzukiLake,
-          alt: "Une Suzuki Vitara au bord du Léman",
-          position: "72% 62%",
+          src: illustrations.suzukiAlps,
+          alt: "Une Suzuki Vitara sur une route de montagne, face aux Alpes au coucher du soleil",
+          position: "78% 55%",
         }}
         compact
       />
