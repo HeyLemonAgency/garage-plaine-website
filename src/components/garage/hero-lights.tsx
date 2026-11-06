@@ -1,4 +1,4 @@
-import { useEffect, useState, type RefObject } from "react";
+import { useEffect, useRef, useState, type RefObject } from "react";
 import { Lightbulb } from "lucide-react";
 
 // Headlight positions in the hero photo (hero-vitara.webp, 1820 × 864 px).
@@ -8,6 +8,9 @@ const NAT_H = 864;
 // the pointer finds it without aiming at a lamp. x, y = the CENTRE of the zone (the button is
 // centred on it by CSS, translate -50%), in pixels of the photo.
 const HOTSPOTS = [{ id: "front", x: 1225, y: 525, w: 430, h: 140 }] as const;
+// With a mouse, the lights come on as soon as the pointer comes NEAR the front of the car:
+// the whole car and a margin around it (photo pixels), no aiming, no click.
+const NEAR = { x0: 900, x1: 1640, y0: 330, y1: 720 } as const;
 const HINT_KEY = "garage-plaine-lights";
 
 type Rect = { x: number; y: number; w: number; h: number };
@@ -30,7 +33,7 @@ function coverRect(img: HTMLImageElement): Rect {
 }
 
 /**
- * Interactive headlights on the hero photo: hover them to switch them on (with an LED
+ * Interactive headlights on the hero photo: bring the mouse near the car to switch them on (LED
  * start-up flicker, glow, flare and light on the road), click or tap to keep them on.
  */
 export function HeroLights({ imgRef }: { imgRef: RefObject<HTMLImageElement | null> }) {
@@ -65,6 +68,37 @@ export function HeroLights({ imgRef }: { imgRef: RefObject<HTMLImageElement | nu
     const timer = window.setTimeout(() => setHint(true), 1400);
     return () => window.clearTimeout(timer);
   }, []);
+
+  // the pointer near the front of the car, anywhere over the hero (the text and card included)
+  const rectRef = useRef<Rect | null>(null);
+  rectRef.current = rect;
+  const seenRef = useRef(false);
+  useEffect(() => {
+    const img = imgRef.current;
+    const hero = img?.closest("section");
+    if (!img || !hero) return;
+    const onMove = (e: PointerEvent) => {
+      if (e.pointerType !== "mouse") return;
+      const r = rectRef.current;
+      if (!r) return;
+      const box = img.getBoundingClientRect();
+      const ix = ((e.clientX - box.left - r.x) / r.w) * NAT_W;
+      const iy = ((e.clientY - box.top - r.y) / r.h) * NAT_H;
+      const near = ix >= NEAR.x0 && ix <= NEAR.x1 && iy >= NEAR.y0 && iy <= NEAR.y1;
+      setHover(near);
+      if (near && !seenRef.current) {
+        seenRef.current = true;
+        discovered();
+      }
+    };
+    const onLeave = () => setHover(false);
+    hero.addEventListener("pointermove", onMove);
+    hero.addEventListener("pointerleave", onLeave);
+    return () => {
+      hero.removeEventListener("pointermove", onMove);
+      hero.removeEventListener("pointerleave", onLeave);
+    };
+  }, [imgRef]);
 
   function discovered() {
     setHint(false);
@@ -207,14 +241,6 @@ export function HeroLights({ imgRef }: { imgRef: RefObject<HTMLImageElement | nu
               }}
               aria-pressed={latched}
               aria-label={latched ? "Éteindre les phares" : "Allumer les phares"}
-              onPointerEnter={(e) => {
-                if (e.pointerType === "touch") return;
-                setHover(true);
-                discovered();
-              }}
-              onPointerLeave={(e) => {
-                if (e.pointerType !== "touch") setHover(false);
-              }}
               onClick={() => {
                 setLatched((v) => !v);
                 discovered();
@@ -234,7 +260,7 @@ export function HeroLights({ imgRef }: { imgRef: RefObject<HTMLImageElement | nu
               aria-hidden="true"
             >
               <Lightbulb />
-              <span className="hl-hint-fine">Survolez les phares</span>
+              <span className="hl-hint-fine">Approchez la voiture</span>
               <span className="hl-hint-touch">Touchez les phares</span>
             </span>
           )}
