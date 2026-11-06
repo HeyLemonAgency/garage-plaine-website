@@ -43,7 +43,8 @@ import workshopTour from "@/assets/workshop-tour.webp";
 import garageHd from "@/assets/garage-hd.webp";
 import fuelHd from "@/assets/fuel-hd.webp";
 import bodyworkHd from "@/assets/bodywork-hd.webp";
-import keyHandover from "@/assets/stock-key-handover.webp";
+import suzukiFront from "@/assets/suzuki-front-lake.webp";
+import suzukiRear from "@/assets/suzuki-rear-lake.webp";
 import workshopIllustration from "@/assets/workshop-illustration.webp";
 
 /** The garage's own photos. */
@@ -64,11 +65,16 @@ export const photos = {
 };
 
 /**
- * Mood images that do not show the garage (a stock photo under the Pexels licence, a generated
- * image), only where it has no photo of its own and never to present a car for sale.
+ * Mood images that do not show the garage (generated images), only where it has no photo of
+ * its own and never to present a car for sale.
  * Sources in src/assets/CREDITS.md.
  */
-export const illustrations = { keyHandover, workshop: workshopIllustration, suzukiRoad };
+export const illustrations = {
+  workshop: workshopIllustration,
+  suzukiRoad,
+  suzukiFront,
+  suzukiRear,
+};
 
 type Intent = {
   id: "acheter" | "atelier" | "carrosserie";

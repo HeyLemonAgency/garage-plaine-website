@@ -126,9 +126,9 @@ function Reprise() {
         title="Nous achetons votre voiture."
         description="Vous la vendez, ou vous la reprenez contre une autre ? Décrivez-la ici : le service vente vous recontacte."
         image={{
-          src: illustrations.keyHandover,
-          alt: "Une poignée de main et une remise de clés devant une voiture",
-          position: "62% 40%",
+          src: illustrations.suzukiRear,
+          alt: "Le feu arrière d’une Suzuki, au bord d’un lac au soleil couchant",
+          position: "60% 50%",
         }}
         compact
       />

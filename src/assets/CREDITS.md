@@ -12,8 +12,8 @@ garage, 06.11.2026) ; jamais pour présenter une voiture à vendre :
 |---|---|---|
 | `suzuki-lake*.webp` | image générée pour le site (Suzuki au bord du Léman) | — |
 | `suzuki-road.webp` | image générée par IA, fournie par Lemon (SUV Suzuki sur une route de montagne au-dessus d’un lac) | — |
+| `suzuki-front-lake.webp`, `suzuki-rear-lake.webp` | images générées par IA, fournies par Lemon (Suzuki au bord d’un lac, avant et arrière) | — |
 | `workshop-illustration.webp` | image générée par IA, fournie par Lemon (clé à cliquet sur un moteur) | — |
-| `stock-key-handover.webp` | Pexels, photo 7144207 : https://www.pexels.com/photo/a-person-giving-a-car-key-to-another-person-while-shaking-his-hands-7144207/ | Licence Pexels : usage commercial gratuit, attribution non requise |
 | `bodywork-polish.webp` | rawpixel (voir le commentaire dans `bodywork.tsx`) | CC0 |
 | `s-cross-poster-*.webp` | rendu du modèle 3D S-Cross (crédit affiché sous la visionneuse) | CC BY 4.0 |
 
