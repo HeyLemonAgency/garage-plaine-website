@@ -115,7 +115,11 @@ export function topicContact(topic: TopicId): Contact {
   return appointmentTopics.find((t) => t.id === topic)?.contact ?? team.vente;
 }
 
-/** Plain-text summary of the request, as the garage reads it. */
+/**
+ * Plain-text summary of the request, as the garage reads it. The name, phone and e-mail travel in
+ * their own fields: the platform's notice already shows them at the top, so they are not repeated.
+ * « Libellé : valeur » lines, one per line: the platform's e-mail turns them into a small table.
+ */
 export function appointmentSummary(req: AppointmentRequest): string {
   const topic = appointmentTopics.find((t) => t.id === req.topic);
   const when = req.day
@@ -123,9 +127,7 @@ export function appointmentSummary(req: AppointmentRequest): string {
     : "à convenir";
   const lines = [`Besoin : ${topic?.label ?? ""} — ${req.need}`];
   if (req.vehicle) lines.push(`Véhicule : ${req.vehicle}`);
-  lines.push(`Date souhaitée : ${when} (à confirmer par le garage)`, "", `Nom : ${req.name}`);
-  lines.push(`Téléphone : ${req.phone}`);
-  if (req.email) lines.push(`E-mail : ${req.email}`);
+  lines.push(`Date souhaitée : ${when} (à confirmer par le garage)`);
   lines.push(`Préférence de contact : ${req.contactBy}`);
   if (req.message) lines.push("", "Message :", req.message);
   return lines.join("\n");

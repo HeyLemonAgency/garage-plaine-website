@@ -43,7 +43,9 @@ describe("appointment message", () => {
     expect(message.split("\n")[0]).toBe(
       "Demande de rendez-vous — Atelier mécanique, jeu. 15 oct. (pour Jérôme Baatard)",
     );
-    expect(message).toContain("Téléphone : 079 000 00 00");
+    // name, phone and e-mail travel in their own fields: the platform shows them, never twice
+    expect(message).not.toContain("Téléphone :");
+    expect(message).toContain("Préférence de contact : téléphone");
   });
 
   it("summarises the request without empty lines for skipped fields", () => {
