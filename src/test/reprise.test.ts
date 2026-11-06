@@ -48,7 +48,7 @@ describe("reprise", () => {
   it("writes one line per filled field, in listing order, skipping empty ones", () => {
     expect(repriseMessage(car)).toBe(
       [
-        "Proposition de véhicule · Reprise contre un autre véhicule",
+        "Proposition de véhicule · Reprise contre un autre véhicule (pour Tiago Bessa)",
         "",
         "Marque : Suzuki",
         "Modèle : Vitara",

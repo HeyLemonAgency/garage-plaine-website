@@ -10107,3 +10107,47 @@ input[type="checkbox"] {
     gap: 18px;
   }
 }
+/* Functional audit 06.11.2026 */
+/* Checkboxes of the forms show the keyboard focus like every other control. */
+.contact-form input[type="checkbox"]:focus-visible,
+.planner input[type="checkbox"]:focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: 2px;
+}
+/* The team's role labels read at AA on the tinted band (a deeper red). */
+.staff-role {
+  color: color-mix(in oklch, var(--accent) 82%, black);
+}
+/* The confirmations land below the sticky header. */
+.form-sent,
+.planner-done {
+  scroll-margin-top: 110px;
+}
+.form-sent:focus,
+.planner-done:focus {
+  outline: none;
+}
+/* Why the planner's button stays grey. */
+.planner-hint {
+  margin-top: 10px;
+  font-size: var(--fs-11);
+  color: var(--muted-foreground);
+  text-align: right;
+}
+/* The story tips open by state only (hover, focus, tap): a second tap closes them. */
+.story-spot:focus-within:not([data-open]) .story-tip {
+  opacity: 0;
+  pointer-events: none;
+}
+/* Keyboard focus never hides under the phone's call bar. */
+@media (max-width: 520px) {
+  html {
+    scroll-padding-bottom: 96px;
+  }
+}
+/* Tablets without the desktop menu: the Rendez-vous button stays in the header. */
+@media (min-width: 521px) and (max-width: 800px) {
+  .header-cta {
+    display: inline-flex;
+  }
+}

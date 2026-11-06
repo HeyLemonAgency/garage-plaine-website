@@ -130,7 +130,7 @@ function IntentActions({ id, stockTotal }: { id: Intent["id"]; stockTotal: numbe
           </Link>
         </Button>
         <Button variant="appointment" asChild>
-          <Link to="/rendez-vous" search={{ besoin: "vente" }}>
+          <Link to="/rendez-vous" search={{ besoin: "vente", precision: "Essai sur route" }}>
             Demander un essai
           </Link>
         </Button>
@@ -235,7 +235,11 @@ function HeroConcierge({ stockTotal }: { stockTotal: number | null }) {
               href={whatsappHref(intent.contact)}
               target="_blank"
               rel="noreferrer"
-              aria-label={`WhatsApp, ${intent.contact.name} (nouvel onglet)`}
+              aria-label={
+                intent.contact.whatsapp
+                  ? `WhatsApp, ${intent.contact.name} (nouvel onglet)`
+                  : `WhatsApp du garage, pour ${intent.contact.forWhom ?? intent.contact.role.toLowerCase()} (nouvel onglet)`
+              }
             >
               <WhatsAppIcon />
             </a>
@@ -533,6 +537,7 @@ const storySpots: Spot[] = [
 
 function StorySpot({ spot }: { spot: Spot }) {
   const [open, setOpen] = useState(false);
+  const hovered = useRef(false);
   return (
     <div
       className="story-spot"
@@ -540,8 +545,18 @@ function StorySpot({ spot }: { spot: Spot }) {
       data-align={spot.align}
       data-dir={spot.dir}
       style={{ left: `${spot.x}%`, top: `${spot.y}%` }}
-      onPointerEnter={(e) => e.pointerType !== "touch" && setOpen(true)}
-      onPointerLeave={(e) => e.pointerType !== "touch" && setOpen(false)}
+      onPointerEnter={(e) => {
+        if (e.pointerType === "touch") return;
+        hovered.current = true;
+        setOpen(true);
+      }}
+      onPointerLeave={(e) => {
+        if (e.pointerType === "touch") return;
+        hovered.current = false;
+        setOpen(false);
+      }}
+      onFocus={() => setOpen(true)}
+      onBlur={(e) => !e.currentTarget.contains(e.relatedTarget as Node | null) && setOpen(false)}
       onKeyDown={(e) => e.key === "Escape" && setOpen(false)}
     >
       <button
@@ -550,7 +565,7 @@ function StorySpot({ spot }: { spot: Spot }) {
         aria-expanded={open}
         aria-controls={`spot-${spot.id}`}
         aria-label={spot.title}
-        onClick={() => setOpen((v) => !v)}
+        onClick={() => setOpen((v) => (hovered.current ? true : !v))}
       />
       <div className="story-tip" id={`spot-${spot.id}`} role="tooltip">
         <strong>{spot.title}</strong>

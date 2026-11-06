@@ -86,6 +86,8 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { name: "viewport", content: "width=device-width, initial-scale=1, viewport-fit=cover" },
       { name: "theme-color", content: "#0b2233" },
       { name: "format-detection", content: "telephone=yes" },
+      // every page sets its own; this one shows on the 404 page
+      { title: "Page introuvable | Garage Carrosserie de la Plaine" },
     ],
     // The business, its departments and people, for search engines and AI assistants.
     scripts: [{ type: "application/ld+json", children: siteJsonLd() }],

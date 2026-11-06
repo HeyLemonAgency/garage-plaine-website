@@ -53,11 +53,17 @@ function NavGroup({ item, pathname }: { item: MenuItem; pathname: string }) {
   const [open, setOpen] = useState(false);
   const root = useRef<HTMLDivElement>(null);
   const closeTimer = useRef(0);
+  const hovered = useRef(false);
+  const toggle = useRef<HTMLButtonElement>(null);
   const active = item.children?.some((c) => c.to === pathname) ?? false;
   useEffect(() => setOpen(false), [pathname]);
   useEffect(() => {
     if (!open) return;
-    const onKey = (e: KeyboardEvent) => e.key === "Escape" && setOpen(false);
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key !== "Escape") return;
+      setOpen(false);
+      toggle.current?.focus();
+    };
     const onDown = (e: MouseEvent) => !root.current?.contains(e.target as Node) && setOpen(false);
     window.addEventListener("keydown", onKey);
     document.addEventListener("mousedown", onDown);
@@ -74,20 +80,27 @@ function NavGroup({ item, pathname }: { item: MenuItem; pathname: string }) {
       onPointerEnter={(e) => {
         if (e.pointerType !== "mouse") return;
         window.clearTimeout(closeTimer.current);
+        hovered.current = true;
         setOpen(true);
       }}
       onPointerLeave={(e) => {
         if (e.pointerType !== "mouse") return;
+        hovered.current = false;
         closeTimer.current = window.setTimeout(() => setOpen(false), 160);
+      }}
+      onBlur={(e) => {
+        if (!root.current?.contains(e.relatedTarget as Node | null)) setOpen(false);
       }}
     >
       <button
+        ref={toggle}
         type="button"
         className="nav-link nav-group-toggle"
         data-status={active ? "active" : undefined}
         aria-expanded={open}
         aria-haspopup="true"
-        onClick={() => setOpen(!open)}
+        // opened by the pointer already: the click that follows keeps it open
+        onClick={() => setOpen(hovered.current ? true : !open)}
       >
         {item.label}
         <ChevronDown aria-hidden="true" />
@@ -383,7 +396,11 @@ export function SiteFooter() {
               <ArrowUpRight aria-hidden="true" />
             </a>
           ) : salesPage ? (
-            <Link to="/rendez-vous" search={{ besoin: "vente" }} aria-label="Demander un essai">
+            <Link
+              to="/rendez-vous"
+              search={{ besoin: "vente", precision: "Essai sur route" }}
+              aria-label="Demander un essai"
+            >
               <span className="mc-long" aria-hidden="true">
                 Demander un essai
               </span>
@@ -435,7 +452,11 @@ function QuickContact() {
   }, [pathname]);
   useEffect(() => {
     if (!open) return;
-    const onKey = (e: KeyboardEvent) => e.key === "Escape" && setOpen(false);
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key !== "Escape") return;
+      setOpen(false);
+      root.current?.querySelector<HTMLElement>(".quick-toggle")?.focus();
+    };
     const onClick = (e: MouseEvent) => {
       if (!root.current?.contains(e.target as Node)) setOpen(false);
     };

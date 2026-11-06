@@ -67,11 +67,13 @@ function Offre() {
       phone: text("phone"),
       ...(d.get("consent") === "on" ? { consent: true as const } : {}),
     };
+    // the fields in their order on screen: name, e-mail, phone, consent
     const problem =
+      verifierMessage({ ...contact, consent: true, message: "offre" }) ??
       (contact.phone.trim().length < 6 ? "Indiquez un numéro de téléphone." : null) ??
       verifierMessage({ ...contact, message: "offre" });
     if (problem) {
-      setState({ step: "error", message: problem });
+      setState({ step: "error", message: problem, invalid: true });
       return;
     }
     const trade = tradeIn
@@ -274,11 +276,20 @@ function Offre() {
               <label className="privacy">
                 <input type="checkbox" name="consent" required />
                 <span>
-                  J’accepte que mes coordonnées soient utilisées pour répondre à ma demande.
+                  J’accepte que mes coordonnées soient utilisées pour répondre à ma demande.{" "}
+                  <Link to="/confidentialite" className="underline">
+                    Confidentialité
+                  </Link>
                 </span>
               </label>
               <div aria-live="polite">
-                {state.step === "error" && <SendError message={state.message} contact={seller} />}
+                {state.step === "error" && (
+                  <SendError
+                    message={state.message}
+                    contact={seller}
+                    invalid={state.invalid ?? false}
+                  />
+                )}
               </div>
               <div className="form-footer">
                 <p>Sans engagement : c’est une demande d’offre, pas une commande.</p>

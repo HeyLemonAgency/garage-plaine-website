@@ -11,7 +11,9 @@ import {
   Wrench,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { Link } from "@tanstack/react-router";
 import { garage } from "@/lib/garage";
+import { groupDigits } from "@/lib/reprise";
 import {
   appointmentMessage,
   appointmentTopics,
@@ -113,7 +115,7 @@ export function AppointmentPlanner({
   const vehicle = isSale
     ? interest.trim()
     : [make, model].filter(Boolean).join(" ") +
-      [year && `, ${year}`, mileage && `, ${mileage} km`].filter(Boolean).join("");
+      [year && `, ${year}`, mileage && `, ${groupDigits(mileage)} km`].filter(Boolean).join("");
   const slots = day?.saturday ? saturdaySlots : weekdaySlots;
 
   const request: AppointmentRequest | null =
@@ -142,8 +144,35 @@ export function AppointmentPlanner({
       consent,
   ];
 
+  // once the platform has confirmed: the confirmation comes into view, below the sticky header
+  const doneRef = useRef<HTMLDivElement>(null);
+  const sentNow = send.step === "sent";
+  useEffect(() => {
+    const el = doneRef.current;
+    if (!sentNow || !el) return;
+    if (el.getBoundingClientRect().top < 90)
+      el.scrollIntoView({ block: "start", behavior: "smooth" });
+    el.focus({ preventScroll: true });
+  }, [sentNow]);
+
+  /** Why « Continuer » or « Envoyer » stays grey, in the visitor's words. */
+  const missing = [
+    !topic ? "choisissez un service" : !need ? "précisez votre demande" : "",
+    !isSale && !make.trim() ? "indiquez la marque du véhicule" : "",
+    !day ? "choisissez un jour" : !slot ? "choisissez un moment" : "",
+    [
+      name.trim().length > 1 ? "" : "votre nom",
+      phone.trim().length > 5 ? "" : "un téléphone",
+      /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim()) ? "" : "un e-mail valable",
+      consent ? "" : "la case d’accord",
+    ]
+      .filter(Boolean)
+      .join(", "),
+  ][step];
+
   function go(to: number) {
     setStep(to);
+    if (send.step === "error") setSend({ step: "typing" });
     requestAnimationFrame(() => {
       const el = panel.current;
       if (el && el.getBoundingClientRect().top < 80) el.scrollIntoView({ block: "start" });
@@ -191,7 +220,7 @@ export function AppointmentPlanner({
       <div className="planner-layout">
         <div className="planner-panel" key={sent ? "sent" : step}>
           {sent ? (
-            <div className="planner-done">
+            <div className="planner-done" ref={doneRef} tabIndex={-1}>
               <div className="planner-done-icon">
                 <Check />
               </div>
@@ -459,7 +488,10 @@ export function AppointmentPlanner({
                   onChange={(e) => setConsent(e.target.checked)}
                 />
                 <span>
-                  J’accepte que mes coordonnées soient utilisées pour répondre à ma demande.
+                  J’accepte que mes coordonnées soient utilisées pour répondre à ma demande.{" "}
+                  <Link to="/confidentialite" className="underline">
+                    Confidentialité
+                  </Link>
                 </span>
               </label>
             </fieldset>
@@ -500,6 +532,11 @@ export function AppointmentPlanner({
                 </Button>
               )}
             </div>
+          )}
+          {!sent && !canContinue[step] && missing && (
+            <p className="planner-hint" aria-live="polite">
+              {step < 3 ? "Pour continuer" : "Pour envoyer"}&nbsp;: {missing}.
+            </p>
           )}
         </div>
 

@@ -1,3 +1,4 @@
+import { team } from "@/lib/garage";
 // "Nous achetons votre véhicule": the fields a seller fills in, in the order of an AutoScout24
 // listing, and the plain-text message the garage receives in its console (one "label : value"
 // line per field, ready to copy into a listing).
@@ -90,7 +91,7 @@ export function repriseMessage(f: RepriseFields): string {
   const power = groupDigits(f.power);
   const price = groupDigits(f.price);
   const lines = [
-    `Proposition de véhicule${f.intent ? ` · ${f.intent}` : ""}`,
+    `Proposition de véhicule${f.intent ? ` · ${f.intent}` : ""} (pour ${team.vente.name})`,
     "",
     line("Marque", f.make),
     line("Modèle", f.model),

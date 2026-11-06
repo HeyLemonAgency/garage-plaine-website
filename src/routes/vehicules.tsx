@@ -81,7 +81,7 @@ function Vehicules() {
         actions={
           <>
             <Button asChild variant="premium">
-              <Link to="/rendez-vous" search={{ besoin: "vente" }}>
+              <Link to="/rendez-vous" search={{ besoin: "vente", precision: "Essai sur route" }}>
                 Demander un essai <ArrowRight />
               </Link>
             </Button>

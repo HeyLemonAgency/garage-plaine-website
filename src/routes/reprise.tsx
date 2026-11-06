@@ -1,4 +1,4 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { useState, type FormEvent } from "react";
 import { ArrowRight, Camera, Mail, MessageCircle } from "lucide-react";
 import { PageIntro, illustrations } from "@/components/garage/sections";
@@ -92,7 +92,7 @@ function Reprise() {
       (contact.phone.trim().length < 6 ? "Indiquez un numéro de téléphone." : null) ??
       verifierMessage({ ...contact, message: "véhicule" });
     if (problem) {
-      setState({ step: "error", message: problem });
+      setState({ step: "error", message: problem, invalid: true });
       return;
     }
     setState({ step: "sending" });
@@ -315,11 +315,20 @@ function Reprise() {
               <label className="privacy">
                 <input type="checkbox" name="consent" required />
                 <span>
-                  J’accepte que mes coordonnées soient utilisées pour répondre à ma demande.
+                  J’accepte que mes coordonnées soient utilisées pour répondre à ma demande.{" "}
+                  <Link to="/confidentialite" className="underline">
+                    Confidentialité
+                  </Link>
                 </span>
               </label>
               <div aria-live="polite">
-                {state.step === "error" && <SendError message={state.message} contact={seller} />}
+                {state.step === "error" && (
+                  <SendError
+                    message={state.message}
+                    contact={seller}
+                    invalid={state.invalid ?? false}
+                  />
+                )}
               </div>
               <div className="form-footer">
                 <p>Vous pourrez envoyer les photos juste après, par WhatsApp ou par e-mail.</p>

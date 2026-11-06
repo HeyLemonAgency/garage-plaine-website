@@ -82,7 +82,12 @@ function ReviewCard({ review, index }: { review: (typeof googleReviews)[number];
         {review.text}
       </p>
       {(clipped || open) && (
-        <button type="button" className="review-more" onClick={() => setOpen(!open)}>
+        <button
+          type="button"
+          className="review-more"
+          aria-expanded={open}
+          onClick={() => setOpen(!open)}
+        >
           {open ? "Réduire" : "Lire tout l’avis"}
         </button>
       )}
@@ -103,18 +108,17 @@ export function GoogleReviews({ rating = fallbackRating }: { rating?: GoogleRati
           <h2 id="reviews-title">
             Ce que nos clients <em>disent de nous.</em>
           </h2>
-          <a
-            className="reviews-score"
-            href={googleProfile.url}
-            target="_blank"
-            rel="noreferrer"
-            aria-label={`${decimal(rating.rating)} sur 5, ${rating.count} avis sur Google (nouvel onglet)`}
-          >
+          <a className="reviews-score" href={googleProfile.url} target="_blank" rel="noreferrer">
             <strong>{decimal(rating.rating)}</strong>
+            <span className="sr-only"> sur 5,</span>
             <span>
-              <Stars value={rating.rating} />
+              {/* the score is said in words just before: the stars stay decorative here */}
+              <span aria-hidden="true">
+                <Stars value={rating.rating} />
+              </span>
               <span className="reviews-count">
                 note moyenne sur <b>{rating.count} avis Google</b>
+                <span className="sr-only"> (nouvel onglet)</span>
               </span>
             </span>
           </a>

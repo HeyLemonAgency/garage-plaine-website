@@ -81,7 +81,7 @@ function Suzuki() {
           )}
           <div className="sz-hero-actions">
             <Button variant="premium" asChild>
-              <Link to="/rendez-vous" search={{ besoin: "vente" }}>
+              <Link to="/rendez-vous" search={{ besoin: "vente", precision: "Essai sur route" }}>
                 Demander un essai <ArrowRight />
               </Link>
             </Button>

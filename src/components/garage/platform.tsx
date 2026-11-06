@@ -1,7 +1,7 @@
 // What every form of the site shares to reach the garage's console on the Lemon platform:
 // the client, the send states, the error texts, the honeypot and the direct-contact fallback.
 // Rule: a form says "sent" only once the platform has answered 201 { ok: true }.
-import { useId, useSyncExternalStore, type ReactNode } from "react";
+import { useEffect, useId, useRef, useSyncExternalStore, type ReactNode } from "react";
 import { creerClientLemon, type MessageContact, type ResultatEnvoi } from "@/lib/lemon";
 import { plateforme } from "@/lib/site";
 import { garage, type Contact } from "@/lib/garage";
@@ -9,7 +9,11 @@ import { garage, type Contact } from "@/lib/garage";
 export const lemon = creerClientLemon(plateforme);
 
 export type SendState =
-  { step: "typing" } | { step: "sending" } | { step: "sent" } | { step: "error"; message: string };
+  | { step: "typing" }
+  | { step: "sending" }
+  | { step: "sent" }
+  /** `invalid`: a field to correct (no « or call us » tail, the visitor just fixes it). */
+  | { step: "error"; message: string; invalid?: boolean };
 
 export function failureText(result: Exclude<ResultatEnvoi, { ok: true }>): string {
   switch (result.raison) {
@@ -77,12 +81,42 @@ export function DirectContact({ contact }: { contact: Contact }) {
   );
 }
 
-export function SendError({ message, contact }: { message: string; contact: Contact }) {
+export function SendError({
+  message,
+  contact,
+  invalid = false,
+}: {
+  message: string;
+  contact: Contact;
+  invalid?: boolean;
+}) {
   return (
     <p role="alert" className="form-status form-error">
-      {message} Vous pouvez aussi <DirectContact contact={contact} />
+      {message}
+      {!invalid && (
+        <>
+          {" "}
+          Vous pouvez aussi <DirectContact contact={contact} />
+        </>
+      )}
     </p>
   );
+}
+
+/** Brings a confirmation into view (below the sticky header) and gives it the focus. */
+export function useRevealOnMount<T extends HTMLElement>() {
+  const ref = useRef<T>(null);
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    if (
+      el.getBoundingClientRect().top < 90 ||
+      el.getBoundingClientRect().bottom > window.innerHeight
+    )
+      el.scrollIntoView({ block: "start", behavior: "smooth" });
+    el.focus({ preventScroll: true });
+  }, []);
+  return ref;
 }
 
 export function NoScriptNote({ contact }: { contact: Contact }) {
@@ -97,8 +131,9 @@ export function NoScriptNote({ contact }: { contact: Contact }) {
 
 /** The confirmation that replaces a form once the platform has confirmed the message. */
 export function SentPanel({ title, children }: { title: string; children?: ReactNode }) {
+  const ref = useRevealOnMount<HTMLDivElement>();
   return (
-    <div className="contact-form form-sent" role="status">
+    <div className="contact-form form-sent" role="status" ref={ref} tabIndex={-1}>
       <span className="form-sent-icon" aria-hidden="true">
         <svg viewBox="0 0 24 24">
           <circle cx="12" cy="12" r="10" />

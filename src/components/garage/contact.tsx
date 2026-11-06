@@ -61,7 +61,7 @@ export function ContactForm({ defaultTopic = "vente" }: { defaultTopic?: Departm
     };
     const problem = verifierMessage(message);
     if (problem) {
-      setState({ step: "error", message: problem });
+      setState({ step: "error", message: problem, invalid: true });
       return;
     }
     setState({ step: "sending" });
@@ -166,7 +166,11 @@ export function ContactForm({ defaultTopic = "vente" }: { defaultTopic?: Departm
       </label>
       <div aria-live="polite">
         {state.step === "error" && (
-          <SendError message={state.message} contact={department.contact} />
+          <SendError
+            message={state.message}
+            contact={department.contact}
+            invalid={state.invalid ?? false}
+          />
         )}
       </div>
       <div className="form-footer">
