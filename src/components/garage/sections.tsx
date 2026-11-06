@@ -26,21 +26,20 @@ import { CountUp } from "./interactive";
 import { HeroLights } from "./hero-lights";
 import { serviceIcons } from "./service-icons";
 import { OpenStatus, Portrait, WhatsAppIcon, whatsappHref } from "./people";
-import hero from "@/assets/suzuki-lake.webp";
-import hero640 from "@/assets/suzuki-lake-640.webp";
-import hero960 from "@/assets/suzuki-lake-960.webp";
-import hero1440 from "@/assets/suzuki-lake-1440.webp";
+import suzukiLake from "@/assets/suzuki-lake.webp";
+import heroVitara from "@/assets/hero-vitara.webp";
+import hero640 from "@/assets/hero-vitara-640.webp";
+import hero960 from "@/assets/hero-vitara-960.webp";
+import hero1440 from "@/assets/hero-vitara-1440.webp";
 import suzuki from "@/assets/suzuki-logo.png";
 import garagePhoto from "@/assets/garage.webp";
-import garageWide from "@/assets/garage-wide.webp";
+import garageStory from "@/assets/garage-story.webp";
 import sales from "@/assets/sales-hd.webp";
-import showroomHd from "@/assets/showroom-hd.webp";
 import suzukiRoad from "@/assets/suzuki-road.webp";
 import workshop from "@/assets/workshop.webp";
 import bodywork from "@/assets/bodywork.webp";
 import fuel from "@/assets/fuel.webp";
 import workshopTour from "@/assets/workshop-tour.webp";
-import garageHd from "@/assets/garage-hd.webp";
 import fuelHd from "@/assets/fuel-hd.webp";
 import bodyworkHd from "@/assets/bodywork-hd.webp";
 import suzukiFront from "@/assets/suzuki-front-lake.webp";
@@ -53,15 +52,11 @@ export const photos = {
   workshopTour,
   bodywork,
   garage: garagePhoto,
-  garageWide,
   sales,
   fuel,
-  suzukiLake: hero,
-  /** Wide, high-definition versions for the page headers (light and sky retouched, nothing added). */
-  garageHd,
+  /** Wide, high-definition versions (light and sky retouched, nothing added). */
   fuelHd,
   bodyworkHd,
-  showroomHd,
 };
 
 /**
@@ -71,6 +66,7 @@ export const photos = {
  */
 export const illustrations = {
   workshop: workshopIllustration,
+  suzukiLake,
   suzukiRoad,
   suzukiFront,
   suzukiRear,
@@ -254,13 +250,13 @@ export function Hero({ stockTotal = null }: { stockTotal?: number | null }) {
         <img
           ref={image}
           className="hero-image"
-          src={hero}
-          // On a phone the photo is cropped to about 470px wide: no need for the 1920px file.
-          srcSet={`${hero640} 640w, ${hero960} 960w, ${hero1440} 1440w, ${hero} 1920w`}
+          src={heroVitara}
+          // On a phone the photo is cropped to about 470px wide: no need for the full-size file.
+          srcSet={`${hero640} 640w, ${hero960} 960w, ${hero1440} 1440w, ${heroVitara} 1820w`}
           sizes="(max-width: 640px) 470px, (max-width: 1000px) 1350px, 100vw"
-          alt="Suzuki Vitara dans un paysage au bord du Léman"
-          width={1920}
-          height={1024}
+          alt="Une Suzuki Vitara sur une route au bord d’un lac, au pied des Alpes enneigées"
+          width={1820}
+          height={864}
           fetchPriority="high"
         />
         <HeroLights imgRef={image} />
@@ -506,12 +502,12 @@ type Spot = {
   cta: string;
 };
 
-// Positions on garage-wide.webp, in % of the photo.
+// Positions on garage-story.webp, in % of the photo.
 const storySpots: Spot[] = [
   {
     id: "showroom",
-    x: 12,
-    y: 56,
+    x: 22,
+    y: 55,
     align: "start",
     title: "Le showroom Suzuki",
     text: "Les véhicules neufs Suzuki, à découvrir et à essayer sur place.",
@@ -520,8 +516,8 @@ const storySpots: Spot[] = [
   },
   {
     id: "occasions",
-    x: 70,
-    y: 74,
+    x: 57,
+    y: 78,
     align: "end",
     dir: "down",
     title: "Nos occasions exposées",
@@ -596,25 +592,17 @@ export function CompanyStory() {
           <div className="story-frame">
             <div className="story-photo">
               <img
-                src={garageWide}
+                src={garageStory}
                 alt="Le showroom Suzuki du Garage Carrosserie de la Plaine à Denges et les véhicules d’occasion exposés devant"
                 loading="lazy"
-                width={1024}
-                height={512}
+                width={1334}
+                height={667}
               />
             </div>
             {storySpots.map((spot) => (
               <StorySpot spot={spot} key={spot.id} />
             ))}
           </div>
-          <img
-            className="story-inset"
-            src={sales}
-            alt="L’intérieur du showroom, avec des Suzuki Swift exposées"
-            loading="lazy"
-            width={1024}
-            height={683}
-          />
           <figcaption className="story-card">
             <span className="story-card-label">Venez nous voir</span>
             <strong>{garage.address}</strong>

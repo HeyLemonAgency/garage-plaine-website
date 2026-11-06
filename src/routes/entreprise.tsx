@@ -1,7 +1,13 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { PageIntro, TrustBar, photos, CheckList } from "@/components/garage/sections";
+import {
+  PageIntro,
+  TrustBar,
+  illustrations,
+  photos,
+  CheckList,
+} from "@/components/garage/sections";
 import { ContactBand } from "@/components/garage/contact";
 import { TeamGrid } from "@/components/garage/people";
 import { TrainingStory } from "@/components/garage/training";
@@ -26,9 +32,9 @@ function Entreprise() {
         title="Plus de 40 ans au service de vos voitures, à Denges."
         description="La vente, la carrosserie et l’atelier réunis, et une même volonté : prendre soin de votre voiture et de votre confiance."
         image={{
-          src: photos.garageHd,
-          alt: "Le Garage Carrosserie de la Plaine à Denges : le showroom Suzuki et les voitures exposées",
-          position: "32% 45%",
+          src: illustrations.suzukiLake,
+          alt: "Une Suzuki Vitara au bord du Léman",
+          position: "72% 62%",
         }}
       />
       <section className="section">

@@ -9912,3 +9912,23 @@ body:has(.mobile-toggle[aria-expanded="true"]) .mobile-call {
     gap: 13px;
   }
 }
+/* Homepage story: one photo (the retouched façade), no inset any more. */
+.story-visual {
+  padding: 0 0 40px;
+}
+.story-accent {
+  bottom: 6px;
+}
+@media (max-width: 1100px) {
+  .story-visual {
+    padding: 0 0 32px;
+  }
+  .story-accent {
+    bottom: 4px;
+  }
+}
+@media (max-width: 800px) {
+  .story-visual {
+    padding: 0;
+  }
+}

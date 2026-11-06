@@ -1,12 +1,12 @@
 import { useEffect, useState, type RefObject } from "react";
 import { Lightbulb } from "lucide-react";
 
-// Headlight positions in the hero photo (suzuki-lake.webp, 1920 × 1024 px).
-const NAT_W = 1920;
-const NAT_H = 1024;
+// Headlight positions in the hero photo (hero-vitara.webp, 1820 × 864 px).
+const NAT_W = 1820;
+const NAT_H = 864;
 const HOTSPOTS = [
-  { id: "right", x: 1268, y: 607, w: 215, h: 86 },
-  { id: "left", x: 928, y: 608, w: 78, h: 90 },
+  { id: "right", x: 1268, y: 493, w: 115, h: 47 },
+  { id: "left", x: 1060, y: 495, w: 38, h: 42 },
 ] as const;
 const HINT_KEY = "garage-plaine-lights";
 
@@ -124,73 +124,73 @@ export function HeroLights({ imgRef }: { imgRef: RefObject<HTMLImageElement | nu
               </filter>
             </defs>
 
-            {/* Light thrown on the road in front of the car */}
+            {/* Light thrown on the road in front of the car (coordinates: hero-vitara.webp) */}
             <g className="hl-beams" filter="url(#hl-blur-lg)">
-              <ellipse cx="760" cy="985" rx="600" ry="95" fill="url(#hl-pool)" />
-              <ellipse cx="1040" cy="900" rx="260" ry="40" fill="url(#hl-pool)" />
+              <ellipse cx="900" cy="790" rx="520" ry="80" fill="url(#hl-pool)" />
+              <ellipse cx="1120" cy="725" rx="230" ry="34" fill="url(#hl-pool)" />
             </g>
 
             <g className="hl-glow">
               {/* Bloom */}
-              <circle cx="1268" cy="602" r="210" fill="url(#hl-bloom)" />
-              <circle cx="1268" cy="602" r="90" fill="url(#hl-bloom)" />
-              <circle cx="928" cy="607" r="140" fill="url(#hl-bloom)" />
-              <circle cx="928" cy="607" r="60" fill="url(#hl-bloom)" />
+              <circle cx="1325" cy="512" r="118" fill="url(#hl-bloom)" />
+              <circle cx="1325" cy="512" r="50" fill="url(#hl-bloom)" />
+              <circle cx="1080" cy="515" r="80" fill="url(#hl-bloom)" />
+              <circle cx="1080" cy="515" r="34" fill="url(#hl-bloom)" />
               {/* LED projectors and the far headlight */}
-              <circle cx="1236" cy="604" r="24" fill="url(#hl-core)" />
-              <circle cx="1298" cy="597" r="24" fill="url(#hl-core)" />
-              <ellipse cx="928" cy="608" rx="17" ry="25" fill="url(#hl-core)" />
+              <circle cx="1310" cy="512" r="13" fill="url(#hl-core)" />
+              <circle cx="1345" cy="508" r="13" fill="url(#hl-core)" />
+              <ellipse cx="1080" cy="515" rx="11" ry="14" fill="url(#hl-core)" />
               {/* Daytime running light strips */}
               <line
-                x1="1208"
-                y1="636"
-                x2="1342"
-                y2="613"
+                x1="1276"
+                y1="534"
+                x2="1366"
+                y2="513"
                 stroke="#dcecff"
-                strokeWidth="12"
+                strokeWidth="7"
                 strokeLinecap="round"
                 opacity="0.55"
                 filter="url(#hl-blur-sm)"
               />
               <line
-                x1="1208"
-                y1="636"
-                x2="1342"
-                y2="613"
+                x1="1276"
+                y1="534"
+                x2="1366"
+                y2="513"
                 stroke="#ffffff"
-                strokeWidth="3.5"
+                strokeWidth="2.5"
                 strokeLinecap="round"
               />
               <line
-                x1="1326"
-                y1="708"
-                x2="1326"
-                y2="765"
+                x1="1360"
+                y1="572"
+                x2="1360"
+                y2="597"
                 stroke="#dcecff"
-                strokeWidth="14"
+                strokeWidth="8"
                 strokeLinecap="round"
                 opacity="0.55"
                 filter="url(#hl-blur-sm)"
               />
               <line
-                x1="1326"
-                y1="708"
-                x2="1326"
-                y2="765"
+                x1="1360"
+                y1="572"
+                x2="1360"
+                y2="597"
                 stroke="#ffffff"
-                strokeWidth="4"
+                strokeWidth="2.5"
                 strokeLinecap="round"
               />
               {/* Fog lamps */}
-              <circle cx="1255" cy="737" r="46" fill="url(#hl-warm)" opacity="0.8" />
-              <circle cx="894" cy="717" r="36" fill="url(#hl-warm)" opacity="0.7" />
+              <circle cx="1325" cy="592" r="26" fill="url(#hl-warm)" opacity="0.8" />
+              <circle cx="1057" cy="582" r="20" fill="url(#hl-warm)" opacity="0.7" />
             </g>
 
             {/* Anamorphic flare across the lamps */}
             <g className="hl-flare" filter="url(#hl-blur-sm)">
-              <ellipse cx="1268" cy="601" rx="460" ry="4" fill="url(#hl-streak)" />
-              <ellipse cx="1268" cy="601" rx="170" ry="9" fill="url(#hl-streak)" opacity="0.6" />
-              <ellipse cx="928" cy="607" rx="280" ry="3" fill="url(#hl-streak)" />
+              <ellipse cx="1325" cy="512" rx="260" ry="3" fill="url(#hl-streak)" />
+              <ellipse cx="1325" cy="512" rx="95" ry="6" fill="url(#hl-streak)" opacity="0.6" />
+              <ellipse cx="1080" cy="515" rx="150" ry="2.5" fill="url(#hl-streak)" />
             </g>
           </svg>
 

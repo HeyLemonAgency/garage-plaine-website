@@ -10,7 +10,7 @@ import {
   Sparkles,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { PageIntro, photos } from "@/components/garage/sections";
+import { PageIntro, illustrations } from "@/components/garage/sections";
 import { SalesContact } from "@/components/garage/people";
 import { ContactBand } from "@/components/garage/contact";
 import { faqs, garage, team } from "@/lib/garage";
@@ -74,9 +74,9 @@ function Vehicules() {
         title="Suzuki neuves et occasions toutes marques, à Denges."
         description="Une voiture neuve, une occasion, ou la vente de la vôtre : choisissez, puis parlez directement à notre service vente."
         image={{
-          src: photos.showroomHd,
-          alt: "Le showroom du garage à Denges, avec des Suzuki Swift exposées",
-          position: "62% 55%",
+          src: illustrations.suzukiRoad,
+          alt: "Une Suzuki Vitara sur une route de montagne au-dessus d’un lac",
+          position: "66% 55%",
         }}
         actions={
           <>
