@@ -64,8 +64,8 @@ export function MechanicsSection() {
             <div className="eyebrow">L’atelier</div>
             <h2>Un atelier multimarque à votre service.</h2>
             <p>
-              Équipé des derniers appareils de diagnostic, notre atelier entretient et répare les
-              véhicules de toutes marques, notre marque de référence étant Suzuki.
+              Équipé d’appareils de diagnostic de pointe, notre atelier entretient et répare les
+              véhicules de toutes marques, avec une spécialité Suzuki.
             </p>
           </div>
           <dl className="bodywork-figures mechanics-figures">

@@ -345,7 +345,7 @@ export function StockPreview({ stock }: { stock: StockSnapshot }) {
           <h3>Tout notre stock, en ligne.</h3>
           <p>
             Suzuki neuves et occasions toutes marques&nbsp;: filtrez, ouvrez une annonce, puis
-            appelez Tiago ou réservez un essai.
+            appelez Tiago ou demandez un essai.
           </p>
           <Button variant="premium" asChild>
             <Link to="/vehicules">
@@ -378,8 +378,8 @@ export function StockPreview({ stock }: { stock: StockSnapshot }) {
             <Link to="/reprise">
               <RefreshCw aria-hidden="true" />
               <span>
-                <strong>Vendre votre voiture</strong>
-                <span>Achat ou reprise, décrite en deux minutes</span>
+                <strong>Vendre ou faire reprendre votre voiture</strong>
+                <span>Achat ou reprise : décrivez-la en 2 minutes</span>
               </span>
               <ArrowRight aria-hidden="true" />
             </Link>

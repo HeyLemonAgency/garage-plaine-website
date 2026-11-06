@@ -212,7 +212,7 @@ export function SiteHeader() {
             )}
             <Link to="/rendez-vous" className="mobile-nav-cta">
               <CalendarDays />
-              Demander un rendez-vous
+              Prendre rendez-vous
             </Link>
             <div className="mobile-nav-contacts">
               <OpenStatus />
@@ -269,7 +269,7 @@ export function SiteFooter() {
               </div>
             </div>
             <div>
-              <h3>Le garage</h3>
+              <h3>Plan du site</h3>
               <div className="footer-links">
                 {menu
                   .flatMap((item) => item.children ?? [item])
@@ -320,7 +320,7 @@ export function SiteFooter() {
           </div>
           <div className="footer-bottom">
             <span>© {new Date().getFullYear()} Garage Carrosserie de la Plaine · Denges</span>
-            <span>Agent officiel Suzuki · La Côte, Vaud</span>
+            <span>Concessionnaire Suzuki · La Côte, Vaud</span>
             <Link to="/confidentialite">Confidentialité</Link>
           </div>
         </div>
@@ -329,29 +329,47 @@ export function SiteFooter() {
       <div className="mobile-call">
         <Button variant="premium" asChild>
           {salesPage ? (
-            <a href={team.vente.mobileHref}>
-              <Phone />
-              <span className="mc-long">Appeler la vente</span>
-              <span className="mc-short">Appeler</span>
+            <a href={team.vente.mobileHref} aria-label="Appeler la vente">
+              <Phone aria-hidden="true" />
+              <span className="mc-long" aria-hidden="true">
+                Appeler la vente
+              </span>
+              <span className="mc-short" aria-hidden="true">
+                Appeler
+              </span>
             </a>
           ) : (
-            <a href={garage.phoneHref}>
-              <Phone />
-              <span className="mc-long">Appeler le garage</span>
-              <span className="mc-short">Appeler</span>
+            <a href={garage.phoneHref} aria-label="Appeler le garage">
+              <Phone aria-hidden="true" />
+              <span className="mc-long" aria-hidden="true">
+                Appeler le garage
+              </span>
+              <span className="mc-short" aria-hidden="true">
+                Appeler
+              </span>
             </a>
           )}
         </Button>
         <Button variant="appointment" asChild>
           {salesPage ? (
-            <Link to="/rendez-vous" search={{ besoin: "vente" }}>
-              <span className="mc-long">Demander un essai</span>
-              <span className="mc-short">Essai</span> <ArrowUpRight />
+            <Link to="/rendez-vous" search={{ besoin: "vente" }} aria-label="Demander un essai">
+              <span className="mc-long" aria-hidden="true">
+                Demander un essai
+              </span>
+              <span className="mc-short" aria-hidden="true">
+                Essai
+              </span>{" "}
+              <ArrowUpRight aria-hidden="true" />
             </Link>
           ) : (
-            <Link to="/rendez-vous">
-              <span className="mc-long">Prendre rendez-vous</span>
-              <span className="mc-short">Rendez-vous</span> <ArrowUpRight />
+            <Link to="/rendez-vous" aria-label="Prendre rendez-vous">
+              <span className="mc-long" aria-hidden="true">
+                Prendre rendez-vous
+              </span>
+              <span className="mc-short" aria-hidden="true">
+                Rendez-vous
+              </span>{" "}
+              <ArrowUpRight aria-hidden="true" />
             </Link>
           )}
         </Button>
@@ -432,7 +450,7 @@ function QuickContact() {
           <Link to="/rendez-vous" className="quick-row quick-row-primary">
             <CalendarDays />
             <span>
-              <strong>Demander un rendez-vous</strong>
+              <strong>Prendre rendez-vous</strong>
               <span>En quatre étapes, sans engagement</span>
             </span>
           </Link>

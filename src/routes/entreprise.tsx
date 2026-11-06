@@ -16,7 +16,7 @@ export const Route = createFileRoute("/entreprise")({
   head: () =>
     pageHead({
       path: "/entreprise",
-      title: "Le garage et son équipe à Denges",
+      title: "Notre équipe à Denges",
       crumb: "Entreprise",
       description:
         "Depuis plus de 40 ans à Denges : le Garage Carrosserie de la Plaine, son équipe vente, atelier et carrosserie, et son engagement d’entreprise formatrice.",
@@ -30,10 +30,10 @@ function Entreprise() {
       <PageIntro
         label="Entreprise"
         title="Plus de 40 ans au service de vos voitures, à Denges."
-        description="La vente, la carrosserie et l’atelier réunis, et une même volonté : prendre soin de votre voiture et de votre confiance."
+        description="La vente, la carrosserie et l’atelier réunis, et une même volonté : prendre soin de votre voiture et de votre confiance."
         image={{
           src: illustrations.suzukiLake,
-          alt: "Une Suzuki Vitara au bord du Léman",
+          alt: "Une Suzuki au bord d’un lac",
           position: "72% 62%",
         }}
       />
@@ -43,13 +43,13 @@ function Entreprise() {
             <div className="eyebrow">Garage Carrosserie de la Plaine · Denges</div>
             <h2>Vente, carrosserie et atelier, réunis à Denges.</h2>
             <p>
-              À 5 minutes de Morges et 10 minutes de Lausanne, notre garage réunit la vente de
+              À 5 minutes de Morges et 10 minutes de Lausanne, notre garage rassemble la vente de
               véhicules, l’entretien mécanique et la carrosserie sur un même site.
             </p>
             <p>
-              Concessionnaire Suzuki depuis plus de 20 ans, nous sommes la référence Suzuki sur La
-              Côte. Nous accueillons aussi les véhicules de toutes marques dans notre atelier et
-              notre carrosserie.
+              Concessionnaire Suzuki depuis plus de 20 ans, nous sommes votre concessionnaire Suzuki
+              sur La Côte. Nous accueillons aussi les véhicules de toutes marques dans notre atelier
+              et notre carrosserie.
             </p>
             <CheckList
               items={[

@@ -23,6 +23,13 @@ export function asksDrive(model: RangeModel): boolean {
 
 export const gearboxChoices = ["Manuelle", "Automatique", "Pas de préférence"] as const;
 export const driveChoices = ["Traction avant", "4x4 ALLGRIP", "Pas de préférence"] as const;
+
+/** The same choices with the 4x4's own name: ALLGRIP-e on the electric e Vitara. */
+export function driveChoicesFor(model: RangeModel): readonly string[] {
+  return model.id === "e-vitara"
+    ? driveChoices.map((c) => (c === "4x4 ALLGRIP" ? "4x4 ALLGRIP-e" : c))
+    : driveChoices;
+}
 export const optionChoices = [
   "Peinture métallisée",
   "Pneus hiver",

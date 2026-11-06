@@ -34,7 +34,7 @@ export const Route = createFileRoute("/vehicules")({
   head: ({ loaderData }) =>
     pageHead({
       path: "/vehicules",
-      title: "Occasions et Suzuki neuves à Denges",
+      title: "Suzuki et occasions à Denges",
       crumb: "Véhicules",
       description:
         "Notre stock en direct : Suzuki neuves et occasions toutes marques à Denges (VD), avec prix et kilométrage. Essai et offre : Tiago Bessa, 079 108 92 99.",
@@ -72,7 +72,7 @@ function Vehicules() {
       <PageIntro
         label="Véhicules"
         title="Suzuki neuves et occasions toutes marques, à Denges."
-        description="Une voiture neuve, une occasion, ou la vente de la vôtre : choisissez, puis parlez directement à notre service vente."
+        description="Une voiture neuve, une occasion, ou la vente de la vôtre : choisissez, puis parlez directement à notre service vente."
         image={{
           src: illustrations.suzukiRoad,
           alt: "Une Suzuki Vitara sur une route de montagne au-dessus d’un lac",
@@ -164,7 +164,7 @@ function Vehicules() {
       />
       <ContactBand trade="vente">
         <Link to="/reprise" className="contact-cta-link">
-          Faire reprendre mon véhicule <ArrowRight />
+          Vendre ou faire reprendre ma voiture <ArrowRight />
         </Link>
       </ContactBand>
     </>

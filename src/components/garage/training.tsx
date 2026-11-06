@@ -21,8 +21,8 @@ export function TrainingStory() {
           </h2>
           <div className="red-rule" />
           <p>
-            Former la relève fait partie de notre métier. Nos apprentis apprennent aux côtés d’une
-            équipe de professionnels motivés et passionnés, dans un cadre de travail performant.
+            Former la relève fait partie de notre métier. Nos apprentis se forment aux côtés d’une
+            équipe de professionnels passionnés.
           </p>
           <p>
             Leurs résultats nous rendent fiers. Et ce savoir-faire reste dans la maison, au service

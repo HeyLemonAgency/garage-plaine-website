@@ -18,10 +18,10 @@ export const Route = createFileRoute("/suzuki")({
   head: ({ loaderData }) =>
     pageHead({
       path: "/suzuki",
-      title: "Concessionnaire Suzuki à Denges, La Côte",
+      title: "Concessionnaire Suzuki à Denges",
       crumb: "Partenaire Suzuki",
       description:
-        "Concessionnaire Suzuki depuis plus de 20 ans à Denges, entre Morges et Lausanne : le S-Cross hybride 4x4 en 3D, toute la gamme Suzuki, essais sur route, financement, leasing et atelier.",
+        "Concessionnaire Suzuki depuis plus de 20 ans à Denges : la gamme hybride et électrique, le S-Cross en 3D, essai, offre, financement et leasing.",
       cars: loaderData?.cars.filter((c) => c.make === "Suzuki"),
     }),
   loader: () => getLatestCars(),
@@ -35,7 +35,7 @@ const perks = [
   ["Reprise de votre véhicule", "Votre voiture actuelle estimée lors de l’achat."],
   [
     "Atelier spécialiste Suzuki",
-    "Entretien et réparations sur place : Suzuki est notre marque de référence.",
+    "Entretien et réparations sur place, par un atelier spécialiste Suzuki.",
   ],
 ] as const;
 
@@ -64,8 +64,8 @@ function Suzuki() {
                 Suzuki à Denges. <em>Sous tous les angles.</em>
               </h1>
               <p>
-                Le SUV hybride de Suzuki, traction avant ou 4x4 ALLGRIP, à découvrir sous tous les
-                angles. Puis en vrai, dans notre showroom.
+                Le S-Cross hybride, en traction avant ou 4x4 ALLGRIP, en 3D. Puis en vrai, dans
+                notre showroom.
               </p>
             </>
           ) : (
@@ -82,7 +82,7 @@ function Suzuki() {
           <div className="sz-hero-actions">
             <Button variant="premium" asChild>
               <Link to="/rendez-vous" search={{ besoin: "vente" }}>
-                Réserver un essai <ArrowRight />
+                Demander un essai <ArrowRight />
               </Link>
             </Button>
             <a className="sz-ghost" href={suzukis.length > 0 ? "#stock" : "#gamme"}>
@@ -193,7 +193,7 @@ function Suzuki() {
             <figcaption>Notre showroom, Route de la Plaine 20 à Denges</figcaption>
           </figure>
           <div className="sz-home-copy">
-            <div className="eyebrow">Acheter sa Suzuki chez nous</div>
+            <div className="eyebrow">Acheter votre Suzuki chez nous</div>
             <h2>Un concessionnaire, et votre garage pour la suite.</h2>
             <ol className="sz-perks">
               {perks.map(([title, text]) => (

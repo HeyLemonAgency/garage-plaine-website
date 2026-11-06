@@ -37,10 +37,10 @@ export const Route = createFileRoute("/reprise")({
   head: () =>
     pageHead({
       path: "/reprise",
-      title: "Nous achetons votre voiture, à Denges",
+      title: "Vendre votre voiture à Denges",
       crumb: "Reprise",
       description:
-        "Vous vendez votre voiture ? Le Garage Carrosserie de la Plaine à Denges achète et reprend les véhicules : décrivez le vôtre en ligne, le service vente vous recontacte.",
+        "Vous vendez votre voiture ? Le Garage Carrosserie de la Plaine à Denges l’achète ou la reprend. Décrivez-la en ligne, nous vous recontactons.",
     }),
   component: Reprise,
 });
@@ -124,7 +124,7 @@ function Reprise() {
       <PageIntro
         label="Reprise de véhicule"
         title="Nous achetons votre voiture."
-        description="Vous la vendez, ou vous la reprenez contre une autre ? Décrivez-la ici : le service vente vous recontacte."
+        description="Vous la vendez, ou vous la faites reprendre à l’achat d’une autre ? Décrivez-la ici : le service vente vous recontacte."
         image={{
           src: illustrations.suzukiRear,
           alt: "Le feu arrière d’une Suzuki, au bord d’un lac au soleil couchant",
@@ -135,7 +135,7 @@ function Reprise() {
       <section className="section">
         <div className="container reprise-layout">
           {state.step === "sent" && sent && photosMail ? (
-            <SentPanel title={`Merci, ${seller.name} a bien reçu votre proposition.`}>
+            <SentPanel title={`Merci, ${seller.name} a bien reçu votre demande.`}>
               <p>
                 Il vous recontacte pour la suite. Pour une estimation plus précise, envoyez-lui
                 quelques photos de votre {sent.car}, par WhatsApp ou par e-mail&nbsp;:
@@ -203,7 +203,7 @@ function Reprise() {
                     <input
                       id="rp-km"
                       name="mileage"
-                      placeholder="62 000"
+                      placeholder="62’000"
                       inputMode="numeric"
                       maxLength={9}
                       required
@@ -253,7 +253,7 @@ function Reprise() {
                   <Field
                     id="rp-version"
                     label="Version"
-                    hint="Exemple : 1.4 Boosterjet Compact Top"
+                    hint="Exemple : 1.4 Boosterjet Compact Top"
                   >
                     <input id="rp-version" name="version" maxLength={80} />
                   </Field>
@@ -322,13 +322,13 @@ function Reprise() {
                 {state.step === "error" && <SendError message={state.message} contact={seller} />}
               </div>
               <div className="form-footer">
-                <p>Les photos, vous les enverrez juste après, par WhatsApp ou par e-mail.</p>
+                <p>Vous pourrez envoyer les photos juste après, par WhatsApp ou par e-mail.</p>
                 <Button
                   variant="premium"
                   type="submit"
                   disabled={!interactive || !lemon.configure || state.step === "sending"}
                 >
-                  {state.step === "sending" ? "Envoi en cours…" : "Envoyer ma proposition"}{" "}
+                  {state.step === "sending" ? "Envoi en cours…" : "Envoyer ma demande"}{" "}
                   <ArrowRight />
                 </Button>
               </div>

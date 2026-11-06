@@ -12,10 +12,10 @@ export const Route = createFileRoute("/carrosserie")({
   head: () =>
     pageHead({
       path: "/carrosserie",
-      title: "Carrosserie à Denges : sinistres, peinture, restauration",
+      title: "Carrosserie à Denges",
       crumb: "Carrosserie",
       description:
-        "La carrosserie du Garage Carrosserie de la Plaine à Denges, près de Morges : sinistres réglés avec votre assurance, 8 véhicules de remplacement, peinture hydrosoluble, restauration et polissage. Travaux garantis à vie, selon conditions.",
+        "Carrosserie à Denges : sinistres réglés avec votre assurance, 8 véhicules de remplacement, peinture et restauration. Travaux garantis, selon conditions.",
       faqs: faqs.carrosserie,
     }),
   component: Carrosserie,

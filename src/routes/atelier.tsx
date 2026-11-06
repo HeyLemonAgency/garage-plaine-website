@@ -12,10 +12,10 @@ export const Route = createFileRoute("/atelier")({
   head: () =>
     pageHead({
       path: "/atelier",
-      title: "Garage et atelier mécanique à Denges, toutes marques",
+      title: "Atelier mécanique à Denges",
       crumb: "Atelier",
       description:
-        "L’atelier du Garage Carrosserie de la Plaine à Denges, près de Morges : entretien et réparations toutes marques, spécialité Suzuki, diagnostic, pneus et géométrie, climatisation, attelages. Rendez-vous en ligne.",
+        "Atelier toutes marques à Denges : entretien, diagnostic, pneus, géométrie, climatisation et attelages, spécialité Suzuki. Rendez-vous en ligne.",
       faqs: faqs.atelier,
     }),
   component: Atelier,
@@ -27,7 +27,7 @@ function Atelier() {
       <PageIntro
         label="Atelier mécanique"
         title="Votre atelier à Denges, toutes marques."
-        description="Entretien, réparations, pneus, climatisation : un atelier équipé des derniers appareils de diagnostic, avec Jérôme Baatard, titulaire d’un brevet fédéral."
+        description="Entretien, réparations, pneus, climatisation : un atelier équipé d’appareils de diagnostic de pointe, avec Jérôme Baatard, titulaire d’un brevet fédéral."
         image={{
           src: illustrations.workshop,
           alt: "Gros plan d’une clé à cliquet sur le moteur d’une voiture",

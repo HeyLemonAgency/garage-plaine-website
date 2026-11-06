@@ -8,7 +8,7 @@ export const Route = createFileRoute("/station-service")({
   head: () =>
     pageHead({
       path: "/station-service",
-      title: "Station-service Jubin 24h/24 à Denges",
+      title: "Station Jubin 24h/24 à Denges",
       crumb: "Station-service",
       description:
         "Faites le plein à la station-service Jubin du Garage Carrosserie de la Plaine à Denges, accessible 24h/24 et 7j/7. Commandez votre Jubin Card sur place.",

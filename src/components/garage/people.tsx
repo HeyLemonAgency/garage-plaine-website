@@ -7,16 +7,7 @@ import { openingStatus, type OpeningStatus } from "@/lib/opening";
  * A person's face: their portrait, or until one is supplied a neutral frame with a
  * silhouette (never invented faces). `className` gives the size and shape of each spot.
  */
-export function Portrait({
-  contact,
-  className,
-  label = false,
-}: {
-  contact: Contact;
-  className: string;
-  /** Shows "Photo à venir" in the empty frame (large frames only). */
-  label?: boolean;
-}) {
+export function Portrait({ contact, className }: { contact: Contact; className: string }) {
   if (contact.photo)
     return (
       <img
@@ -30,7 +21,6 @@ export function Portrait({
   return (
     <span className={`portrait portrait-empty ${className}`} aria-hidden="true">
       <UserRound />
-      {label && <span className="portrait-soon">Photo à venir</span>}
     </span>
   );
 }
@@ -51,7 +41,7 @@ export function whatsappHref(contact: Contact, text?: string): string {
   const own = Boolean(contact.whatsapp);
   const opening = own
     ? `Bonjour ${contact.name.split(" ")[0]}, `
-    : `Bonjour, pour ${contact.role.toLowerCase()} (${contact.name}) : `;
+    : `Bonjour, une question pour ${contact.forWhom ?? contact.role.toLowerCase()} (${contact.name}) : `;
   return `${contact.whatsapp ?? garage.whatsapp}?text=${encodeURIComponent(text ?? opening)}`;
 }
 
@@ -79,7 +69,11 @@ export function ContactActions({
         href={whatsappHref(contact)}
         target="_blank"
         rel="noreferrer"
-        aria-label={`WhatsApp, ${contact.name} (nouvel onglet)`}
+        aria-label={
+          contact.whatsapp
+            ? `WhatsApp, ${contact.name} (nouvel onglet)`
+            : `WhatsApp du garage, pour ${contact.forWhom ?? contact.role.toLowerCase()} (nouvel onglet)`
+        }
       >
         <WhatsAppIcon />
         <span>WhatsApp</span>
@@ -124,7 +118,7 @@ export function SalesContact({ compact = false }: { compact?: boolean }) {
 function TeamMember({ contact }: { contact: Contact }) {
   return (
     <div className="staff-item">
-      <Portrait contact={contact} className="staff-photo" label />
+      <Portrait contact={contact} className="staff-photo" />
       <div className="staff-role">{contact.role}</div>
       <h3>{contact.name}</h3>
       {contact.title && <p>{contact.title}</p>}

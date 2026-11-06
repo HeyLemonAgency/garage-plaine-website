@@ -341,7 +341,7 @@ export function BodyworkSection() {
             <p>
               De la réparation à la restauration, notre carrosserie vous accompagne et prend en
               charge les formalités administratives avec les assurances. Nous utilisons des
-              peintures hydrosolubles respectueuses de l’environnement.
+              peintures hydrosolubles (à base d’eau).
             </p>
             <dl className="bodywork-figures">
               {bodyworkFacts.figures.map((f) => (

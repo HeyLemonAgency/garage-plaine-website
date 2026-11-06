@@ -8,7 +8,7 @@ import { verifierMessage } from "@/lib/lemon";
 import {
   asksDrive,
   asksGearbox,
-  driveChoices,
+  driveChoicesFor,
   financingChoices,
   gearboxChoices,
   isModelId,
@@ -40,10 +40,10 @@ export const Route = createFileRoute("/offre")({
   head: () =>
     pageHead({
       path: "/offre",
-      title: "Demander une offre pour une Suzuki neuve, à Denges",
+      title: "Offre pour une Suzuki neuve",
       crumb: "Offre Suzuki",
       description:
-        "Demandez une offre pour une Suzuki neuve au Garage Carrosserie de la Plaine à Denges : modèle, boîte, 4x4, teinte, options, leasing ou financement, et reprise de votre véhicule.",
+        "Demandez votre offre pour une Suzuki neuve à Denges : Tiago Bessa la prépare avec le financement, le leasing et la reprise de votre voiture.",
     }),
   component: Offre,
 });
@@ -116,10 +116,10 @@ function Offre() {
       <PageIntro
         label="Offre Suzuki neuve"
         title={`Votre offre pour une Suzuki ${model.name}.`}
-        description="Dites-nous ce qui compte pour vous : Tiago Bessa vous prépare une offre détaillée, avec le financement et la reprise si vous le souhaitez."
+        description="Dites-nous ce qui compte pour vous : Tiago Bessa vous prépare une offre détaillée, avec le financement et la reprise si vous le souhaitez."
         image={{
           src: illustrations.suzukiAlps,
-          alt: "Une Suzuki Vitara sur une route de montagne, face aux Alpes au coucher du soleil",
+          alt: "Une Suzuki sur une route de montagne au coucher du soleil",
           position: "78% 55%",
         }}
         compact
@@ -129,9 +129,8 @@ function Offre() {
           {state.step === "sent" ? (
             <SentPanel title={`Merci, ${seller.name} prépare votre offre.`}>
               <p>
-                Il vous recontacte pour la Suzuki {model.name}, en général dans la journée ouvrable.
-                Une question d’ici là&nbsp;? Appelez-le au{" "}
-                <a href={seller.mobileHref}>{seller.mobile}</a>.
+                Il vous recontacte pour la Suzuki {model.name} dès que possible. Une question d’ici
+                là&nbsp;? Appelez-le au <a href={seller.mobileHref}>{seller.mobile}</a>.
               </p>
               <div className="detail-actions">
                 <Button asChild variant="appointment">
@@ -177,12 +176,20 @@ function Offre() {
                       <Options name="gearbox" legend="Boîte" options={gearboxChoices} />
                     )}
                     {asksDrive(model) && (
-                      <Options name="drive" legend="Transmission" options={driveChoices} />
+                      <Options
+                        name="drive"
+                        legend="Transmission"
+                        options={driveChoicesFor(model)}
+                      />
                     )}
                   </div>
                 )}
                 <div className="form-row">
-                  <Field id="of-version" label="Version ou équipement" hint="Si vous savez déjà.">
+                  <Field
+                    id="of-version"
+                    label="Version ou équipement"
+                    hint="Si vous la connaissez déjà."
+                  >
                     <input id="of-version" name="version" maxLength={80} />
                   </Field>
                   <Field id="of-colour" label="Teinte souhaitée">
@@ -269,7 +276,7 @@ function Offre() {
                 {state.step === "error" && <SendError message={state.message} contact={seller} />}
               </div>
               <div className="form-footer">
-                <p>Sans engagement : c’est une demande d’offre, pas une commande.</p>
+                <p>Sans engagement : c’est une demande d’offre, pas une commande.</p>
                 <Button
                   variant="premium"
                   type="submit"

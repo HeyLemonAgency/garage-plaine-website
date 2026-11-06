@@ -78,8 +78,8 @@ export function ContactForm({ defaultTopic = "vente" }: { defaultTopic?: Departm
     return (
       <SentPanel title="Merci, votre message est bien arrivé.">
         <p>
-          {department.contact.name} ({department.contact.role.toLowerCase()}) vous répond, en
-          général dans la journée ouvrable.
+          {department.contact.name} ({department.contact.role.toLowerCase()}) vous répond dès que
+          possible.
         </p>
       </SentPanel>
     );
@@ -257,9 +257,10 @@ const tradeTopic: Record<Trade, DepartmentId> = {
  * itself, all together on /contact and in the footer, never three times over.
  */
 export function ContactBand({
-  trade = "vente",
+  trade,
   children,
 }: {
+  /** The trade of the page: the buttons open its planner and form. None (home, /entreprise): no preselection. */
   trade?: Trade;
   /** A page's own extra next step, after the shared ones. */
   children?: ReactNode;
@@ -275,7 +276,7 @@ export function ContactBand({
             Une question ? <span className="nowrap">Parlons-en.</span>
           </h2>
           <p>
-            Lundi à vendredi : 7h30 – 12h et dès 13h30
+            Lundi à vendredi : 7h30 – 12h / 13h30 – 18h (vendredi 17h)
             <br />
             Samedi : sur rendez-vous
           </p>
@@ -283,7 +284,7 @@ export function ContactBand({
         </div>
         <div className="contact-cta-actions">
           <Button asChild variant="premium">
-            <Link to="/rendez-vous" search={{ besoin: trade }}>
+            <Link to="/rendez-vous" search={trade ? { besoin: trade } : {}}>
               Prendre rendez-vous <ArrowRight />
             </Link>
           </Button>
@@ -294,7 +295,11 @@ export function ContactBand({
             </a>
             <a
               className="contact-cta-chip"
-              href={whatsappHref(team.vente, "Bonjour, ")}
+              href={
+                trade && trade !== "vente"
+                  ? whatsappHref(team[trade])
+                  : whatsappHref(team.vente, "Bonjour, ")
+              }
               target="_blank"
               rel="noreferrer"
             >
@@ -305,7 +310,7 @@ export function ContactBand({
           <div className="contact-cta-links">
             <Link
               to="/contact"
-              search={{ demande: tradeTopic[trade] }}
+              search={trade ? { demande: tradeTopic[trade] } : {}}
               className="contact-cta-link"
             >
               Écrire un message <ArrowRight />
@@ -328,7 +333,7 @@ export function Location() {
       <div className="container location-grid">
         <div className="location-card">
           <MapPin className="location-pin" />
-          <h2>Au cœur de Denges.</h2>
+          <h2>À Denges, entre Morges et Lausanne.</h2>
           <p>
             {garage.address} · {garage.locality} <br />À 5 minutes de Morges et 10 minutes de
             Lausanne.

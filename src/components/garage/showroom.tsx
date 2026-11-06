@@ -509,7 +509,7 @@ export function Showroom({ cars, total }: { cars: StockCar[]; total: number | nu
               search={{ besoin: "vente", annonce: car.path }}
               className="sr-btn sr-btn-primary"
             >
-              <CalendarDays /> Réserver un essai
+              <CalendarDays /> Demander un essai
             </Link>
             <Link to="/vehicules" search={{ annonce: car.path }} className="sr-btn">
               Voir l’annonce <ArrowRight />

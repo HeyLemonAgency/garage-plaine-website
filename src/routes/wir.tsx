@@ -9,10 +9,10 @@ export const Route = createFileRoute("/wir")({
   head: () =>
     pageHead({
       path: "/wir",
-      title: "Paiement en WIR à Denges : les conditions",
+      title: "Paiement en WIR",
       crumb: "WIR",
       description:
-        "Le Garage Carrosserie de la Plaine à Denges est partenaire WIR : main-d’œuvre et pneumatiques 100 %, pièces d’entretien 50 %, pièces spécifiques 20 %, aux tarifs CHF.",
+        "Payer en WIR au Garage Carrosserie de la Plaine à Denges : main-d’œuvre, pièces et pneus, selon les taux du garage. Les conditions en détail.",
     }),
   component: Wir,
 });
@@ -43,15 +43,12 @@ function Wir() {
             <img
               className="wir-logo wir-logo-lg"
               src={wirLogo}
-              alt="WIR partner"
+              alt="Logo Partenaire WIR"
               width={566}
               height={271}
             />
-            <h2>Une question sur votre règlement&nbsp;?</h2>
-            <p>
-              Notre équipe est à votre disposition pour préciser les conditions applicables à votre
-              intervention.
-            </p>
+            <h2>Une question sur le paiement en WIR&nbsp;?</h2>
+            <p>Nous vous précisons volontiers les conditions pour vos travaux.</p>
             <Button variant="premium" asChild>
               <Link to="/contact">
                 Contacter le garage <ArrowRight />

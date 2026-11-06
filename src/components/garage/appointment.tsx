@@ -61,6 +61,16 @@ function Choice({
   );
 }
 
+/** What the free text may say, for the service chosen. */
+function messageHint(topic: string | null): string {
+  if (topic === "atelier")
+    return "Bruit au freinage, voyant allumé, kilométrage du dernier service…";
+  if (topic === "carrosserie")
+    return "Numéro de sinistre, assurance, véhicule de remplacement souhaité…";
+  if (topic === "vente") return "Le modèle qui vous intéresse, la reprise de votre voiture…";
+  return "Ce qui nous aide à préparer votre rendez-vous…";
+}
+
 export function AppointmentPlanner({
   initialTopic,
   initialNeed = "",
@@ -191,7 +201,7 @@ export function AppointmentPlanner({
                 autre moment.
               </p>
               <p className="small-note">
-                Une urgence&nbsp;? Appelez-nous au{" "}
+                {topic === "vente" ? "Une question" : "Une urgence"}&nbsp;? Appelez-nous au{" "}
                 <a href={contact?.mobileHref ?? garage.phoneHref}>
                   {contact?.mobile ?? garage.phone}
                 </a>
@@ -329,7 +339,7 @@ export function AppointmentPlanner({
             </fieldset>
           ) : step === 2 ? (
             <fieldset>
-              <legend>Quand vous arrangerait-il&nbsp;?</legend>
+              <legend>Quel jour vous arrangerait&nbsp;?</legend>
               <p className="planner-label">
                 <CalendarDays className="size-4" /> Choisissez un jour
               </p>
@@ -437,7 +447,7 @@ export function AppointmentPlanner({
                   id="pl-message"
                   value={message}
                   onChange={(e) => setMessage(e.target.value)}
-                  placeholder="Bruit au freinage, numéro de sinistre, véhicule de remplacement souhaité…"
+                  placeholder={messageHint(topic)}
                   maxLength={3000}
                 />
               </div>

@@ -33,8 +33,8 @@ export const garage = {
   mapEmbed:
     "https://www.google.com/maps?q=Garage+Carrosserie+de+la+Plaine,+Route+de+la+Plaine+20,+1026+Denges&hl=fr&output=embed",
   hours: [
-    ["Lundi – jeudi", "07h30 – 12h00 / 13h30 – 18h00"],
-    ["Vendredi", "07h30 – 12h00 / 13h30 – 17h00"],
+    ["Lundi – jeudi", "7h30 – 12h / 13h30 – 18h"],
+    ["Vendredi", "7h30 – 12h / 13h30 – 17h"],
     ["Samedi", "Sur rendez-vous"],
   ],
 } as const;
@@ -75,6 +75,8 @@ export type Contact = {
   whatsapp?: string;
   /** A real portrait (imported from src/assets); without one, a "photo à venir" frame shows. */
   photo?: string;
+  /** « pour l’atelier mécanique »: who a message to the garage's WhatsApp is for. */
+  forWhom?: string;
 };
 
 export const team = {
@@ -89,12 +91,14 @@ export const team = {
   },
   atelier: {
     role: "Atelier mécanique",
+    forWhom: "l’atelier mécanique",
     name: "Jérôme Baatard",
     title: "Brevet fédéral",
     email: "jerome.baatard@garageplaine.ch",
   },
   carrosserie: {
     role: "Carrosserie",
+    forWhom: "la carrosserie",
     name: "Marco Da Silva",
     email: "marco.dasilva@garageplaine.ch",
   },
@@ -262,7 +266,11 @@ export const services = [
 
 export const bodyworkServices = [
   { icon: "claims", title: "Sinistres", text: "Gestion des sinistres avec les assurances" },
-  { icon: "car", title: "Remplacement", text: "8 véhicules de remplacement à disposition" },
+  {
+    icon: "car",
+    title: "Voiture de remplacement",
+    text: "8 véhicules de remplacement à disposition",
+  },
   {
     icon: "restore",
     title: "Restauration",
@@ -293,7 +301,7 @@ export const bodyworkFacts = {
     "Pour tout remplacement de pare-brise, une vignette autoroutière ou un bon d’essence est offert.",
   advice: "Des conseils d’entretien gratuits, donnés par un professionnel de la carrosserie.",
   gifts:
-    "Une idée cadeau : demandez nos packs d’entretien personnalisés, composés selon votre budget.",
+    "Une idée cadeau : demandez nos packs d’entretien personnalisés, composés selon votre budget.",
 } as const;
 
 export const salesServices = [
@@ -306,10 +314,10 @@ export const salesServices = [
 
 /** Share of each kind of work payable in WIR (source: garageplaine.ch, "Partenariat WIR"). */
 export const wirRates = [
-  ["Main-d’œuvre", "100 % WIR"],
-  ["Pièces d’entretien", "50 % WIR"],
-  ["Pièces spécifiques", "20 % WIR"],
-  ["Pneumatiques", "100 % WIR"],
+  ["Main-d’œuvre", "100 % WIR"],
+  ["Pièces d’entretien", "50 % WIR"],
+  ["Pièces spécifiques", "20 % WIR"],
+  ["Pneumatiques", "100 % WIR"],
 ] as const;
 
 /**
@@ -345,7 +353,12 @@ export const googleReviews = [
 
 /** Questions and answers, written from the facts above; each set appears on one page only. */
 export type Faq = { q: string; a: string };
-const hoursText = garage.hours.map(([d, t]) => `${d} : ${t}`).join(" ; ");
+// « Lundi – jeudi : 7h30 – 12h / 13h30 – 18h ; vendredi : … ; samedi : sur rendez-vous »
+const hoursText = garage.hours
+  .map(([d, t], i) =>
+    i ? `${d.toLowerCase()}\u00a0: ${t.charAt(0).toLowerCase()}${t.slice(1)}` : `${d}\u00a0: ${t}`,
+  )
+  .join("\u00a0; ");
 
 export const faqs = {
   home: [
@@ -359,7 +372,7 @@ export const faqs = {
     },
     {
       q: "Le Garage Carrosserie de la Plaine est-il concessionnaire Suzuki ?",
-      a: "Oui. Le Garage Carrosserie de la Plaine est concessionnaire Suzuki depuis plus de 20 ans : véhicules neufs de la gamme Suzuki, essais sur route, financement et leasing, et un atelier dont Suzuki est la marque de référence.",
+      a: "Oui. Le Garage Carrosserie de la Plaine est concessionnaire Suzuki depuis plus de 20 ans : véhicules neufs de la gamme Suzuki, essais sur route, financement et leasing, et un atelier spécialiste Suzuki.",
     },
     {
       q: "Comment prendre rendez-vous au garage ?",
@@ -391,7 +404,7 @@ export const faqs = {
   atelier: [
     {
       q: "Entretenez-vous et réparez-vous les voitures de toutes les marques ?",
-      a: `Oui. L’atelier mécanique entretient et répare les véhicules de toutes marques, avec des appareils de diagnostic de pointe ; Suzuki est sa marque de référence. ${team.atelier.name}, titulaire d’un brevet fédéral, est votre interlocuteur.`,
+      a: `Oui. L’atelier mécanique entretient et répare les véhicules de toutes marques, avec des appareils de diagnostic de pointe et une spécialité Suzuki. ${team.atelier.name}, titulaire d’un brevet fédéral, est votre interlocuteur.`,
     },
     {
       q: "Quelles prestations propose l’atelier mécanique ?",
@@ -423,7 +436,7 @@ export const faqs = {
   contact: [
     {
       q: "Le garage est-il ouvert le samedi ?",
-      a: "Le samedi, le garage vous reçoit sur rendez-vous. Du lundi au vendredi, il est ouvert de 7h30 à 12h00 et dès 13h30 l’après-midi.",
+      a: "Le samedi, le garage vous reçoit sur rendez-vous. Du lundi au jeudi, il est ouvert de 7h30 à 12h et de 13h30 à 18h ; le vendredi, jusqu’à 17h.",
     },
     {
       q: "À qui m’adresser pour la vente, l’atelier ou la carrosserie ?",
@@ -472,7 +485,7 @@ export const suzukiRange = [
     id: "e-vitara",
     name: "e Vitara",
     kind: "SUV 100 % électrique",
-    text: "Un véritable SUV 4x4 électrique, avec la transmission intégrale électrique ALLGRIP-e ou en traction avant.",
+    text: "SUV 100 % électrique, en traction avant ou en transmission intégrale ALLGRIP-e.",
     tags: ["Électrique", "4x4"],
     url: "https://www.suzuki.ch/fr/modeles/e-vitara",
   },

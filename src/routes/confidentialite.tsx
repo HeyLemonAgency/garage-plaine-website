@@ -18,7 +18,7 @@ function Confidentialite() {
     <>
       <PageIntro
         label="Confidentialité"
-        title="Vos demandes de contact."
+        title="Confidentialité de vos demandes."
         description="Les informations utiles concernant les formulaires et les contenus externes de ce site."
       />
       <section className="section">
@@ -26,11 +26,11 @@ function Confidentialite() {
           <div>
             <h2>Formulaires de contact</h2>
             <p>
-              Les formulaires du site (contact, reprise de véhicule, rendez-vous) transmettent votre
-              message à la messagerie du garage, sur la plateforme Lemon (le prestataire qui gère ce
-              site et la console du garage). Ce site n’en garde aucune copie. Les photos d’un
-              véhicule à vendre s’envoient, si vous le souhaitez, par e-mail depuis votre
-              messagerie.
+              Les formulaires du site (contact, rendez-vous, offre pour une Suzuki, reprise de
+              véhicule) transmettent votre message à la messagerie du garage, sur la plateforme
+              Lemon (le prestataire qui gère ce site et la console du garage). Ce site n’en garde
+              aucune copie. Les photos d’un véhicule à vendre s’envoient, si vous le souhaitez, par
+              WhatsApp ou par e-mail depuis votre téléphone ou votre messagerie.
             </p>
             <p>
               Vos coordonnées et votre message sont destinés au service du garage que vous

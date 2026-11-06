@@ -114,7 +114,7 @@ export function GoogleReviews({ rating = fallbackRating }: { rating?: GoogleRati
             <span>
               <Stars value={rating.rating} />
               <span className="reviews-count">
-                basé sur <b>{rating.count} avis Google</b>
+                note moyenne sur <b>{rating.count} avis Google</b>
               </span>
             </span>
           </a>

@@ -475,8 +475,8 @@ export function Partnership() {
             depuis plus de 20 ans.
           </h2>
           <p>
-            Le Garage Carrosserie de la Plaine est votre référence Suzuki sur La Côte : toute la
-            gamme neuve, les essais sur route et un atelier dont Suzuki est la marque de référence.
+            Le Garage Carrosserie de la Plaine est votre concessionnaire Suzuki sur La Côte : toute
+            la gamme neuve, les essais sur route et un atelier spécialiste Suzuki.
           </p>
           <p>
             Découvrez les véhicules neufs dans notre showroom, nos occasions toutes marques et les

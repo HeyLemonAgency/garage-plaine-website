@@ -16,10 +16,10 @@ export const Route = createFileRoute("/contact")({
   head: () =>
     pageHead({
       path: "/contact",
-      title: "Contact, horaires et accès à Denges",
+      title: "Contact et horaires à Denges",
       crumb: "Contact",
       description:
-        "Garage Carrosserie de la Plaine, Route de la Plaine 20, 1026 Denges : 021 801 68 42, vente 079 108 92 99. Horaires d’ouverture, itinéraire et contacts par service.",
+        "Garage Carrosserie de la Plaine, Route de la Plaine 20, 1026 Denges : 021 801 68 42, vente 079 108 92 99. Horaires, itinéraire et contacts.",
       type: "ContactPage",
       faqs: faqs.contact,
     }),
@@ -33,7 +33,7 @@ function Contact() {
       <PageIntro
         label="Contact"
         title="Nous sommes à votre écoute."
-        description="Pour une voiture, un rendez-vous ou un conseil : contactez directement la bonne personne, ou venez nous rencontrer à Denges."
+        description="Pour une voiture, un rendez-vous ou un conseil : contactez directement la bonne personne, ou venez nous rencontrer à Denges."
         image={{
           src: illustrations.suzukiFront,
           alt: "Le phare avant d’une Suzuki, au bord d’un lac au soleil couchant",
