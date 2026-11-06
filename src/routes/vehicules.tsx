@@ -52,9 +52,10 @@ function Vehicules() {
   const src = (annonce && listingFrameUrl(annonce)) || garage.inventory;
   const frame = useRef<HTMLIFrameElement>(null);
   const loads = useRef(0);
-  // The Autolina list is long: the frame is tall (the page scrolls through the cars) and
-  // « Afficher plus de voitures » makes it taller still. A cross-origin frame cannot say its own
-  // height, so it grows in steps; anything beyond still scrolls inside it.
+  // The Autolina list is long: the frame is tall and does not scroll by itself (scrolling="no"),
+  // so a finger or the wheel always scrolls the PAGE, never a box inside it (confusing on a
+  // phone). A cross-origin frame cannot say its own height: « Afficher plus de voitures »
+  // makes it taller, step by step.
   const [more, setMore] = useState(0);
   useEffect(() => setMore(0), [src]);
 
@@ -151,13 +152,14 @@ function Vehicules() {
             key={src}
             className="inventory-frame"
             style={{ "--frame-more": more } as CSSProperties}
+            scrolling="no"
             title="Stock actuel du Garage Carrosserie de la Plaine sur Autolina"
             src={src}
             loading="eager"
             allow="fullscreen"
             onLoad={onFrameLoad}
           />
-          {more < 6 && (
+          {more < 8 && (
             <div className="inventory-more">
               <Button type="button" variant="appointment" onClick={() => setMore((n) => n + 1)}>
                 Afficher plus de voitures <ArrowDown />

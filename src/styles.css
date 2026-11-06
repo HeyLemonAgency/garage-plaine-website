@@ -10373,7 +10373,7 @@ input[type="checkbox"] {
 }
 /* /vehicules: the Autolina stock as a long list the page scrolls through, longer on request */
 .inventory-frame {
-  height: calc(2400px + var(--frame-more, 0) * 1600px);
+  height: calc(3200px + var(--frame-more, 0) * 2000px);
   min-height: 0;
   transition: height 0.4s ease;
 }
@@ -10382,9 +10382,19 @@ input[type="checkbox"] {
   justify-content: center;
   margin-top: 18px;
 }
+.inventory-more .garage-button {
+  min-height: 52px;
+  padding: 0 28px;
+}
+@media (max-width: 520px) {
+  .inventory-more .garage-button {
+    width: 100%;
+    justify-content: center;
+  }
+}
 @media (max-width: 800px) {
   .inventory-frame {
-    height: calc(2800px + var(--frame-more, 0) * 1800px);
+    height: calc(4400px + var(--frame-more, 0) * 2800px);
   }
 }
 @media (prefers-reduced-motion: reduce) {
