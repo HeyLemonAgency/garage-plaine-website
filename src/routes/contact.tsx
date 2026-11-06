@@ -35,9 +35,9 @@ function Contact() {
         title="Nous sommes à votre écoute."
         description="Pour une voiture, un rendez-vous ou un conseil : contactez directement la bonne personne, ou venez nous rencontrer à Denges."
         image={{
-          src: photos.fuel,
+          src: photos.fuelHd,
           alt: "L’entrée du garage à Denges, sous l’auvent « Garage Carrosserie de la Plaine »",
-          position: "60% 6%",
+          position: "55% 18%",
         }}
       />
       <section className="section">

@@ -121,7 +121,6 @@ function Offre() {
           src: photos.suzukiLake,
           alt: "Une Suzuki sur une route au bord du Léman",
           position: "75% 60%",
-          illustration: true,
         }}
         compact
       />

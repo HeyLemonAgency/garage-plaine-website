@@ -9586,8 +9586,8 @@ body:has(.mobile-toggle[aria-expanded="true"]) .mobile-call {
   .page-hero::before {
     background: linear-gradient(
       180deg,
-      oklch(0.17 0.035 240 / 0.25) 0%,
-      oklch(0.17 0.035 240 / 0.7) 42%,
+      oklch(0.17 0.035 240 / 0.42) 0%,
+      oklch(0.17 0.035 240 / 0.74) 38%,
       oklch(0.17 0.035 240 / 0.93) 100%
     );
   }

@@ -1,7 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { ArrowRight, Phone } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { PageIntro, stockPhotos } from "@/components/garage/sections";
+import { PageIntro, illustrations } from "@/components/garage/sections";
 import { MechanicsSection } from "@/components/garage/mechanics";
 import { FaqSection } from "@/components/garage/faq";
 import { ContactBand } from "@/components/garage/contact";
@@ -29,10 +29,9 @@ function Atelier() {
         title="Votre atelier à Denges, toutes marques."
         description="Entretien, réparations, pneus, climatisation : un atelier équipé des derniers appareils de diagnostic, avec Jérôme Baatard, titulaire d’un brevet fédéral."
         image={{
-          src: stockPhotos.mechanic,
-          alt: "Un mécanicien au travail sur le moteur d’une voiture",
-          position: "70% 45%",
-          illustration: true,
+          src: illustrations.workshop,
+          alt: "Gros plan d’une clé à cliquet sur le moteur d’une voiture",
+          position: "45% 50%",
         }}
         actions={
           <>

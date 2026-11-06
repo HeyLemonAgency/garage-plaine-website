@@ -23,9 +23,9 @@ function Station() {
         title="Faites le plein à toute heure, 7 jours sur 7."
         description="Notre station-service Jubin à Denges est accessible 24h/24 et 7j/7."
         image={{
-          src: photos.fuel,
+          src: photos.fuelHd,
           alt: "Les pompes de la station-service Jubin du garage à Denges",
-          position: "35% 60%",
+          position: "40% 45%",
         }}
       />
       <section className="section">

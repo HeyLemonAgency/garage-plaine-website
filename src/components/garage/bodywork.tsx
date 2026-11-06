@@ -267,7 +267,6 @@ function PolishReveal({ src, alt }: { src: string; alt: string }) {
         <canvas ref={canvas} className="polish-canvas" aria-hidden="true" />
         <span className="polish-sheen" aria-hidden="true" />
         <span ref={pad} className="polish-pad" aria-hidden="true" />
-        <span className="polish-tag">Visuel d’illustration</span>
         {!touched && !done && (
           <span className="polish-hint" aria-hidden="true">
             <Sparkles />
@@ -353,10 +352,7 @@ export function BodyworkSection() {
               ))}
             </dl>
           </div>
-          <PolishReveal
-            src={polishPhoto}
-            alt="Phare et carrosserie lustrée d’un coupé gris (visuel d’illustration)"
-          />
+          <PolishReveal src={polishPhoto} alt="Phare et carrosserie lustrée d’un coupé gris" />
         </div>
 
         <ul className="bodywork-grid" ref={grid} aria-label="Prestations de carrosserie">

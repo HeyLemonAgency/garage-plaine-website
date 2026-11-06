@@ -29,9 +29,9 @@ function Carrosserie() {
         title="Votre carrosserie à Denges."
         description="Sinistre, peinture, restauration : nous réparons votre voiture et réglons les formalités avec votre assurance. Huit véhicules de remplacement vous gardent mobile."
         image={{
-          src: photos.bodywork,
+          src: photos.bodyworkHd,
           alt: "L’avant d’une Ford Mustang ancienne, calandre et chromes",
-          position: "62% 50%",
+          position: "55% 50%",
         }}
         actions={
           <>

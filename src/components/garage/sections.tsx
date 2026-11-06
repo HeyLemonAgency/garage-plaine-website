@@ -38,8 +38,11 @@ import workshop from "@/assets/workshop.webp";
 import bodywork from "@/assets/bodywork.webp";
 import fuel from "@/assets/fuel.webp";
 import workshopTour from "@/assets/workshop-tour.webp";
+import garageHd from "@/assets/garage-hd.webp";
+import fuelHd from "@/assets/fuel-hd.webp";
+import bodyworkHd from "@/assets/bodywork-hd.webp";
 import keyHandover from "@/assets/stock-key-handover.webp";
-import mechanic from "@/assets/stock-mechanic.webp";
+import workshopIllustration from "@/assets/workshop-illustration.webp";
 
 /** The garage's own photos. */
 export const photos = {
@@ -51,14 +54,18 @@ export const photos = {
   sales,
   fuel,
   suzukiLake: hero,
+  /** Wide, high-definition versions for the page headers (light and sky retouched, nothing added). */
+  garageHd,
+  fuelHd,
+  bodyworkHd,
 };
 
 /**
- * Stock photos (Pexels licence: free commercial use, no attribution required), only where the
- * garage has no photo of its own; always shown with the “Visuel d’illustration” label.
+ * Mood images that do not show the garage (a stock photo under the Pexels licence, a generated
+ * image), only where it has no photo of its own and never to present a car for sale.
  * Sources in src/assets/CREDITS.md.
  */
-export const stockPhotos = { keyHandover, mechanic };
+export const illustrations = { keyHandover, workshop: workshopIllustration };
 
 type Intent = {
   id: "acheter" | "atelier" | "carrosserie";
@@ -264,7 +271,6 @@ export function Hero({ stockTotal = null }: { stockTotal?: number | null }) {
         </div>
         <HeroConcierge stockTotal={stockTotal} />
       </div>
-      <span className="hero-caption">Visuel d’illustration</span>
     </section>
   );
 }
@@ -615,14 +621,12 @@ export function CompanyStory() {
   );
 }
 
-/** A page's header photo: one of the garage's own photos, or a labelled illustration. */
+/** A page's header photo: one of the garage's own photos, or a mood image (`illustrations`). */
 export type IntroImage = {
   src: string;
   alt: string;
   /** CSS object-position, to keep the subject clear of the text. */
   position?: string;
-  /** Not the garage itself (generated image or stock photo): labelled as such on the image. */
-  illustration?: boolean;
 };
 
 export function PageIntro({
@@ -672,7 +676,6 @@ export function PageIntro({
         fetchPriority="high"
         decoding="async"
       />
-      {image.illustration && <span className="hero-caption">Visuel d’illustration</span>}
       <div className="container page-hero-inner">
         {crumbs}
         <h1>{title}</h1>
