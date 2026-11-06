@@ -224,7 +224,10 @@ export function ContactSection({ defaultTopic }: { defaultTopic?: DepartmentId }
     <section className="contact-band contact-panel" id="contact">
       <div className="container contact-panel-grid">
         <div className="contact-card">
-          <div className="eyebrow eyebrow-rule">À votre écoute</div>
+          <div className="eyebrow">
+            <span className="eyebrow-dot" />
+            Contact direct
+          </div>
           <h2 className="contact-title">
             Une question&nbsp;? <br />
             Écrivez-nous.

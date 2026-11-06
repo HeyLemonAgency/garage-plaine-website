@@ -134,9 +134,11 @@ function TeamMember({ contact }: { contact: Contact }) {
           {initials(contact.name)}
         </span>
       )}
-      <div className="staff-role">{contact.role}</div>
+      <div className="staff-role">
+        {contact.role}
+        {contact.title ? ` · ${contact.title}` : ""}
+      </div>
       <h3>{contact.name}</h3>
-      {contact.title && <p>{contact.title}</p>}
       <ContactActions contact={contact} className="contact-actions-stack" showEmail />
     </div>
   );

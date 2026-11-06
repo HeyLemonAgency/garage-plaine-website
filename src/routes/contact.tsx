@@ -37,7 +37,7 @@ function Contact() {
         image={{
           src: illustrations.suzukiFront,
           alt: "Le phare avant d’une Suzuki, au bord d’un lac au soleil couchant",
-          position: "58% 50%",
+          position: "68% 50%",
         }}
       />
       <ContactSection {...(demande ? { defaultTopic: demande } : {})} />
@@ -55,7 +55,7 @@ function Contact() {
       <FaqSection
         items={faqs.contact}
         title="Avant de nous appeler."
-        intro="Samedi, interlocuteurs par service et paiement en WIR."
+        intro="Le samedi et le paiement en WIR."
       />
       <Location />
     </>

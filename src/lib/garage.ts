@@ -439,10 +439,6 @@ export const faqs = {
       a: "Le samedi, le garage vous reçoit sur rendez-vous. Du lundi au jeudi, il est ouvert de 7h30 à 12h et de 13h30 à 18h ; le vendredi, jusqu’à 17h.",
     },
     {
-      q: "À qui m’adresser pour la vente, l’atelier ou la carrosserie ?",
-      a: `Vente : ${team.vente.name}, ${team.vente.mobile}, ${team.vente.email}. Atelier mécanique : ${team.atelier.name}, ${team.atelier.email}. Carrosserie : ${team.carrosserie.name}, ${team.carrosserie.email}. Réception : ${garage.phone}.`,
-    },
-    {
       q: "Acceptez-vous les paiements en WIR ?",
       a: `Oui, le garage est partenaire WIR : ${wirRates.map(([k, v]) => `${k.toLowerCase()} ${v}`).join(", ")}. Les tarifs appliqués en WIR sont identiques à ceux en CHF.`,
     },
