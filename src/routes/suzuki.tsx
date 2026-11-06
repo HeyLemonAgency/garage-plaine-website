@@ -95,8 +95,8 @@ function Suzuki() {
         ) : (
           <div className="container sz-hero-photo">
             <img
-              src={photos.sales}
-              alt="Le showroom Suzuki du Garage Carrosserie de la Plaine à Denges"
+              src={photos.showroom.swift}
+              alt="Une Suzuki Swift bleue dans le showroom du garage à Denges"
               width={700}
               height={540}
             />
@@ -184,8 +184,8 @@ function Suzuki() {
         <div className="container sz-home-grid">
           <figure className="sz-home-photo">
             <img
-              src={photos.sales}
-              alt="Le showroom Suzuki du Garage Carrosserie de la Plaine à Denges"
+              src={photos.showroom.swift}
+              alt="Une Suzuki Swift bleue dans le showroom du garage à Denges"
               width={700}
               height={540}
               loading="lazy"

@@ -11,7 +11,6 @@ import {
   Phone,
   User,
 } from "lucide-react";
-import sceneImage from "@/assets/suzuki-road.webp";
 import { Button } from "@/components/ui/button";
 import { departments, garage, team, type DepartmentId } from "@/lib/garage";
 import { OpenStatus, WhatsAppIcon, whatsappHref } from "./people";
@@ -222,11 +221,9 @@ export function ContactForm({ defaultTopic = "vente" }: { defaultTopic?: Departm
 export function ContactSection({ defaultTopic }: { defaultTopic?: DepartmentId }) {
   const sales = team.vente;
   return (
-    <section className="contact-band contact-scene" id="contact">
-      {/* decoration only: the same road as /vehicules, softened behind the two cards */}
-      <img className="contact-scene-bg" src={sceneImage} alt="" loading="lazy" decoding="async" />
-      <div className="container contact-scene-grid">
-        <div className="contact-glass">
+    <section className="contact-band contact-panel" id="contact">
+      <div className="container contact-panel-grid">
+        <div className="contact-card">
           <div className="eyebrow eyebrow-rule">À votre écoute</div>
           <h2 className="contact-title">
             Une question&nbsp;? <br />

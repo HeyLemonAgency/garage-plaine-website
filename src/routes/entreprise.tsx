@@ -35,7 +35,6 @@ function Entreprise() {
           src: photos.garageHd,
           alt: "Le Garage Carrosserie de la Plaine à Denges : le showroom Suzuki et les voitures exposées",
           position: "32% 45%",
-          ratio: 2000 / 667,
         }}
       />
       <section className="section">
@@ -68,8 +67,8 @@ function Entreprise() {
           </div>
           <img
             className="editorial-image"
-            src={photos.sales}
-            alt="Le showroom du garage à Denges, avec des Suzuki Swift exposées"
+            src={photos.showroom.entree}
+            alt="L’intérieur du showroom à Denges, vu depuis l’entrée, avec deux Suzuki Swift"
             width={700}
             height={500}
           />

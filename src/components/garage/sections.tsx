@@ -34,7 +34,9 @@ import hero1440 from "@/assets/hero-vitara-1440.webp";
 import suzuki from "@/assets/suzuki-logo.png";
 import garagePhoto from "@/assets/garage.webp";
 import garageStory from "@/assets/garage-story.webp";
-import sales from "@/assets/sales-hd.webp";
+import showroomEntree from "@/assets/showroom-entree.webp";
+import showroomSwift from "@/assets/showroom-swift.webp";
+import showroomAccueil from "@/assets/showroom-accueil.webp";
 import suzukiRoad from "@/assets/suzuki-road.webp";
 import suzukiAlps from "@/assets/suzuki-alps.webp";
 import jubinPump from "@/assets/jubin-pump.webp";
@@ -55,7 +57,8 @@ export const photos = {
   workshopTour,
   bodywork,
   garage: garagePhoto,
-  sales,
+  /** The showroom, three views: one per place it is shown (never twice on the site). */
+  showroom: { entree: showroomEntree, swift: showroomSwift, accueil: showroomAccueil },
   fuel,
   /** Wide, high-definition versions (light and sky retouched, nothing added). */
   fuelHd,
@@ -460,8 +463,8 @@ export function Partnership() {
       <div className="container editorial-grid">
         <img
           className="editorial-image reveal-on-scroll"
-          src={sales}
-          alt="Le showroom Suzuki du Garage Carrosserie de la Plaine"
+          src={showroomAccueil}
+          alt="Le showroom Suzuki du garage : l’accueil sous la mezzanine et deux Suzuki Swift exposées"
           loading="lazy"
           width={700}
           height={540}

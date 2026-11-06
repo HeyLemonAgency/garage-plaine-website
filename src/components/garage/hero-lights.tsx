@@ -5,8 +5,9 @@ import { Lightbulb } from "lucide-react";
 const NAT_W = 1820;
 const NAT_H = 864;
 // One generous zone over the whole front (both headlamps, the grille, the top of the bumper):
-// the pointer finds it without aiming at a lamp.
-const HOTSPOTS = [{ id: "front", x: 1020, y: 460, w: 410, h: 125 }] as const;
+// the pointer finds it without aiming at a lamp. x, y = the CENTRE of the zone (the button is
+// centred on it by CSS, translate -50%), in pixels of the photo.
+const HOTSPOTS = [{ id: "front", x: 1225, y: 525, w: 430, h: 140 }] as const;
 const HINT_KEY = "garage-plaine-lights";
 
 type Rect = { x: number; y: number; w: number; h: number };

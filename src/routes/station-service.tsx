@@ -32,8 +32,7 @@ function Station() {
         image={{
           src: photos.fuelHd,
           alt: "Les pompes de la station-service Jubin du garage à Denges",
-          position: "30% 45%",
-          ratio: 1916 / 821,
+          position: "50% 42%",
         }}
       />
       <section className="section">
