@@ -18,6 +18,7 @@ import { GoogleMark } from "./reviews";
 import { OpenStatus, WhatsAppIcon, whatsappHref } from "./people";
 import { useSpotlight } from "@/hooks/use-interactions";
 import logo from "@/assets/garage-logo-720.png";
+import logo2x from "@/assets/garage-logo-1440.png";
 
 // The menu follows what a visitor comes to do: buy (new or used), the body shop, the workshop,
 // the garage itself, contact. Sales and the body shop first, as the garage asked; Accueil leads.
@@ -168,9 +169,11 @@ export function SiteHeader() {
           <Link to="/" className="logo" aria-label="Garage Carrosserie de la Plaine — Accueil">
             <img
               src={logo}
+              srcSet={`${logo} 720w, ${logo2x} 1440w`}
+              sizes="(max-width: 800px) 230px, 300px"
               alt="Garage Carrosserie de la Plaine, Denges — Suzuki"
-              width={600}
-              height={90}
+              width={720}
+              height={115}
             />
           </Link>
           <nav className="desktop-nav" aria-label="Navigation principale">
