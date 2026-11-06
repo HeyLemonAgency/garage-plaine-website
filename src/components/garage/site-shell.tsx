@@ -20,10 +20,11 @@ import { useSpotlight } from "@/hooks/use-interactions";
 import logo from "@/assets/garage-logo-720.png";
 
 // The menu follows what a visitor comes to do: buy (new or used), the body shop, the workshop,
-// the garage itself, contact. Sales and the body shop first, as the garage asked.
+// the garage itself, contact. Sales and the body shop first, as the garage asked; Accueil leads.
 type MenuLink = { to: string; label: string; hint?: string };
 type MenuItem = MenuLink & { children?: readonly MenuLink[] };
 const menu: readonly MenuItem[] = [
+  { to: "/", label: "Accueil" },
   {
     to: "/vehicules",
     label: "Véhicules",
@@ -164,7 +165,12 @@ export function SiteHeader() {
               item.children ? (
                 <NavGroup key={item.label} item={item} pathname={pathname} />
               ) : (
-                <Link key={item.to} to={item.to} className="nav-link">
+                <Link
+                  key={item.to}
+                  to={item.to}
+                  className="nav-link"
+                  activeOptions={{ exact: item.to === "/" }}
+                >
                   {item.label}
                 </Link>
               ),
@@ -199,7 +205,7 @@ export function SiteHeader() {
                   ))}
                 </div>
               ) : (
-                <Link key={item.to} to={item.to}>
+                <Link key={item.to} to={item.to} activeOptions={{ exact: item.to === "/" }}>
                   {item.label}
                 </Link>
               ),
@@ -265,11 +271,10 @@ export function SiteFooter() {
             <div>
               <h3>Le garage</h3>
               <div className="footer-links">
-                <Link to="/">Accueil</Link>
                 {menu
                   .flatMap((item) => item.children ?? [item])
                   .map((c) => (
-                    <Link key={c.to + c.label} to={c.to}>
+                    <Link key={c.to + c.label} to={c.to} activeOptions={{ exact: c.to === "/" }}>
                       {c.label}
                     </Link>
                   ))}

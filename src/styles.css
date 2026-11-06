@@ -166,6 +166,8 @@ button {
 }
 .container {
   width: min(1184px, calc(100% - 80px));
+  /* Tailwind's container steps its max-width (768 px up to 1024, 1024 up to 1280): ours is the width above. */
+  max-width: none;
   margin: auto;
 }
 .info-bar {
@@ -9875,4 +9877,38 @@ body:has(.mobile-toggle[aria-expanded="true"]) .mobile-call {
 /* The planner's phone line may wrap on the narrowest phones; the number itself stays whole. */
 .summary-call {
   white-space: normal;
+}
+/* Mid-size screens: the logo, six menu entries and the Rendez-vous button share the row
+   without touching (checked every 20 px from 801 to 1440). */
+@media (min-width: 801px) and (max-width: 1339px) {
+  .nav-row {
+    gap: 20px;
+  }
+  .logo {
+    width: 230px;
+  }
+  .desktop-nav {
+    gap: 22px;
+    font-size: 15px;
+  }
+}
+@media (min-width: 801px) and (max-width: 1179px) {
+  .logo {
+    width: 190px;
+  }
+  .desktop-nav {
+    gap: 15px;
+    font-size: var(--fs-12);
+  }
+  .header-cta {
+    padding: 0 12px;
+  }
+}
+@media (min-width: 801px) and (max-width: 1000px) {
+  .logo {
+    width: 170px;
+  }
+  .desktop-nav {
+    gap: 13px;
+  }
 }
