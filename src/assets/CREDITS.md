@@ -12,7 +12,7 @@ garage, 06.11.2026) ; jamais pour présenter une voiture à vendre :
 |---|---|---|
 | `hero-vitara*.webp` | image générée par IA, fournie par Lemon (Vitara sur une route au bord d’un lac, accueil) | — |
 | `suzuki-lake.webp` | image générée pour le site (Suzuki au bord du Léman) | — |
-| `suzuki-road.webp` | image générée par IA, fournie par Lemon (SUV Suzuki sur une route de montagne au-dessus d’un lac) | — |
+| `suzuki-road.webp` (aussi en fond flouté de la section contact de /contact) | image générée par IA, fournie par Lemon (SUV Suzuki sur une route de montagne au-dessus d’un lac) | — |
 | `suzuki-front-lake.webp`, `suzuki-rear-lake.webp` | images générées par IA, fournies par Lemon (Suzuki au bord d’un lac, avant et arrière) | — |
 | `suzuki-alps.webp` | image générée par IA, fournie par Lemon (Vitara sur une route des Alpes) ; plaque floutée, car le numéro inventé pourrait exister | — |
 | `jubin-pump.webp` | image générée par IA, fournie par Lemon (plein avec un pistolet Jubin) | — |

@@ -10159,3 +10159,210 @@ input[type="checkbox"] {
     max-height: 86vh;
   }
 }
+
+/* ==== /contact: the contact block as a scene (photo behind, glass card, white form card) ==== */
+.contact-scene {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  background: oklch(0.2 0.035 240);
+  padding-block: clamp(48px, 2rem + 4vw, 110px);
+}
+.contact-scene-bg {
+  position: absolute;
+  inset: 0;
+  z-index: -2;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 50% 45%;
+  filter: blur(2px) saturate(1.05);
+  transform: scale(1.04);
+}
+.contact-scene::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background:
+    linear-gradient(90deg, oklch(0.16 0.035 240 / 0.55), oklch(0.16 0.035 240 / 0.2) 70%),
+    linear-gradient(0deg, oklch(0.16 0.035 240 / 0.5), oklch(0.16 0.035 240 / 0.1) 60%);
+}
+.contact-scene-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 0.92fr) minmax(0, 1.08fr);
+  align-items: center;
+}
+.contact-glass {
+  padding: clamp(28px, 1.4rem + 2vw, 52px);
+  padding-right: calc(clamp(28px, 1.4rem + 2vw, 52px) + 24px);
+  border-radius: 22px 0 0 22px;
+  border: 1px solid oklch(1 0 0 / 0.14);
+  background: oklch(0.2 0.035 240 / 0.62);
+  backdrop-filter: blur(16px) saturate(1.1);
+  -webkit-backdrop-filter: blur(16px) saturate(1.1);
+  color: oklch(1 0 0);
+}
+.contact-glass .eyebrow {
+  color: oklch(1 0 0 / 0.86);
+}
+.eyebrow-rule::before {
+  content: "";
+  width: 34px;
+  height: 3px;
+  margin-right: 12px;
+  border-radius: 2px;
+  background: var(--accent);
+}
+.contact-glass .contact-title {
+  color: oklch(1 0 0);
+  margin: 16px 0 18px;
+}
+.contact-glass .contact-intro {
+  color: oklch(1 0 0 / 0.82);
+}
+.contact-glass .contact-lines {
+  display: grid;
+  gap: 14px;
+  margin-top: 6px;
+}
+.contact-glass .contact-line {
+  align-items: center;
+  gap: 16px;
+  margin: 0;
+  color: oklch(1 0 0 / 0.84);
+}
+.contact-line-icon {
+  display: grid;
+  place-items: center;
+  width: 46px;
+  height: 46px;
+  flex-shrink: 0;
+  border-radius: 12px;
+  background: oklch(1 0 0 / 0.1);
+  border: 1px solid oklch(1 0 0 / 0.12);
+}
+.contact-glass .contact-line svg {
+  color: oklch(1 0 0);
+}
+.contact-glass .contact-line strong {
+  color: oklch(1 0 0);
+  font-size: 20px;
+}
+.contact-glass .contact-line:hover strong {
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+.contact-glass .contact-wa {
+  background: transparent;
+  border: 1.5px solid oklch(0.72 0.17 150 / 0.8);
+  color: oklch(1 0 0);
+}
+.contact-glass .contact-wa svg {
+  color: oklch(0.78 0.17 150);
+}
+.contact-glass .contact-wa:hover {
+  background: oklch(0.72 0.17 150 / 0.18);
+}
+.contact-glass .hours {
+  max-width: none;
+  margin-top: 24px;
+  border-top-color: oklch(1 0 0 / 0.16);
+  color: oklch(1 0 0 / 0.86);
+}
+.contact-glass .hours .eyebrow {
+  color: oklch(1 0 0 / 0.86);
+}
+.contact-glass .open-status {
+  color: oklch(1 0 0 / 0.86);
+}
+/* the white form card lies over the glass card's right edge */
+.contact-scene .contact-form {
+  position: relative;
+  z-index: 1;
+  margin-left: -24px;
+  padding: clamp(24px, 1.2rem + 2vw, 48px);
+  border-radius: 22px;
+  background: var(--card);
+  box-shadow: 0 40px 90px -40px oklch(0 0 0 / 0.65);
+}
+.contact-scene .contact-form input,
+.contact-scene .contact-form select,
+.contact-scene .contact-form textarea {
+  border-radius: 10px;
+  padding: 13px 14px;
+}
+.contact-scene .form-footer .garage-button {
+  min-height: 52px;
+  padding: 0 28px;
+  background: var(--accent);
+  color: oklch(1 0 0);
+  box-shadow: 0 14px 30px -12px oklch(0.575 0.23 27 / 0.6);
+}
+.contact-scene .form-footer .garage-button:hover {
+  background: color-mix(in oklch, var(--accent) 88%, black);
+}
+/* An icon inside a field (the contact form) */
+.field-icon {
+  position: relative;
+  display: block;
+}
+.field-icon > svg {
+  position: absolute;
+  z-index: 1;
+  left: 15px;
+  top: 50%;
+  width: 18px;
+  height: 18px;
+  transform: translateY(-50%);
+  color: var(--muted-foreground);
+  pointer-events: none;
+}
+.field-icon-top > svg {
+  top: 15px;
+  transform: none;
+}
+.contact-form .field-icon input,
+.contact-form .field-icon select,
+.contact-form .field-icon textarea {
+  padding-left: 46px;
+}
+@media (max-width: 900px) {
+  .contact-scene-grid {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 0;
+  }
+  .contact-glass {
+    padding-right: clamp(28px, 1.4rem + 2vw, 52px);
+    padding-bottom: calc(clamp(28px, 1.4rem + 2vw, 52px) + 20px);
+    border-radius: 22px 22px 0 0;
+  }
+  .contact-scene .contact-form {
+    margin: -20px 0 0;
+  }
+}
+@media (max-width: 520px) {
+  .contact-glass .contact-line strong {
+    font-size: 18px;
+  }
+}
+/* Required fields: the asterisk in the accent colour. */
+.contact-form .req {
+  color: var(--accent);
+}
+/* The form card a little taller than the glass card beside it. */
+.contact-scene .contact-form {
+  padding-block: clamp(28px, 1.4rem + 2.4vw, 56px);
+}
+.contact-scene .contact-form textarea {
+  min-height: 150px;
+}
+.contact-glass {
+  padding-block: clamp(26px, 1.2rem + 1.6vw, 44px);
+}
+@media (max-width: 520px) {
+  /* the WhatsApp pill drops under Tiago's number: aligned with the text, not the icon */
+  .contact-glass .contact-line-pair .contact-wa {
+    margin-left: 62px;
+  }
+}

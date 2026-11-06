@@ -1,6 +1,17 @@
 import { useEffect, useState, type FormEvent, type ReactNode } from "react";
 import { Link } from "@tanstack/react-router";
-import { ArrowRight, Phone, MapPin, Clock, ArrowUpRight } from "lucide-react";
+import {
+  ArrowRight,
+  ArrowUpRight,
+  CarFront,
+  Clock,
+  Mail,
+  MapPin,
+  MessageSquare,
+  Phone,
+  User,
+} from "lucide-react";
+import sceneImage from "@/assets/suzuki-road.webp";
 import { Button } from "@/components/ui/button";
 import { departments, garage, team, type DepartmentId } from "@/lib/garage";
 import { OpenStatus, WhatsAppIcon, whatsappHref } from "./people";
@@ -90,69 +101,90 @@ export function ContactForm({ defaultTopic = "vente" }: { defaultTopic?: Departm
       <NoScriptNote contact={department.contact} />
       <div className="form-row">
         <div className="form-field">
-          <label htmlFor="contact-name">Nom et prénom *</label>
-          <input
-            id="contact-name"
-            name="name"
-            autoComplete="name"
-            placeholder="Votre nom"
-            required
-            maxLength={100}
-          />
+          <label htmlFor="contact-name">
+            Nom et prénom <span className="req">*</span>
+          </label>
+          <span className="field-icon">
+            <User aria-hidden="true" />
+            <input
+              id="contact-name"
+              name="name"
+              autoComplete="name"
+              placeholder="Votre nom"
+              required
+              maxLength={100}
+            />
+          </span>
         </div>
         <div className="form-field">
           <label htmlFor="contact-phone">Téléphone</label>
-          <input
-            id="contact-phone"
-            name="phone"
-            type="tel"
-            autoComplete="tel"
-            placeholder="Votre numéro"
-            maxLength={30}
-          />
+          <span className="field-icon">
+            <Phone aria-hidden="true" />
+            <input
+              id="contact-phone"
+              name="phone"
+              type="tel"
+              autoComplete="tel"
+              placeholder="Votre numéro"
+              maxLength={30}
+            />
+          </span>
         </div>
       </div>
       <div className="form-row">
         <div className="form-field">
-          <label htmlFor="contact-email">E-mail *</label>
-          <input
-            id="contact-email"
-            name="email"
-            type="email"
-            autoComplete="email"
-            placeholder="Votre adresse e-mail"
-            required
-          />
+          <label htmlFor="contact-email">
+            E-mail <span className="req">*</span>
+          </label>
+          <span className="field-icon">
+            <Mail aria-hidden="true" />
+            <input
+              id="contact-email"
+              name="email"
+              type="email"
+              autoComplete="email"
+              placeholder="Votre adresse e-mail"
+              required
+            />
+          </span>
         </div>
         <div className="form-field">
           <label htmlFor="contact-service">Votre demande</label>
-          <select
-            id="contact-service"
-            name="service"
-            value={topic}
-            onChange={(e) => setTopic(e.target.value as DepartmentId)}
-          >
-            {departments.map((d) => (
-              <option key={d.id} value={d.id}>
-                {d.label}
-              </option>
-            ))}
-          </select>
+          <span className="field-icon">
+            <CarFront aria-hidden="true" />
+            <select
+              id="contact-service"
+              name="service"
+              value={topic}
+              onChange={(e) => setTopic(e.target.value as DepartmentId)}
+            >
+              {departments.map((d) => (
+                <option key={d.id} value={d.id}>
+                  {d.label}
+                </option>
+              ))}
+            </select>
+          </span>
           <p className="form-recipient" aria-live="polite">
             Pour <strong>{department.contact.name}</strong> · {department.contact.role}
           </p>
         </div>
       </div>
       <div className="form-field">
-        <label htmlFor="contact-message">Message *</label>
-        <textarea
-          id="contact-message"
-          name="message"
-          placeholder="Comment pouvons-nous vous aider&nbsp;?"
-          required
-          minLength={5}
-          maxLength={5000}
-        />
+        <label htmlFor="contact-message">
+          Message <span className="req">*</span>
+        </label>
+        <span className="field-icon field-icon-top">
+          <MessageSquare aria-hidden="true" />
+          <textarea
+            id="contact-message"
+            name="message"
+            placeholder="Comment pouvons-nous vous aider&nbsp;?"
+            required
+            minLength={5}
+            maxLength={5000}
+          />
+        </span>
       </div>
       <Honeypot />
       <label className="privacy">
@@ -190,14 +222,14 @@ export function ContactForm({ defaultTopic = "vente" }: { defaultTopic?: Departm
 export function ContactSection({ defaultTopic }: { defaultTopic?: DepartmentId }) {
   const sales = team.vente;
   return (
-    <section className="contact-band" id="contact">
-      <div className="container contact-grid">
-        <div>
-          <div className="eyebrow">
-            <span className="eyebrow-dot" />À votre écoute
-          </div>
+    <section className="contact-band contact-scene" id="contact">
+      {/* decoration only: the same road as /vehicules, softened behind the two cards */}
+      <img className="contact-scene-bg" src={sceneImage} alt="" loading="lazy" decoding="async" />
+      <div className="container contact-scene-grid">
+        <div className="contact-glass">
+          <div className="eyebrow eyebrow-rule">À votre écoute</div>
           <h2 className="contact-title">
-            Une question ? <br />
+            Une question&nbsp;? <br />
             Écrivez-nous.
           </h2>
           <p className="contact-intro">
@@ -206,7 +238,9 @@ export function ContactSection({ defaultTopic }: { defaultTopic?: DepartmentId }
           </p>
           <div className="contact-lines">
             <a className="contact-line" href={garage.phoneHref}>
-              <Phone />
+              <span className="contact-line-icon" aria-hidden="true">
+                <Phone />
+              </span>
               <div>
                 <span>Réception, atelier et carrosserie</span>
                 <strong>{garage.phone}</strong>
@@ -215,9 +249,11 @@ export function ContactSection({ defaultTopic }: { defaultTopic?: DepartmentId }
             {/* One number per line: Tiago's mobile is also the WhatsApp, offered beside it. */}
             <div className="contact-line-pair">
               <a className="contact-line" href={sales.mobileHref}>
-                <Phone />
+                <span className="contact-line-icon" aria-hidden="true">
+                  <CarFront />
+                </span>
                 <div>
-                  <span>Vente · {sales.name}</span>
+                  <span>Vente – {sales.name}</span>
                   <strong>{sales.mobile}</strong>
                 </div>
               </a>
@@ -232,14 +268,16 @@ export function ContactSection({ defaultTopic }: { defaultTopic?: DepartmentId }
                 WhatsApp
               </a>
             </div>
+            <a className="contact-line" href={garage.directions} target="_blank" rel="noreferrer">
+              <span className="contact-line-icon" aria-hidden="true">
+                <MapPin />
+              </span>
+              <div>
+                {garage.address} <br />
+                {garage.locality}
+              </div>
+            </a>
           </div>
-          <a className="contact-line" href={garage.directions} target="_blank" rel="noreferrer">
-            <MapPin />
-            <div>
-              {garage.address} <br />
-              {garage.locality}
-            </div>
-          </a>
           <Hours />
         </div>
         <ContactForm {...(defaultTopic ? { defaultTopic } : {})} />
