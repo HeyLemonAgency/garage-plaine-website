@@ -362,10 +362,6 @@ export const faqs = {
       a: "Oui. Le Garage Carrosserie de la Plaine est concessionnaire Suzuki depuis plus de 20 ans : véhicules neufs de la gamme Suzuki, essais sur route, financement et leasing, et un atelier dont Suzuki est la marque de référence.",
     },
     {
-      q: "Entretenez-vous et réparez-vous les voitures de toutes les marques ?",
-      a: `Oui. L’atelier mécanique entretient et répare les véhicules de toutes marques, avec des appareils de diagnostic de pointe ; Suzuki est sa marque de référence. ${team.atelier.name}, titulaire d’un brevet fédéral, est votre interlocuteur.`,
-    },
-    {
       q: "Comment prendre rendez-vous au garage ?",
       a: `Par téléphone au ${garage.phone}, ou en ligne : choisissez le service (atelier, carrosserie ou vente), le jour et le moment qui vous conviennent, et le garage vous confirme le rendez-vous.`,
     },
@@ -374,7 +370,7 @@ export const faqs = {
       a: "Oui. La station-service Jubin du garage est accessible 24h/24 et 7j/7, et vous pouvez y commander une Jubin Card pour bénéficier d’avantages tout au long de l’année.",
     },
   ],
-  services: [
+  carrosserie: [
     {
       q: "Vous occupez-vous des sinistres avec mon assurance ?",
       a: "Oui. La carrosserie gère les sinistres et prend en charge les formalités administratives avec les assurances, que vous soyez lésé ou responsable.",
@@ -388,16 +384,22 @@ export const faqs = {
       a: "Les réparations sont réalisées exclusivement avec des pièces d’origine, dans le respect des garanties constructeur, et les travaux sont garantis à vie selon conditions : la carrosserie vous en précise les modalités.",
     },
     {
+      q: "Y a-t-il une offre lors du remplacement d’un pare-brise ?",
+      a: "Oui : pour tout remplacement de pare-brise, une vignette autoroutière ou un bon d’essence est offert.",
+    },
+  ],
+  atelier: [
+    {
+      q: "Entretenez-vous et réparez-vous les voitures de toutes les marques ?",
+      a: `Oui. L’atelier mécanique entretient et répare les véhicules de toutes marques, avec des appareils de diagnostic de pointe ; Suzuki est sa marque de référence. ${team.atelier.name}, titulaire d’un brevet fédéral, est votre interlocuteur.`,
+    },
+    {
       q: "Quelles prestations propose l’atelier mécanique ?",
       a: `${mechanicalServicesText}.`,
     },
     {
       q: "Pouvez-vous poser un attelage sur ma voiture ?",
       a: "Oui. L’atelier vend et pose des attelages, et entretient aussi les remorques de transport.",
-    },
-    {
-      q: "Y a-t-il une offre lors du remplacement d’un pare-brise ?",
-      a: "Oui : pour tout remplacement de pare-brise, une vignette autoroutière ou un bon d’essence est offert.",
     },
   ],
   vehicules: [

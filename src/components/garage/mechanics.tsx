@@ -61,7 +61,7 @@ export function MechanicsSection() {
       <div className="container">
         <div className="mechanics-top">
           <div className="mechanics-copy">
-            <div className="eyebrow">03 / Atelier mécanique</div>
+            <div className="eyebrow">L’atelier</div>
             <h2>Un atelier multimarque à votre service.</h2>
             <p>
               Équipé des derniers appareils de diagnostic, notre atelier entretient et répare les

@@ -16,6 +16,7 @@ export const appointmentTopics = [
       "Réparation ou diagnostic",
       "Pneus et géométrie",
       "Climatisation",
+      "Électricité ou feux diurnes",
       "Attelage ou remorque",
       "Autre travail",
     ],
@@ -32,6 +33,8 @@ export const appointmentTopics = [
       "Restauration",
       "Remplacement de pare-brise",
       "Polissage ou traitement",
+      "Rouille ou corps creux",
+      "Autre demande",
     ],
   },
   {
@@ -45,6 +48,7 @@ export const appointmentTopics = [
       "Offre pour un véhicule",
       "Financement ou leasing",
       "Reprise de mon véhicule",
+      "Autre question",
     ],
   },
 ] as const;

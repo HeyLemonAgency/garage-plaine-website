@@ -9,7 +9,7 @@ export const SITE_URL = (typeof __SITE_URL__ === "string" && __SITE_URL__ ? __SI
   .trim()
   .replace(/\/+$/, "");
 
-/** Absolute URL for a path on this site, e.g. "/services" -> "https://…/services". */
+/** Absolute URL for a path on this site, e.g. "/atelier" -> "https://…/atelier". */
 export function absoluteUrl(path = "/"): string {
   return `${SITE_URL}${path.startsWith("/") ? path : `/${path}`}`;
 }

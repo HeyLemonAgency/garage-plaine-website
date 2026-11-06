@@ -10,6 +10,8 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AtelierRouteImport } from './routes/atelier'
+import { Route as CarrosserieRouteImport } from './routes/carrosserie'
 import { Route as ConfidentialiteRouteImport } from './routes/confidentialite'
 import { Route as ContactRouteImport } from './routes/contact'
 import { Route as EntrepriseRouteImport } from './routes/entreprise'
@@ -18,7 +20,6 @@ import { Route as OffreRouteImport } from './routes/offre'
 import { Route as RendezVousRouteImport } from './routes/rendez-vous'
 import { Route as RepriseRouteImport } from './routes/reprise'
 import { Route as RobotsDottxtRouteImport } from './routes/robots[.]txt'
-import { Route as ServicesRouteImport } from './routes/services'
 import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as StationServiceRouteImport } from './routes/station-service'
 import { Route as SuzukiRouteImport } from './routes/suzuki'
@@ -28,6 +29,16 @@ import { Route as WirRouteImport } from './routes/wir'
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AtelierRoute = AtelierRouteImport.update({
+  id: '/atelier',
+  path: '/atelier',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CarrosserieRoute = CarrosserieRouteImport.update({
+  id: '/carrosserie',
+  path: '/carrosserie',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ConfidentialiteRoute = ConfidentialiteRouteImport.update({
@@ -70,11 +81,6 @@ const RobotsDottxtRoute = RobotsDottxtRouteImport.update({
   path: '/robots.txt',
   getParentRoute: () => rootRouteImport,
 } as any)
-const ServicesRoute = ServicesRouteImport.update({
-  id: '/services',
-  path: '/services',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
   id: '/sitemap.xml',
   path: '/sitemap.xml',
@@ -103,6 +109,8 @@ const WirRoute = WirRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/atelier': typeof AtelierRoute
+  '/carrosserie': typeof CarrosserieRoute
   '/confidentialite': typeof ConfidentialiteRoute
   '/contact': typeof ContactRoute
   '/entreprise': typeof EntrepriseRoute
@@ -111,7 +119,6 @@ export interface FileRoutesByFullPath {
   '/rendez-vous': typeof RendezVousRoute
   '/reprise': typeof RepriseRoute
   '/robots.txt': typeof RobotsDottxtRoute
-  '/services': typeof ServicesRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/station-service': typeof StationServiceRoute
   '/suzuki': typeof SuzukiRoute
@@ -120,6 +127,8 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/atelier': typeof AtelierRoute
+  '/carrosserie': typeof CarrosserieRoute
   '/confidentialite': typeof ConfidentialiteRoute
   '/contact': typeof ContactRoute
   '/entreprise': typeof EntrepriseRoute
@@ -128,7 +137,6 @@ export interface FileRoutesByTo {
   '/rendez-vous': typeof RendezVousRoute
   '/reprise': typeof RepriseRoute
   '/robots.txt': typeof RobotsDottxtRoute
-  '/services': typeof ServicesRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/station-service': typeof StationServiceRoute
   '/suzuki': typeof SuzukiRoute
@@ -138,6 +146,8 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/atelier': typeof AtelierRoute
+  '/carrosserie': typeof CarrosserieRoute
   '/confidentialite': typeof ConfidentialiteRoute
   '/contact': typeof ContactRoute
   '/entreprise': typeof EntrepriseRoute
@@ -146,7 +156,6 @@ export interface FileRoutesById {
   '/rendez-vous': typeof RendezVousRoute
   '/reprise': typeof RepriseRoute
   '/robots.txt': typeof RobotsDottxtRoute
-  '/services': typeof ServicesRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/station-service': typeof StationServiceRoute
   '/suzuki': typeof SuzukiRoute
@@ -157,6 +166,8 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/atelier'
+    | '/carrosserie'
     | '/confidentialite'
     | '/contact'
     | '/entreprise'
@@ -165,7 +176,6 @@ export interface FileRouteTypes {
     | '/rendez-vous'
     | '/reprise'
     | '/robots.txt'
-    | '/services'
     | '/sitemap.xml'
     | '/station-service'
     | '/suzuki'
@@ -174,6 +184,8 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/atelier'
+    | '/carrosserie'
     | '/confidentialite'
     | '/contact'
     | '/entreprise'
@@ -182,7 +194,6 @@ export interface FileRouteTypes {
     | '/rendez-vous'
     | '/reprise'
     | '/robots.txt'
-    | '/services'
     | '/sitemap.xml'
     | '/station-service'
     | '/suzuki'
@@ -191,6 +202,8 @@ export interface FileRouteTypes {
   id:
     | '__root__'
     | '/'
+    | '/atelier'
+    | '/carrosserie'
     | '/confidentialite'
     | '/contact'
     | '/entreprise'
@@ -199,7 +212,6 @@ export interface FileRouteTypes {
     | '/rendez-vous'
     | '/reprise'
     | '/robots.txt'
-    | '/services'
     | '/sitemap.xml'
     | '/station-service'
     | '/suzuki'
@@ -209,6 +221,8 @@ export interface FileRouteTypes {
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AtelierRoute: typeof AtelierRoute
+  CarrosserieRoute: typeof CarrosserieRoute
   ConfidentialiteRoute: typeof ConfidentialiteRoute
   ContactRoute: typeof ContactRoute
   EntrepriseRoute: typeof EntrepriseRoute
@@ -217,7 +231,6 @@ export interface RootRouteChildren {
   RendezVousRoute: typeof RendezVousRoute
   RepriseRoute: typeof RepriseRoute
   RobotsDottxtRoute: typeof RobotsDottxtRoute
-  ServicesRoute: typeof ServicesRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   StationServiceRoute: typeof StationServiceRoute
   SuzukiRoute: typeof SuzukiRoute
@@ -232,6 +245,20 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/atelier': {
+      id: '/atelier'
+      path: '/atelier'
+      fullPath: '/atelier'
+      preLoaderRoute: typeof AtelierRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/carrosserie': {
+      id: '/carrosserie'
+      path: '/carrosserie'
+      fullPath: '/carrosserie'
+      preLoaderRoute: typeof CarrosserieRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/confidentialite': {
@@ -290,13 +317,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof RobotsDottxtRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/services': {
-      id: '/services'
-      path: '/services'
-      fullPath: '/services'
-      preLoaderRoute: typeof ServicesRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/sitemap.xml': {
       id: '/sitemap.xml'
       path: '/sitemap.xml'
@@ -337,6 +357,8 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AtelierRoute: AtelierRoute,
+  CarrosserieRoute: CarrosserieRoute,
   ConfidentialiteRoute: ConfidentialiteRoute,
   ContactRoute: ContactRoute,
   EntrepriseRoute: EntrepriseRoute,
@@ -345,7 +367,6 @@ const rootRouteChildren: RootRouteChildren = {
   RendezVousRoute: RendezVousRoute,
   RepriseRoute: RepriseRoute,
   RobotsDottxtRoute: RobotsDottxtRoute,
-  ServicesRoute: ServicesRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
   StationServiceRoute: StationServiceRoute,
   SuzukiRoute: SuzukiRoute,

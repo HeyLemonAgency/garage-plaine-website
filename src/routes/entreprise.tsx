@@ -25,6 +25,11 @@ function Entreprise() {
         label="Entreprise"
         title="Plus de 40 ans au service de vos voitures, à Denges."
         description="La vente, la carrosserie et l’atelier réunis, et une même volonté : prendre soin de votre voiture et de votre confiance."
+        image={{
+          src: photos.garage,
+          alt: "Le Garage Carrosserie de la Plaine à Denges : le showroom Suzuki et les voitures exposées",
+          position: "45% 45%",
+        }}
       />
       <section className="section">
         <div className="container editorial-grid">
@@ -49,15 +54,15 @@ function Entreprise() {
               ]}
             />
             <Button variant="premium" asChild>
-              <Link to="/services">
-                Découvrir nos métiers <ArrowRight />
+              <Link to="/carrosserie">
+                Découvrir la carrosserie <ArrowRight />
               </Link>
             </Button>
           </div>
           <img
             className="editorial-image"
-            src={photos.garage}
-            alt="Garage Carrosserie de la Plaine, Route de la Plaine à Denges"
+            src={photos.sales}
+            alt="Le showroom du garage à Denges, avec des Suzuki Swift exposées"
             width={700}
             height={500}
           />

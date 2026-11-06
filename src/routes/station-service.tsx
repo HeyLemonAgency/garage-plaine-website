@@ -1,10 +1,9 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { ArrowRight, Fuel } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { PageIntro, CheckList } from "@/components/garage/sections";
+import { PageIntro, CheckList, photos } from "@/components/garage/sections";
 import { Location } from "@/components/garage/contact";
 import { pageHead } from "@/lib/seo";
-import fuel from "@/assets/fuel.webp";
 export const Route = createFileRoute("/station-service")({
   head: () =>
     pageHead({
@@ -23,9 +22,14 @@ function Station() {
         label="Station-service"
         title="Faites le plein à toute heure, 7 jours sur 7."
         description="Notre station-service Jubin à Denges est accessible 24h/24 et 7j/7."
+        image={{
+          src: photos.fuel,
+          alt: "Les pompes de la station-service Jubin du garage à Denges",
+          position: "35% 60%",
+        }}
       />
       <section className="section">
-        <div className="container editorial-grid">
+        <div className="container editorial-solo">
           <div className="editorial-copy">
             <div className="eyebrow">
               <Fuel className="size-4" />
@@ -66,13 +70,6 @@ function Station() {
               </Link>
             </Button>
           </div>
-          <img
-            className="editorial-image"
-            src={fuel}
-            alt="Station-service Jubin au Garage Carrosserie de la Plaine"
-            width={700}
-            height={500}
-          />
         </div>
       </section>
       <Location />

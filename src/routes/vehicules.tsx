@@ -1,11 +1,20 @@
 import { useEffect, useRef } from "react";
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { ArrowLeft, ArrowUpRight, ArrowRight } from "lucide-react";
+import {
+  ArrowLeft,
+  ArrowUpRight,
+  ArrowRight,
+  CarFront,
+  Phone,
+  RefreshCw,
+  Sparkles,
+} from "lucide-react";
+import garageWide from "@/assets/garage-wide.webp";
 import { Button } from "@/components/ui/button";
 import { PageIntro } from "@/components/garage/sections";
 import { SalesContact } from "@/components/garage/people";
 import { ContactBand } from "@/components/garage/contact";
-import { faqs, garage } from "@/lib/garage";
+import { faqs, garage, team } from "@/lib/garage";
 import { getLatestCars } from "@/lib/stock.functions";
 import { FaqSection } from "@/components/garage/faq";
 import { StockList } from "@/components/garage/stock-list";
@@ -62,11 +71,51 @@ function Vehicules() {
   return (
     <>
       <PageIntro
-        label="Véhicules en stock"
+        label="Véhicules"
         title="Suzuki neuves et occasions toutes marques, à Denges."
-        description="Véhicules neufs Suzuki et occasions toutes marques. Filtrez le stock, ouvrez une annonce, puis contactez directement notre service vente."
+        description="Une voiture neuve, une occasion, ou la vente de la vôtre : choisissez, puis parlez directement à notre service vente."
+        image={{
+          src: garageWide,
+          alt: "Le garage à Denges, avec les Suzuki exposées devant le showroom",
+          position: "50% 60%",
+        }}
+        actions={
+          <>
+            <Button asChild variant="premium">
+              <Link to="/rendez-vous" search={{ besoin: "vente" }}>
+                Demander un essai <ArrowRight />
+              </Link>
+            </Button>
+            <a className="hero-ghost" href={team.vente.mobileHref}>
+              <Phone /> {team.vente.mobile}
+            </a>
+          </>
+        }
       />
-      <section className="section inventory-section">
+      <nav className="container entry-tabs" aria-label="Acheter ou vendre une voiture">
+        <Link to="/suzuki" className="entry-tab">
+          <Sparkles aria-hidden="true" />
+          <span>
+            <strong>Suzuki neuves</strong>
+            <span>La gamme, une offre, un essai</span>
+          </span>
+        </Link>
+        <a href="#stock" className="entry-tab is-current" aria-current="true">
+          <CarFront aria-hidden="true" />
+          <span>
+            <strong>Stock neuf et occasion</strong>
+            <span>Nos voitures disponibles</span>
+          </span>
+        </a>
+        <Link to="/reprise" className="entry-tab">
+          <RefreshCw aria-hidden="true" />
+          <span>
+            <strong>Vendre ma voiture</strong>
+            <span>Achat ou reprise</span>
+          </span>
+        </Link>
+      </nav>
+      <section className="section inventory-section" id="stock">
         <div className="container">
           <div className="inventory-head">
             <SalesContact />

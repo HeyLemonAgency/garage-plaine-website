@@ -1,7 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useState, type FormEvent } from "react";
 import { ArrowRight, Camera, Mail, MessageCircle } from "lucide-react";
-import { PageIntro } from "@/components/garage/sections";
+import { PageIntro, stockPhotos } from "@/components/garage/sections";
 import { Button } from "@/components/ui/button";
 import { team } from "@/lib/garage";
 import { verifierMessage } from "@/lib/lemon";
@@ -125,6 +125,13 @@ function Reprise() {
         label="Reprise de véhicule"
         title="Nous achetons votre voiture."
         description="Vous la vendez, ou vous la reprenez contre une autre ? Décrivez-la ici : le service vente vous recontacte."
+        image={{
+          src: stockPhotos.keyHandover,
+          alt: "Une poignée de main et une remise de clés devant une voiture",
+          position: "62% 40%",
+          illustration: true,
+        }}
+        compact
       />
       <section className="section">
         <div className="container reprise-layout">

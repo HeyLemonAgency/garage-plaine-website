@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { PageIntro } from "@/components/garage/sections";
+import { PageIntro, photos } from "@/components/garage/sections";
 import { ContactSection, Location } from "@/components/garage/contact";
 import { TeamGrid } from "@/components/garage/people";
 import { departments, type DepartmentId, faqs } from "@/lib/garage";
@@ -34,6 +34,11 @@ function Contact() {
         label="Contact"
         title="Nous sommes à votre écoute."
         description="Pour une voiture, un rendez-vous ou un conseil : contactez directement la bonne personne, ou venez nous rencontrer à Denges."
+        image={{
+          src: photos.fuel,
+          alt: "L’entrée du garage à Denges, sous l’auvent « Garage Carrosserie de la Plaine »",
+          position: "60% 6%",
+        }}
       />
       <section className="section">
         <div className="container">

@@ -36,8 +36,29 @@ import garageWide from "@/assets/garage-wide.webp";
 import sales from "@/assets/sales.webp";
 import workshop from "@/assets/workshop.webp";
 import bodywork from "@/assets/bodywork.webp";
+import fuel from "@/assets/fuel.webp";
+import workshopTour from "@/assets/workshop-tour.webp";
+import keyHandover from "@/assets/stock-key-handover.webp";
+import mechanic from "@/assets/stock-mechanic.webp";
 
-export const photos = { workshop, bodywork, garage: garagePhoto, sales };
+/** The garage's own photos. */
+export const photos = {
+  workshop,
+  workshopTour,
+  bodywork,
+  garage: garagePhoto,
+  garageWide,
+  sales,
+  fuel,
+  suzukiLake: hero,
+};
+
+/**
+ * Stock photos (Pexels licence: free commercial use, no attribution required), only where the
+ * garage has no photo of its own; always shown with the “Visuel d’illustration” label.
+ * Sources in src/assets/CREDITS.md.
+ */
+export const stockPhotos = { keyHandover, mechanic };
 
 type Intent = {
   id: "acheter" | "atelier" | "carrosserie";
@@ -108,9 +129,7 @@ function IntentActions({ id, stockTotal }: { id: Intent["id"]; stockTotal: numbe
           </Link>
         </Button>
         <Button variant="appointment" asChild>
-          <Link to="/services" hash="mecanique">
-            Nos prestations
-          </Link>
+          <Link to="/atelier">Nos prestations</Link>
         </Button>
       </>
     );
@@ -122,9 +141,7 @@ function IntentActions({ id, stockTotal }: { id: Intent["id"]; stockTotal: numbe
         </Link>
       </Button>
       <Button variant="appointment" asChild>
-        <Link to="/services" hash="carrosserie">
-          La carrosserie
-        </Link>
+        <Link to="/carrosserie">La carrosserie</Link>
       </Button>
     </>
   );
@@ -320,7 +337,7 @@ export function SectionHeading({
 }: {
   eyebrow: ReactNode;
   title: string;
-  to?: "/services" | "/vehicules" | "/entreprise";
+  to?: "/vehicules" | "/entreprise" | "/carrosserie" | "/atelier";
   label?: string;
 }) {
   return (
@@ -339,7 +356,12 @@ export function SectionHeading({
   );
 }
 
-/** Each card opens its trade's section on the services page (the stock has its own block). */
+/** Each card opens its trade's own page. */
+const servicePages = {
+  vente: "/vehicules",
+  carrosserie: "/carrosserie",
+  mecanique: "/atelier",
+} as const;
 function ServiceLink({
   id,
   children,
@@ -348,7 +370,7 @@ function ServiceLink({
   children: ReactNode;
 }) {
   return (
-    <Link to="/services" hash={id} className="card-link">
+    <Link to={servicePages[id]} className="card-link">
       {children}
     </Link>
   );
@@ -384,12 +406,7 @@ export function ServicesPreview() {
   return (
     <section className="section">
       <div className="container">
-        <SectionHeading
-          eyebrow="Nos services"
-          title="Tout pour votre voiture."
-          to="/services"
-          label="Découvrir nos services"
-        />
+        <SectionHeading eyebrow="Nos services" title="Tout pour votre voiture." />
         <div className="service-grid" ref={grid}>
           {services.map((service) => {
             const Icon = serviceIcons[service.icon];
@@ -598,27 +615,69 @@ export function CompanyStory() {
   );
 }
 
+/** A page's header photo: one of the garage's own photos, or a labelled illustration. */
+export type IntroImage = {
+  src: string;
+  alt: string;
+  /** CSS object-position, to keep the subject clear of the text. */
+  position?: string;
+  /** Not the garage itself (generated image or stock photo): labelled as such on the image. */
+  illustration?: boolean;
+};
+
 export function PageIntro({
   title,
   description,
   label,
+  image,
+  actions,
+  compact = false,
   children,
 }: {
   title: string;
   description: string;
   label: string;
+  image?: IntroImage;
+  /** Buttons under the text (image headers only). */
+  actions?: ReactNode;
+  /** A lower image header, for the form pages: the form stays close to the top. */
+  compact?: boolean;
   children?: ReactNode;
 }) {
-  return (
-    <section className="page-intro">
-      <div className="container">
-        <div className="breadcrumb">
-          <Link to="/">Accueil</Link>
-          <ChevronRight />
-          <span>{label}</span>
+  const crumbs = (
+    <div className="breadcrumb">
+      <Link to="/">Accueil</Link>
+      <ChevronRight />
+      <span>{label}</span>
+    </div>
+  );
+  if (!image)
+    return (
+      <section className="page-intro">
+        <div className="container">
+          {crumbs}
+          <h1>{title}</h1>
+          <p>{description}</p>
+          {children}
         </div>
+      </section>
+    );
+  return (
+    <section className={compact ? "page-hero page-hero--compact" : "page-hero"}>
+      <img
+        className="page-hero-img"
+        src={image.src}
+        alt={image.alt}
+        style={image.position ? { objectPosition: image.position } : undefined}
+        fetchPriority="high"
+        decoding="async"
+      />
+      {image.illustration && <span className="hero-caption">Visuel d’illustration</span>}
+      <div className="container page-hero-inner">
+        {crumbs}
         <h1>{title}</h1>
         <p>{description}</p>
+        {actions && <div className="page-hero-actions">{actions}</div>}
         {children}
       </div>
     </section>
@@ -639,32 +698,3 @@ export function CheckList({ items }: { items: readonly string[] }) {
 }
 
 /** Sticky in-page navigation that highlights the section currently on screen. */
-export function SectionTabs({ items }: { items: readonly (readonly [string, string])[] }) {
-  const [active, setActive] = useState(items[0]?.[0] ?? "");
-  useEffect(() => {
-    if (!("IntersectionObserver" in window)) return;
-    const observer = new IntersectionObserver(
-      (entries) => {
-        const visible = entries.filter((e) => e.isIntersecting);
-        if (visible[0]) setActive(visible[0].target.id);
-      },
-      { rootMargin: "-35% 0px -60% 0px" },
-    );
-    for (const [id] of items) {
-      const el = document.getElementById(id);
-      if (el) observer.observe(el);
-    }
-    return () => observer.disconnect();
-  }, [items]);
-  return (
-    <nav className="section-tabs" aria-label="Sur cette page">
-      <div className="container section-tabs-inner">
-        {items.map(([id, label]) => (
-          <a key={id} href={`#${id}`} className={active === id ? "is-active" : ""}>
-            {label}
-          </a>
-        ))}
-      </div>
-    </nav>
-  );
-}

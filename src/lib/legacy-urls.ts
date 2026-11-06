@@ -6,9 +6,11 @@ import { sitePages } from "./site-files";
 
 export const legacyRedirects: Record<string, string> = {
   "/entreprise/le-garage": "/entreprise",
-  "/entreprise/service-vente": "/services#vente",
-  "/entreprise/la-carrosserie": "/services#carrosserie",
-  "/entreprise/atelier-mecanique": "/services#mecanique",
+  "/entreprise/service-vente": "/vehicules",
+  "/entreprise/la-carrosserie": "/carrosserie",
+  "/entreprise/atelier-mecanique": "/atelier",
+  // The test site's former page for the three trades, split into one page per trade.
+  "/services": "/carrosserie",
   "/entreprise/pompe-a-essence": "/station-service",
   "/vehicules/en-stock": "/vehicules",
   "/vehicules/nouveautes": "/suzuki",

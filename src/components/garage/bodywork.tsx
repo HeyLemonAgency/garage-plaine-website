@@ -337,7 +337,7 @@ export function BodyworkSection() {
       <div className="container">
         <div className="bodywork-head">
           <div className="bodywork-copy">
-            <div className="eyebrow">02 / Carrosserie</div>
+            <div className="eyebrow">La carrosserie</div>
             <h2>Retrouver le plaisir d’une voiture impeccable.</h2>
             <p>
               De la réparation à la restauration, notre carrosserie vous accompagne et prend en

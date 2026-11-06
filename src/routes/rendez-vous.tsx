@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { PageIntro } from "@/components/garage/sections";
+import { PageIntro, photos } from "@/components/garage/sections";
 import { AppointmentPlanner } from "@/components/garage/appointment";
 import { OpenStatus } from "@/components/garage/people";
 import { pageHead } from "@/lib/seo";
@@ -54,6 +54,12 @@ function RendezVous() {
         label="Rendez-vous"
         title="Votre rendez-vous, en quatre étapes."
         description="Dites-nous ce dont vous avez besoin et quand cela vous arrange. La bonne personne vous confirme le rendez-vous."
+        image={{
+          src: photos.workshopTour,
+          alt: "L’atelier du garage : poste de diagnostic et voiture en entretien",
+          position: "70% 50%",
+        }}
+        compact
       >
         <OpenStatus className="intro-status" />
       </PageIntro>

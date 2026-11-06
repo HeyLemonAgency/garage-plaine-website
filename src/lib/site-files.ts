@@ -31,15 +31,22 @@ export const sitePages = [
       "Le stock en direct : Suzuki neuves et occasions toutes marques, avec prix et kilométrage.",
   },
   {
-    path: "/services",
-    name: "Services",
+    path: "/carrosserie",
+    name: "Carrosserie",
     priority: 0.9,
     about:
-      "Vente et reprise, carrosserie (sinistres, peinture, restauration) et atelier mécanique.",
+      "Sinistres réglés avec l’assurance, 8 véhicules de remplacement, peinture, restauration, polissage.",
+  },
+  {
+    path: "/atelier",
+    name: "Atelier mécanique",
+    priority: 0.9,
+    about:
+      "Entretien et réparations toutes marques, spécialité Suzuki : diagnostic, pneus, climatisation, attelages.",
   },
   {
     path: "/suzuki",
-    name: "Partenaire Suzuki",
+    name: "Suzuki neuves",
     priority: 0.8,
     about: "Concessionnaire Suzuki depuis plus de 20 ans : gamme, essais, financement, atelier.",
   },

@@ -204,8 +204,8 @@ function Suzuki() {
               ))}
             </ol>
             <SalesContact />
-            <Link className="section-link" to="/services">
-              Notre atelier et notre carrosserie, après l’achat <ArrowRight />
+            <Link className="section-link" to="/atelier">
+              Notre atelier, après l’achat <ArrowRight />
             </Link>
           </div>
         </div>

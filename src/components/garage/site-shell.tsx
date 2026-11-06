@@ -7,6 +7,7 @@ import {
   X,
   ArrowUpRight,
   CalendarDays,
+  ChevronDown,
   MessageCircle,
   Facebook,
   Instagram,
@@ -18,14 +19,91 @@ import { OpenStatus, WhatsAppIcon, whatsappHref } from "./people";
 import { useSpotlight } from "@/hooks/use-interactions";
 import logo from "@/assets/garage-logo-720.png";
 
-const nav = [
-  ["/", "Accueil"],
-  ["/entreprise", "Entreprise"],
-  ["/services", "Services"],
-  ["/vehicules", "Véhicules"],
-  ["/suzuki", "Partenaire Suzuki"],
-  ["/contact", "Contact"],
-] as const;
+// The menu follows what a visitor comes to do: buy (new or used), the body shop, the workshop,
+// the garage itself, contact. Sales and the body shop first, as the garage asked.
+type MenuLink = { to: string; label: string; hint?: string };
+type MenuItem = MenuLink & { children?: readonly MenuLink[] };
+const menu: readonly MenuItem[] = [
+  {
+    to: "/vehicules",
+    label: "Véhicules",
+    children: [
+      { to: "/suzuki", label: "Suzuki neuves", hint: "La gamme, le S-Cross en 3D, une offre" },
+      { to: "/vehicules", label: "Stock neuf et occasion", hint: "Nos voitures disponibles" },
+      { to: "/reprise", label: "Vendre ou faire reprendre", hint: "Votre voiture en 2 minutes" },
+    ],
+  },
+  { to: "/carrosserie", label: "Carrosserie" },
+  { to: "/atelier", label: "Atelier" },
+  {
+    to: "/entreprise",
+    label: "Le garage",
+    children: [
+      { to: "/entreprise", label: "L’entreprise", hint: "Plus de 40 ans à Denges, l’équipe" },
+      { to: "/station-service", label: "Station-service", hint: "Jubin, 24h/24 et 7j/7" },
+      { to: "/wir", label: "Paiement WIR", hint: "Les conditions" },
+    ],
+  },
+  { to: "/contact", label: "Contact" },
+];
+
+/** Desktop menu entry with a panel: opens on hover, click or keyboard; Escape or a click outside closes it. */
+function NavGroup({ item, pathname }: { item: MenuItem; pathname: string }) {
+  const [open, setOpen] = useState(false);
+  const root = useRef<HTMLDivElement>(null);
+  const closeTimer = useRef(0);
+  const active = item.children?.some((c) => c.to === pathname) ?? false;
+  useEffect(() => setOpen(false), [pathname]);
+  useEffect(() => {
+    if (!open) return;
+    const onKey = (e: KeyboardEvent) => e.key === "Escape" && setOpen(false);
+    const onDown = (e: MouseEvent) => !root.current?.contains(e.target as Node) && setOpen(false);
+    window.addEventListener("keydown", onKey);
+    document.addEventListener("mousedown", onDown);
+    return () => {
+      window.removeEventListener("keydown", onKey);
+      document.removeEventListener("mousedown", onDown);
+    };
+  }, [open]);
+  return (
+    <div
+      className="nav-group"
+      ref={root}
+      data-open={open || undefined}
+      onPointerEnter={(e) => {
+        if (e.pointerType !== "mouse") return;
+        window.clearTimeout(closeTimer.current);
+        setOpen(true);
+      }}
+      onPointerLeave={(e) => {
+        if (e.pointerType !== "mouse") return;
+        closeTimer.current = window.setTimeout(() => setOpen(false), 160);
+      }}
+    >
+      <button
+        type="button"
+        className="nav-link nav-group-toggle"
+        data-status={active ? "active" : undefined}
+        aria-expanded={open}
+        aria-haspopup="true"
+        onClick={() => setOpen(!open)}
+      >
+        {item.label}
+        <ChevronDown aria-hidden="true" />
+      </button>
+      {open && (
+        <div className="nav-panel">
+          {item.children?.map((c) => (
+            <Link key={c.to + c.label} to={c.to} className="nav-panel-link">
+              <strong>{c.label}</strong>
+              {c.hint && <span>{c.hint}</span>}
+            </Link>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+}
 
 // Pages where a visitor is most likely shopping for a car: the mobile call button
 // rings the sales advisor directly there.
@@ -82,11 +160,15 @@ export function SiteHeader() {
             />
           </Link>
           <nav className="desktop-nav" aria-label="Navigation principale">
-            {nav.map(([to, label]) => (
-              <Link key={to} to={to} className="nav-link" activeOptions={{ exact: to === "/" }}>
-                {label}
-              </Link>
-            ))}
+            {menu.map((item) =>
+              item.children ? (
+                <NavGroup key={item.label} item={item} pathname={pathname} />
+              ) : (
+                <Link key={item.to} to={item.to} className="nav-link">
+                  {item.label}
+                </Link>
+              ),
+            )}
           </nav>
           <Link to="/rendez-vous" className="header-cta">
             <CalendarDays />
@@ -106,11 +188,22 @@ export function SiteHeader() {
         </div>
         {open && (
           <nav className="mobile-nav" id="mobile-nav" aria-label="Navigation mobile">
-            {nav.map(([to, label]) => (
-              <Link key={to} to={to} activeOptions={{ exact: to === "/" }}>
-                {label}
-              </Link>
-            ))}
+            {menu.map((item) =>
+              item.children ? (
+                <div className="mobile-nav-group" key={item.label}>
+                  <span className="mobile-nav-label">{item.label}</span>
+                  {item.children.map((c) => (
+                    <Link key={c.to + c.label} to={c.to} className="mobile-nav-sub">
+                      {c.label}
+                    </Link>
+                  ))}
+                </div>
+              ) : (
+                <Link key={item.to} to={item.to}>
+                  {item.label}
+                </Link>
+              ),
+            )}
             <Link to="/rendez-vous" className="mobile-nav-cta">
               <CalendarDays />
               Demander un rendez-vous
@@ -172,15 +265,15 @@ export function SiteFooter() {
             <div>
               <h3>Le garage</h3>
               <div className="footer-links">
-                {nav.map(([to, label]) => (
-                  <Link key={to} to={to}>
-                    {label}
-                  </Link>
-                ))}
+                <Link to="/">Accueil</Link>
+                {menu
+                  .flatMap((item) => item.children ?? [item])
+                  .map((c) => (
+                    <Link key={c.to + c.label} to={c.to}>
+                      {c.label}
+                    </Link>
+                  ))}
                 <Link to="/rendez-vous">Rendez-vous</Link>
-                <Link to="/reprise">Reprise de véhicule</Link>
-                <Link to="/station-service">Station-service</Link>
-                <Link to="/wir">Paiement WIR</Link>
               </div>
             </div>
             <div>

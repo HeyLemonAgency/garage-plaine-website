@@ -522,7 +522,11 @@ export function AppointmentPlanner({
             <p className="small-note">Choisissez un service : nous vous dirons qui s’en occupe.</p>
           )}
           <a className="summary-call" href={contact?.mobileHref ?? garage.phoneHref}>
-            <Phone /> Plus rapide par téléphone : {contact?.mobile ?? garage.phone}
+            <Phone />
+            <span>
+              Plus rapide par téléphone&nbsp;:{" "}
+              <span className="nowrap">{contact?.mobile ?? garage.phone}</span>
+            </span>
           </a>
         </aside>
       </div>

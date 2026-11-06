@@ -204,24 +204,30 @@ export function ContactSection({ defaultTopic }: { defaultTopic?: DepartmentId }
             <a className="contact-line" href={garage.phoneHref}>
               <Phone />
               <div>
-                <span>Réception</span>
+                <span>Réception, atelier et carrosserie</span>
                 <strong>{garage.phone}</strong>
               </div>
             </a>
-            <a className="contact-line" href={sales.mobileHref}>
-              <Phone />
-              <div>
-                <span>Vente · {sales.name}</span>
-                <strong>{sales.mobile}</strong>
-              </div>
-            </a>
-            <a className="contact-line" href={whatsappHref(sales)} target="_blank" rel="noreferrer">
-              <WhatsAppIcon />
-              <div>
-                <span>WhatsApp</span>
-                <strong>{sales.mobile}</strong>
-              </div>
-            </a>
+            {/* One number per line: Tiago's mobile is also the WhatsApp, offered beside it. */}
+            <div className="contact-line-pair">
+              <a className="contact-line" href={sales.mobileHref}>
+                <Phone />
+                <div>
+                  <span>Vente · {sales.name}</span>
+                  <strong>{sales.mobile}</strong>
+                </div>
+              </a>
+              <a
+                className="contact-wa"
+                href={whatsappHref(sales)}
+                target="_blank"
+                rel="noreferrer"
+                aria-label={`WhatsApp, ${sales.name} (nouvel onglet)`}
+              >
+                <WhatsAppIcon />
+                WhatsApp
+              </a>
+            </div>
           </div>
           <a className="contact-line" href={garage.directions} target="_blank" rel="noreferrer">
             <MapPin />
@@ -268,7 +274,11 @@ export function ContactBand({
           <h2 id="contact-cta-title">
             Une question ? <span className="nowrap">Parlons-en.</span>
           </h2>
-          <p>Lundi à vendredi, de 7h30 à 12h et dès 13h30 ; le samedi sur rendez-vous.</p>
+          <p>
+            Lundi à vendredi : 7h30 – 12h et dès 13h30
+            <br />
+            Samedi : sur rendez-vous
+          </p>
           <OpenStatus className="contact-cta-status" />
         </div>
         <div className="contact-cta-actions">
