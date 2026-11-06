@@ -3,10 +3,16 @@ import { PageIntro, photos } from "@/components/garage/sections";
 import { AppointmentPlanner } from "@/components/garage/appointment";
 import { OpenStatus } from "@/components/garage/people";
 import { pageHead } from "@/lib/seo";
-import { isTopicId, type TopicId } from "@/lib/appointment";
+import { appointmentTopics, isTopicId, type TopicId } from "@/lib/appointment";
 import { isListingPath } from "@/lib/autolina";
 
-type RendezVousSearch = { besoin?: TopicId; annonce?: string; selection?: string };
+type RendezVousSearch = {
+  besoin?: TopicId;
+  /** One of the needs of that service (« Devis peinture ou réparation »), already chosen. */
+  precision?: string;
+  annonce?: string;
+  selection?: string;
+};
 
 export const Route = createFileRoute("/rendez-vous")({
   validateSearch: (search: Record<string, unknown>): RendezVousSearch => {
@@ -17,8 +23,13 @@ export const Route = createFileRoute("/rendez-vous")({
       typeof search["selection"] === "string"
         ? search["selection"].split(",").filter(isListingPath).slice(0, 6).join(",")
         : "";
+    const precision = search["precision"];
+    const needs: readonly string[] | undefined = isTopicId(besoin)
+      ? appointmentTopics.find((t) => t.id === besoin)?.needs
+      : undefined;
     return {
       ...(isTopicId(besoin) ? { besoin } : {}),
+      ...(typeof precision === "string" && needs?.includes(precision) ? { precision } : {}),
       ...(typeof annonce === "string" && isListingPath(annonce) ? { annonce } : {}),
       ...(selection ? { selection } : {}),
     };
@@ -46,7 +57,7 @@ function listingLabel(path: string): string {
 }
 
 function RendezVous() {
-  const { besoin, annonce, selection } = Route.useSearch();
+  const { besoin, precision, annonce, selection } = Route.useSearch();
   const listings = selection ? selection.split(",") : annonce ? [annonce] : [];
   return (
     <>
@@ -72,9 +83,11 @@ function RendezVous() {
                 ? { initialTopic: "vente" as const }
                 : {})}
             {...(listings.length ? { initialVehicle: listings.map(listingLabel).join(" ; ") } : {})}
-            {...(listings.length && (besoin ?? "vente") === "vente"
-              ? { initialNeed: "Essai sur route" }
-              : {})}
+            {...(precision
+              ? { initialNeed: precision }
+              : listings.length && (besoin ?? "vente") === "vente"
+                ? { initialNeed: "Essai sur route" }
+                : {})}
           />
         </div>
       </section>

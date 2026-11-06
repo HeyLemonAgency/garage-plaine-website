@@ -2,6 +2,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { PageIntro } from "@/components/garage/sections";
+import { ContactBand } from "@/components/garage/contact";
 import { wirRates } from "@/lib/garage";
 import { pageHead } from "@/lib/seo";
 import wirLogo from "@/assets/wir-partner.webp";
@@ -57,6 +58,7 @@ function Wir() {
           </div>
         </div>
       </section>
+      <ContactBand />
     </>
   );
 }

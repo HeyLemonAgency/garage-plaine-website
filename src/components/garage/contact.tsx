@@ -327,7 +327,7 @@ export function ContactBand({
 }
 
 /** Address panel with the Google map, loaded once the panel nears the screen. */
-export function Location() {
+export function Location({ station = false }: { station?: boolean }) {
   return (
     <section className="location-panel" aria-label="Localisation du garage">
       <div className="container location-grid">
@@ -338,7 +338,15 @@ export function Location() {
             {garage.address} · {garage.locality} <br />À 5 minutes de Morges et 10 minutes de
             Lausanne.
           </p>
-          <OpenStatus />
+          {station ? (
+            <span className="open-status open-status-open">
+              <span className="open-dot" aria-hidden="true" />
+              <strong>Station ouverte 24h/24</strong>
+              <span className="open-detail">· 7j/7</span>
+            </span>
+          ) : (
+            <OpenStatus />
+          )}
           <Button asChild variant="premium">
             <a href={garage.directions} target="_blank" rel="noreferrer">
               Obtenir l’itinéraire <ArrowUpRight />

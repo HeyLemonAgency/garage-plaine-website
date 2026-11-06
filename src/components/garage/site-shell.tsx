@@ -326,7 +326,8 @@ export function SiteFooter() {
         </div>
       </footer>
       <QuickContact />
-      <div className="mobile-call">
+      {/* On /rendez-vous the planner is the page: no bar pointing back to it. */}
+      <div className="mobile-call" hidden={pathname === "/rendez-vous"}>
         <Button variant="premium" asChild>
           {salesPage ? (
             <a href={team.vente.mobileHref} aria-label="Appeler la vente">
@@ -351,7 +352,37 @@ export function SiteFooter() {
           )}
         </Button>
         <Button variant="appointment" asChild>
-          {salesPage ? (
+          {pathname === "/reprise" ? (
+            <a
+              href={whatsappHref(team.vente, "Bonjour Tiago, voici les photos de ma voiture : ")}
+              target="_blank"
+              rel="noreferrer"
+              aria-label="Envoyer des photos par WhatsApp (nouvel onglet)"
+            >
+              <span className="mc-long" aria-hidden="true">
+                Photos par WhatsApp
+              </span>
+              <span className="mc-short" aria-hidden="true">
+                Photos
+              </span>{" "}
+              <ArrowUpRight aria-hidden="true" />
+            </a>
+          ) : pathname === "/station-service" ? (
+            <a
+              href={garage.directions}
+              target="_blank"
+              rel="noreferrer"
+              aria-label="Itinéraire (nouvel onglet)"
+            >
+              <span className="mc-long" aria-hidden="true">
+                Itinéraire
+              </span>
+              <span className="mc-short" aria-hidden="true">
+                Itinéraire
+              </span>{" "}
+              <ArrowUpRight aria-hidden="true" />
+            </a>
+          ) : salesPage ? (
             <Link to="/rendez-vous" search={{ besoin: "vente" }} aria-label="Demander un essai">
               <span className="mc-long" aria-hidden="true">
                 Demander un essai
@@ -388,7 +419,16 @@ function QuickContact() {
   const pathname = useRouterState({ select: (s) => s.location.pathname });
   useEffect(() => setOpen(false), [pathname]);
   useEffect(() => {
-    const check = () => setShown(window.scrollY > window.innerHeight * 0.6);
+    // …and steps aside over the closing contact band and the footer (same colour, same actions)
+    const check = () => {
+      const covered = Array.from(document.querySelectorAll(".contact-cta, .site-footer")).some(
+        (el) => {
+          const r = el.getBoundingClientRect();
+          return r.top < window.innerHeight - 60 && r.bottom > 0;
+        },
+      );
+      setShown(window.scrollY > window.innerHeight * 0.6 && !covered);
+    };
     check();
     window.addEventListener("scroll", check, { passive: true });
     return () => window.removeEventListener("scroll", check);

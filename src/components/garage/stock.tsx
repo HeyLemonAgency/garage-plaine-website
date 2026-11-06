@@ -397,7 +397,9 @@ export function StockPreview({ stock }: { stock: StockSnapshot }) {
               Nos dernières annonces
             </>
           }
-          title="Nos dernières voitures en stock."
+          title={
+            cars.length > 0 ? "Nos dernières voitures en stock." : "Notre stock, neuf et occasion."
+          }
           {...(cars.length > 0
             ? {
                 to: "/vehicules" as const,

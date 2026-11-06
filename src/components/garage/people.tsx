@@ -115,10 +115,25 @@ export function SalesContact({ compact = false }: { compact?: boolean }) {
   );
 }
 
+/** « Jérôme Baatard » → « JB »: the round mark of a person without a portrait yet. */
+const initials = (name: string) =>
+  name
+    .split(/\s+/)
+    .filter((w) => /^\p{Lu}/u.test(w))
+    .map((w) => w[0])
+    .join("")
+    .slice(0, 2);
+
 function TeamMember({ contact }: { contact: Contact }) {
   return (
     <div className="staff-item">
-      <Portrait contact={contact} className="staff-photo" />
+      {contact.photo ? (
+        <Portrait contact={contact} className="staff-photo" />
+      ) : (
+        <span className="staff-photo staff-initials" aria-hidden="true">
+          {initials(contact.name)}
+        </span>
+      )}
       <div className="staff-role">{contact.role}</div>
       <h3>{contact.name}</h3>
       {contact.title && <p>{contact.title}</p>}

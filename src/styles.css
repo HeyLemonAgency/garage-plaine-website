@@ -10005,3 +10005,105 @@ body:has(.mobile-toggle[aria-expanded="true"]) .mobile-call {
     height: 24px;
   }
 }
+
+/* ==== Audit 06.11.2026: design fixes ==== */
+/* Trust band: the phrase parts stay inline (the tile's spans are blocks). */
+.trust-item span .nowrap {
+  display: inline;
+}
+/* Team: compact cards, a round portrait or initials beside the name and the actions. */
+.staff-item {
+  display: grid;
+  grid-template-columns: 76px minmax(0, 1fr);
+  column-gap: 18px;
+  align-items: start;
+}
+.staff-item > .staff-photo {
+  grid-row: 1 / span 5;
+  width: 76px;
+  height: 76px;
+  margin: 0;
+  border-radius: 50%;
+}
+.staff-item > :not(.staff-photo) {
+  grid-column: 2;
+}
+.staff-initials {
+  display: grid;
+  place-items: center;
+  background: color-mix(in oklch, var(--primary) 9%, var(--card));
+  color: var(--primary);
+  font-size: 22px;
+  font-weight: 700;
+  letter-spacing: 1px;
+}
+.team-section {
+  background: var(--surface-tint);
+}
+/* One button shape: the pill, 46 px, the same text size on every screen. */
+.garage-button,
+.header-cta,
+.sz-ghost {
+  border-radius: 999px;
+}
+@media (max-width: 800px) {
+  .garage-button {
+    font-size: var(--fs-11);
+    padding: 0 16px;
+  }
+}
+/* Native checkboxes in the forms, at the size and colour of the rest. */
+input[type="checkbox"] {
+  width: 20px;
+  height: 20px;
+  accent-color: var(--primary);
+  flex-shrink: 0;
+}
+/* Suzuki range: the model names line up whatever the length of the kind above. */
+.range-kind {
+  min-height: 2.6em;
+}
+/* Workshop services: two columns on narrow phones, like the body shop. */
+@media (max-width: 420px) {
+  .mech-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+/* Image headers: a lighter bottom, so a dark band below still shows its edge. */
+.page-hero::before {
+  background:
+    linear-gradient(
+      90deg,
+      oklch(0.17 0.035 240 / 0.93) 0%,
+      oklch(0.17 0.035 240 / 0.8) 36%,
+      oklch(0.17 0.035 240 / 0.3) 68%,
+      oklch(0.17 0.035 240 / 0.08) 100%
+    ),
+    linear-gradient(0deg, oklch(0.17 0.035 240 / 0.22), transparent 35%);
+}
+@media (max-width: 640px) {
+  .page-hero::before {
+    background: linear-gradient(
+      180deg,
+      oklch(0.17 0.035 240 / 0.42) 0%,
+      oklch(0.17 0.035 240 / 0.74) 38%,
+      oklch(0.17 0.035 240 / 0.9) 100%
+    );
+  }
+  /* Home on a phone: the photo first, above the title. */
+  .hero-media {
+    order: 0;
+    height: 220px;
+  }
+  .hero-media .hero-image {
+    mask-image: linear-gradient(to top, transparent 0, #000 30%);
+    -webkit-mask-image: linear-gradient(to top, transparent 0, #000 30%);
+  }
+}
+/* Compact team cards: one per row up to tablets (the e-mail address needs the width). */
+@media (max-width: 1000px) {
+  .staff-grid {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 18px;
+  }
+}

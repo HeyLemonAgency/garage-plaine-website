@@ -40,7 +40,8 @@ function Contact() {
           position: "58% 50%",
         }}
       />
-      <section className="section">
+      <ContactSection {...(demande ? { defaultTopic: demande } : {})} />
+      <section className="section team-section">
         <div className="container">
           <div className="section-heading">
             <div>
@@ -51,7 +52,6 @@ function Contact() {
           <TeamGrid />
         </div>
       </section>
-      <ContactSection {...(demande ? { defaultTopic: demande } : {})} />
       <FaqSection
         items={faqs.contact}
         title="Avant de nous appeler."

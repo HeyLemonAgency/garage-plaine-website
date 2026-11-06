@@ -2,7 +2,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { ArrowRight, Clock, CreditCard, Fuel, MapPin } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { PageIntro, CheckList, illustrations, photos } from "@/components/garage/sections";
-import { Location } from "@/components/garage/contact";
+import { ContactBand, Location } from "@/components/garage/contact";
 import { pageHead } from "@/lib/seo";
 export const Route = createFileRoute("/station-service")({
   head: () =>
@@ -32,7 +32,7 @@ function Station() {
         image={{
           src: photos.fuelHd,
           alt: "Les pompes de la station-service Jubin du garage à Denges",
-          position: "40% 45%",
+          position: "30% 45%",
         }}
       />
       <section className="section">
@@ -100,7 +100,8 @@ function Station() {
           ))}
         </ul>
       </section>
-      <Location />
+      <Location station />
+      <ContactBand />
     </>
   );
 }

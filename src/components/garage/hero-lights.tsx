@@ -224,13 +224,13 @@ export function HeroLights({ imgRef }: { imgRef: RefObject<HTMLImageElement | nu
 
           <span
             className="hl-ring"
-            style={{ left: `${(1268 / NAT_W) * 100}%`, top: `${(604 / NAT_H) * 100}%` }}
+            style={{ left: `${(1325 / NAT_W) * 100}%`, top: `${(516 / NAT_H) * 100}%` }}
             aria-hidden="true"
           />
           {hint && !on && (
             <span
               className="hl-hint"
-              style={{ left: `${(1268 / NAT_W) * 100}%`, top: `${(560 / NAT_H) * 100}%` }}
+              style={{ left: `${(1325 / NAT_W) * 100}%`, top: `${(480 / NAT_H) * 100}%` }}
               aria-hidden="true"
             >
               <Lightbulb />

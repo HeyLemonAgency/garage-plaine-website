@@ -5,7 +5,8 @@ import { PageIntro, photos } from "@/components/garage/sections";
 import { BodyworkSection } from "@/components/garage/bodywork";
 import { FaqSection } from "@/components/garage/faq";
 import { ContactBand } from "@/components/garage/contact";
-import { faqs, garage } from "@/lib/garage";
+import { faqs, garage, team } from "@/lib/garage";
+import { WhatsAppIcon, whatsappHref } from "@/components/garage/people";
 import { pageHead } from "@/lib/seo";
 
 export const Route = createFileRoute("/carrosserie")({
@@ -36,10 +37,25 @@ function Carrosserie() {
         actions={
           <>
             <Button asChild variant="premium">
-              <Link to="/rendez-vous" search={{ besoin: "carrosserie" }}>
+              <Link
+                to="/rendez-vous"
+                search={{ besoin: "carrosserie", precision: "Devis peinture ou réparation" }}
+              >
                 Demander un devis <ArrowRight />
               </Link>
             </Button>
+            <a
+              className="hero-ghost"
+              href={whatsappHref(
+                team.carrosserie,
+                "Bonjour, pour la carrosserie (Marco Da Silva) : voici des photos des dégâts de ma voiture.",
+              )}
+              target="_blank"
+              rel="noreferrer"
+            >
+              <WhatsAppIcon /> Photos par WhatsApp
+              <span className="sr-only"> (nouvel onglet)</span>
+            </a>
             <a className="hero-ghost" href={garage.phoneHref}>
               <Phone /> {garage.phone}
             </a>
