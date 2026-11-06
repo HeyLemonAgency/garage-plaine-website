@@ -1,7 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useState, type FormEvent } from "react";
 import { ArrowRight, ArrowUpRight } from "lucide-react";
-import { PageIntro, photos } from "@/components/garage/sections";
+import { PageIntro, illustrations } from "@/components/garage/sections";
 import { Button } from "@/components/ui/button";
 import { suzukiRange, team } from "@/lib/garage";
 import { verifierMessage } from "@/lib/lemon";
@@ -118,9 +118,9 @@ function Offre() {
         title={`Votre offre pour une Suzuki ${model.name}.`}
         description="Dites-nous ce qui compte pour vous : Tiago Bessa vous prépare une offre détaillée, avec le financement et la reprise si vous le souhaitez."
         image={{
-          src: photos.suzukiLake,
-          alt: "Une Suzuki sur une route au bord du Léman",
-          position: "75% 60%",
+          src: illustrations.suzukiRoad,
+          alt: "Un SUV Suzuki sur une route de montagne au-dessus d’un lac",
+          position: "70% 55%",
         }}
         compact
       />

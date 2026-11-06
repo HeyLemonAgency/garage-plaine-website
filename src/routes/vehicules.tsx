@@ -74,9 +74,9 @@ function Vehicules() {
         title="Suzuki neuves et occasions toutes marques, à Denges."
         description="Une voiture neuve, une occasion, ou la vente de la vôtre : choisissez, puis parlez directement à notre service vente."
         image={{
-          src: photos.garageHd,
-          alt: "Le garage à Denges, avec les Suzuki exposées devant le showroom",
-          position: "78% 60%",
+          src: photos.showroomHd,
+          alt: "Le showroom du garage à Denges, avec des Suzuki Swift exposées",
+          position: "62% 55%",
         }}
         actions={
           <>

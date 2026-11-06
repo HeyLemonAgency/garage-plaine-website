@@ -1,7 +1,7 @@
 # Images : provenance
 
 Photos du garage (vente, atelier, carrosserie, station, showroom, équipe) : fournies par le
-Garage Carrosserie de la Plaine. `garage-hd.webp`, `fuel-hd.webp` et `bodywork-hd.webp` sont
+Garage Carrosserie de la Plaine. `garage-hd.webp`, `fuel-hd.webp`, `bodywork-hd.webp`, `showroom-hd.webp` et `sales-hd.webp` (recadrage du showroom) sont
 les mêmes photos retouchées par IA pour les en-têtes (lumière, ciel, netteté), comparées à
 l’original le 06.11.2026 : même bâtiment, mêmes enseignes, mêmes voitures.
 
@@ -11,6 +11,7 @@ garage, 06.11.2026) ; jamais pour présenter une voiture à vendre :
 | Fichier | Source | Licence |
 |---|---|---|
 | `suzuki-lake*.webp` | image générée pour le site (Suzuki au bord du Léman) | — |
+| `suzuki-road.webp` | image générée par IA, fournie par Lemon (SUV Suzuki sur une route de montagne au-dessus d’un lac) | — |
 | `workshop-illustration.webp` | image générée par IA, fournie par Lemon (clé à cliquet sur un moteur) | — |
 | `stock-key-handover.webp` | Pexels, photo 7144207 : https://www.pexels.com/photo/a-person-giving-a-car-key-to-another-person-while-shaking-his-hands-7144207/ | Licence Pexels : usage commercial gratuit, attribution non requise |
 | `bodywork-polish.webp` | rawpixel (voir le commentaire dans `bodywork.tsx`) | CC0 |

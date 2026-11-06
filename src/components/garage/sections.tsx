@@ -33,7 +33,9 @@ import hero1440 from "@/assets/suzuki-lake-1440.webp";
 import suzuki from "@/assets/suzuki-logo.png";
 import garagePhoto from "@/assets/garage.webp";
 import garageWide from "@/assets/garage-wide.webp";
-import sales from "@/assets/sales.webp";
+import sales from "@/assets/sales-hd.webp";
+import showroomHd from "@/assets/showroom-hd.webp";
+import suzukiRoad from "@/assets/suzuki-road.webp";
 import workshop from "@/assets/workshop.webp";
 import bodywork from "@/assets/bodywork.webp";
 import fuel from "@/assets/fuel.webp";
@@ -58,6 +60,7 @@ export const photos = {
   garageHd,
   fuelHd,
   bodyworkHd,
+  showroomHd,
 };
 
 /**
@@ -65,7 +68,7 @@ export const photos = {
  * image), only where it has no photo of its own and never to present a car for sale.
  * Sources in src/assets/CREDITS.md.
  */
-export const illustrations = { keyHandover, workshop: workshopIllustration };
+export const illustrations = { keyHandover, workshop: workshopIllustration, suzukiRoad };
 
 type Intent = {
   id: "acheter" | "atelier" | "carrosserie";
