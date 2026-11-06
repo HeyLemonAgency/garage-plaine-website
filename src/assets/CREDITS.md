@@ -1,7 +1,7 @@
 # Images : provenance
 
 Photos du garage (vente, atelier, carrosserie, station, showroom, équipe) : fournies par le
-Garage Carrosserie de la Plaine. `fuel-hd.webp`, `bodywork-hd.webp`, `garage-story.webp` (recadrage de la façade) et `sales-hd.webp` (recadrage du showroom) sont
+Garage Carrosserie de la Plaine. `fuel-hd.webp`, `bodywork-hd.webp`, `garage-hd.webp`, `garage-story.webp` (recadrage de la façade) et `sales-hd.webp` (le showroom) sont
 les mêmes photos retouchées par IA (lumière, ciel, netteté), comparées à
 l’original le 06.11.2026 : même bâtiment, mêmes enseignes, mêmes voitures.
 

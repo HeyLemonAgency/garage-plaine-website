@@ -10151,3 +10151,11 @@ input[type="checkbox"] {
     display: inline-flex;
   }
 }
+/* A header that takes its photo's shape (station, façade): the whole photo shows from tablets up. */
+@media (min-width: 641px) {
+  .page-hero--fit {
+    min-height: 0;
+    aspect-ratio: var(--hero-ratio);
+    max-height: 86vh;
+  }
+}

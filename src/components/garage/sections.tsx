@@ -43,6 +43,7 @@ import bodywork from "@/assets/bodywork.webp";
 import fuel from "@/assets/fuel.webp";
 import workshopTour from "@/assets/workshop-tour.webp";
 import fuelHd from "@/assets/fuel-hd.webp";
+import garageHd from "@/assets/garage-hd.webp";
 import bodyworkHd from "@/assets/bodywork-hd.webp";
 import suzukiFront from "@/assets/suzuki-front-lake.webp";
 import suzukiRear from "@/assets/suzuki-rear-lake.webp";
@@ -59,6 +60,7 @@ export const photos = {
   /** Wide, high-definition versions (light and sky retouched, nothing added). */
   fuelHd,
   bodyworkHd,
+  garageHd,
 };
 
 /**
@@ -643,6 +645,8 @@ export type IntroImage = {
   alt: string;
   /** CSS object-position, to keep the subject clear of the text. */
   position?: string;
+  /** Width / height of the photo: from tablets up, the header takes this shape and shows it whole. */
+  ratio?: number;
 };
 
 export function PageIntro({
@@ -683,7 +687,10 @@ export function PageIntro({
       </section>
     );
   return (
-    <section className={compact ? "page-hero page-hero--compact" : "page-hero"}>
+    <section
+      className={`page-hero${compact ? " page-hero--compact" : ""}${image.ratio ? " page-hero--fit" : ""}`}
+      style={image.ratio ? ({ "--hero-ratio": image.ratio } as CSSProperties) : undefined}
+    >
       <img
         className="page-hero-img"
         src={image.src}
