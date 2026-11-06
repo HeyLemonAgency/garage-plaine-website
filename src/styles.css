@@ -10371,3 +10371,24 @@ input[type="checkbox"] {
 .contact-panel .contact-form .field-icon :is(input, select, textarea) {
   padding-left: 46px;
 }
+/* /vehicules: the Autolina stock as a long list the page scrolls through, longer on request */
+.inventory-frame {
+  height: calc(2400px + var(--frame-more, 0) * 1600px);
+  min-height: 0;
+  transition: height 0.4s ease;
+}
+.inventory-more {
+  display: flex;
+  justify-content: center;
+  margin-top: 18px;
+}
+@media (max-width: 800px) {
+  .inventory-frame {
+    height: calc(2800px + var(--frame-more, 0) * 1800px);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .inventory-frame {
+    transition: none;
+  }
+}

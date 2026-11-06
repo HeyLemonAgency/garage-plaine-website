@@ -1,6 +1,7 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState, type CSSProperties } from "react";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import {
+  ArrowDown,
   ArrowLeft,
   ArrowUpRight,
   ArrowRight,
@@ -51,6 +52,11 @@ function Vehicules() {
   const src = (annonce && listingFrameUrl(annonce)) || garage.inventory;
   const frame = useRef<HTMLIFrameElement>(null);
   const loads = useRef(0);
+  // The Autolina list is long: the frame is tall (the page scrolls through the cars) and
+  // « Afficher plus de voitures » makes it taller still. A cross-origin frame cannot say its own
+  // height, so it grows in steps; anything beyond still scrolls inside it.
+  const [more, setMore] = useState(0);
+  useEffect(() => setMore(0), [src]);
 
   useEffect(() => {
     loads.current = 0;
@@ -144,12 +150,20 @@ function Vehicules() {
             ref={frame}
             key={src}
             className="inventory-frame"
+            style={{ "--frame-more": more } as CSSProperties}
             title="Stock actuel du Garage Carrosserie de la Plaine sur Autolina"
             src={src}
             loading="eager"
             allow="fullscreen"
             onLoad={onFrameLoad}
           />
+          {more < 6 && (
+            <div className="inventory-more">
+              <Button type="button" variant="appointment" onClick={() => setMore((n) => n + 1)}>
+                Afficher plus de voitures <ArrowDown />
+              </Button>
+            </div>
+          )}
           <p className="small-note">
             Les prix, les équipements et les disponibilités sont ceux de l’annonce Autolina. Si le
             stock ne s’affiche pas, utilisez le lien « Ouvrir sur Autolina ».
