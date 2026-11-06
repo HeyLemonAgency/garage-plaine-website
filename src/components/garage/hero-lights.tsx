@@ -4,10 +4,9 @@ import { Lightbulb } from "lucide-react";
 // Headlight positions in the hero photo (hero-vitara.webp, 1820 × 864 px).
 const NAT_W = 1820;
 const NAT_H = 864;
-const HOTSPOTS = [
-  { id: "right", x: 1268, y: 493, w: 115, h: 47 },
-  { id: "left", x: 1060, y: 495, w: 38, h: 42 },
-] as const;
+// One generous zone over the whole front (both headlamps, the grille, the top of the bumper):
+// the pointer finds it without aiming at a lamp.
+const HOTSPOTS = [{ id: "front", x: 1020, y: 460, w: 410, h: 125 }] as const;
 const HINT_KEY = "garage-plaine-lights";
 
 type Rect = { x: number; y: number; w: number; h: number };
