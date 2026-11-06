@@ -1,5 +1,5 @@
 import { Link, useRouterState } from "@tanstack/react-router";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, type MouseEvent as ReactMouseEvent } from "react";
 import {
   Phone,
   MapPin,
@@ -124,6 +124,19 @@ function NavGroup({ item, pathname }: { item: MenuItem; pathname: string }) {
 // rings the sales advisor directly there.
 const SALES_PAGES = new Set(["/vehicules", "/suzuki", "/reprise", "/offre"]);
 
+/**
+ * The logo (and « Accueil ») always lead to the TOP of the homepage: from another page the
+ * router resets the scroll; on the homepage itself there is no navigation, so it scrolls up.
+ */
+function toTopOfHome(e: ReactMouseEvent<HTMLAnchorElement>) {
+  if (window.location.pathname !== "/" || e.metaKey || e.ctrlKey || e.shiftKey || e.button !== 0)
+    return;
+  e.preventDefault();
+  if (window.location.hash) history.replaceState(null, "", "/");
+  const smooth = !window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  window.scrollTo({ top: 0, behavior: smooth ? "smooth" : "auto" });
+}
+
 export function SiteHeader() {
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
@@ -166,7 +179,13 @@ export function SiteHeader() {
       </div>
       <header className="site-header" data-scrolled={scrolled || undefined}>
         <div className="container nav-row">
-          <Link to="/" className="logo" aria-label="Garage Carrosserie de la Plaine — Accueil">
+          <Link
+            to="/"
+            resetScroll
+            className="logo"
+            aria-label="Garage Carrosserie de la Plaine — Accueil"
+            onClick={toTopOfHome}
+          >
             <img
               src={logo}
               srcSet={`${logo} 720w, ${logo2x} 1440w`}
@@ -186,6 +205,7 @@ export function SiteHeader() {
                   to={item.to}
                   className="nav-link"
                   activeOptions={{ exact: item.to === "/" }}
+                  {...(item.to === "/" ? { onClick: toTopOfHome } : {})}
                 >
                   {item.label}
                 </Link>
