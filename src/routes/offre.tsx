@@ -168,72 +168,77 @@ function Offre() {
                 </p>
               </fieldset>
 
-              <fieldset className="form-section" key={model.id}>
-                <legend>Vos préférences</legend>
-                {(asksGearbox(model) || asksDrive(model)) && (
-                  <div className="opt-pair">
-                    {asksGearbox(model) && (
-                      <Options name="gearbox" legend="Boîte" options={gearboxChoices} />
-                    )}
-                    {asksDrive(model) && (
-                      <Options
-                        name="drive"
-                        legend="Transmission"
-                        options={driveChoicesFor(model)}
-                      />
-                    )}
+              <details className="form-more">
+                <summary>
+                  Préciser votre offre (facultatif)&nbsp;: boîte, options, financement
+                </summary>
+                <fieldset className="form-section" key={model.id}>
+                  <legend>Vos préférences</legend>
+                  {(asksGearbox(model) || asksDrive(model)) && (
+                    <div className="opt-pair">
+                      {asksGearbox(model) && (
+                        <Options name="gearbox" legend="Boîte" options={gearboxChoices} />
+                      )}
+                      {asksDrive(model) && (
+                        <Options
+                          name="drive"
+                          legend="Transmission"
+                          options={driveChoicesFor(model)}
+                        />
+                      )}
+                    </div>
+                  )}
+                  <div className="form-row">
+                    <Field
+                      id="of-version"
+                      label="Version ou équipement"
+                      hint="Si vous la connaissez déjà."
+                    >
+                      <input id="of-version" name="version" maxLength={80} />
+                    </Field>
+                    <Field id="of-colour" label="Teinte souhaitée">
+                      <input id="of-colour" name="colour" maxLength={40} />
+                    </Field>
                   </div>
-                )}
-                <div className="form-row">
-                  <Field
-                    id="of-version"
-                    label="Version ou équipement"
-                    hint="Si vous la connaissez déjà."
-                  >
-                    <input id="of-version" name="version" maxLength={80} />
-                  </Field>
-                  <Field id="of-colour" label="Teinte souhaitée">
-                    <input id="of-colour" name="colour" maxLength={40} />
-                  </Field>
-                </div>
-                <Options name="options" legend="Options" options={optionChoices} multiple />
-              </fieldset>
+                  <Options name="options" legend="Options" options={optionChoices} multiple />
+                </fieldset>
 
-              <fieldset className="form-section">
-                <legend>Le financement</legend>
-                <Options name="financing" legend="Paiement" options={financingChoices} />
-                <Options name="timing" legend="Délai" options={timingChoices} />
-                <label className="privacy">
-                  <input type="checkbox" name="testDrive" />
-                  <span>Je souhaite aussi un essai sur route.</span>
-                </label>
-                <label className="privacy">
-                  <input
-                    type="checkbox"
-                    checked={tradeIn}
-                    onChange={(e) => setTradeIn(e.target.checked)}
-                  />
-                  <span>J’ai un véhicule à faire reprendre.</span>
-                </label>
-                {tradeIn && (
-                  <div className="form-row form-row-3">
-                    <Field id="of-trade" label="Marque et modèle">
-                      <input id="of-trade" name="tradeMake" maxLength={60} />
-                    </Field>
-                    <Field id="of-trade-year" label="Année">
-                      <input
-                        id="of-trade-year"
-                        name="tradeYear"
-                        inputMode="numeric"
-                        maxLength={4}
-                      />
-                    </Field>
-                    <Field id="of-trade-km" label="Kilométrage">
-                      <input id="of-trade-km" name="tradeKm" inputMode="numeric" maxLength={9} />
-                    </Field>
-                  </div>
-                )}
-              </fieldset>
+                <fieldset className="form-section">
+                  <legend>Le financement</legend>
+                  <Options name="financing" legend="Paiement" options={financingChoices} />
+                  <Options name="timing" legend="Délai" options={timingChoices} />
+                  <label className="privacy">
+                    <input type="checkbox" name="testDrive" />
+                    <span>Je souhaite aussi un essai sur route.</span>
+                  </label>
+                  <label className="privacy">
+                    <input
+                      type="checkbox"
+                      checked={tradeIn}
+                      onChange={(e) => setTradeIn(e.target.checked)}
+                    />
+                    <span>J’ai un véhicule à faire reprendre.</span>
+                  </label>
+                  {tradeIn && (
+                    <div className="form-row form-row-3">
+                      <Field id="of-trade" label="Marque et modèle">
+                        <input id="of-trade" name="tradeMake" maxLength={60} />
+                      </Field>
+                      <Field id="of-trade-year" label="Année">
+                        <input
+                          id="of-trade-year"
+                          name="tradeYear"
+                          inputMode="numeric"
+                          maxLength={4}
+                        />
+                      </Field>
+                      <Field id="of-trade-km" label="Kilométrage">
+                        <input id="of-trade-km" name="tradeKm" inputMode="numeric" maxLength={9} />
+                      </Field>
+                    </div>
+                  )}
+                </fieldset>
+              </details>
 
               <Field id="of-notes" label="Un mot pour Tiago">
                 <textarea
