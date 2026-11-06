@@ -1,7 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { PageIntro } from "@/components/garage/sections";
+import { PageIntro, illustrations } from "@/components/garage/sections";
 import { ContactBand } from "@/components/garage/contact";
 import { wirRates } from "@/lib/garage";
 import { pageHead } from "@/lib/seo";
@@ -25,6 +25,12 @@ function Wir() {
         label="Partenariat WIR"
         title="Votre garage, partenaire WIR."
         description="Le Garage Carrosserie de la Plaine accepte les paiements WIR selon les conditions ci-dessous."
+        image={{
+          src: illustrations.suzukiLake,
+          alt: "Une Suzuki au bord d’un lac",
+          position: "72% 62%",
+        }}
+        compact
       />
       <section className="section">
         <div className="container detail-layout">
