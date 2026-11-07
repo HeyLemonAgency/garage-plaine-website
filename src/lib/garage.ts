@@ -10,7 +10,7 @@ export const garage = {
   alternateNames: ["Garage de la Plaine", "Garage-Carrosserie de la Plaine"],
   /** One factual paragraph for search engines and AI assistants (JSON-LD, llms.txt). */
   summary:
-    "Le Garage Carrosserie de la Plaine (aussi appelé Garage de la Plaine) est un garage de Denges (VD), sur La Côte, à 5 minutes de Morges et 10 minutes de Lausanne. Concessionnaire Suzuki depuis plus de 20 ans, il vend des Suzuki neuves et des occasions toutes marques, répare et entretient les véhicules de toutes marques dans son atelier mécanique, dispose d’une carrosserie et d’une station-service Jubin ouverte 24h/24. Un service de qualité depuis plus de 40 ans.",
+    "Le Garage Carrosserie de la Plaine (aussi appelé Garage de la Plaine) est le concessionnaire officiel Suzuki de Denges (VD), sur La Côte, à 5 minutes de Morges et 10 minutes de Lausanne. Concessionnaire Suzuki depuis plus de 20 ans, il vend des Suzuki neuves et des occasions toutes marques, répare et entretient les véhicules de toutes marques dans son atelier mécanique, dispose d’une carrosserie et d’une station-service Jubin ouverte 24h/24. Un service de qualité depuis plus de 40 ans.",
   address: "Route de la Plaine 20",
   postalCode: "1026",
   city: "Denges",
@@ -431,6 +431,20 @@ export const faqs = {
     {
       q: "Reprenez-vous mon véhicule actuel ?",
       a: "Oui. Le service vente reprend votre ancien véhicule lors d’un achat, et nous achetons aussi des véhicules : décrivez le vôtre en ligne et nous vous recontactons.",
+    },
+  ],
+  suzuki: [
+    {
+      q: "Où acheter une Suzuki neuve près de Morges ?",
+      a: `Au Garage Carrosserie de la Plaine, à Denges, à 5 minutes de Morges : concessionnaire officiel Suzuki depuis plus de 20 ans. Toute la gamme (Swift, Vitara, S-Cross, e Vitara, Across), essais sur route, offre détaillée, financement, leasing et reprise de votre voiture. Votre interlocuteur : ${team.vente.name}, ${team.vente.mobile}.`,
+    },
+    {
+      q: "Où faire l’entretien de ma Suzuki près de Morges ou de Lausanne ?",
+      a: `À l’atelier du Garage Carrosserie de la Plaine à Denges, spécialiste Suzuki : services, diagnostic, pneus, climatisation et réparations, avec ${team.atelier.name}, titulaire d’un brevet fédéral. Rendez-vous en ligne ou au ${garage.phone}.`,
+    },
+    {
+      q: "Peut-on essayer une Suzuki avant de l’acheter ?",
+      a: `Oui : essai sur route sur rendez-vous, au départ du garage à Denges. Demandez-le en ligne ou appelez ${team.vente.name} au ${team.vente.mobile}.`,
     },
   ],
   contact: [

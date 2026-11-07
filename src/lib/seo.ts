@@ -10,6 +10,7 @@ import {
   mechanicalServices,
   salesServices,
   schedule,
+  suzukiRange,
   team,
   type Faq,
 } from "./garage";
@@ -128,7 +129,26 @@ export function siteGraph() {
         address,
         geo: { "@type": "GeoCoordinates", ...garage.geo },
         hasMap: garage.directions,
-        areaServed: ["Denges", "Morges", "Lausanne", "La Côte"].map((name) => ({
+        slogan: "Votre concessionnaire officiel Suzuki à Denges, près de Morges",
+        knowsAbout: [
+          "Suzuki",
+          ...suzukiRange.map((m) => `Suzuki ${m.name}`),
+          "Carrosserie",
+          "Mécanique automobile",
+        ],
+        areaServed: [
+          "Denges",
+          "Morges",
+          "Lonay",
+          "Préverenges",
+          "Échandens",
+          "Tolochenaz",
+          "Saint-Prex",
+          "Bussigny",
+          "Écublens",
+          "Lausanne",
+          "La Côte",
+        ].map((name) => ({
           "@type": "Place",
           name,
         })),
@@ -147,6 +167,21 @@ export function siteGraph() {
             email: team.vente.email,
             address,
             brand: { "@type": "Brand", name: "Suzuki" },
+            // the new Suzuki range, each with its own offer request
+            hasOfferCatalog: {
+              "@type": "OfferCatalog",
+              name: "Suzuki neuves",
+              itemListElement: suzukiRange.map((m) => ({
+                "@type": "Offer",
+                url: absoluteUrl(`/offre?modele=${m.id}`),
+                itemOffered: {
+                  "@type": "Car",
+                  name: `Suzuki ${m.name}`,
+                  brand: { "@type": "Brand", name: "Suzuki" },
+                  description: m.kind,
+                },
+              })),
+            },
             employee: { "@id": people.vente["@id"] },
           },
           {

@@ -26,11 +26,11 @@ type MenuLink = { to: string; label: string; hint?: string };
 type MenuItem = MenuLink & { children?: readonly MenuLink[] };
 const menu: readonly MenuItem[] = [
   { to: "/", label: "Accueil" },
+  { to: "/suzuki", label: "Suzuki" },
   {
     to: "/vehicules",
     label: "Véhicules",
     children: [
-      { to: "/suzuki", label: "Suzuki neuves", hint: "La gamme, le S-Cross en 3D, une offre" },
       { to: "/vehicules", label: "Stock neuf et occasion", hint: "Nos voitures disponibles" },
       { to: "/reprise", label: "Vendre ou faire reprendre", hint: "Votre voiture en 2 minutes" },
     ],
@@ -356,7 +356,7 @@ export function SiteFooter() {
           </div>
           <div className="footer-bottom">
             <span>© {new Date().getFullYear()} Garage Carrosserie de la Plaine · Denges</span>
-            <span>Concessionnaire Suzuki · La Côte, Vaud</span>
+            <span>Concessionnaire officiel Suzuki · La Côte, Vaud</span>
             <Link to="/confidentialite">Confidentialité</Link>
           </div>
         </div>

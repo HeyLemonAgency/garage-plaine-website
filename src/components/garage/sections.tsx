@@ -21,7 +21,7 @@ import {
   CarFront,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { garage, services, team, type Contact } from "@/lib/garage";
+import { garage, services, suzukiRange, team, type Contact } from "@/lib/garage";
 import { CountUp } from "./interactive";
 import { HeroLights } from "./hero-lights";
 import { serviceIcons } from "./service-icons";
@@ -276,16 +276,19 @@ export function Hero({ stockTotal = null }: { stockTotal?: number | null }) {
       </div>
       <div className="container hero-content">
         <div className="hero-copy reveal">
-          <div className="eyebrow">
-            <span className="eyebrow-dot" />
-            Garage Carrosserie de la Plaine · Denges
+          <div className="eyebrow hero-brand">
+            <img className="hero-suzuki" src={suzuki} alt="Suzuki" width={34} height={26} />
+            Concessionnaire officiel Suzuki · Denges
           </div>
           <h1>
-            Votre garage <br />
-            de confiance <br />à Denges.
+            Votre concessionnaire <br />
+            Suzuki à Denges.
           </h1>
           <div className="red-rule" />
-          <p>Vente, carrosserie et entretien : un service de proximité depuis plus de 40 ans.</p>
+          <p>
+            Suzuki neuves, occasions toutes marques, atelier et carrosserie : un service de
+            proximité depuis plus de 40 ans.
+          </p>
         </div>
         <HeroConcierge stockTotal={stockTotal} />
       </div>
@@ -295,8 +298,8 @@ export function Hero({ stockTotal = null }: { stockTotal?: number | null }) {
 
 export function TrustBar({ stockTotal = null }: { stockTotal?: number | null }) {
   const items = [
-    { icon: ShieldCheck, value: 40, suffix: "+", unit: "ans", text: "d’expérience" },
     { logo: suzuki, value: 20, suffix: "+", unit: "ans", text: "concessionnaire Suzuki" },
+    { icon: ShieldCheck, value: 40, suffix: "+", unit: "ans", text: "d’expérience" },
     stockTotal
       ? {
           icon: CarFront,
@@ -478,26 +481,41 @@ export function Partnership() {
             height={40}
             loading="lazy"
           />
-          <div className="eyebrow">Partenaire officiel</div>
+          <div className="eyebrow">Concessionnaire officiel Suzuki</div>
           <h2>
-            Concessionnaire Suzuki <br />
+            Votre concessionnaire Suzuki <br />
             depuis plus de 20 ans.
           </h2>
           <p>
-            Le Garage Carrosserie de la Plaine est votre concessionnaire Suzuki sur La Côte : toute
-            la gamme neuve, les essais sur route et un atelier spécialiste Suzuki.
+            Entre Morges et Lausanne, le Garage Carrosserie de la Plaine vous présente toute la
+            gamme Suzuki neuve dans son showroom de Denges : essais sur route, offre détaillée,
+            financement, leasing et reprise de votre voiture.
           </p>
           <p>
-            Découvrez les véhicules neufs dans notre showroom, nos occasions toutes marques et les
-            possibilités de financement ou de leasing. Une offre ou un essai sur route&nbsp;? Il
-            suffit de demander.
+            Et après l’achat, notre atelier spécialiste Suzuki s’occupe de l’entretien et des
+            réparations.
           </p>
           <Button variant="premium" asChild>
             <Link to="/suzuki">
-              Découvrir notre partenariat <ArrowRight />
+              Découvrir la gamme Suzuki <ArrowRight />
             </Link>
           </Button>
         </div>
+      </div>
+      <div className="container">
+        <ul className="sz-strip" aria-label="La gamme Suzuki">
+          {suzukiRange.map((m) => (
+            <li key={m.id}>
+              <Link to="/offre" search={{ modele: m.id }} className="sz-strip-card">
+                <span className="sz-strip-kind">{m.kind}</span>
+                <strong>Suzuki {m.name}</strong>
+                <span className="sz-strip-cta">
+                  Demander une offre <ArrowRight aria-hidden="true" />
+                </span>
+              </Link>
+            </li>
+          ))}
+        </ul>
       </div>
     </section>
   );

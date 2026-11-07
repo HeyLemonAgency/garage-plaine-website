@@ -10402,3 +10402,117 @@ input[type="checkbox"] {
     transition: none;
   }
 }
+
+/* ==== Suzuki forward (07.11.2026) ==== */
+/* Hero: the Suzuki mark before « Concessionnaire officiel Suzuki · Denges » */
+.hero-brand {
+  gap: 10px;
+}
+.hero-suzuki {
+  width: auto;
+  height: 26px;
+  padding: 3px 5px;
+  border-radius: 6px;
+  background: oklch(1 0 0);
+  box-shadow: 0 1px 2px oklch(0.2 0.04 240 / 0.12);
+}
+/* Suzuki block: the five models, each opens its offer request */
+.sz-strip {
+  list-style: none;
+  margin: clamp(32px, 1.6rem + 2vw, 56px) 0 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 12px;
+}
+.sz-strip-card {
+  display: grid;
+  gap: 6px;
+  height: 100%;
+  padding: 18px 18px 16px;
+  border-radius: 16px;
+  border: 1px solid oklch(1 0 0 / 0.14);
+  background: oklch(1 0 0 / 0.06);
+  color: oklch(1 0 0);
+  transition:
+    background 0.2s,
+    border-color 0.2s,
+    transform 0.2s;
+}
+.sz-strip-card:hover {
+  background: oklch(1 0 0 / 0.12);
+  border-color: oklch(1 0 0 / 0.3);
+  transform: translateY(-2px);
+}
+.sz-strip-kind {
+  font-size: var(--fs-10);
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: oklch(1 0 0 / 0.7);
+}
+.sz-strip-card strong {
+  font-family: var(--font-display);
+  font-size: 20px;
+  line-height: 1.2;
+}
+.sz-strip-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 4px;
+  font-size: var(--fs-11);
+  font-weight: 600;
+  color: oklch(0.82 0.1 25);
+}
+.sz-strip-cta svg {
+  width: 15px;
+  height: 15px;
+}
+@media (max-width: 1100px) {
+  .sz-strip {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+@media (max-width: 640px) {
+  .sz-strip {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+  }
+  .sz-strip-card {
+    padding: 14px;
+  }
+  .sz-strip-card strong {
+    font-size: 17px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .sz-strip-card {
+    transition: none;
+  }
+}
+/* The extra « Suzuki » entry: a little more room on the narrowest desktop widths. */
+@media (min-width: 801px) and (max-width: 900px) {
+  .logo {
+    width: 150px;
+  }
+  .desktop-nav {
+    gap: 11px;
+  }
+}
+/* model names level whatever the length of the kind above them */
+.sz-strip-kind {
+  min-height: 2.8em;
+}
+.sz-strip-cta {
+  margin-top: auto;
+}
+/* the Suzuki mark replaces the red dot of the hero eyebrow */
+.hero-brand::before {
+  display: none;
+}
+/* « Votre concessionnaire / Suzuki à Denges. » on two lines on desktop */
+@media (min-width: 1101px) {
+  .hero h1 {
+    max-width: 640px;
+  }
+}

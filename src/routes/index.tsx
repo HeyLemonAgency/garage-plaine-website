@@ -19,9 +19,9 @@ export const Route = createFileRoute("/")({
   head: ({ loaderData }) =>
     pageHead({
       path: "/",
-      title: "Garage Carrosserie de la Plaine à Denges – Suzuki, atelier",
+      title: "Garage Carrosserie de la Plaine – concessionnaire Suzuki à Denges",
       description:
-        "Garage à Denges (VD) depuis plus de 40 ans : concessionnaire Suzuki, occasions toutes marques, carrosserie, atelier multimarque et station Jubin 24h/24.",
+        "Votre concessionnaire officiel Suzuki à Denges, près de Morges : Suzuki neuves et essais, occasions toutes marques, atelier, carrosserie et station 24h/24.",
       faqs: faqs.home,
       cars: loaderData?.cars,
     }),
@@ -40,9 +40,9 @@ function Index() {
     <>
       <Hero stockTotal={stock.total} />
       <TrustBar stockTotal={stock.total} />
+      <Partnership />
       <ServicesPreview />
       <StockPreview stock={stock} />
-      <Partnership />
       <CompanyStory />
       <GoogleReviews rating={stock.rating} />
       <FaqSection

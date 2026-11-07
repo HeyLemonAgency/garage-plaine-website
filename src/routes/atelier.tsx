@@ -12,7 +12,7 @@ export const Route = createFileRoute("/atelier")({
   head: () =>
     pageHead({
       path: "/atelier",
-      title: "Atelier mécanique à Denges",
+      title: "Atelier Suzuki et toutes marques à Denges",
       crumb: "Atelier",
       description:
         "Atelier toutes marques à Denges : entretien, diagnostic, pneus, géométrie, climatisation et attelages, spécialité Suzuki. Rendez-vous en ligne.",
