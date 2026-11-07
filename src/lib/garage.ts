@@ -354,6 +354,9 @@ export const googleReviews = [
 /** Questions and answers, written from the facts above; each set appears on one page only. */
 export type Faq = { q: string; a: string };
 // « Lundi – jeudi : 7h30 – 12h / 13h30 – 18h ; vendredi : … ; samedi : sur rendez-vous »
+/** A phone number inside a sentence never breaks across two lines. */
+const tel = (n: string) => n.replace(/ /g, "\u00a0");
+
 const hoursText = garage.hours
   .map(([d, t], i) =>
     i ? `${d.toLowerCase()}\u00a0: ${t.charAt(0).toLowerCase()}${t.slice(1)}` : `${d}\u00a0: ${t}`,
@@ -376,7 +379,7 @@ export const faqs = {
     },
     {
       q: "Comment prendre rendez-vous au garage ?",
-      a: `Par téléphone au ${garage.phone}, ou en ligne : choisissez le service (atelier, carrosserie ou vente), le jour et le moment qui vous conviennent, et le garage vous confirme le rendez-vous.`,
+      a: `Par téléphone au ${tel(garage.phone)}, ou en ligne : choisissez le service (atelier, carrosserie ou vente), le jour et le moment qui vous conviennent, et le garage vous confirme le rendez-vous.`,
     },
     {
       q: "Peut-on faire le plein en dehors des heures d’ouverture ?",
@@ -422,7 +425,7 @@ export const faqs = {
     },
     {
       q: "Puis-je essayer un véhicule avant de l’acheter ?",
-      a: `Oui. Demandez un essai sur route à ${team.vente.name}, au service vente (${team.vente.mobile}), ou en ligne depuis l’annonce qui vous intéresse.`,
+      a: `Oui. Demandez un essai sur route à ${team.vente.name}, au service vente (${tel(team.vente.mobile)}), ou en ligne depuis l’annonce qui vous intéresse.`,
     },
     {
       q: "Proposez-vous un financement ou un leasing ?",
@@ -436,15 +439,15 @@ export const faqs = {
   suzuki: [
     {
       q: "Où acheter une Suzuki neuve près de Morges ?",
-      a: `Au Garage Carrosserie de la Plaine, à Denges, à 5 minutes de Morges : concessionnaire officiel Suzuki depuis plus de 20 ans. Toute la gamme (Swift, Vitara, S-Cross, e Vitara, Across), essais sur route, offre détaillée, financement, leasing et reprise de votre voiture. Votre interlocuteur : ${team.vente.name}, ${team.vente.mobile}.`,
+      a: `Au Garage Carrosserie de la Plaine, à Denges, à 5 minutes de Morges : concessionnaire officiel Suzuki depuis plus de 20 ans. Toute la gamme (Swift, Vitara, S-Cross, e Vitara, Across), essais sur route, offre détaillée, financement, leasing et reprise de votre voiture. Votre interlocuteur : ${team.vente.name}, ${tel(team.vente.mobile)}.`,
     },
     {
       q: "Où faire l’entretien de ma Suzuki près de Morges ou de Lausanne ?",
-      a: `À l’atelier du Garage Carrosserie de la Plaine à Denges, spécialiste Suzuki : services, diagnostic, pneus, climatisation et réparations, avec ${team.atelier.name}, titulaire d’un brevet fédéral. Rendez-vous en ligne ou au ${garage.phone}.`,
+      a: `À l’atelier du Garage Carrosserie de la Plaine à Denges, spécialiste Suzuki : services, diagnostic, pneus, climatisation et réparations, avec ${team.atelier.name}, titulaire d’un brevet fédéral. Rendez-vous en ligne ou au ${tel(garage.phone)}.`,
     },
     {
       q: "Peut-on essayer une Suzuki avant de l’acheter ?",
-      a: `Oui : essai sur route sur rendez-vous, au départ du garage à Denges. Demandez-le en ligne ou appelez ${team.vente.name} au ${team.vente.mobile}.`,
+      a: `Oui : essai sur route sur rendez-vous, au départ du garage à Denges. Demandez-le en ligne ou appelez ${team.vente.name} au ${tel(team.vente.mobile)}.`,
     },
   ],
   contact: [
