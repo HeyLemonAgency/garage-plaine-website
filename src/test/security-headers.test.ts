@@ -3,7 +3,7 @@ import { readFileSync } from "node:fs";
 import path from "node:path";
 import { describe, expect, it } from "vitest";
 import { securityHeaders, withSecurityHeaders } from "@/lib/security-headers";
-import { plateforme } from "@/lib/site";
+import { plateforme, relecture } from "@/lib/site";
 
 const root = process.cwd();
 
@@ -51,6 +51,12 @@ describe("security headers", () => {
 
   it("lets the contact form reach the Lemon platform", () => {
     expect(csp["connect-src"]).toContain(new URL(plateforme.plateformeUrl).origin);
+  });
+
+  it("lets the review layer (test version) send comments and show their images", () => {
+    const origin = new URL(relecture.plateformeUrl).origin;
+    expect(csp["connect-src"]).toContain(origin);
+    expect(csp["img-src"]).toContain(origin);
   });
 
   it("stays strict: no eval, no framing, no plugins, no outside scripts or styles", () => {

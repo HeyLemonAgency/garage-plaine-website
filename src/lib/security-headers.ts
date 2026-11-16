@@ -1,7 +1,7 @@
 // Security headers of every response. Netlify applies netlify.toml and public/_headers only to
 // the files it serves itself, not to pages rendered by the server function, so src/server.ts
 // sends these same values on every page. A test keeps the three copies identical.
-import { plateforme } from "./site";
+import { plateforme, relecture } from "./site";
 
 /** Content-Security-Policy: the site itself, plus what it really loads from elsewhere. */
 export const contentSecurityPolicy = [
@@ -9,12 +9,13 @@ export const contentSecurityPolicy = [
   // Inline scripts carry the page data; three.js decodes the 3D model with WebAssembly.
   "script-src 'self' 'unsafe-inline' 'wasm-unsafe-eval'",
   "style-src 'self' 'unsafe-inline'",
-  // Autolina serves the stock photos; the 3D viewer reads its textures from blob: URLs.
-  "img-src 'self' data: blob: https://www.autolina.ch",
+  // Autolina serves the stock photos; the 3D viewer reads its textures from blob: URLs; the
+  // review layer shows the images attached to comments.
+  `img-src 'self' data: blob: https://www.autolina.ch ${new URL(relecture.plateformeUrl).origin}`,
   "font-src 'self'",
   "media-src 'self'",
-  // The Lemon platform receives the contact form.
-  `connect-src 'self' blob: ${new URL(plateforme.plateformeUrl).origin}`,
+  // The Lemon platform receives the contact form, and the review layer's comments.
+  `connect-src 'self' blob: ${new URL(plateforme.plateformeUrl).origin} ${new URL(relecture.plateformeUrl).origin}`,
   "worker-src 'self' blob:",
   // The Google map (contact, station) and the Autolina stock (vehicules).
   "frame-src https://www.google.com https://www.autolina.ch",

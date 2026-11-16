@@ -9,12 +9,16 @@ import { defineConfig } from "@lovable.dev/vite-tanstack-config";
 // Netlify sets URL to the site's main address (its custom domain once connected); canonical
 // links, the sitemap and structured data use it (see src/lib/site.ts).
 const siteUrl = process.env["URL"] || "https://garage-plaine.netlify.app";
+// The test version (netlify.toml sets LEMON_RELECTURE=1 until launch) carries the Lemon
+// platform's « Commenter » layer; see `relecture` in src/lib/site.ts.
+const relecture = process.env["LEMON_RELECTURE"] === "1";
 
 export default defineConfig({
   vite: {
     define: {
       __SITE_URL__: JSON.stringify(siteUrl),
       __BUILD_DATE__: JSON.stringify(new Date().toISOString().slice(0, 10)),
+      __LEMON_RELECTURE__: JSON.stringify(relecture),
     },
   },
   // The site is hosted on Netlify: nitro emits the client to dist/ and the SSR

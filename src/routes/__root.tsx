@@ -15,6 +15,7 @@ import { reportLovableError } from "../lib/lovable-error-reporting";
 import { SiteHeader, SiteFooter } from "@/components/garage/site-shell";
 import { garage } from "@/lib/garage";
 import { siteJsonLd } from "@/lib/seo";
+import { relecture } from "@/lib/site";
 
 function NotFoundComponent() {
   return (
@@ -128,6 +129,15 @@ function RootShell({ children }: { children: ReactNode }) {
       <body>
         {children}
         <Scripts />
+        {/* Test version only (LEMON_RELECTURE=1): the « Commenter » layer, see src/lib/site.ts. */}
+        {relecture.active ? (
+          <script
+            src={relecture.script}
+            data-plateforme={relecture.plateformeUrl}
+            data-client={relecture.client}
+            defer
+          />
+        ) : null}
       </body>
     </html>
   );
