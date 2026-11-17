@@ -72,4 +72,10 @@ describe("reprise", () => {
       ].join("\n"),
     );
   });
+
+  it("does not ask for photos when files go with the request (the platform lists them)", () => {
+    const message = repriseMessage(car, 3);
+    expect(message).not.toMatch(/Photos/);
+    expect(message.endsWith("Pneus hiver neufs.")).toBe(true);
+  });
 });

@@ -29,8 +29,14 @@ function Confidentialite() {
               Les formulaires du site (contact, rendez-vous, offre pour une Suzuki, reprise de
               véhicule) transmettent votre message à la messagerie du garage, sur la plateforme
               Lemon (le prestataire qui gère ce site et la console du garage). Ce site n’en garde
-              aucune copie. Les photos d’un véhicule à vendre s’envoient, si vous le souhaitez, par
-              WhatsApp ou par e-mail depuis votre téléphone ou votre messagerie.
+              aucune copie.
+            </p>
+            <p>
+              Au formulaire de reprise, vous pouvez joindre jusqu’à 5 photos ou documents (PDF) de
+              votre véhicule. Les photos sont réduites sur votre appareil avant l’envoi, ce qui leur
+              retire leur position GPS et les informations de l’appareil photo. Elles partent avec
+              votre demande, de la même manière. Vous pouvez aussi les envoyer par WhatsApp ou par
+              e-mail depuis votre téléphone ou votre messagerie.
             </p>
             <p>
               Vos coordonnées et votre message sont destinés au service du garage que vous

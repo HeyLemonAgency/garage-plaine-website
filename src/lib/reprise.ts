@@ -85,7 +85,12 @@ export function checkReprise(f: RepriseFields): string | null {
   return null;
 }
 
-export function repriseMessage(f: RepriseFields): string {
+/**
+ * The message the garage reads. `files`: how many photos and documents go with it; the platform
+ * lists them itself (« 3 pièces jointes : … »), so the message only speaks of photos when none
+ * came along.
+ */
+export function repriseMessage(f: RepriseFields, files = 0): string {
   const line = (label: string, value: string) => (value.trim() ? `${label} : ${value.trim()}` : "");
   const km = groupDigits(f.mileage);
   const power = groupDigits(f.power);
@@ -111,6 +116,7 @@ export function repriseMessage(f: RepriseFields): string {
     line("Prix souhaité", price && `CHF ${price}`),
   ].filter((l, i) => i < 2 || l);
   if (f.notes.trim()) lines.push("", "Remarques :", f.notes.trim());
-  lines.push("", "Photos : le vendeur les envoie par e-mail ou WhatsApp au service vente.");
+  if (!files)
+    lines.push("", "Photos : le vendeur les envoie par e-mail ou WhatsApp au service vente.");
   return lines.join("\n");
 }

@@ -3,17 +3,24 @@
 // Rule: a form says "sent" only once the platform has answered 201 { ok: true }.
 import { useEffect, useId, useRef, useSyncExternalStore, type ReactNode } from "react";
 import { creerClientLemon, type MessageContact, type ResultatEnvoi } from "@/lib/lemon";
+import { creerEnvoiDemande } from "@/lib/pieces-jointes";
 import { plateforme } from "@/lib/site";
 import { garage, type Contact } from "@/lib/garage";
 
 export const lemon = creerClientLemon(plateforme);
+/** The same client, plus the files a visitor joins (src/lib/pieces-jointes.ts). */
+const demandes = creerEnvoiDemande(plateforme);
 
 export type SendState =
   | { step: "typing" }
-  | { step: "sending" }
+  /** `what`: the sign of life on the button (« Préparation des photos… », « Envoi… »). */
+  | { step: "sending"; what?: string }
   | { step: "sent" }
-  /** `invalid`: a field to correct (no « or call us » tail, the visitor just fixes it). */
-  | { step: "error"; message: string; invalid?: boolean };
+  /**
+   * `invalid`: a field to correct (no « or call us » tail, the visitor just fixes it).
+   * `withoutFiles`: the platform cannot take files right now; offer to send without them.
+   */
+  | { step: "error"; message: string; invalid?: boolean; withoutFiles?: boolean };
 
 export function failureText(result: Exclude<ResultatEnvoi, { ok: true }>): string {
   switch (result.raison) {
@@ -30,17 +37,35 @@ export function failureText(result: Exclude<ResultatEnvoi, { ok: true }>): strin
   }
 }
 
-/** Sends one message from the current page; resolves to the state the form should show. */
+/**
+ * Sends one message from the current page, with the files already prepared for it (none: the
+ * usual JSON message); resolves to the state the form should show.
+ */
 export async function sendToGarage(
   message: Omit<MessageContact, "consent" | "page" | "lang">,
+  files: readonly File[] = [],
 ): Promise<SendState> {
-  const result = await lemon.envoyerMessage({
-    ...message,
-    consent: true,
-    page: window.location.pathname,
-    lang: document.documentElement.lang.slice(0, 2) || "fr",
-  });
-  return result.ok ? { step: "sent" } : { step: "error", message: failureText(result) };
+  const result = await demandes.envoyer(
+    {
+      ...message,
+      consent: true,
+      page: window.location.pathname,
+      lang: document.documentElement.lang.slice(0, 2) || "fr",
+    },
+    files,
+  );
+  if (result.ok) return { step: "sent" };
+  if (result.raison === "fichiers-indisponibles")
+    return {
+      step: "error",
+      message:
+        "Les photos et documents ne peuvent pas être reçus pour le moment. Vous pouvez envoyer votre demande sans eux, puis les envoyer par WhatsApp ou par e-mail.",
+      withoutFiles: true,
+    };
+  // with files, the platform's refusal names the file and why: shown as it is, to correct
+  if (files.length && result.raison === "invalide")
+    return { step: "error", message: result.erreur, invalid: true };
+  return { step: "error", message: failureText(result) };
 }
 
 const subscribeNothing = () => () => undefined;

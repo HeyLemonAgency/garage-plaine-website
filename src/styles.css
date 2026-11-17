@@ -10668,3 +10668,260 @@ input[type="checkbox"] {
     transition: none;
   }
 }
+
+/* ---- Reprise: photos and documents joined to the request (src/components/garage/attachments.tsx) ----
+   A grid of square tiles (a photo's thumbnail, or a PDF's name), each with its round « Retirer »
+   (44px to tap), then the dashed picker in the spirit of « Plus de détails ». */
+.form-section > legend .attach-optional {
+  font-family: var(--font-sans);
+  font-size: var(--fs-12);
+  font-weight: 400;
+  color: var(--muted-foreground);
+}
+.attach-list,
+.contact-form .attach-pick {
+  clear: both;
+}
+.attach-list {
+  list-style: none;
+  margin: 0 0 12px;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(104px, 1fr));
+  gap: 10px;
+}
+.attach-tile {
+  position: relative;
+  aspect-ratio: 1;
+  border-radius: 12px;
+  overflow: hidden;
+  border: 1px solid var(--border);
+  background: var(--surface-tint);
+  animation: attach-in 0.28s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+}
+.attach-tile img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+/* A PDF (or a photo this browser cannot show): its icon, its name and its size. */
+.attach-tile.is-doc,
+.attach-tile:has(> .attach-name) {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  gap: 3px;
+  padding: 12px;
+  background: color-mix(in oklch, var(--primary) 5%, var(--card));
+}
+.attach-tile > svg {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  width: 26px;
+  height: 26px;
+  color: var(--primary);
+  stroke-width: 1.6;
+}
+.attach-name {
+  font-size: var(--fs-10-5);
+  font-weight: 600;
+  line-height: 1.3;
+  color: var(--foreground);
+  overflow-wrap: anywhere;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.attach-size {
+  font-size: var(--fs-9-5);
+  color: var(--muted-foreground);
+  font-variant-numeric: tabular-nums;
+}
+.attach-remove {
+  position: absolute;
+  top: 6px;
+  right: 6px;
+  width: 30px;
+  height: 30px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  border: 1px solid var(--border);
+  background: color-mix(in oklch, var(--card) 94%, transparent);
+  color: var(--foreground);
+  box-shadow: 0 2px 8px oklch(0.2 0.03 240 / 0.16);
+  cursor: pointer;
+  transition:
+    background 0.18s,
+    border-color 0.18s,
+    color 0.18s,
+    transform 0.18s;
+}
+/* 44px to tap, around a 30px circle. */
+.attach-remove::before {
+  content: "";
+  position: absolute;
+  inset: -7px;
+}
+.attach-remove svg {
+  width: 15px;
+  height: 15px;
+}
+.attach-remove:hover {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: var(--accent-foreground);
+}
+.attach-remove:active {
+  transform: scale(0.94);
+}
+.attach-remove:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+/* The real file field: hidden, still reached with the keyboard (its label shows the focus). */
+.contact-form .attach-input {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+  opacity: 0;
+}
+.contact-form .attach-pick {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  min-height: 76px;
+  margin: 0;
+  padding: 14px 16px;
+  border: 1.5px dashed color-mix(in oklch, var(--primary) 30%, var(--border));
+  border-radius: 12px;
+  background: color-mix(in oklch, var(--primary) 3%, var(--card));
+  cursor: pointer;
+  transition:
+    border-color 0.18s,
+    background 0.18s;
+}
+.contact-form .attach-pick.is-more {
+  min-height: 56px;
+  padding: 10px 14px;
+}
+.contact-form .attach-pick:hover,
+.contact-form .attach-pick.is-over {
+  border-color: var(--primary);
+  background: color-mix(in oklch, var(--primary) 7%, var(--card));
+}
+.attach-input:focus-visible + .attach-pick {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+.attach-pick-icon {
+  flex: none;
+  width: 44px;
+  height: 44px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  color: var(--primary);
+  background: var(--card);
+  border: 1px solid color-mix(in oklch, var(--primary) 16%, var(--border));
+  transition:
+    color 0.18s,
+    background 0.18s,
+    border-color 0.18s;
+}
+.attach-pick-icon svg {
+  width: 20px;
+  height: 20px;
+}
+.attach-pick.is-more .attach-pick-icon {
+  width: 36px;
+  height: 36px;
+}
+.attach-pick.is-more .attach-pick-icon svg {
+  width: 18px;
+  height: 18px;
+}
+.attach-pick:hover .attach-pick-icon,
+.attach-pick.is-over .attach-pick-icon {
+  color: var(--primary-foreground);
+  background: var(--primary);
+  border-color: var(--primary);
+}
+.attach-pick-text {
+  display: grid;
+  gap: 2px;
+  min-width: 0;
+}
+.attach-pick-text strong {
+  font-size: var(--fs-13);
+  font-weight: 600;
+  color: var(--foreground);
+}
+.attach-pick-text span {
+  font-size: var(--fs-11);
+  font-weight: 400;
+  color: var(--muted-foreground);
+}
+.attach-problems {
+  margin: 12px 0 0;
+  display: grid;
+  gap: 4px;
+}
+.attach-problems p,
+.form-error-action p {
+  margin: 0;
+}
+.form-error-action {
+  display: grid;
+  justify-items: start;
+  gap: 12px;
+}
+.attach[disabled] .attach-tile {
+  opacity: 0.75;
+}
+.attach[disabled] .attach-remove {
+  cursor: default;
+}
+@keyframes attach-in {
+  from {
+    opacity: 0;
+    transform: scale(0.94);
+  }
+}
+@media (max-width: 520px) {
+  .attach-list {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 8px;
+  }
+  .attach-tile.is-doc,
+  .attach-tile:has(> .attach-name) {
+    padding: 10px;
+  }
+  .attach-tile > svg {
+    top: 10px;
+    left: 10px;
+    width: 22px;
+    height: 22px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .attach-tile {
+    animation: none;
+  }
+  .attach-remove,
+  .attach-remove:active,
+  .contact-form .attach-pick,
+  .attach-pick-icon {
+    transition: none;
+    transform: none;
+  }
+}

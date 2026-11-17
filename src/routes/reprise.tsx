@@ -1,6 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { useState, type FormEvent } from "react";
-import { ArrowRight, Camera, Mail, MessageCircle } from "lucide-react";
+import { useRef, useState, type FormEvent } from "react";
+import { ArrowRight, Camera, LoaderCircle, Mail, MessageCircle } from "lucide-react";
 import { PageIntro, illustrations } from "@/components/garage/sections";
 import { Button } from "@/components/ui/button";
 import { team } from "@/lib/garage";
@@ -18,9 +18,11 @@ import {
   serviceBooks,
   type RepriseFields,
 } from "@/lib/reprise";
+import { estPdf, preparerFichiers } from "@/lib/pieces-jointes";
 import { pageHead } from "@/lib/seo";
 import { SalesContact } from "@/components/garage/people";
 import { Field, Options } from "@/components/garage/form-parts";
+import { AttachmentsField } from "@/components/garage/attachments";
 import { ReviewQuote } from "@/components/garage/reviews";
 import {
   Honeypot,
@@ -51,11 +53,53 @@ const steps = [
   ["Vous passez à Denges", "Nous regardons la voiture ensemble et vous faisons une offre."],
 ] as const;
 
+type Details = { name: string; email: string; phone: string };
+/** What was filled in, kept to send it again without the files when the platform cannot take them. */
+type Draft = { fields: RepriseFields; contact: Details; hp: string };
+
 function Reprise() {
   const [state, setState] = useState<SendState>({ step: "typing" });
-  const [sent, setSent] = useState<{ name: string; car: string } | null>(null);
+  const [sent, setSent] = useState<{ name: string; car: string; files: number } | null>(null);
+  const [files, setFiles] = useState<File[]>([]);
+  const draft = useRef<Draft | null>(null);
   const interactive = useInteractive();
   const seller = team.vente;
+
+  /** Prepares the files on the device (photos redrawn as JPEG), then sends the request with them. */
+  async function send({ fields, contact, hp }: Draft, chosen: readonly File[]) {
+    let ready: File[] = [];
+    if (chosen.length) {
+      const photos = chosen.some((f) => !estPdf(f));
+      setState({ step: "sending", what: photos ? "Préparation des photos…" : "Envoi…" });
+      try {
+        ready = await preparerFichiers(chosen);
+      } catch (err) {
+        const message = err instanceof Error ? err.message : "Un fichier ne s’ouvre pas.";
+        setState({ step: "error", message, invalid: true });
+        return;
+      }
+    }
+    setState(ready.length ? { step: "sending", what: "Envoi…" } : { step: "sending" });
+    const result = await sendToGarage(
+      {
+        name: contact.name,
+        email: contact.email,
+        phone: contact.phone,
+        message: repriseMessage(fields, ready.length),
+        hp,
+      },
+      ready,
+    );
+    setState(result);
+    if (result.step === "sent") {
+      setSent({
+        name: contact.name.trim(),
+        car: `${fields.make.trim()} ${fields.model.trim()}`,
+        files: ready.length,
+      });
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+  }
 
   async function submit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -95,20 +139,11 @@ function Reprise() {
       setState({ step: "error", message: problem, invalid: true });
       return;
     }
-    setState({ step: "sending" });
-    const result = await sendToGarage({
-      name: contact.name,
-      email: contact.email,
-      phone: contact.phone,
-      message: repriseMessage(fields),
-      hp: text("site_web"),
-    });
-    setState(result);
-    if (result.step === "sent") {
-      setSent({ name: contact.name.trim(), car: `${fields.make.trim()} ${fields.model.trim()}` });
-      window.scrollTo({ top: 0, behavior: "smooth" });
-    }
+    draft.current = { fields, contact, hp: text("site_web") };
+    await send(draft.current, files);
   }
+
+  const sending = state.step === "sending";
 
   const photosText = sent
     ? `Bonjour ${seller.name.split(" ")[0]}, voici les photos de ma ${sent.car}, en complément de la proposition envoyée depuis le site. ${sent.name}`
@@ -136,15 +171,29 @@ function Reprise() {
         <div className="container reprise-layout">
           {state.step === "sent" && sent && photosMail ? (
             <SentPanel title={`Merci, ${seller.name} a bien reçu votre demande.`}>
-              <p>
-                Il vous recontacte pour la suite. Pour une estimation plus précise, envoyez-lui
-                quelques photos de votre {sent.car}, par WhatsApp ou par e-mail&nbsp;:
-              </p>
-              <ul className="photo-list">
-                {photoChecklist.map((p) => (
-                  <li key={p}>{p}</li>
-                ))}
-              </ul>
+              {sent.files ? (
+                <>
+                  <p>
+                    {sent.files === 1
+                      ? "Votre fichier est joint à la demande."
+                      : `Vos ${sent.files} fichiers sont joints à la demande.`}{" "}
+                    Il vous recontacte pour la suite.
+                  </p>
+                  <p>Une photo oubliée&nbsp;? Envoyez-la par WhatsApp ou par e-mail&nbsp;:</p>
+                </>
+              ) : (
+                <>
+                  <p>
+                    Il vous recontacte pour la suite. Pour une estimation plus précise, envoyez-lui
+                    quelques photos de votre {sent.car}, par WhatsApp ou par e-mail&nbsp;:
+                  </p>
+                  <ul className="photo-list">
+                    {photoChecklist.map((p) => (
+                      <li key={p}>{p}</li>
+                    ))}
+                  </ul>
+                </>
+              )}
               <div className="detail-actions">
                 {photosWhatsapp && (
                   <Button asChild variant="premium">
@@ -290,6 +339,14 @@ function Reprise() {
                 />
               </Field>
 
+              {/* The photos end the car's description, just before the seller's details. */}
+              <AttachmentsField
+                id="rp-files"
+                files={files}
+                onChange={setFiles}
+                disabled={sending}
+              />
+
               <fieldset className="form-section">
                 <legend>Vos coordonnées</legend>
                 <Field id="rp-name" label="Nom et prénom *">
@@ -322,23 +379,41 @@ function Reprise() {
                 </span>
               </label>
               <div aria-live="polite">
-                {state.step === "error" && (
-                  <SendError
-                    message={state.message}
-                    contact={seller}
-                    invalid={state.invalid ?? false}
-                  />
+                {state.step === "error" && state.withoutFiles ? (
+                  <div role="alert" className="form-status form-error form-error-action">
+                    <p>{state.message}</p>
+                    <Button
+                      type="button"
+                      variant="appointment"
+                      onClick={() => draft.current && void send(draft.current, [])}
+                    >
+                      Envoyer sans les fichiers <ArrowRight />
+                    </Button>
+                  </div>
+                ) : (
+                  state.step === "error" && (
+                    <SendError
+                      message={state.message}
+                      contact={seller}
+                      invalid={state.invalid ?? false}
+                    />
+                  )
                 )}
+                {sending && <p className="sr-only">{state.what ?? "Envoi en cours…"}</p>}
               </div>
               <div className="form-footer">
-                <p>Vous pourrez envoyer les photos juste après, par WhatsApp ou par e-mail.</p>
+                <p>
+                  {files.length
+                    ? `${files.length === 1 ? "Un fichier joint" : `${files.length} fichiers joints`} à la demande.`
+                    : "Pas de photos sous la main\u00a0? Vous pourrez les envoyer juste après, par WhatsApp ou par e-mail."}
+                </p>
                 <Button
                   variant="premium"
                   type="submit"
-                  disabled={!interactive || !lemon.configure || state.step === "sending"}
+                  disabled={!interactive || !lemon.configure || sending}
                 >
-                  {state.step === "sending" ? "Envoi en cours…" : "Envoyer ma demande"}{" "}
-                  <ArrowRight />
+                  {sending ? (state.what ?? "Envoi en cours…") : "Envoyer ma demande"}{" "}
+                  {sending ? <LoaderCircle className="motion-safe:animate-spin" /> : <ArrowRight />}
                 </Button>
               </div>
             </form>
