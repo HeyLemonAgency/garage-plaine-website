@@ -9,7 +9,7 @@ import { CountUp } from "@/components/garage/interactive";
 import { SuzukiSpin } from "@/components/garage/suzuki-spin";
 import { sCross3d } from "@/lib/s-cross-3d";
 import { AllgripDial, SuzukiRange } from "@/components/garage/suzuki";
-import { faqs, sCross, suzukiSource } from "@/lib/garage";
+import { faqs, sCross, suzukiSource, suzukiYears } from "@/lib/garage";
 import { FaqSection } from "@/components/garage/faq";
 import { getLatestCars } from "@/lib/stock.functions";
 import { pageHead } from "@/lib/seo";
@@ -22,8 +22,7 @@ export const Route = createFileRoute("/suzuki")({
       faqs: faqs.suzuki,
       title: "Suzuki neuves à Denges, près de Morges",
       crumb: "Suzuki",
-      description:
-        "Concessionnaire officiel Suzuki depuis plus de 20 ans à Denges, près de Morges : gamme hybride et électrique, essai, offre, financement et leasing.",
+      description: `Concessionnaire officiel Suzuki depuis ${suzukiYears} ans à Denges, près de Morges : gamme hybride et électrique, essai, offre, financement et leasing.`,
       cars: loaderData?.cars.filter((c) => c.make === "Suzuki"),
     }),
   loader: () => getLatestCars(),
@@ -58,7 +57,7 @@ function Suzuki() {
           </div>
           <div className="sz-badge">
             <img src={suzuki} alt="Suzuki" width={150} height={40} />
-            <span>Concessionnaire officiel depuis plus de 20 ans</span>
+            <span>Concessionnaire officiel depuis {suzukiYears}&nbsp;ans</span>
           </div>
           {sCross3d.available ? (
             <>

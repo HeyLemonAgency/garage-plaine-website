@@ -4,6 +4,7 @@ import { consumeLastCapturedError } from "./lib/error-capture";
 import { renderErrorPage } from "./lib/error-page";
 import { legacyRedirect } from "./lib/legacy-urls";
 import { withSecurityHeaders } from "./lib/security-headers";
+import { withRobotsTag } from "./lib/site";
 
 type ServerEntry = {
   fetch: (request: Request, env: unknown, ctx: unknown) => Promise<Response> | Response;
@@ -70,7 +71,8 @@ async function handle(request: Request, env: unknown, ctx: unknown): Promise<Res
 
 export default {
   async fetch(request: Request, env: unknown, ctx: unknown) {
-    const response = await handle(request, env, ctx);
+    // The test version (*.netlify.app) stays out of search engines; garageplaine.ch does not.
+    const response = withRobotsTag(await handle(request, env, ctx), request);
     // Production only: the Lovable editor shows the dev server in a frame, which the
     // frame-ancestors rule would block.
     return import.meta.env.PROD ? withSecurityHeaders(response) : response;

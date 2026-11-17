@@ -6,10 +6,11 @@ import {
   garage,
   mechanicalServices,
   salesServices,
+  suzukiYears,
   team,
   wirRates,
 } from "./garage";
-import { SITE_URL, absoluteUrl } from "./site";
+import { SITE_URL, absoluteUrl, isTestHost } from "./site";
 
 declare const __BUILD_DATE__: string | undefined;
 const BUILD_DATE =
@@ -28,7 +29,7 @@ export const sitePages = [
     name: "Véhicules en stock",
     priority: 0.9,
     about:
-      "Le stock en direct : Suzuki neuves et occasions toutes marques, avec prix et kilométrage.",
+      "Le stock en direct : Suzuki neuves et occasions toutes marques, avec prix et kilométrage. Rachat de votre véhicule, leasing ou crédit à des taux préférentiels, recherche d’un véhicule hors de notre parc, livraison à domicile.",
   },
   {
     path: "/carrosserie",
@@ -48,7 +49,7 @@ export const sitePages = [
     path: "/suzuki",
     name: "Suzuki neuves",
     priority: 0.8,
-    about: "Concessionnaire Suzuki depuis plus de 20 ans : gamme, essais, financement, atelier.",
+    about: `Concessionnaire Suzuki depuis ${suzukiYears} ans : gamme, essais, financement, atelier.`,
   },
   {
     path: "/rendez-vous",
@@ -105,7 +106,25 @@ export function sitemapXml(): string {
   return `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${urls}\n</urlset>\n`;
 }
 
-export function robotsTxt(): string {
+/**
+ * robots.txt for the address it is asked on. The garage's own domain welcomes every robot and
+ * gives the sitemap. A test address (*.netlify.app, see isTestHost) gives no sitemap and keeps
+ * its images out of Google Images; its pages stay open to crawling on purpose, so that search
+ * engines read their « X-Robots-Tag: noindex » and drop them (a page blocked here could stay
+ * listed, its noindex unseen).
+ */
+export function robotsTxt(host?: string): string {
+  if (isTestHost(host))
+    return [
+      `# ${garage.name}, ${garage.locality}: test version, not to be indexed.`,
+      "# Every page answers X-Robots-Tag: noindex. The public site will be the garage's own domain.",
+      "User-agent: *",
+      "Allow: /",
+      "",
+      "User-agent: Googlebot-Image",
+      "Disallow: /",
+      "",
+    ].join("\n");
   return [
     `# ${garage.name}, ${garage.locality}`,
     "# Search engines and AI assistants are welcome: the facts on this site are meant to be found and quoted.",
@@ -133,7 +152,7 @@ export function llmsTxt(): string {
     `- Carrosserie : ${team.carrosserie.name}, ${team.carrosserie.email}`,
     `- Horaires : ${garage.hours.map(([d, t]) => `${d} ${t}`).join(" ; ")}`,
     "- Station-service Jubin : 24h/24, 7j/7",
-    "- Marque représentée : Suzuki (concessionnaire depuis plus de 20 ans)",
+    `- Marque représentée : Suzuki (concessionnaire depuis ${suzukiYears} ans)`,
     `- Paiement WIR : ${wirRates.map(([k, v]) => `${k} ${v}`).join(", ")}`,
     `- Stock de véhicules : publié en direct sur Autolina et visible sur ${absoluteUrl("/vehicules")}`,
     `- Rendez-vous : demande en ligne sur ${absoluteUrl("/rendez-vous")} (le garage confirme) ou au ${garage.phone}`,

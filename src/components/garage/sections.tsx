@@ -21,7 +21,7 @@ import {
   CarFront,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { garage, services, suzukiRange, team, type Contact } from "@/lib/garage";
+import { garage, services, suzukiRange, suzukiYears, team, type Contact } from "@/lib/garage";
 import { CountUp } from "./interactive";
 import { HeroLights } from "./hero-lights";
 import { serviceIcons } from "./service-icons";
@@ -298,7 +298,7 @@ export function Hero({ stockTotal = null }: { stockTotal?: number | null }) {
 
 export function TrustBar({ stockTotal = null }: { stockTotal?: number | null }) {
   const items = [
-    { logo: suzuki, value: 20, suffix: "+", unit: "ans", text: "concessionnaire Suzuki" },
+    { logo: suzuki, value: suzukiYears, suffix: "", unit: "ans", text: "concessionnaire Suzuki" },
     { icon: ShieldCheck, value: 40, suffix: "+", unit: "ans", text: "d’expérience" },
     stockTotal
       ? {
@@ -484,7 +484,7 @@ export function Partnership() {
           <div className="eyebrow">Concessionnaire officiel Suzuki</div>
           <h2>
             Votre concessionnaire Suzuki <br />
-            depuis plus de 20 ans.
+            depuis {suzukiYears}&nbsp;ans.
           </h2>
           <p>
             Entre Morges et Lausanne, le Garage Carrosserie de la Plaine vous présente toute la

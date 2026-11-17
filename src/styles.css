@@ -10516,3 +10516,155 @@ input[type="checkbox"] {
     max-width: 640px;
   }
 }
+
+/* ==== /vehicules: what the sales service does besides its stock (garage's request, 17.11.2026) ====
+   Four cards above Tiago's card and the stock: buying your car (to /reprise), leasing or
+   credit, finding a car that is not in stock, home delivery. */
+.sales-offers {
+  margin-bottom: clamp(28px, 1.2rem + 1.6vw, 44px);
+  padding: clamp(20px, 0.9rem + 1.4vw, 32px);
+  border-radius: 18px;
+  background: var(--surface-tint);
+}
+.sales-offers-head {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  column-gap: 24px;
+  align-items: end;
+}
+.sales-offers-head .eyebrow {
+  grid-column: 1 / -1;
+}
+.sales-offers-head h2 {
+  margin-top: 8px;
+  color: var(--primary);
+  font-size: 28px;
+  line-height: 1.15;
+}
+.sales-offers-head p {
+  margin: 0;
+  color: var(--muted-foreground);
+  font-size: var(--fs-12);
+}
+.sales-offers-list {
+  list-style: none;
+  margin: 20px 0 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 12px;
+}
+.sales-offers-list > li {
+  display: flex;
+}
+.sales-offer {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  width: 100%;
+  padding: 18px;
+  border-radius: 14px;
+  border: 1px solid var(--border);
+  background: var(--card);
+  box-shadow: var(--shadow-card);
+  color: var(--primary);
+}
+.sales-offer-icon {
+  box-sizing: content-box;
+  flex-shrink: 0;
+  width: 24px;
+  height: 24px;
+  padding: 10px;
+  border-radius: 12px;
+  color: var(--accent);
+  background: color-mix(in oklch, var(--accent) 9%, var(--card));
+}
+.sales-offer-body {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: 5px;
+}
+.sales-offer-body strong {
+  font-family: var(--font-display);
+  font-size: var(--fs-15);
+  line-height: 1.25;
+}
+.sales-offer-body > span {
+  color: var(--muted-foreground);
+  font-size: var(--fs-12);
+  line-height: 1.5;
+}
+.sales-offer-body > .sales-offer-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: auto;
+  padding-top: 6px;
+  color: var(--accent);
+  font-size: var(--fs-11);
+  font-weight: 600;
+}
+.sales-offer-cta svg {
+  width: 15px;
+  height: 15px;
+  transition: transform 0.2s;
+}
+.sales-offer-link {
+  transition:
+    border-color 0.2s,
+    transform 0.2s;
+}
+.sales-offer-link:hover {
+  border-color: color-mix(in oklch, var(--accent) 45%, var(--border));
+  transform: translateY(-2px);
+}
+.sales-offer-link:hover .sales-offer-cta svg {
+  transform: translateX(3px);
+}
+@media (max-width: 1100px) {
+  .sales-offers-list {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+/* Phones: one card per row, the icon beside the text. */
+@media (max-width: 640px) {
+  .sales-offers {
+    margin-inline: -4px;
+  }
+  .sales-offers-head {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .sales-offers-head h2 {
+    font-size: 24px;
+  }
+  .sales-offers-head p {
+    margin-top: 6px;
+  }
+  .sales-offers-list {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 8px;
+    margin-top: 16px;
+  }
+  .sales-offer {
+    flex-direction: row;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 14px;
+  }
+  .sales-offer-icon {
+    width: 22px;
+    height: 22px;
+    padding: 9px;
+  }
+  .sales-offer-body > .sales-offer-cta {
+    min-height: 32px;
+    padding-top: 4px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .sales-offer-link,
+  .sales-offer-cta svg {
+    transition: none;
+  }
+}

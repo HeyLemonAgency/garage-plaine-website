@@ -11,6 +11,38 @@ export const SITE_URL = (typeof __SITE_URL__ === "string" && __SITE_URL__ ? __SI
   .trim()
   .replace(/\/+$/, "");
 
+/**
+ * Until garageplaine.ch is connected, the site lives at Netlify's *.netlify.app addresses: the
+ * test version the garage reviews, which search engines must not index. This is decided from the
+ * address each request comes in on, never from a setting: src/server.ts answers
+ * « X-Robots-Tag: noindex » there and robots.txt drops the sitemap, while the garage's own domain
+ * is indexable the day it is connected, with nothing to change.
+ */
+export function isTestHost(host: string | null | undefined): boolean {
+  const name = (host ?? "").trim().toLowerCase().replace(/:\d+$/, "").replace(/\.$/, "");
+  return name === "netlify.app" || name.endsWith(".netlify.app");
+}
+
+/** The address a request came in on: its Host header, or else its URL. */
+export function requestHost(request: Request): string {
+  return request.headers.get("host") || new URL(request.url).host;
+}
+
+/** The robots rule of the test version, sent on every response of a *.netlify.app address. */
+export const TEST_ROBOTS_TAG = "noindex";
+
+/** The same response, marked « X-Robots-Tag: noindex » when it answers a test address. */
+export function withRobotsTag(response: Response, request: Request): Response {
+  if (!isTestHost(requestHost(request))) return response;
+  const headers = new Headers(response.headers);
+  headers.set("X-Robots-Tag", TEST_ROBOTS_TAG);
+  return new Response(response.body, {
+    status: response.status,
+    statusText: response.statusText,
+    headers,
+  });
+}
+
 /** Absolute URL for a path on this site, e.g. "/atelier" -> "https://…/atelier". */
 export function absoluteUrl(path = "/"): string {
   return `${SITE_URL}${path.startsWith("/") ? path : `/${path}`}`;

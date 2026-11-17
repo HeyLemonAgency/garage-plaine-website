@@ -11,6 +11,7 @@ import {
 import { ContactBand } from "@/components/garage/contact";
 import { TeamGrid } from "@/components/garage/people";
 import { TrainingStory } from "@/components/garage/training";
+import { suzukiYears } from "@/lib/garage";
 import { pageHead } from "@/lib/seo";
 export const Route = createFileRoute("/entreprise")({
   head: () =>
@@ -47,9 +48,9 @@ function Entreprise() {
               véhicules, l’entretien mécanique et la carrosserie sur un même site.
             </p>
             <p>
-              Concessionnaire Suzuki depuis plus de 20 ans, nous sommes votre concessionnaire Suzuki
-              sur La Côte. Nous accueillons aussi les véhicules de toutes marques dans notre atelier
-              et notre carrosserie.
+              Concessionnaire Suzuki depuis {suzukiYears}&nbsp;ans, nous sommes votre
+              concessionnaire Suzuki sur La Côte. Nous accueillons aussi les véhicules de toutes
+              marques dans notre atelier et notre carrosserie.
             </p>
             <CheckList
               items={[

@@ -13,6 +13,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { PageIntro, illustrations } from "@/components/garage/sections";
 import { SalesContact } from "@/components/garage/people";
+import { SalesOffers } from "@/components/garage/sales-offers";
 import { ContactBand } from "@/components/garage/contact";
 import { faqs, garage, team } from "@/lib/garage";
 import { getLatestCars } from "@/lib/stock.functions";
@@ -38,7 +39,7 @@ export const Route = createFileRoute("/vehicules")({
       title: "Suzuki et occasions à Denges",
       crumb: "Véhicules",
       description:
-        "Notre stock en direct : Suzuki neuves et occasions toutes marques à Denges (VD), avec prix et kilométrage. Essai et offre : Tiago Bessa, 079 108 92 99.",
+        "Suzuki neuves et occasions toutes marques à Denges (VD). Rachat de votre voiture, leasing ou crédit, livraison à domicile : Tiago Bessa, 079 108 92 99.",
       type: "CollectionPage",
       faqs: faqs.vehicules,
       cars: loaderData?.cars,
@@ -123,6 +124,7 @@ function Vehicules() {
       </nav>
       <section className="section inventory-section" id="stock">
         <div className="container">
+          <SalesOffers />
           <div className="inventory-head">
             <SalesContact />
             <div className="inventory-toolbar">
@@ -176,7 +178,7 @@ function Vehicules() {
       <FaqSection
         items={faqs.vehicules}
         title="Acheter chez nous : vos questions."
-        intro="Disponibilité, essai, financement et reprise de votre véhicule."
+        intro="Disponibilité, essai, financement, livraison et reprise de votre véhicule."
       />
       <ContactBand trade="vente">
         <Link to="/reprise" className="contact-cta-link">

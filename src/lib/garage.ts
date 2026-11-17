@@ -4,13 +4,18 @@
 // Real portraits, supplied by the garage (none yet for the workshop and the body shop).
 import tiagoPhoto from "@/assets/team-tiago-bessa.webp";
 
+/**
+ * Years the garage has been Suzuki's partner (official dealer): 30, as the garage said on
+ * 17.11.2026. Every page that says how long reads it from here (« 30 ans »).
+ */
+export const suzukiYears = 30;
+
 export const garage = {
   name: "Garage Carrosserie de la Plaine",
   /** Names the garage also goes by (short form, logo); the name above is the one shown. */
   alternateNames: ["Garage de la Plaine", "Garage-Carrosserie de la Plaine"],
   /** One factual paragraph for search engines and AI assistants (JSON-LD, llms.txt). */
-  summary:
-    "Le Garage Carrosserie de la Plaine (aussi appelé Garage de la Plaine) est le concessionnaire officiel Suzuki de Denges (VD), sur La Côte, à 5 minutes de Morges et 10 minutes de Lausanne. Concessionnaire Suzuki depuis plus de 20 ans, il vend des Suzuki neuves et des occasions toutes marques, répare et entretient les véhicules de toutes marques dans son atelier mécanique, dispose d’une carrosserie et d’une station-service Jubin ouverte 24h/24. Un service de qualité depuis plus de 40 ans.",
+  summary: `Le Garage Carrosserie de la Plaine (aussi appelé Garage de la Plaine) est le concessionnaire officiel Suzuki de Denges (VD), sur La Côte, à 5 minutes de Morges et 10 minutes de Lausanne. Concessionnaire Suzuki depuis ${suzukiYears} ans, il vend des Suzuki neuves et des occasions toutes marques, répare et entretient les véhicules de toutes marques dans son atelier mécanique, dispose d’une carrosserie et d’une station-service Jubin ouverte 24h/24. Un service de qualité depuis plus de 40 ans.`,
   address: "Route de la Plaine 20",
   postalCode: "1026",
   city: "Denges",
@@ -308,9 +313,41 @@ export const salesServices = [
   "Un large choix de véhicules neufs et d’occasion en stock",
   "Un showroom pour vous accueillir",
   "Des offres détaillées selon vos besoins",
-  "Des financements et des leasings adaptés",
-  "La reprise de votre ancien véhicule",
+  "Des financements, en leasing ou en crédit, à des taux préférentiels",
+  "Le rachat ou la reprise de votre véhicule",
+  "La recherche d’un véhicule qui n’est pas dans notre parc",
+  "La livraison à domicile",
 ] as const;
+
+/**
+ * What the sales service does besides its stock, in the garage's own words (Tiago Bessa,
+ * 17.11.2026), shown above the stock on /vehicules. No rate or figure: none was given.
+ */
+export const salesOffers = [
+  {
+    icon: "rachat",
+    title: "Rachat de votre véhicule",
+    text: "Nous rachetons des véhicules : décrivez le vôtre en ligne, nous vous recontactons.",
+    link: { to: "/reprise", label: "Proposer mon véhicule" },
+  },
+  {
+    icon: "financement",
+    title: "Leasing ou crédit",
+    text: "Un financement à des taux préférentiels.",
+  },
+  {
+    icon: "recherche",
+    title: "Recherche de véhicule",
+    text: "Un véhicule qui n’est pas dans notre parc ? Nous le trouvons pour vous et nous occupons de son achat.",
+  },
+  {
+    icon: "livraison",
+    title: "Livraison à domicile",
+    text: "Nous pouvons vous livrer votre véhicule à domicile.",
+  },
+] as const;
+
+export type SalesOfferIcon = (typeof salesOffers)[number]["icon"];
 
 /** Share of each kind of work payable in WIR (source: garageplaine.ch, "Partenariat WIR"). */
 export const wirRates = [
@@ -375,7 +412,7 @@ export const faqs = {
     },
     {
       q: "Le Garage Carrosserie de la Plaine est-il concessionnaire Suzuki ?",
-      a: "Oui. Le Garage Carrosserie de la Plaine est concessionnaire Suzuki depuis plus de 20 ans : véhicules neufs de la gamme Suzuki, essais sur route, financement et leasing, et un atelier spécialiste Suzuki.",
+      a: `Oui. Le Garage Carrosserie de la Plaine est concessionnaire Suzuki depuis ${suzukiYears} ans : véhicules neufs de la gamme Suzuki, essais sur route, financement et leasing, et un atelier spécialiste Suzuki.`,
     },
     {
       q: "Comment prendre rendez-vous au garage ?",
@@ -429,7 +466,11 @@ export const faqs = {
     },
     {
       q: "Proposez-vous un financement ou un leasing ?",
-      a: "Oui. Le service vente vous propose des offres détaillées, ainsi que des financements et des leasings adaptés à votre budget.",
+      a: "Oui. Le service vente vous propose des offres détaillées, et un financement en leasing ou en crédit, à des taux préférentiels.",
+    },
+    {
+      q: "Pouvez-vous trouver un véhicule qui n’est pas dans votre stock ?",
+      a: `Oui. Si le véhicule que vous cherchez n’est pas dans notre parc, nous le trouvons pour vous et nous occupons de son achat. Nous pouvons aussi vous livrer votre véhicule à domicile. Parlez-en à ${team.vente.name}, au service vente (${tel(team.vente.mobile)}).`,
     },
     {
       q: "Reprenez-vous mon véhicule actuel ?",
@@ -439,7 +480,7 @@ export const faqs = {
   suzuki: [
     {
       q: "Où acheter une Suzuki neuve près de Morges ?",
-      a: `Au Garage Carrosserie de la Plaine, à Denges, à 5 minutes de Morges : concessionnaire officiel Suzuki depuis plus de 20 ans. Toute la gamme (Swift, Vitara, S-Cross, e Vitara, Across), essais sur route, offre détaillée, financement, leasing et reprise de votre voiture. Votre interlocuteur : ${team.vente.name}, ${tel(team.vente.mobile)}.`,
+      a: `Au Garage Carrosserie de la Plaine, à Denges, à 5 minutes de Morges : concessionnaire officiel Suzuki depuis ${suzukiYears} ans. Toute la gamme (Swift, Vitara, S-Cross, e Vitara, Across), essais sur route, offre détaillée, financement, leasing et reprise de votre voiture. Votre interlocuteur : ${team.vente.name}, ${tel(team.vente.mobile)}.`,
     },
     {
       q: "Où faire l’entretien de ma Suzuki près de Morges ou de Lausanne ?",
